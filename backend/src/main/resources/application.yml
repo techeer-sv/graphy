@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/graphy
+    username: username
+    password: password
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  profiles:
+    include: dbconfig
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    generate-ddl: false
+    properties:
+      hibernate:
+        format_sql: true
+
+# swaggerDOC
+springdoc:
+  swagger-ui:
+    version: v1.0
+  packages-to-scan: com.graphy.backend

@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+
+  springboot:
+    container_name: springboot
+    build:
+      context: ./backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      WAIT_HOSTS: mysql:3306
+      SPRING_DATASOURCE_URL: jdbc:mysql://${DB_HOST}:3306/${DB_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_ROOT_PASSWORD}
