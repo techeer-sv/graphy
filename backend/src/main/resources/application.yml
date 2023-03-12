@@ -19,3 +19,8 @@ spring:
       hibernate:
         format_sql: true
 
+# swaggerDOC
+springdoc:
+  swagger-ui:
+    version: v1.0
+  packages-to-scan: com.graphy.backend
