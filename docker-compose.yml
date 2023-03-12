@@ -9,7 +9,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
-    env_file: ./.env
 
   springboot:
     container_name: springboot
@@ -25,4 +24,3 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://${DB_HOST}:3306/${DB_DATABASE}
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${DB_ROOT_PASSWORD}
-    env_file: ./.env
