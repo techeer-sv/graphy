@@ -19,7 +19,7 @@ import java.util.List;
 public class ProjectImage extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "project_image_id")
     private Long id;
 
