@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "ProjectImage")
 @Entity
@@ -28,6 +28,7 @@ public class ProjectImage extends BaseEntity {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @ElementCollection @Column(name = "image_url")
-    private List<String> url = new ArrayList<>();
+    @Column(nullable = false)
+    private String url;
+
 }
