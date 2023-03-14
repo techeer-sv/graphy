@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.graphy.backend.domain.project.dto.ProjectDto.*;
+
 @Tag(name = "ProjectController", description = "프로젝트 관련 API")
 @RestController
 @RequestMapping("api/v1/projects")
@@ -18,16 +20,22 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
     private final ProjectService projectService;
 
-    /**
-     * A-3) [DELETE] /api/v1/projects/{project_id}
-     * 프로젝트 삭제(soft delete)
-     * 인자값 : project_id(Long)
-     * return :
-     */
+
+
+    /** A-3) [DELETE] /api/v1/projects/{project_id} 프로젝트 삭제(soft delete) */
     @Operation(summary = "deleteProject", description = "프로젝트 삭제(soft delete)")
     @DeleteMapping("/{project_id}")
     public ResponseEntity<ResultResponse> deleteProject(@PathVariable Long project_id) {
         projectService.deleteProject(project_id);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_DELETE_SUCCESS));
+    }
+
+    /** A-4) [PUT] /api/v1/projects/{project_id} 프로젝트 수정(변경감지) */
+    @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
+    @PutMapping("/{project_id}")
+    public ResponseEntity<ResultResponse> updateProject(@PathVariable Long project_id,
+                                                        @RequestBody UpdateProjectRequest dto) {
+        UpdateProjectResponse result = projectService.updateProject(project_id, dto);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
     }
 }

@@ -35,4 +35,10 @@ public class Project extends BaseEntity {
 
     @Column(nullable = true)
     private String description;
+
+    public void updateProject(String projectName, String content, String description) {
+        this.projectName = projectName;
+        this.content = content;
+        this.description = description;
+    }
 }
