@@ -1,4 +1,4 @@
-package com.graphy.backend.domain.projectimage.entity;
+package com.graphy.backend.domain.project.entity;
 
 import com.graphy.backend.domain.comment.entity.Comment;
 import com.graphy.backend.domain.project.entity.Project;
