@@ -15,7 +15,8 @@ public enum ResultCode {
     PROJECT_CREATE_SUCCESS("P001", "프로젝트 생성 성공"),
     PROJECT_GET_SUCCESS("P002", "프로젝트 조회 성공"),
     PROJECT_DELETE_SUCCESS("P003", "프로젝트 삭제 성공"),
-    PROJECT_PAGING_GET_SUCCESS("P004", "프로젝트 페이징 조회 성공");
+    PROJECT_UPDATE_SUCCESS("P004", "프로젝트 수정 성공"),
+    PROJECT_PAGING_GET_SUCCESS("P005", "프로젝트 페이징 조회 성공");
 
     // project_image
 
