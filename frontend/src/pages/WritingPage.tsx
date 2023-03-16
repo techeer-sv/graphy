@@ -51,17 +51,17 @@ const WritingPage = () => {
   };
 
   return (
-    <div className="flex justify-center mx-0 w-screen h-screen bg-white">
+    <div className="mx-0 flex h-screen w-screen justify-center bg-white">
       {/*젤 큰 박스*/}
-      <div className="px-2 w-11/12 sm:h-5/6 border border-black">
+      <div className="w-11/12 border border-black px-2 sm:h-5/6">
         {/*서식 구역*/}
-        <div className="flex flex-col sm:flex-row justify-center mt-2 h-228">
+        <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
-          <div className="mr-2 w-full mt-64 sm:mt-0 sm:w-10/12 mb-2">
+          <div className="mr-2 mt-64 mb-2 w-full sm:mt-0 sm:w-10/12">
             {/*제목 상자*/}
             <input
               autoFocus
-              className="shadow appearance-none border rounded m-0 mb-2.5 w-full h-49 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 leading-tight text-gray-700 shadow focus:outline-none"
               id="title"
               type="text"
               placeholder="제목을 입력해주세요."
@@ -70,7 +70,7 @@ const WritingPage = () => {
             />
             {/*한줄 소개 상자*/}
             <input
-              className="shadow appearance-none border rounded m-0 mb-2.5 w-full h-49 sm:h-49 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 leading-tight text-gray-700 shadow focus:outline-none sm:h-49"
               id="tldr"
               type="text"
               placeholder="한 줄 소개를 입력해주세요."
@@ -83,7 +83,7 @@ const WritingPage = () => {
           {/*사진 드롭박스*/}
           <div className="w-full sm:w-284">
             <div
-              className="relative flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg mb-4 w-full h-228 cursor-pointer"
+              className="relative mb-4 flex h-228 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-400"
               onDrop={handleDrop}
               onDragOver={(e) => e.preventDefault()}
               onClick={handleClick}
@@ -103,7 +103,7 @@ const WritingPage = () => {
                     alt="이미지"
                   />
                 ) : (
-                  <div className="text-gray-500 text-center">
+                  <div className="text-center text-gray-500">
                     <img className="ml-9" src={imginsert} alt="이미지 삽입" />
                     프로젝트 메인 이미지
                   </div>
