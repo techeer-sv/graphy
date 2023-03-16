@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
@@ -20,9 +23,17 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 public class ProjectController {
     private final ProjectService projectService;
 
+    @Operation(summary = "createProject", description = "프로젝트 생성")
+    @PostMapping
+    public ResponseEntity<ResultResponse> createProject(@RequestParam List<MultipartFile> images,
+                                                        @RequestBody CreateProjectRequest dto) {
+
+        CreateProjectResponse response = projectService.createProject(dto);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
+    }
 
 
-    /** A-3) [DELETE] /api/v1/projects/{project_id} 프로젝트 삭제(soft delete) */
+
     @Operation(summary = "deleteProject", description = "프로젝트 삭제(soft delete)")
     @DeleteMapping("/{project_id}")
     public ResponseEntity<ResultResponse> deleteProject(@PathVariable Long project_id) {
@@ -30,7 +41,7 @@ public class ProjectController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_DELETE_SUCCESS));
     }
 
-    /** A-4) [PUT] /api/v1/projects/{project_id} 프로젝트 수정(변경감지) */
+
     @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
     @PutMapping("/{project_id}")
     public ResponseEntity<ResultResponse> updateProject(@PathVariable Long project_id,

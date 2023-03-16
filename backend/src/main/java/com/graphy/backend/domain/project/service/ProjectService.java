@@ -15,6 +15,12 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper mapper;
+
+    public CreateProjectResponse createProject(CreateProjectRequest dto) {
+        Project project = projectRepository.save(mapper.toEntity(dto));
+        return mapper.toDto(projectRepository.save(project).getId());
+    }
+
     public void deleteProject(Long project_id) {projectRepository.deleteById(project_id);}
 
     public UpdateProjectResponse updateProject(Long project_id, UpdateProjectRequest dto) {

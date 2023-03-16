@@ -4,8 +4,27 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public class ProjectDto {
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class CreateProjectRequest {
+        private String projectName;
+        private String content;
+        private String description;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class CreateProjectResponse {
+        private Long projectId;
+    }
 
     @Getter
     @Builder
@@ -25,6 +44,7 @@ public class ProjectDto {
         private String content;
         private String description;
     }
+
 
 
 }

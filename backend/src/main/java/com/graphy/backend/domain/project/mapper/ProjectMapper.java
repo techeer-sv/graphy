@@ -15,4 +15,17 @@ public class ProjectMapper {
                 .content(project.getContent())
                 .description(project.getDescription()).build();
     }
+
+    public CreateProjectResponse toDto(Long id) {
+        return CreateProjectResponse.builder().projectId(id).build();
+    }
+
+    public Project toEntity(CreateProjectRequest dto) {
+        return Project.builder()
+                .content(dto.getContent())
+                .projectName(dto.getProjectName())
+                .description(dto.getDescription())
+                .build();
+    }
+
 }
