@@ -1,15 +1,11 @@
 package com.graphy.backend.domain.project.entity;
 
-import com.graphy.backend.domain.comment.entity.Comment;
-import com.graphy.backend.domain.projectimage.entity.ProjectImage;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
