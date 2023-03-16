@@ -51,17 +51,17 @@ const WritingPage = () => {
   };
 
   return (
-    <div className="flex justify-center w-screen h-screen bg-white">
+    <div className="flex justify-center mx-0 w-screen h-screen bg-white">
       {/*젤 큰 박스*/}
-      <div className="px-2 w-11/12 h-5/6 border border-black">
+      <div className="px-2 w-11/12 sm:h-5/6 border border-black">
         {/*서식 구역*/}
-        <div className="flex flex-row justify-center h-228 border">
+        <div className="flex flex-col sm:flex-row justify-center mt-2 h-228">
           {/*텍스트 구역*/}
-          <div className="mr-2 w-10/12 h-228">
+          <div className="mr-2 w-full mt-64 sm:mt-0 sm:w-10/12 mb-2">
             {/*제목 상자*/}
             <input
               autoFocus
-              className="shadow appearance-none border rounded mb-2.5 w-full h-49 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className="shadow appearance-none border rounded m-0 mb-2.5 w-full h-49 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
               id="title"
               type="text"
               placeholder="제목을 입력해주세요."
@@ -70,7 +70,7 @@ const WritingPage = () => {
             />
             {/*한줄 소개 상자*/}
             <input
-              className="shadow appearance-none border rounded w-full mb-2.5 h-49 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className="shadow appearance-none border rounded m-0 mb-2.5 w-full h-49 sm:h-49 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
               id="tldr"
               type="text"
               placeholder="한 줄 소개를 입력해주세요."
@@ -78,35 +78,37 @@ const WritingPage = () => {
               onChange={handleTldrChange}
             />
             {/*사용 기술 상자*/}
-            <div className=" h-110 border">사용기술 자리</div>
+            <div className="h-110 border">사용기술 자리</div>
           </div>
           {/*사진 드롭박스*/}
-          <div
-            className="relative flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg mb-4 w-284 h-228 cursor-pointer"
-            onDrop={handleDrop}
-            onDragOver={(e) => e.preventDefault()}
-            onClick={handleClick}
-          >
-            <input
-              id="image"
-              type="file"
-              className="hidden"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              {image ? (
-                <img
-                  className="h-full"
-                  src={URL.createObjectURL(image)}
-                  alt="이미지"
-                />
-              ) : (
-                <div className="text-gray-500 text-center">
-                  <img className=" ml-9" src={imginsert} />
-                  프로젝트 메인 이미지
-                </div>
-              )}
+          <div className="w-full sm:w-284">
+            <div
+              className="relative flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg mb-4 w-full h-228 cursor-pointer"
+              onDrop={handleDrop}
+              onDragOver={(e) => e.preventDefault()}
+              onClick={handleClick}
+            >
+              <input
+                id="image"
+                type="file"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                {image ? (
+                  <img
+                    className="h-full"
+                    src={URL.createObjectURL(image)}
+                    alt="이미지"
+                  />
+                ) : (
+                  <div className="text-gray-500 text-center">
+                    <img className="ml-9" src={imginsert} alt="이미지 삽입" />
+                    프로젝트 메인 이미지
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
