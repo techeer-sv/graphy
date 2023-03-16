@@ -21,7 +21,9 @@ public class ProjectService {
         return mapper.toDto(projectRepository.save(project).getId());
     }
 
-    public void deleteProject(Long project_id) {projectRepository.deleteById(project_id);}
+    public void deleteProject(Long project_id) {
+        projectRepository.deleteById(project_id);
+    }
 
     public UpdateProjectResponse updateProject(Long project_id, UpdateProjectRequest dto) {
         Project project = projectRepository.findById(project_id).get();

@@ -1,5 +1,17 @@
 # application-dbconfig.yml로 이름 변경하시고 사용하시면 됩니다!
 spring:
   datasource:
+    url:
     username:
     password:
+
+
+cloud:
+  aws:
+    s3:
+      bucket:
+    stack.auto:
+    region.static:
+    credentials:
+      accessKey:
+      secretKey:

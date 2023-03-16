@@ -33,7 +33,6 @@ public class ProjectController {
     }
 
 
-
     @Operation(summary = "deleteProject", description = "프로젝트 삭제(soft delete)")
     @DeleteMapping("/{project_id}")
     public ResponseEntity<ResultResponse> deleteProject(@PathVariable Long project_id) {
