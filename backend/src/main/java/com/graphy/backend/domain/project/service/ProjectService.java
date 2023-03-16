@@ -5,8 +5,13 @@ import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.awt.print.Pageable;
+import java.util.List;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
@@ -21,6 +26,11 @@ public class ProjectService {
         Project project = projectRepository.findById(project_id).get();
         project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription());
         projectRepository.save(project);
-        return mapper.toDto(project);
+        return mapper.toUpdateProjectDto(project);
+    }
+
+    public List<GetProjectResponse> getProjectByName(String projectName, PageRequest pageRequest) {
+        Page<Project> projects = projectRepository.findByProjectNameContaining(projectName, pageRequest);
+        return mapper.toDtoList(projects).getContent();
     }
 }

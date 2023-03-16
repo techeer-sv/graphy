@@ -1,15 +1,15 @@
 package com.graphy.backend.domain.project.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 public class ProjectDto {
 
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class UpdateProjectRequest {
         private String projectName;
         private String content;
@@ -26,5 +26,21 @@ public class ProjectDto {
         private String description;
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetProjectByNameRequest {
+        private int size;
+        private String projectName;
+    }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetProjectResponse {
+        private Long id;
+        private String projectName;
+        private String description;
+        private LocalDateTime createdAt;
+    }
 }
