@@ -1,6 +1,6 @@
 import React from "react";
 
-import TopBar from "../components/MainPage/TopBar";
+import TopBar from "../components/MainPage/TopBar/TopBar";
 import Banner from "../components/MainPage/Banner";
 import ProjectCard from "../components/MainPage/ProjectCard";
 
@@ -12,6 +12,14 @@ const MainPage = () => {
       <TopBar/>
       <Banner/>
       <div className="justify-center content-center grid grid-cols-4 gap-4 mb-8">
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
         <ProjectCard/>
         <ProjectCard/>
         <ProjectCard/>
