@@ -2,7 +2,7 @@ import React from "react";
 
 import TopBar from "../components/MainPage/TopBar";
 import Banner from "../components/MainPage/Banner";
-import Card from "../components/MainPage/Card";
+import ProjectCard from "../components/MainPage/ProjectCard";
 
 
 const MainPage = () => {
@@ -11,7 +11,16 @@ const MainPage = () => {
     <div>
       <TopBar/>
       <Banner/>
-      <Card/>
+      <div className="justify-center content-center grid grid-cols-4 gap-4 mb-8">
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+      </div>
     </div>);
 };
 
