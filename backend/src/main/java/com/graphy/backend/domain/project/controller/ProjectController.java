@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -51,17 +52,15 @@ public class ProjectController {
      * A-5) [GET] /api/v1/projects?title={}&page={} 프로젝트 공유글 제목 검색
      */
     @Operation(summary = "findProjects", description = "(default: 전체 조회) 제목으로 프로젝트 검색")
-    @GetMapping("/page/{page}")
-    public ResponseEntity<ResultResponse> getProjectByName(@PathVariable int page,
-                                                           GetProjectByNameRequest dto) {
-        if (dto.getProjectName() == null) {
-            PageRequest pageRequest = PageRequest.of(page, dto.getSize(), Sort.by("createdAt").descending());
-            List<GetProjectResponse> result = projectService.getProjects(pageRequest);
+    @GetMapping("")
+    public ResponseEntity<ResultResponse> getProjectByName(@RequestParam(required = false) String projectName,
+                                                           @PageableDefault(direction = Sort.Direction.DESC) Pageable page) {
+        if (projectName == null) {
+            List<GetProjectResponse> result = projectService.getProjects(page);
             return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
         }
 
-        PageRequest pageRequest = PageRequest.of(page, dto.getSize(), Sort.by("createdAt").descending());
-        List<GetProjectResponse> result = projectService.getProjectByName(dto.getProjectName(), pageRequest);
+        List<GetProjectResponse> result = projectService.getProjectByName(projectName, page);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 }

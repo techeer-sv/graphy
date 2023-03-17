@@ -7,10 +7,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
@@ -32,14 +31,14 @@ public class ProjectService {
         return mapper.toUpdateProjectDto(project);
     }
 
-    public List<GetProjectResponse> getProjectByName(String projectName, PageRequest pageRequest) {
-        Page<Project> projects = projectRepository.findByProjectNameContaining(projectName, pageRequest);
+    public List<GetProjectResponse> getProjectByName(String projectName, Pageable pageable) {
+        Page<Project> projects = projectRepository.findByProjectNameContaining(projectName, pageable);
         return mapper.toDtoList(projects).getContent();
     }
 
-    public List<GetProjectResponse> getProjects(PageRequest pageRequest) {
+    public List<GetProjectResponse> getProjects(Pageable pageable) {
 
-        Page<Project> projects = projectRepository.findAll(pageRequest);
+        Page<Project> projects = projectRepository.findAll(pageable);
         return mapper.toDtoList(projects).getContent();
     }
 }
