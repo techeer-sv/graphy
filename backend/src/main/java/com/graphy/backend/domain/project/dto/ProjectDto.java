@@ -29,14 +29,6 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class GetProjectByNameRequest {
-        private int size;
-        private String projectName;
-    }
-
-    @Getter
-    @Builder
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectResponse {
         private Long id;
         private String projectName;
