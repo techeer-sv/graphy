@@ -22,8 +22,8 @@ public class ProjectMapper {
 
     public Project toEntity(CreateProjectRequest dto) {
         return Project.builder()
-                .content(dto.getContent())
                 .projectName(dto.getProjectName())
+                .content(dto.getContent())
                 .description(dto.getDescription())
                 .build();
     }

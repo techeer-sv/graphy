@@ -25,8 +25,7 @@ public class ProjectController {
 
     @Operation(summary = "createProject", description = "프로젝트 생성")
     @PostMapping
-    public ResponseEntity<ResultResponse> createProject(@RequestParam List<MultipartFile> images,
-                                                        @RequestBody CreateProjectRequest dto) {
+    public ResponseEntity<ResultResponse> createProject(@RequestBody CreateProjectRequest dto) {
 
         CreateProjectResponse response = projectService.createProject(dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
