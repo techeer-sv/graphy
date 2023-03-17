@@ -20,7 +20,10 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper mapper;
-    public void deleteProject(Long project_id) {projectRepository.deleteById(project_id);}
+
+    public void deleteProject(Long project_id) {
+        projectRepository.deleteById(project_id);
+    }
 
     public UpdateProjectResponse updateProject(Long project_id, UpdateProjectRequest dto) {
         Project project = projectRepository.findById(project_id).get();
@@ -31,6 +34,12 @@ public class ProjectService {
 
     public List<GetProjectResponse> getProjectByName(String projectName, PageRequest pageRequest) {
         Page<Project> projects = projectRepository.findByProjectNameContaining(projectName, pageRequest);
+        return mapper.toDtoList(projects).getContent();
+    }
+
+    public List<GetProjectResponse> getProjects(PageRequest pageRequest) {
+
+        Page<Project> projects = projectRepository.findAll(pageRequest);
         return mapper.toDtoList(projects).getContent();
     }
 }
