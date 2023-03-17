@@ -1,12 +1,10 @@
 package com.graphy.backend.domain.project.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 public class ProjectDto {
 
@@ -29,6 +27,7 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class UpdateProjectRequest {
         private String projectName;
         private String content;
@@ -45,5 +44,13 @@ public class ProjectDto {
         private String description;
     }
 
-
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetProjectResponse {
+        private Long id;
+        private String projectName;
+        private String description;
+        private LocalDateTime createdAt;
+    }
 }

@@ -1,3 +1,4 @@
 .DS_Store
 .env
 backend/src/main/resources/application-dbconfig.yml
+.idea/**
