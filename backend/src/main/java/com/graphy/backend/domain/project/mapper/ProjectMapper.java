@@ -23,6 +23,19 @@ public class ProjectMapper {
                 .description(project.getDescription()).build();
     }
 
+
+    public CreateProjectResponse toDto(Long id) {
+        return CreateProjectResponse.builder().projectId(id).build();
+    }
+
+    public Project toEntity(CreateProjectRequest dto) {
+        return Project.builder()
+                .projectName(dto.getProjectName())
+                .content(dto.getContent())
+                .description(dto.getDescription())
+                .build();
+    }
+
     public Page<GetProjectResponse> toDtoList(Page<Project> projects) {
         return projects.map(this::toDto);
     }

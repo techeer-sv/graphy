@@ -1,6 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -21,3 +22,4 @@ springdoc:
   swagger-ui:
     version: v1.0
   packages-to-scan: com.graphy.backend
+

@@ -4,3 +4,14 @@ spring:
     url:
     username:
     password:
+
+
+cloud:
+  aws:
+    s3:
+      bucket:
+    stack.auto:
+    region.static:
+    credentials:
+      accessKey:
+      secretKey:
