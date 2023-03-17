@@ -40,7 +40,13 @@ public class ProjectService {
     }
 
     public List<GetProjectResponse> getProjectByName(String projectName, Pageable pageable) {
+
         Page<Project> projects = projectRepository.findByProjectNameContaining(projectName, pageable);
+        return mapper.toDtoList(projects).getContent();
+    }
+
+    public List<GetProjectResponse> getProjectByContent(String content, Pageable pageable) {
+        Page<Project> projects = projectRepository.findByContentContaining(content, pageable);
         return mapper.toDtoList(projects).getContent();
     }
 

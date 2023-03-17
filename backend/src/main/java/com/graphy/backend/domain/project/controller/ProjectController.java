@@ -66,14 +66,19 @@ public class ProjectController {
      */
     @Operation(summary = "findProjects", description = "(default: 전체 조회) 제목으로 프로젝트 검색")
     @GetMapping("")
-    public ResponseEntity<ResultResponse> getProjectByName(@RequestParam(required = false) String projectName,
-                                                           @PageableDefault(direction = Sort.Direction.DESC) Pageable page) {
-        if (projectName == null) {
-            List<GetProjectResponse> result = projectService.getProjects(page);
-            return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
+    public ResponseEntity<ResultResponse> getProjects(@RequestParam(required = false) String projectName, @RequestParam(required = false) String content,
+                                                      @PageableDefault(sort = {"createdAt"}, direction = Sort.Direction.DESC) Pageable page) {
+
+        List<GetProjectResponse> result;
+
+        if (projectName != null) {
+            result = projectService.getProjectByName(projectName, page);
+        } else if (content != null) {
+            result = projectService.getProjectByContent(content, page);
+        } else {
+            result = projectService.getProjects(page);
         }
 
-        List<GetProjectResponse> result = projectService.getProjectByName(projectName, page);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 }
