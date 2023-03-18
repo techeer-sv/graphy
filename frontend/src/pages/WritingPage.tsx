@@ -82,7 +82,7 @@ const WritingPage = () => {
             <div className="h-110 border">사용기술 자리</div>
           </div>
           {/*사진 드롭박스*/}
-          <div className="w-full sm:w-284">
+          <div className=" w-full sm:w-284 sm:min-w-284">
             <div
               className="relative mb-4 flex h-228 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-400"
               onDrop={handleDrop}
@@ -114,9 +114,24 @@ const WritingPage = () => {
           </div>
         </div>
         {/*글쓰기 구역*/}
-        <div></div>
+        <div className=" mt-60 sm:mt-2">
+          <QuillEditor />
+        </div>
         {/*버튼 구역*/}
-        <div></div>
+        <div className="mt-20 flex justify-end sm:mt-20 lg:mt-12">
+          <button
+            className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 text-white hover:bg-gray-700"
+            onClick={() => console.log('취소 버튼 클릭')}
+          >
+            취소
+          </button>
+          <button
+            className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 text-white hover:bg-blue-700"
+            onClick={() => console.log('저장 버튼 클릭')}
+          >
+            저장
+          </button>
+        </div>
       </div>
     </div>
   );
