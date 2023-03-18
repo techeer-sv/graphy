@@ -14,6 +14,12 @@ module.exports = {
       minWidth: {
         284: '17.75rem',
       },
+      fontFamily: {
+        ng: ['NanumGothic', 'sans-serif'],
+        'ng-b': ['NanumGothicBold', 'sans-serif'],
+        'ng-eb': ['NanumGothicExtraBold', 'sans-serif'],
+        'ng-l': ['NanumGothicLight', 'sans-serif'],
+      },
     },
   },
   plugins: [],

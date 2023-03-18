@@ -62,7 +62,7 @@ const WritingPage = () => {
             {/*제목 상자*/}
             <input
               autoFocus
-              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 leading-tight text-gray-700 shadow focus:outline-none"
+              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 font-ng leading-tight text-gray-700 shadow focus:outline-none"
               id="title"
               type="text"
               placeholder="제목을 입력해주세요."
@@ -71,7 +71,7 @@ const WritingPage = () => {
             />
             {/*한줄 소개 상자*/}
             <input
-              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 leading-tight text-gray-700 shadow focus:outline-none sm:h-49"
+              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 font-ng leading-tight text-gray-700 shadow focus:outline-none sm:h-49"
               id="tldr"
               type="text"
               placeholder="한 줄 소개를 입력해주세요."
@@ -79,7 +79,7 @@ const WritingPage = () => {
               onChange={handleTldrChange}
             />
             {/*사용 기술 상자*/}
-            <div className="h-110 border">사용기술 자리</div>
+            <div className="h-110 border font-ng">사용기술 자리</div>
           </div>
           {/*사진 드롭박스*/}
           <div className=" w-full sm:w-284 sm:min-w-284">
@@ -104,8 +104,12 @@ const WritingPage = () => {
                     alt="이미지"
                   />
                 ) : (
-                  <div className="text-center text-gray-500">
-                    <img className="ml-9" src={imginsert} alt="이미지 삽입" />
+                  <div className="text-center font-ng text-gray-500">
+                    <img
+                      className="ml-9 font-ng"
+                      src={imginsert}
+                      alt="이미지 삽입"
+                    />
                     프로젝트 메인 이미지
                   </div>
                 )}
@@ -120,13 +124,13 @@ const WritingPage = () => {
         {/*버튼 구역*/}
         <div className="mt-20 flex justify-end sm:mt-20 lg:mt-12">
           <button
-            className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 text-white hover:bg-gray-700"
+            className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
             onClick={() => console.log('취소 버튼 클릭')}
           >
             취소
           </button>
           <button
-            className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 text-white hover:bg-blue-700"
+            className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 font-ng text-white hover:bg-blue-700"
             onClick={() => console.log('저장 버튼 클릭')}
           >
             저장
