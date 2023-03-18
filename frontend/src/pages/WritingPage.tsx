@@ -52,7 +52,7 @@ const WritingPage = () => {
   };
 
   return (
-    <div className="mx-0 flex h-screen w-screen justify-center bg-white">
+    <div className="mx-0 flex h-screen w-screen justify-center bg-[#F9F8F8]">
       {/*젤 큰 박스*/}
       <div className="w-11/12 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/*서식 구역*/}
@@ -62,7 +62,7 @@ const WritingPage = () => {
             {/*제목 상자*/}
             <input
               autoFocus
-              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 font-ng leading-tight text-gray-700 shadow focus:outline-none"
+              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-[#F9F8F8] px-3 font-ng leading-tight text-gray-700 shadow focus:outline-none"
               id="title"
               type="text"
               placeholder="제목을 입력해주세요."
@@ -71,7 +71,7 @@ const WritingPage = () => {
             />
             {/*한줄 소개 상자*/}
             <input
-              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-white px-3 font-ng leading-tight text-gray-700 shadow focus:outline-none sm:h-49"
+              className="focus:shadow-outline m-0 mb-2.5 h-49 w-full appearance-none rounded border bg-[#F9F8F8] px-3 font-ng leading-tight text-gray-700 shadow focus:outline-none sm:h-49"
               id="tldr"
               type="text"
               placeholder="한 줄 소개를 입력해주세요."
@@ -79,10 +79,12 @@ const WritingPage = () => {
               onChange={handleTldrChange}
             />
             {/*사용 기술 상자*/}
-            <div className="h-110 border font-ng">사용기술 자리</div>
+            <div className="h-110 border bg-[#F9F8F8] font-ng">
+              사용기술 자리
+            </div>
           </div>
           {/*사진 드롭박스*/}
-          <div className=" w-full sm:w-284 sm:min-w-284">
+          <div className=" w-full bg-[#F9F8F8] sm:w-284 sm:min-w-284">
             <div
               className="relative mb-4 flex h-228 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-400"
               onDrop={handleDrop}
@@ -118,7 +120,7 @@ const WritingPage = () => {
           </div>
         </div>
         {/*글쓰기 구역*/}
-        <div className=" mt-60 sm:mt-2">
+        <div className=" mt-60 sm:mt-2 ">
           <QuillEditor />
         </div>
         {/*버튼 구역*/}

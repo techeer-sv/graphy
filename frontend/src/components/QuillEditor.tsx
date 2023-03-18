@@ -90,12 +90,11 @@ const QuillEditor = () => {
             QuillRef.current = element;
           }
         }}
-        className="h-20 font-ng sm:h-56"
+        className="h-20 font-ng sm:h-56 "
         value={contents}
         onChange={setContents}
         modules={modules}
         theme="snow"
-        placeholder="내용을 입력해주세요."
       />
     </>
   );
