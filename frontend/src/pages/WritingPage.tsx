@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
+import QuillEditor from '/src/components/QuillEditor';
 import imginsert from '/src/images/imginsert.svg';
 
 const titleState = atom({
@@ -53,7 +54,7 @@ const WritingPage = () => {
   return (
     <div className="mx-0 flex h-screen w-screen justify-center bg-white">
       {/*젤 큰 박스*/}
-      <div className="w-11/12 border border-black px-2 sm:h-5/6">
+      <div className="w-11/12 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/*서식 구역*/}
         <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
