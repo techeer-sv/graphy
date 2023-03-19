@@ -1,6 +1,14 @@
 import React, { useRef, useState, useMemo } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
+import hljs from 'highlight.js';
+import ImageResize from 'quill-image-resize';
+
 import 'react-quill/dist/quill.snow.css';
+import 'highlight.js/styles/monokai-sublime.css';
+
+hljs.configure({
+  languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
+});
 
 const QuillEditor = () => {
   const QuillRef = useRef<ReactQuill>();
@@ -42,13 +50,18 @@ const QuillEditor = () => {
     };
   };
 
+  Quill.register('modules/imageResize', ImageResize);
+
   const modules = useMemo(
     () => ({
+      syntax: {
+        highlight: (text: string) => hljs.highlightAuto(text).value,
+      },
       toolbar: {
         container: [
           [{ font: [] }],
           [{ align: [] }],
-          ['bold', 'italic', 'underline', 'blockquote'],
+          ['bold', 'italic', 'underline', 'blockquote', 'code-block'],
           [{ size: ['small', false, 'large', 'huge'] }, { color: [] }],
           [
             { list: 'ordered' },
@@ -63,6 +76,7 @@ const QuillEditor = () => {
         handlers: {
           image: imageHandler,
         },
+        ImageResize: {},
       },
     }),
     [],
