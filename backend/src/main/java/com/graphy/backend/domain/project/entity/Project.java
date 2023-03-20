@@ -10,14 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "Project")
 @Entity
 @Builder
-@SQLDelete(sql = "UPDATE project SET is_deleted = true WHERE project_id = ?") // Delete 쿼리가 발생하면 해당 쿼리가 실행
-@Where(clause = "is_deleted = false") // 해당 엔티티를 조회하는 모든 요청에 "deleted = false" 조건이 적용
+@SQLDelete(sql = "UPDATE project SET is_deleted = true WHERE project_id = ?")
+@Where(clause = "is_deleted = false")
 public class Project extends BaseEntity {
 
     @Id
@@ -34,12 +33,16 @@ public class Project extends BaseEntity {
     @Column(nullable = true)
     private String description;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectTag> projectTags = new ArrayList<>();
 
     public void updateProject(String projectName, String content, String description) {
         this.projectName = projectName;
         this.content = content;
         this.description = description;
+    }
+
+    public void setProjectTags(List<ProjectTag> projectTags) {
+        this.projectTags = projectTags;
     }
 }

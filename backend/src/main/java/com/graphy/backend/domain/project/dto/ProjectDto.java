@@ -1,10 +1,9 @@
 package com.graphy.backend.domain.project.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-import java.util.List;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ProjectDto {
 
@@ -15,6 +14,7 @@ public class ProjectDto {
         private String projectName;
         private String content;
         private String description;
+        private List<String> techTags;
     }
 
     @Getter
