@@ -1,7 +1,6 @@
 import React, { useRef, useState, useMemo } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import hljs from 'highlight.js';
-import ImageResize from 'quill-image-resize';
 
 import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/monokai-sublime.css';
@@ -50,8 +49,6 @@ const QuillEditor = () => {
     };
   };
 
-  Quill.register('modules/imageResize', ImageResize);
-
   const modules = useMemo(
     () => ({
       syntax: {
@@ -76,7 +73,6 @@ const QuillEditor = () => {
         handlers: {
           image: imageHandler,
         },
-        ImageResize: {},
       },
     }),
     [],

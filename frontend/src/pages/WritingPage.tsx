@@ -1,21 +1,10 @@
 import React, { useRef } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
-import QuillEditor from '/src/components/QuillEditor';
+import QuillEditor from '../components/QuillEditor';
+import TechStackSelection from '../components/TechStackSelection';
 import imginsert from '/src/images/imginsert.svg';
-
-const titleState = atom({
-  key: 'titleState',
-  default: '',
-});
-const tldrState = atom({
-  key: 'tldrState',
-  default: '',
-});
-const imageState = atom<File | null>({
-  key: 'imageState',
-  default: null,
-});
+import { titleState, tldrState, imageState } from '../Recoil';
 
 const WritingPage = () => {
   const [title, setTitle] = useRecoilState<string>(titleState);
@@ -80,7 +69,7 @@ const WritingPage = () => {
             />
             {/*사용 기술 상자*/}
             <div className="h-110 border bg-[#F9F8F8] font-ng">
-              사용기술 자리
+              <TechStackSelection />
             </div>
           </div>
           {/*사진 드롭박스*/}
