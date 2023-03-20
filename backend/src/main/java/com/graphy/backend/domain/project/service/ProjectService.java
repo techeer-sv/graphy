@@ -6,7 +6,6 @@ import com.graphy.backend.domain.project.repository.ProjectRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,6 @@ public class ProjectService {
         Project project = projectRepository.save(mapper.toEntity(dto));
         return mapper.toDto(project.getId());
     }
-
-
 
     public void deleteProject(Long project_id) {
         projectRepository.deleteById(project_id);

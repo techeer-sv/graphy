@@ -6,6 +6,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +21,7 @@ import javax.persistence.*;
 public class Project extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Long id;
 
@@ -31,6 +33,9 @@ public class Project extends BaseEntity {
 
     @Column(nullable = true)
     private String description;
+
+    @OneToMany(mappedBy = "project")
+    private List<ProjectTag> projectTags = new ArrayList<>();
 
     public void updateProject(String projectName, String content, String description) {
         this.projectName = projectName;
