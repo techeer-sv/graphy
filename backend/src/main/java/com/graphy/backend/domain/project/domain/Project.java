@@ -1,4 +1,4 @@
-package com.graphy.backend.domain.project.entity;
+package com.graphy.backend.domain.project.domain;
 
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
@@ -6,20 +6,20 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "Project")
 @Entity
 @Builder
-@SQLDelete(sql = "UPDATE project SET is_deleted = true WHERE project_id = ?") // Delete 쿼리가 발생하면 해당 쿼리가 실행
-@Where(clause = "is_deleted = false") // 해당 엔티티를 조회하는 모든 요청에 "deleted = false" 조건이 적용
+@SQLDelete(sql = "UPDATE project SET is_deleted = true WHERE project_id = ?")
+@Where(clause = "is_deleted = false")
 public class Project extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Long id;
 
@@ -32,9 +32,26 @@ public class Project extends BaseEntity {
     @Column(nullable = true)
     private String description;
 
-    public void updateProject(String projectName, String content, String description) {
+    @Embedded
+    private ProjectTags projectTags;
+
+    public void updateProject(String projectName, String content, String description, Tags tags) {
         this.projectName = projectName;
         this.content = content;
         this.description = description;
+        projectTags.clear();
+        addTag(tags);
+    }
+
+    public void addTag(Tags tags) {
+        projectTags.add(this, tags);
+    }
+
+    public List<String> getTagNames() {
+        return this.projectTags.getTagNames();
+    }
+
+    public List<Long> getTagIds() {
+        return this.projectTags.getTagIds();
     }
 }
