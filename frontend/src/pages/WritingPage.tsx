@@ -41,13 +41,13 @@ const WritingPage = () => {
   };
 
   return (
-    <div className="mx-0 flex h-screen w-screen justify-center bg-[#F9F8F8]">
+    <div className="mt-0 mb-10 flex h-auto w-screen justify-center bg-[#F9F8F8]">
       {/*젤 큰 박스*/}
       <div className="w-11/12 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/*서식 구역*/}
         <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
-          <div className="mr-2 mt-64 mb-2 w-full sm:mt-0 sm:w-10/12">
+          <div className="mr-2 mt-64 mb-2 w-full overflow-visible sm:mt-0 sm:w-10/12">
             {/*제목 상자*/}
             <input
               autoFocus
@@ -68,12 +68,12 @@ const WritingPage = () => {
               onChange={handleTldrChange}
             />
             {/*사용 기술 상자*/}
-            <div className="h-110 border bg-[#F9F8F8] font-ng">
+            <div className="relative z-50 h-110 w-full bg-[#F9F8F8] font-ng">
               <TechStackSelection />
             </div>
           </div>
           {/*사진 드롭박스*/}
-          <div className=" w-full bg-[#F9F8F8] sm:w-284 sm:min-w-284">
+          <div className=" w-full bg-[#F9F8F8] sm:w-284">
             <div
               className="relative mb-4 flex h-228 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-400"
               onDrop={handleDrop}
@@ -109,11 +109,11 @@ const WritingPage = () => {
           </div>
         </div>
         {/*글쓰기 구역*/}
-        <div className=" mt-60 sm:mt-2 ">
+        <div className="relative z-0 mt-60 sm:mt-2">
           <QuillEditor />
         </div>
         {/*버튼 구역*/}
-        <div className="mt-20 flex justify-end sm:mt-20 lg:mt-12">
+        <div className="mt-20 mb-4 flex justify-end sm:mt-20 lg:mt-12">
           <button
             className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
             onClick={() => console.log('취소 버튼 클릭')}

@@ -86,7 +86,7 @@ const QuillEditor = () => {
             QuillRef.current = element;
           }
         }}
-        className="h-20 font-ng sm:h-56 "
+        className=" h-96 font-ng"
         value={contents}
         onChange={setContents}
         modules={modules}
