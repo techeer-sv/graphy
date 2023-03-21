@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TopBar from '../components/TopBar';
+// import TopBar from '../components/TopBar';
 import Banner from '../components/Banner';
 import ProjectCard from '../components/ProjectCard';
 
@@ -9,23 +9,25 @@ const MainPage = () => {
     <div>
       {/* <TopBar/> */}
       <Banner />
-      <div className="justify-center content-center grid grid-cols-4 gap-10 mb-8">
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
+      <div className="justify-center content-center">
+        <div className="w-full grid grid-cols-4 gap-10">
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+        </div>
       </div>
     </div>
   );
