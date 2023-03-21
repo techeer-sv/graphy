@@ -32,6 +32,7 @@ public class ProjectDto {
         private String projectName;
         private String content;
         private String description;
+        private List<String> techTags;
     }
 
     @Getter
@@ -42,6 +43,7 @@ public class ProjectDto {
         private String projectName;
         private String content;
         private String description;
+        private List<String> techTags;
     }
 
     @Getter
@@ -52,5 +54,6 @@ public class ProjectDto {
         private String projectName;
         private String description;
         private LocalDateTime createdAt;
+        private List<String> techTags;
     }
 }

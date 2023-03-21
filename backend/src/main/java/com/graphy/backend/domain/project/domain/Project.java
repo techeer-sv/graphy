@@ -1,4 +1,4 @@
-package com.graphy.backend.domain.project.entity;
+package com.graphy.backend.domain.project.domain;
 
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
@@ -6,7 +6,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,16 +32,26 @@ public class Project extends BaseEntity {
     @Column(nullable = true)
     private String description;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<ProjectTag> projectTags = new ArrayList<>();
+    @Embedded
+    private ProjectTags projectTags;
 
-    public void updateProject(String projectName, String content, String description) {
+    public void updateProject(String projectName, String content, String description, Tags tags) {
         this.projectName = projectName;
         this.content = content;
         this.description = description;
+        projectTags.clear();
+        addTag(tags);
     }
 
-    public void setProjectTags(List<ProjectTag> projectTags) {
-        this.projectTags = projectTags;
+    public void addTag(Tags tags) {
+        projectTags.add(this, tags);
+    }
+
+    public List<String> getTagNames() {
+        return this.projectTags.getTagNames();
+    }
+
+    public List<Long> getTagIds() {
+        return this.projectTags.getTagIds();
     }
 }

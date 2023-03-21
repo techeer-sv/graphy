@@ -1,8 +1,9 @@
 package com.graphy.backend.domain.project.mapper;
 
-import com.graphy.backend.domain.project.entity.Project;
-import com.graphy.backend.domain.project.entity.ProjectTag;
-import com.graphy.backend.domain.project.entity.Tag;
+import com.graphy.backend.domain.project.domain.Project;
+import com.graphy.backend.domain.project.domain.ProjectTag;
+import com.graphy.backend.domain.project.domain.ProjectTags;
+import com.graphy.backend.domain.project.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,7 @@ public class ProjectMapper {
                 .projectName(dto.getProjectName())
                 .content(dto.getContent())
                 .description(dto.getDescription())
+                .projectTags(new ProjectTags())
                 .build();
     }
 
@@ -43,7 +45,18 @@ public class ProjectMapper {
                 .build();
     }
 
-    public Page<GetProjectResponse> toDtoList(Page<Project> projects) {
-        return projects.map(this::toCreateProjectDto);
+    public GetProjectResponse toGetProjectDto(Project project) {
+        return GetProjectResponse.builder()
+                .id(project.getId())
+                .projectName(project.getProjectName())
+                .description(project.getDescription())
+                .createdAt(project.getCreatedAt())
+                .techTags(project.getTagNames())
+                .build();
     }
+
+    public Page<GetProjectResponse> toDtoList(Page<Project> projects) {
+        return projects.map(this::toGetProjectDto);
+    }
+
 }

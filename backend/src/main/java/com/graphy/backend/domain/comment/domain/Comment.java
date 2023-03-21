@@ -1,6 +1,6 @@
-package com.graphy.backend.domain.comment.entity;
+package com.graphy.backend.domain.comment.domain;
 
-import com.graphy.backend.domain.project.entity.Project;
+import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
 

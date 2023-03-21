@@ -1,11 +1,10 @@
-package com.graphy.backend.domain.project.entity;
+package com.graphy.backend.domain.project.domain;
 
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +22,6 @@ public class Tag {
     private String tech;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private List<ProjectTag> projects = new ArrayList<>();
+    private Set<ProjectTag> projects;
 
 }

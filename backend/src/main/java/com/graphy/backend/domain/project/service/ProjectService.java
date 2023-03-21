@@ -1,8 +1,8 @@
 package com.graphy.backend.domain.project.service;
 
-import com.graphy.backend.domain.project.entity.Project;
-import com.graphy.backend.domain.project.entity.ProjectTag;
-import com.graphy.backend.domain.project.entity.Tag;
+import com.graphy.backend.domain.project.domain.Project;
+import com.graphy.backend.domain.project.domain.Tag;
+import com.graphy.backend.domain.project.domain.Tags;
 import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
@@ -29,26 +29,26 @@ public class ProjectService {
 
 
     public CreateProjectResponse createProject(CreateProjectRequest dto) {
-        Project project = mapper.toEntity(dto);
-        List<Tag> tags = getTags(dto.getTechTags());
+        Tags foundTags = getTagsWithName(dto.getTechTags());
+        Project entity = mapper.toEntity(dto);
+        entity.addTag(foundTags);
 
-        List<ProjectTag> projectTags = tags.stream()
-                .map(t -> projectTagRepository.save(mapper.toEntity(project, t)))
-                .collect(Collectors.toList());
-
-        project.setProjectTags(projectTags);
-
-        Project projectEntity = projectRepository.save(project);
-        return mapper.toCreateProjectDto(projectEntity.getId());
+        Project project = projectRepository.save(entity);
+        return mapper.toCreateProjectDto(project.getId());
     }
 
     public void deleteProject(Long project_id) {
         projectRepository.deleteById(project_id);
     }
 
-    public UpdateProjectResponse updateProject(Long project_id, UpdateProjectRequest dto) {
-        Project project = projectRepository.findById(project_id).get();
-        project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription());
+    public UpdateProjectResponse updateProject(Long projectId, UpdateProjectRequest dto) {
+        Project project = projectRepository.findById(projectId).get();
+        projectTagRepository.deleteAllByProjectId(project.getId());
+
+        Tags updatedTags = getTagsWithName(dto.getTechTags());
+
+        project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags);
+
         projectRepository.save(project);
         return mapper.toUpdateProjectDto(project);
     }
@@ -70,9 +70,9 @@ public class ProjectService {
         return mapper.toDtoList(projects).getContent();
     }
 
-    public List<Tag> getTags(List<String> techStacks) {
-        return techStacks.stream().map(tagRepository::findTagByTech)
+    public Tags getTagsWithName(List<String> techStacks) {
+        List<Tag> foundTags =  techStacks.stream().map(tagRepository::findTagByTech)
                 .collect(Collectors.toList());
+        return new Tags(foundTags);
     }
-
 }
