@@ -9,7 +9,7 @@ hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
 });
 
-const QuillEditor = () => {
+function QuillEditor() {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState('');
 
@@ -94,6 +94,6 @@ const QuillEditor = () => {
       />
     </>
   );
-};
+}
 
 export default QuillEditor;

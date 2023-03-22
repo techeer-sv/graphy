@@ -6,7 +6,7 @@ import TechStackSelection from '../components/TechStackSelection';
 import imginsert from '/src/images/imginsert.svg';
 import { titleState, tldrState, imageState } from '../Recoil';
 
-const WritingPage = () => {
+function WritingPage() {
   const [title, setTitle] = useRecoilState<string>(titleState);
   const [tldr, setTldr] = useRecoilState<string>(tldrState);
   const [image, setImage] = useRecoilState(imageState);
@@ -130,6 +130,6 @@ const WritingPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default WritingPage;
