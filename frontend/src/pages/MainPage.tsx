@@ -10,7 +10,7 @@ const MainPage = () => {
       <NavBar />
       <Banner />
       <div className="justify-center content-center">
-        <div className="w-full grid grid-cols-5 gap-10">
+        <div className="w-11/12 grid grid-cols-5 gap-10">
           <ProjectCard />
           <ProjectCard />
           <ProjectCard />

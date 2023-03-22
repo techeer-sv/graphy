@@ -9,6 +9,11 @@ const NavBar = () => {
 
       {/* 검색창 */}
       <input type="text" placeholder="search" />
+
+      {/* 프로젝트 작성 버튼 */}
+      <button className="rounded-full bg-blue-800 text-slate-50 font-semibold px-4 py-1">
+        프로젝트 공유
+      </button>
     </div>
   );
 };
