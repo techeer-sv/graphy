@@ -3,12 +3,16 @@ import FaceIcon from '@mui/icons-material/Face';
 
 const NavBar = () => {
   return (
-    <div className="flex-row">
+    <div className="flex-row mt-5 mb-5">
       {/* 로고 */}
-      <div className="text-4xl font-bold text-blue-800 ">Grapy</div>
+      <span className="ml-6 text-4xl font-bold text-blue-800">Grapy</span>
 
       {/* 검색창 */}
-      <input type="text" placeholder="search" />
+      <input
+        type="text"
+        placeholder=" search"
+        className="w-[800px] h-[30px] mx-5"
+      />
 
       {/* 프로젝트 작성 버튼 */}
       <button className="rounded-full bg-blue-800 text-slate-50 font-semibold px-4 py-1">
