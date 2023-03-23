@@ -4,6 +4,8 @@ import hljs from 'highlight.js';
 
 import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/monokai-sublime.css';
+import { quillContentsState } from '../Recoil';
+import { useRecoilState } from 'recoil';
 
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
@@ -11,7 +13,7 @@ hljs.configure({
 
 function QuillEditor() {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState('');
+  const [contents, setContents] = useRecoilState(quillContentsState);
 
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {

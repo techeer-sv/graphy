@@ -16,5 +16,15 @@ const selectedStackState = atom<string[]>({
   key: 'selectedStackState',
   default: [],
 });
+const quillContentsState = atom({
+  key: 'quillContentsState',
+  default: '',
+});
 
-export { titleState, tldrState, imageState, selectedStackState };
+export {
+  titleState,
+  tldrState,
+  imageState,
+  selectedStackState,
+  quillContentsState,
+};

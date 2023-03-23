@@ -52,7 +52,9 @@ function ReadingPage() {
           </div>
         </div>
         {/**글 영역**/}
-        <div></div>
+        <div>
+          <QuillWrtten />
+        </div>
         {/**버튼 영역**/}
         <div>
           <div className="mt-20 mb-4 flex justify-end sm:mt-20 lg:mt-12">
