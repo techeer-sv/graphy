@@ -41,9 +41,9 @@ function WritingPage() {
   };
 
   return (
-    <div className="mt-0 mb-10 flex h-auto w-screen justify-center bg-[#F9F8F8]">
+    <div className="mt-0 flex h-auto w-screen justify-center bg-[#F9F8F8] pb-10">
       {/*젤 큰 박스*/}
-      <div className="w-11/12 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
+      <div className="w-11/12 max-w-1100 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/*서식 구역*/}
         <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}

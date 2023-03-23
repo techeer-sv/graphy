@@ -14,6 +14,12 @@ module.exports = {
       minWidth: {
         284: '17.75rem',
       },
+      maxWidth: {
+        1100: '68.75rem',
+      },
+      minHeight: {
+        96: '24rem',
+      },
       fontFamily: {
         ng: ['NanumGothic', 'sans-serif'],
         'ng-b': ['NanumGothicBold', 'sans-serif'],
