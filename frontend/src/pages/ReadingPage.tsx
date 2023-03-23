@@ -33,7 +33,7 @@ function ReadingPage() {
         {/**텍스트 영역**/}
         <div>
           {/**제목**/}
-          <div className=" mt-10 mb-4 text-center font-ng-eb text-5xl">
+          <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
           </div>
           <div className="flex flex-col border-b border-black sm:flex-row">
