@@ -16,7 +16,7 @@ const NavBar = () => {
       <input
         type="text"
         placeholder=" search"
-        className="w-[900px] h-[40px] mx-5 rounded-xl"
+        className="w-[900px] h-[40px] mx-5 rounded-xl border"
       />
 
       {/* 프로젝트 작성 버튼 */}
@@ -25,7 +25,7 @@ const NavBar = () => {
       </button>
 
       {/* 마이페이지 아이콘 */}
-      <button className="w-[50px] h-[30px] mr-10">
+      <button className="w-[50px] h-[30px] pt-1.5 mr-10 fill-graphyblue">
         <FaceIcon />
       </button>
     </div>

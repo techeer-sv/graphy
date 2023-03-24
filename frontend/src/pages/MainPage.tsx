@@ -12,7 +12,7 @@ const MainPage = () => {
         <Banner />
         <button
           className="fixed bottom-10 right-10 z-10 sm:hidden shrink-0 my-auto mb-2
-          rounded-full bg-graphyblue text-slate-50 font-semibold px-4 py-1
+          pt-3 pb-3 rounded-full bg-graphyblue text-slate-50 font-semibold px-4 py-1
           "
         >
           프로젝트 공유
