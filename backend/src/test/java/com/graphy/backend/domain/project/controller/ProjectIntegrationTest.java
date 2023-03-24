@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class ProjectControllerTest {
+class ProjectIntegrationTest {
     @Autowired private ProjectRepository projectRepository;
     @Autowired private ProjectService projectService;
 
