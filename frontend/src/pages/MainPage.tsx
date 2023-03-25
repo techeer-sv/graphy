@@ -17,7 +17,7 @@ const MainPage = () => {
         >
           프로젝트 공유
         </button>
-        <div className="text-2xl font-medium ml-10 mb-5">All</div>
+        <div className="text-2xl font-medium ml-10 mb-5 pt-20">All</div>
         <div className="w-11/12 flex flex-wrap justify-center gap-10 ml-8">
           <ProjectCard />
           <ProjectCard />

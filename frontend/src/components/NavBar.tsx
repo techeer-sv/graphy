@@ -3,7 +3,7 @@ import FaceIcon from '@mui/icons-material/Face';
 
 const NavBar = () => {
   return (
-    <div className="flex flex-row pt-3 pb-3 mb-5 w-screen align-middle content-center border-b ">
+    <div className="flex flex-row fixed z-20 bg-white pt-3 pb-3 mb-5 w-screen align-middle content-center border-b ">
       {/* 로고 */}
       <span className="hidden ml-10 sm:block text-4xl font-bold text-graphyblue">
         Graphy
@@ -16,7 +16,7 @@ const NavBar = () => {
       <input
         type="text"
         placeholder=" search"
-        className="w-[900px] h-[40px] mx-5 rounded-xl border"
+        className="w-[950px] h-[40px] mx-5 rounded-xl border"
       />
 
       {/* 프로젝트 작성 버튼 */}
