@@ -1,9 +1,10 @@
 import React from 'react';
 import FaceIcon from '@mui/icons-material/Face';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const NavBar = () => {
   return (
-    <div className="flex flex-row fixed z-20 bg-white pt-3 pb-3 mb-5 w-screen align-middle content-center border-b ">
+    <div className="flex flex-row fixed z-20 bg-white pt-3 pb-3 mb-5 w-screen align-middle content-center border-b border-zinc-400 ">
       {/* 로고 */}
       <span className="hidden ml-10 sm:block text-4xl font-bold text-graphyblue">
         Graphy
@@ -15,7 +16,7 @@ const NavBar = () => {
       {/* 검색창 */}
       <input
         type="text"
-        placeholder=" search"
+        placeholder="  search"
         className="w-[950px] h-[40px] mx-5 rounded-xl border"
       />
 
@@ -25,8 +26,8 @@ const NavBar = () => {
       </button>
 
       {/* 마이페이지 아이콘 */}
-      <button className="w-[50px] h-[30px] pt-1.5 mr-10 fill-graphyblue">
-        <FaceIcon />
+      <button className="w-[50px] h-[30px] pt-0.5 mr-10">
+        <AccountCircleIcon fontSize="large" color="inherit" />
       </button>
     </div>
   );
