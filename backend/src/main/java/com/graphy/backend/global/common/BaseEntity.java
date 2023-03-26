@@ -21,14 +21,10 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @CreatedDate
-    @Column(name = "createdAt")
-    private LocalDateTime createdAt;
-
-
+    private LocalDateTime created_at;
 
     @LastModifiedDate
-    @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updated_at;
 
     private boolean isDeleted;
 }

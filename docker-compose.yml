@@ -9,10 +9,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
-      TZ: Asia/Seoul
-      
+
   springboot:
     container_name: springboot
     build:
@@ -24,9 +21,6 @@ services:
       - mysql
     environment:
       WAIT_HOSTS: mysql:3306
-
-  # frontend:
-  #   build: ./frontend
-  #   image: frontend:latest
-  #   ports:
-  #     - "3000:3000"
+      SPRING_DATASOURCE_URL: jdbc:mysql://${DB_HOST}:3306/${DB_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_ROOT_PASSWORD}

@@ -1,38 +1,19 @@
 package com.graphy.backend.domain.project.dto;
 
-import lombok.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 public class ProjectDto {
 
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CreateProjectRequest {
-        private String projectName;
-        private String content;
-        private String description;
-        private List<String> techTags;
-    }
-
-    @Getter
-    @Builder
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CreateProjectResponse {
-        private Long projectId;
-    }
-
-    @Getter
-    @Builder
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor
     public static class UpdateProjectRequest {
         private String projectName;
         private String content;
         private String description;
-        private List<String> techTags;
     }
 
     @Getter
@@ -43,17 +24,7 @@ public class ProjectDto {
         private String projectName;
         private String content;
         private String description;
-        private List<String> techTags;
     }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class GetProjectResponse {
-        private Long id;
-        private String projectName;
-        private String description;
-        private LocalDateTime createdAt;
-        private List<String> techTags;
-    }
+
 }
