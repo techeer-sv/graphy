@@ -56,4 +56,16 @@ public class ProjectDto {
         private LocalDateTime createdAt;
         private List<String> techTags;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetProjectDetailResponse {
+        private Long id;
+        private String projectName;
+        private String content;
+        private String description;
+        private LocalDateTime createdAt;
+        private List<String> techTags;
+    }
 }

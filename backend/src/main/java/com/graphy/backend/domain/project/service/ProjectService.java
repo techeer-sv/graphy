@@ -70,6 +70,11 @@ public class ProjectService {
         return mapper.toDtoList(projects).getContent();
     }
 
+    public GetProjectDetailResponse getProjectById(Long projectId) {
+        Project project = projectRepository.findById(projectId).get();
+        return mapper.toGetProjectDetailDto(project);
+    }
+
     public Tags getTagsWithName(List<String> techStacks) {
         List<Tag> foundTags =  techStacks.stream().map(tagRepository::findTagByTech)
                 .collect(Collectors.toList());

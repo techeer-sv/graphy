@@ -49,7 +49,7 @@ public class ProjectController {
      */
 
     @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
-    @PutMapping("/{project_id}")
+    @PutMapping("/{projectId}")
     public ResponseEntity<ResultResponse> updateProject(@PathVariable Long project_id,
                                                         @RequestBody UpdateProjectRequest dto) {
         UpdateProjectResponse result = projectService.updateProject(project_id, dto);
@@ -74,6 +74,13 @@ public class ProjectController {
             result = projectService.getProjects(page);
         }
 
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
+    }
+
+    @Operation(summary = "findProjects", description = "(default: 전체 조회) 제목으로 프로젝트 검색")
+    @GetMapping("{projectId}")
+    public ResponseEntity<ResultResponse> getProject(@PathVariable Long projectId) {
+        GetProjectDetailResponse result = projectService.getProjectById(projectId);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 }

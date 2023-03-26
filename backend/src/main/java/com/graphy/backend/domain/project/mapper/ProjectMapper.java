@@ -55,6 +55,17 @@ public class ProjectMapper {
                 .build();
     }
 
+    public GetProjectDetailResponse toGetProjectDetailDto(Project project) {
+        return GetProjectDetailResponse.builder()
+                .id(project.getId())
+                .projectName(project.getProjectName())
+                .description(project.getDescription())
+                .createdAt(project.getCreatedAt())
+                .techTags(project.getTagNames())
+                .content(project.getContent())
+                .build();
+    }
+
     public Page<GetProjectResponse> toDtoList(Page<Project> projects) {
         return projects.map(this::toGetProjectDto);
     }
