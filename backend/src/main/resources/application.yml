@@ -6,7 +6,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   profiles:
-    include: dbconfig
+    include: local
 
   jpa:
     database: mysql
