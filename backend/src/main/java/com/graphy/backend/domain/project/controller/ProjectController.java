@@ -77,7 +77,7 @@ public class ProjectController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
     }
 
-    @Operation(summary = "findProjects", description = "(default: 전체 조회) 제목으로 프로젝트 검색")
+    @Operation(summary = "findProject", description = "프로젝트 상세 조회")
     @GetMapping("{projectId}")
     public ResponseEntity<ResultResponse> getProject(@PathVariable Long projectId) {
         GetProjectDetailResponse result = projectService.getProjectById(projectId);
