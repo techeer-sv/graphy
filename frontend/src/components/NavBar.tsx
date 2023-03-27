@@ -1,6 +1,5 @@
 import React from 'react';
-import FaceIcon from '@mui/icons-material/Face';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 
 const NavBar = () => {
   return (
@@ -27,7 +26,7 @@ const NavBar = () => {
 
       {/* 마이페이지 아이콘 */}
       <button className="w-[50px] h-[30px] pt-0.5 mr-10">
-        <AccountCircleIcon fontSize="large" color="inherit" />
+        {/* <AccountCircleIcon fontSize="large" color="inherit" /> */}
       </button>
     </div>
   );
