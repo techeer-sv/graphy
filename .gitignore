@@ -1,4 +1,6 @@
 .DS_Store
 .env
 backend/src/main/resources/application-dbconfig.yml
+backend/src/main/resources/application-local.yml
+backend/src/main/resources/application-docker.yml
 .idea/**
