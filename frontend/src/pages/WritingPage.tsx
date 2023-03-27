@@ -4,12 +4,21 @@ import { useRecoilState } from 'recoil';
 import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import imginsert from '/src/images/imginsert.svg';
-import { titleState, tldrState, imageState } from '../Recoil';
+import {
+  titleState,
+  tldrState,
+  imageState,
+  quillContentsState,
+  selectedStackState,
+} from '../Recoil';
+import axios from 'axios';
 
 function WritingPage() {
   const [title, setTitle] = useRecoilState<string>(titleState);
   const [tldr, setTldr] = useRecoilState<string>(tldrState);
   const [image, setImage] = useRecoilState(imageState);
+  const [contents, setContents] = useRecoilState(quillContentsState);
+  const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +46,23 @@ function WritingPage() {
   const handleClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
+    }
+  };
+
+  const postData = async () => {
+    const url = 'http://localhost:8080/api/v1/projects';
+    const data = {
+      projectName: title,
+      content: contents,
+      description: tldr,
+      techTags: selectedStack,
+    };
+
+    try {
+      const response = await axios.post(url, data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -122,7 +148,7 @@ function WritingPage() {
           </button>
           <button
             className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 font-ng text-white hover:bg-blue-700"
-            onClick={() => console.log('저장 버튼 클릭')}
+            onClick={() => postData()}
           >
             저장
           </button>

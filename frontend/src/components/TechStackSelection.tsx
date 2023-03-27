@@ -51,8 +51,11 @@ function TechStackSelection() {
           사용 기술{' '}
         </div>
         {selectedStack.map((stack) => (
-          <div className="ml-2 mt-3 h-6 w-auto shrink-0 rounded-full border bg-blue-500 px-2 font-ng-b text-white">
-            <span key={stack}>{stack} </span>
+          <div
+            key={stack}
+            className="ml-2 mt-3 h-6 w-auto shrink-0 rounded-full border bg-blue-500 px-2 font-ng-b text-white"
+          >
+            <span>{stack} </span>
             <button onClick={() => handleDeleteStack(stack)}>x</button>
           </div>
         ))}
