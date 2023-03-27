@@ -1,14 +1,23 @@
 package com.graphy.backend.domain.project.mapper;
 
-import com.graphy.backend.domain.project.dto.ProjectDto;
-import com.graphy.backend.domain.project.entity.Project;
+import com.graphy.backend.domain.project.domain.Project;
+import com.graphy.backend.domain.project.domain.ProjectTag;
+import com.graphy.backend.domain.project.domain.ProjectTags;
+import com.graphy.backend.domain.project.domain.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Component
 public class ProjectMapper {
-    public UpdateProjectResponse toDto(Project project) {
+
+    public GetProjectResponse toCreateProjectDto(Project project) {
+        return GetProjectResponse.builder().id(project.getId()).projectName(project.getProjectName())
+                .description(project.getDescription()).createdAt(project.getCreatedAt()).build();
+    }
+
+    public UpdateProjectResponse toUpdateProjectDto(Project project) {
         return UpdateProjectResponse.builder()
                 .projectId(project.getId())
                 .projectName(project.getProjectName())
