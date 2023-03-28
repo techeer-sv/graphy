@@ -35,10 +35,15 @@ public class Project extends BaseEntity {
     @Embedded
     private ProjectTags projectTags;
 
-    public void updateProject(String projectName, String content, String description, Tags tags) {
+    private String thumbNail;
+
+    public void updateProject(String projectName, String content,
+                              String description, Tags tags,
+                              String thumbNail) {
         this.projectName = projectName;
         this.content = content;
         this.description = description;
+        this.thumbNail = thumbNail;
         projectTags.clear();
         addTag(tags);
     }

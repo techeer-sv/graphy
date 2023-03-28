@@ -22,6 +22,7 @@ public class ProjectMapper {
                 .projectId(project.getId())
                 .projectName(project.getProjectName())
                 .content(project.getContent())
+                .thumbNail(project.getThumbNail())
                 .description(project.getDescription()).build();
     }
 
@@ -34,6 +35,7 @@ public class ProjectMapper {
                 .projectName(dto.getProjectName())
                 .content(dto.getContent())
                 .description(dto.getDescription())
+                .thumbNail(dto.getThumbNail())
                 .projectTags(new ProjectTags())
                 .build();
     }
@@ -63,6 +65,7 @@ public class ProjectMapper {
                 .createdAt(project.getCreatedAt())
                 .techTags(project.getTagNames())
                 .content(project.getContent())
+                .thumbNail(project.getThumbNail())
                 .build();
     }
 
