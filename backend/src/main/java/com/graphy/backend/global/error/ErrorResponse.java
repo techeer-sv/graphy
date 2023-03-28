@@ -48,7 +48,7 @@ public class ErrorResponse {
     private String value;
     private String reason;
 
-    private static List<FieldError> of(final BindingResult bindingResult) {
+    public static List<FieldError> of(final BindingResult bindingResult) {
       final List<org.springframework.validation.FieldError> fieldErrors =
           bindingResult.getFieldErrors();
       return fieldErrors.stream()
