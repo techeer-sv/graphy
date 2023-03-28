@@ -47,7 +47,7 @@ public class ProjectService {
 
         Tags updatedTags = getTagsWithName(dto.getTechTags());
 
-        project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags);
+        project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags, dto.getThumbNail());
 
         projectRepository.save(project);
         return mapper.toUpdateProjectDto(project);
