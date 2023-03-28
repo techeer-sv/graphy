@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class ProjectController {
 
     @Operation(summary = "createProject", description = "프로젝트 생성")
     @PostMapping
-    public ResponseEntity<ResultResponse> createProject(@RequestBody CreateProjectRequest dto) {
+    public ResponseEntity<ResultResponse> createProject(@Validated @RequestBody CreateProjectRequest dto) {
 
         CreateProjectResponse response = projectService.createProject(dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
