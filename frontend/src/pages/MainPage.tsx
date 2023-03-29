@@ -17,7 +17,7 @@ const MainPage = () => {
           sm:invisible"
         >
           <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
-          <span className="font-semibold">프로젝트 공유</span>
+          <span className="font-semibold shrink-0">프로젝트 공유</span>
         </button>
         <div className="ml-10 mb-5 pt-20 text-2xl font-medium">All</div>
         <div className="ml-8 flex w-11/12 flex-wrap justify-center gap-10">
