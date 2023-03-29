@@ -1,16 +1,15 @@
 import React from 'react';
-import ProfileIcon from "../assets/person-circle.svg"
-import WriteIcon from "../assets/pencil-square.svg"
-
+import ProfileIcon from '../assets/person-circle.svg';
+import WriteIcon from '../assets/pencil-square.svg';
 
 const NavBar = () => {
   return (
-    <div className="flex flex-row fixed z-20 bg-white pt-3 pb-3 mb-5 w-screen align-middle content-center border-b border-zinc-400 ">
+    <div className="fixed z-20 mb-5 flex w-screen flex-row content-center border-b border-zinc-400 bg-white pt-3 pb-3 align-middle ">
       {/* 로고 */}
-      <span className="hidden ml-10 sm:block text-4xl font-bold text-graphyblue">
+      <span className="ml-10 hidden text-4xl font-bold text-graphyblue sm:block">
         Graphy
       </span>
-      <span className="ml-10 sm:hidden text-4xl font-bold text-graphyblue">
+      <span className="ml-10 text-4xl font-bold text-graphyblue sm:hidden">
         G
       </span>
 
@@ -18,24 +17,25 @@ const NavBar = () => {
       <input
         type="text"
         placeholder="  search"
-        className="w-[950px] h-[40px] mx-5 rounded-xl border appearance-none"
+        className="mx-5 h-[40px] w-[950px] appearance-none rounded-xl border"
       />
 
       {/* 프로젝트 작성 버튼 */}
-      <button className="hidden flex flex-row flex-nowrap ml-1 mr-5 sm:ml-1 sm:block rounded-full bg-graphyblue text-slate-50 font-semibold
-      px-10 py-1 shrink-0">
-      <img
-        className="w-[20px] h-[20px]"
-        src={WriteIcon}/>
-        프로젝트 공유
+      <button
+        className="invisible ml-1 mr-5 flex shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue px-4
+      py-1 text-slate-50 sm:visible sm:ml-1"
+      >
+        <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
+        <span className="font-semibold">프로젝트 공유</span>
       </button>
 
       {/* 마이페이지 아이콘 */}
       <button className="mr-10">
         <img
-        className="w-[30px] h-[30px] appearance-none"
-        src={ProfileIcon}
-        alt="" />
+          className="h-[30px] w-[30px] appearance-none"
+          src={ProfileIcon}
+          alt=""
+        />
       </button>
     </div>
   );
