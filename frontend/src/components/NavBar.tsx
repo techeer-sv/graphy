@@ -22,7 +22,7 @@ const NavBar = () => {
       />
 
       {/* 프로젝트 작성 버튼 */}
-      <button className="hidden flex flex-row ml-1 mr-5 sm:ml-1 sm:block rounded-full bg-graphyblue text-slate-50 font-semibold
+      <button className="hidden flex flex-row flex-nowrap ml-1 mr-5 sm:ml-1 sm:block rounded-full bg-graphyblue text-slate-50 font-semibold
       px-10 py-1 shrink-0">
       <img
         className="w-[20px] h-[20px]"
