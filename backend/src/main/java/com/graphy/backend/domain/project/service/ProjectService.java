@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
@@ -41,15 +42,14 @@ public class ProjectService {
         projectRepository.deleteById(project_id);
     }
 
+    @Transactional
     public UpdateProjectResponse updateProject(Long projectId, UpdateProjectRequest dto) {
         Project project = projectRepository.findById(projectId).get();
-        projectTagRepository.deleteAllByProjectId(project.getId());
-
+        projectTagRepository.deleteAllByProjectId(project.getId()); 
         Tags updatedTags = getTagsWithName(dto.getTechTags());
 
         project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags, dto.getThumbNail());
 
-        projectRepository.save(project);
         return mapper.toUpdateProjectDto(project);
     }
 

@@ -51,9 +51,9 @@ public class ProjectController {
 
     @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
     @PutMapping("/{projectId}")
-    public ResponseEntity<ResultResponse> updateProject(@PathVariable Long project_id,
-                                                        @RequestBody UpdateProjectRequest dto) {
-        UpdateProjectResponse result = projectService.updateProject(project_id, dto);
+    public ResponseEntity<ResultResponse> updateProject(@PathVariable Long projectId,
+                                                        @RequestBody @Validated UpdateProjectRequest dto) {
+        UpdateProjectResponse result = projectService.updateProject(projectId, dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
     }
 
