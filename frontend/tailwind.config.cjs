@@ -3,6 +3,9 @@ module.exports = {
   content: ['./src/**/*.{html,js,ts,tsx}'],
   theme: {
     extend: {
+      colors: {
+        graphyblue: '#505F9A',
+      },
       width: {
         284: '17.75rem',
       },
