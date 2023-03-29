@@ -1,4 +1,6 @@
 import React from 'react';
+import ProfileIcon from "../assets/person-circle.svg"
+import WriteIcon from "../assets/pencil-square.svg"
 
 
 const NavBar = () => {
@@ -16,17 +18,24 @@ const NavBar = () => {
       <input
         type="text"
         placeholder="  search"
-        className="w-[950px] h-[40px] mx-5 rounded-xl border"
+        className="w-[950px] h-[40px] mx-5 rounded-xl border appearance-none"
       />
 
       {/* 프로젝트 작성 버튼 */}
-      <button className="hidden ml-1 sm:ml-1 sm:block rounded-full bg-graphyblue text-slate-50 font-semibold px-4 py-1 shrink-0">
+      <button className="hidden flex flex-row ml-1 mr-5 sm:ml-1 sm:block rounded-full bg-graphyblue text-slate-50 font-semibold
+      px-10 py-1 shrink-0">
+      <img
+        className="w-[20px] h-[20px]"
+        src={WriteIcon}/>
         프로젝트 공유
       </button>
 
       {/* 마이페이지 아이콘 */}
-      <button className="w-[50px] h-[30px] pt-0.5 mr-10">
-        {/* <AccountCircleIcon fontSize="large" color="inherit" /> */}
+      <button className="mr-10">
+        <img
+        className="w-[30px] h-[30px] appearance-none"
+        src={ProfileIcon}
+        alt="" />
       </button>
     </div>
   );
