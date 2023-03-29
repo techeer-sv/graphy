@@ -1,52 +1,28 @@
 import React, { useRef } from 'react';
 import { useRecoilState } from 'recoil';
-
-import QuillEditor from '../components/QuillEditor';
-import TechStackSelection from '../components/TechStackSelection';
-import imginsert from '/src/images/imginsert.svg';
+import axios from 'axios';
 import {
   titleState,
   tldrState,
-  imageState,
   quillContentsState,
   selectedStackState,
 } from '../Recoil';
-import axios from 'axios';
+
+import QuillEditor from '../components/QuillEditor';
+import TechStackSelection from '../components/TechStackSelection';
+import ImageUploader from '../components/ImageUploader';
 
 function WritingPage() {
   const [title, setTitle] = useRecoilState<string>(titleState);
   const [tldr, setTldr] = useRecoilState<string>(tldrState);
-  const [image, setImage] = useRecoilState(imageState);
   const [contents, setContents] = useRecoilState(quillContentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTldr(e.target.value);
-  };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files;
-    if (fileList && fileList.length > 0) {
-      setImage(fileList[0]);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const fileList = e.dataTransfer.files;
-    if (fileList && fileList.length > 0) {
-      setImage(fileList[0]);
-    }
-  };
-
-  const handleClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
   };
 
   const postData = async () => {
@@ -99,40 +75,7 @@ function WritingPage() {
             </div>
           </div>
           {/*사진 드롭박스*/}
-          <div className=" w-full bg-[#F9F8F8] sm:w-284">
-            <div
-              className="relative mb-4 flex h-228 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-400"
-              onDrop={handleDrop}
-              onDragOver={(e) => e.preventDefault()}
-              onClick={handleClick}
-            >
-              <input
-                id="image"
-                type="file"
-                className="hidden"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                {image ? (
-                  <img
-                    className="h-full"
-                    src={URL.createObjectURL(image)}
-                    alt="이미지"
-                  />
-                ) : (
-                  <div className="text-center font-ng text-gray-500">
-                    <img
-                      className="ml-9 font-ng"
-                      src={imginsert}
-                      alt="이미지 삽입"
-                    />
-                    프로젝트 메인 이미지
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <ImageUploader />
         </div>
         {/*글쓰기 구역*/}
         <div className="relative z-0 mt-60 sm:mt-2">
