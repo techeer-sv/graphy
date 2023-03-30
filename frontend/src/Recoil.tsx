@@ -2,11 +2,11 @@ import { atom, RecoilRoot } from 'recoil';
 
 const titleState = atom({
   key: 'titleState',
-  default: '제목',
+  default: '',
 });
 const tldrState = atom({
   key: 'tldrState',
-  default: '한 줄 소개',
+  default: '',
 });
 const imageState = atom<File | null>({
   key: 'imageState',

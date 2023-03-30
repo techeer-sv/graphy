@@ -34,11 +34,11 @@ function ReadingPage() {
         <div>
           {/**제목**/}
           <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
-            {title}
+            제목
           </div>
           <div className="flex flex-col border-b border-black sm:flex-row">
             {/**한줄소개**/}
-            <div className="mb-2 font-ng-b text-2xl">{tldr}</div>
+            <div className="mb-2 font-ng-b text-2xl">한줄소개</div>
             {/**사용기술**/}
             {selectedStack.length !== 0 ? (
               <div className="mb-2 font-ng-b text-2xl sm:mx-auto sm:mr-2">

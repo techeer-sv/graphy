@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
+import ReactQuill from 'react-quill';
 import hljs from 'highlight.js';
 import ReactS3Client from 'react-aws-s3-typescript';
 
@@ -49,8 +49,6 @@ function QuillEditor() {
               `<img src=${res.location} alt="이미지" />`,
             );
           }
-
-          return { ...res, success: true };
         } catch (error) {
           console.log(error);
         }
