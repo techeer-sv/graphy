@@ -7,8 +7,11 @@ import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
+import com.graphy.backend.global.error.ErrorCode;
+import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,7 +42,11 @@ public class ProjectService {
     }
 
     public void deleteProject(Long project_id) {
-        projectRepository.deleteById(project_id);
+        try {
+            projectRepository.deleteById(project_id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
+        }
     }
 
     @Transactional
