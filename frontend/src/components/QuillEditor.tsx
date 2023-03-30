@@ -1,15 +1,19 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import hljs from 'highlight.js';
+import ReactS3Client from 'react-aws-s3-typescript';
 
 import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/monokai-sublime.css';
 import { quillContentsState } from '../Recoil';
 import { useRecoilState } from 'recoil';
+import s3config from '../s3config';
 
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
 });
+
+const s3 = new ReactS3Client(s3config);
 
 function QuillEditor() {
   const QuillRef = useRef<ReactQuill>();
@@ -19,20 +23,21 @@ function QuillEditor() {
   const imageHandler = () => {
     // 파일을 업로드 하기 위한 input 태그 생성
     const input = document.createElement('input');
+    const formData = new FormData();
+
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
 
     // 파일이 input 태그에 담기면 실행 될 함수
-    input.onchange = () => {
+    input.onchange = async () => {
       const file = input.files;
       if (file !== null) {
-        const reader = new FileReader();
+        formData.append('image', file[0]);
 
-        // 파일 읽기가 완료되면 실행 될 함수
-        reader.onload = () => {
-          // 커서의 위치를 알고 해당 위치에 이미지 태그를 넣어주는 코드
-          // 해당 DOM의 데이터가 필요하기에 useRef를 사용
+        try {
+          const res = await s3.uploadFile(file[0]);
+          console.log(res);
           const range = QuillRef.current?.getEditor().getSelection()?.index;
           if (range !== null && range !== undefined) {
             let quill = QuillRef.current?.getEditor();
@@ -41,12 +46,14 @@ function QuillEditor() {
 
             quill?.clipboard.dangerouslyPasteHTML(
               range,
-              `<img src=${reader.result} alt="이미지 태그가 삽입됩니다." />`,
+              `<img src=${res.location} alt="이미지" />`,
             );
           }
-        };
 
-        reader.readAsDataURL(file[0]);
+          return { ...res, success: true };
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
   };

@@ -20,8 +20,8 @@ const quillContentsState = atom({
   key: 'quillContentsState',
   default: '',
 });
-const imageUrlState = atom<string | null>({
-  key: 'imageUrlState',
+const thumbnailUrlState = atom<string | null>({
+  key: 'thumbnailUrlState',
   default: null,
 });
 
@@ -31,5 +31,5 @@ export {
   imageState,
   selectedStackState,
   quillContentsState,
-  imageUrlState,
+  thumbnailUrlState,
 };
