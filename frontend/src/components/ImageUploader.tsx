@@ -1,12 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import { imageState } from '../Recoil';
+import ReactS3Client from 'react-aws-s3-typescript';
+import { imageState, imageUrlState } from '../Recoil';
+import s3config from '../s3config';
 
 import imginsert from '/src/images/imginsert.svg';
 
+const s3 = new ReactS3Client(s3config);
+
 function ImageUploader() {
   const [image, setImage] = useRecoilState(imageState);
+  const [imageUrl, setImageUrl] = useRecoilState(imageUrlState);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const uploadImage = async () => {
+    if (image) {
+      try {
+        const res = await s3.uploadFile(image);
+        setImageUrl(res.location);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (image) {
+      uploadImage();
+    }
+  }, [image]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -63,4 +85,5 @@ function ImageUploader() {
     </div>
   );
 }
+
 export default ImageUploader;

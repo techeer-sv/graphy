@@ -6,6 +6,7 @@ import {
   tldrState,
   quillContentsState,
   selectedStackState,
+  imageUrlState,
 } from '../Recoil';
 
 import QuillEditor from '../components/QuillEditor';
@@ -17,6 +18,7 @@ function WritingPage() {
   const [tldr, setTldr] = useRecoilState<string>(tldrState);
   const [contents, setContents] = useRecoilState(quillContentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
+  const [imageUrl, setImageUrl] = useRecoilState(imageUrlState);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -32,6 +34,7 @@ function WritingPage() {
       content: contents,
       description: tldr,
       techTags: selectedStack,
+      thumbNail: imageUrl,
     };
 
     try {
