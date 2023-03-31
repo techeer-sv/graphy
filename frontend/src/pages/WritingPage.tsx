@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import {
-  titleState,
-  tldrState,
   quillContentsState,
   selectedStackState,
   thumbnailUrlState,
@@ -14,9 +12,9 @@ import TechStackSelection from '../components/TechStackSelection';
 import ImageUploader from '../components/ImageUploader';
 
 function WritingPage() {
-  const [title, setTitle] = useRecoilState<string>(titleState);
-  const [tldr, setTldr] = useRecoilState<string>(tldrState);
-  const [contents, setContents] = useRecoilState(quillContentsState);
+  const [title, setTitle] = useState<string>('');
+  const [tldr, setTldr] = useState<string>('');
+  const [writeContents, setWriteContents] = useRecoilState(quillContentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
 
@@ -31,7 +29,7 @@ function WritingPage() {
     const url = 'http://localhost:8080/api/v1/projects';
     const data = {
       projectName: title,
-      content: contents,
+      content: writeContents,
       description: tldr,
       techTags: selectedStack,
       thumbNail: thumbnailUrl,

@@ -1,22 +1,14 @@
-import { atom, RecoilRoot } from 'recoil';
+import { atom } from 'recoil';
 
-const titleState = atom({
-  key: 'titleState',
-  default: '',
-});
-const tldrState = atom({
-  key: 'tldrState',
-  default: '',
-});
-const imageState = atom<File | null>({
-  key: 'imageState',
-  default: null,
-});
 const selectedStackState = atom<string[]>({
   key: 'selectedStackState',
   default: [],
 });
-const quillContentsState = atom({
+const writeContentsState = atom({
+  key: 'quillContentsState',
+  default: '',
+});
+const readContentsState = atom({
   key: 'quillContentsState',
   default: '',
 });
@@ -26,10 +18,8 @@ const thumbnailUrlState = atom<string | null>({
 });
 
 export {
-  titleState,
-  tldrState,
-  imageState,
   selectedStackState,
-  quillContentsState,
+  writeContentsState,
+  readContentsState,
   thumbnailUrlState,
 };

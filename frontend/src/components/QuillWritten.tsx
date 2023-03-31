@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { useRecoilState } from 'recoil';
-import { quillContentsState } from '../Recoil';
+import { readContentsState } from '../Recoil';
 
 function QuillWrtten() {
-  const [contents, setContents] = useRecoilState(quillContentsState);
+  const [readContents, setReadContents] = useRecoilState(readContentsState);
 
   useEffect(() => {
     if (contents) {

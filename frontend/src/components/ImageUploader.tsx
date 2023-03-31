@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import ReactS3Client from 'react-aws-s3-typescript';
-import { imageState, thumbnailUrlState } from '../Recoil';
+import { thumbnailUrlState } from '../Recoil';
 import s3config from '../s3config';
 
 import imginsert from '/src/images/imginsert.svg';
@@ -9,7 +9,7 @@ import imginsert from '/src/images/imginsert.svg';
 const s3 = new ReactS3Client(s3config);
 
 function ImageUploader() {
-  const [image, setImage] = useRecoilState(imageState);
+  const [image, setImage] = useState<File | null>();
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
