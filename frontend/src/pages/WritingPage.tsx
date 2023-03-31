@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import {
-  quillContentsState,
+  writeContentsState,
   selectedStackState,
   thumbnailUrlState,
 } from '../Recoil';
@@ -14,7 +14,7 @@ import ImageUploader from '../components/ImageUploader';
 function WritingPage() {
   const [title, setTitle] = useState<string>('');
   const [tldr, setTldr] = useState<string>('');
-  const [writeContents, setWriteContents] = useRecoilState(quillContentsState);
+  const [writeContents, setWriteContents] = useRecoilState(writeContentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
 

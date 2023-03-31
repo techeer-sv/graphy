@@ -5,11 +5,11 @@ const selectedStackState = atom<string[]>({
   default: [],
 });
 const writeContentsState = atom({
-  key: 'quillContentsState',
+  key: 'writeContentsState',
   default: '',
 });
 const readContentsState = atom({
-  key: 'quillContentsState',
+  key: 'readContentsState',
   default: '',
 });
 const thumbnailUrlState = atom<string | null>({

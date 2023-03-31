@@ -8,15 +8,15 @@ function QuillWrtten() {
   const [readContents, setReadContents] = useRecoilState(readContentsState);
 
   useEffect(() => {
-    if (contents) {
-      setContents(contents);
+    if (readContents) {
+      setReadContents(readContents);
     }
-  }, [contents]);
+  }, [readContents]);
 
   return (
     <div className=" pointer-events-none mt-4 h-auto min-h-96 border text-2xl">
-      {contents ? (
-        <ReactQuill value={contents} readOnly={true} theme="bubble" />
+      {readContents ? (
+        <ReactQuill value={readContents} readOnly={true} theme="bubble" />
       ) : (
         <ReactQuill
           value="게시글을 불러오는 중입니다..."
