@@ -50,7 +50,7 @@ jobs:
     - name: Test with Gradle # test application build
       run: |
         cd backend
-        ./gradlew test
+        ./gradlew test --info
         
 
     - name: Test Results # test 후 result를 보기 위해 추가
