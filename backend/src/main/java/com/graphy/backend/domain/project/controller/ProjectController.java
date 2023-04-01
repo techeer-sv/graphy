@@ -1,6 +1,8 @@
 package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.global.error.ErrorCode;
+import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,16 +53,16 @@ public class ProjectController {
 
     @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
     @PutMapping("/{projectId}")
-    public ResponseEntity<ResultResponse> updateProject(@PathVariable Long project_id,
-                                                        @RequestBody UpdateProjectRequest dto) {
-        UpdateProjectResponse result = projectService.updateProject(project_id, dto);
+    public ResponseEntity<ResultResponse> updateProject(@PathVariable Long projectId,
+                                                        @RequestBody @Validated UpdateProjectRequest dto) {
+        UpdateProjectResponse result = projectService.updateProject(projectId, dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
     }
 
-    /**
-     * A-5) [GET] /api/v1/projects?title={}&page={} 프로젝트 공유글 제목 검색
-     */
-    @Operation(summary = "findProjects", description = "(default: 전체 조회) 제목으로 프로젝트 검색")
+    @Operation(summary = "findProjects", description = "프로젝트 조회 \n\n" + "\t⚠️ sort 주의사항 ⚠️\n\n" +
+            "\t\t1. sort는 공백(\"\"), id, createdAt, updatedAt, content, description, projectName 중 하나 입력\n\n" +
+            "\t\t2. 오름차순이 기본입니다. 내림차순을 원하실 경우 {정렬기준},desc (ex. \"id,desc\")를 입력해주세요 (콤마 사이 띄어쓰기 X)\n\n" +
+            "\t\t3. sort의 default(공백 입력) : createdAt(최신순), 내림차순")
     @GetMapping("")
     public ResponseEntity<ResultResponse> getProjects(@RequestParam(required = false) String projectName, @RequestParam(required = false) String content,
                                                       @PageableDefault(sort = {"createdAt"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -74,6 +76,8 @@ public class ProjectController {
         } else {
             result = projectService.getProjects(page);
         }
+
+        if (result.size() == 0) throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
 
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
     }

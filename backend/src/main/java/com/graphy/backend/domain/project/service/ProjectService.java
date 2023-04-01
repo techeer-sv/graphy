@@ -7,11 +7,15 @@ import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
+import com.graphy.backend.global.error.ErrorCode;
+import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +23,7 @@ import java.util.stream.Collectors;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
@@ -38,18 +42,21 @@ public class ProjectService {
     }
 
     public void deleteProject(Long project_id) {
-        projectRepository.deleteById(project_id);
+        try {
+            projectRepository.deleteById(project_id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
+        }
     }
 
+    @Transactional
     public UpdateProjectResponse updateProject(Long projectId, UpdateProjectRequest dto) {
         Project project = projectRepository.findById(projectId).get();
-        projectTagRepository.deleteAllByProjectId(project.getId());
-
+        projectTagRepository.deleteAllByProjectId(project.getId()); 
         Tags updatedTags = getTagsWithName(dto.getTechTags());
 
         project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags, dto.getThumbNail());
 
-        projectRepository.save(project);
         return mapper.toUpdateProjectDto(project);
     }
 

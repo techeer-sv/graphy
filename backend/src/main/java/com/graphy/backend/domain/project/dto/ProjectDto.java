@@ -3,6 +3,7 @@ package com.graphy.backend.domain.project.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,8 +39,11 @@ public class ProjectDto {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor
     public static class UpdateProjectRequest {
+        @NotBlank(message = "project name cannot be blank")
         private String projectName;
+        @NotBlank(message = "content cannot be blank")
         private String content;
+        @NotBlank(message = "description cannot be blank")
         private String description;
         private List<String> techTags;
         private String thumbNail;
