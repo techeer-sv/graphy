@@ -24,12 +24,18 @@ jobs:
       run: |
         cd backend
         ./gradlew build -x test
-  
+
+        
     
     - name: Test with Gradle # test application build
       run: |
         cd backend
         ./gradlew --info test
+      env:
+        DB_URL: jdbc:mysql://localhost:3306/graphy
+        DB_USERNAME: root
+        DB_PASSWORD: ${{ secrets.TEST_MYSQL_PASSWORD }}
+
 
     - name: Test Results # test 후 result를 보기 위해 추가
       uses: EnricoMi/publish-unit-test-result-action@v1
