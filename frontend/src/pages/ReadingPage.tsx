@@ -32,6 +32,17 @@ function ReadingPage() {
     }
   };
 
+  const deleteData = async () => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:8080/api/v1/projects/${projectId}`,
+      );
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (title) {
       setTitle(title);
