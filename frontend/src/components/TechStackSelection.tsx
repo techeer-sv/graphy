@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { selectedStackState } from '../Recoil';
 
+//스택 종류 선언
 const allStacks = [
   'React',
   'Vue',
@@ -18,13 +19,14 @@ function TechStackSelection() {
   // 검색어와 검색어 변경 이벤트 처리를 위한 상태 및 함수
   const [searchText, setSearchText] = useState('');
 
+  //검색 글 변경 함수
   const handleSearchTextChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSearchText(event.target.value);
   };
 
-  // 기존에 선택된 기술 스택 삭제 함수
+  // 기존 선택 기술 스택 삭제 함수
   const handleDeleteStack = (stack: string) => {
     setSelectedStack(selectedStack.filter((s) => s !== stack));
   };

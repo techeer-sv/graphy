@@ -9,10 +9,12 @@ import { contentsState } from '../Recoil';
 import { useRecoilState } from 'recoil';
 import s3config from '../s3config';
 
+//코드 하이라이트 설정
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
 });
 
+//s3 변수 선언
 const s3 = new ReactS3Client(s3config);
 
 function QuillEditor() {
@@ -72,7 +74,6 @@ function QuillEditor() {
             { list: 'bullet' },
             { indent: '-1' },
             { indent: '+1' },
-            { align: [] },
             'link',
           ],
           ['image', 'video'],

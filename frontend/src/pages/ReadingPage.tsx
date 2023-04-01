@@ -20,15 +20,15 @@ function ReadingPage() {
   const navigate = useNavigate();
 
   function toWrite() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
+    // react-router-dom을 이용한 글 쓰기 페이지로 이동 함수
     navigate('/write');
   }
 
   function toModify() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
+    // react-router-dom을 이용한 글 수정 페이지로 이동 함수
     navigate('/modify');
   }
-
+  //GET요청 보내고 받은 데이터 변수에 넣어주는 함수
   const getData = async () => {
     try {
       const res = await axios.get(
@@ -43,7 +43,7 @@ function ReadingPage() {
       console.error(error);
     }
   };
-
+  //DELETE 요청 보내는 함수
   const deleteData = async () => {
     try {
       const res = await axios.delete(
@@ -55,25 +55,25 @@ function ReadingPage() {
       console.error(error);
     }
   };
-
+  //제목 변경시 재 렌더링
   useEffect(() => {
     if (title) {
       setTitle(title);
     }
   }, [title]);
-
+  //소개 변경시 재 렌더링
   useEffect(() => {
     if (tldr) {
       setTldr(tldr);
     }
   }, [tldr]);
-
+  //선택 스택 변경시 재 렌더링
   useEffect(() => {
     if (selectedStack.length !== 0) {
       setSelectedStack(selectedStack);
     }
   }, [selectedStack]);
-
+  //데이터 가져올때 재 렌더링
   useEffect(() => {
     getData();
   }, []);

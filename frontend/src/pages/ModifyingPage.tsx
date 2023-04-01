@@ -24,13 +24,15 @@ function ModifyingPage() {
   const [projectId, setProjectId] = useRecoilState(projectIdState);
   const navigate = useNavigate();
 
+  //제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+  //소개 변경 함수
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTldr(e.target.value);
   };
-
+  //PUT요청 보내서 데이터 수정하는 함수
   const putData = async () => {
     const url = `http://localhost:8080/api/v1/projects/${projectId}`;
     const data = {

@@ -24,6 +24,7 @@ function WritingPage() {
   const [projectId, setProjectId] = useRecoilState(projectIdState);
   const navigate = useNavigate();
 
+  //글쓰기 페이지 렌더링 시 변수 초기화
   useEffect(() => {
     setTitle('');
     setTldr('');
@@ -32,13 +33,15 @@ function WritingPage() {
     setThumbnailUrl('');
   }, []);
 
+  //제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+  //소개 변경 함수
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTldr(e.target.value);
   };
-
+  //POST요청 보내서 데이터 전송하는 함수
   const postData = async () => {
     const url = 'http://localhost:8080/api/v1/projects';
     const data = {
