@@ -1,16 +1,22 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import axios from 'axios';
+import {
+  writeContentsState,
+  selectedStackState,
+  thumbnailUrlState,
+} from '../Recoil';
 
 import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
-import imginsert from '/src/images/imginsert.svg';
-import { titleState, tldrState, imageState } from '../Recoil';
+import ImageUploader from '../components/ImageUploader';
 
 function WritingPage() {
-  const [title, setTitle] = useRecoilState<string>(titleState);
-  const [tldr, setTldr] = useRecoilState<string>(tldrState);
-  const [image, setImage] = useRecoilState(imageState);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [title, setTitle] = useState<string>('');
+  const [tldr, setTldr] = useState<string>('');
+  const [writeContents, setWriteContents] = useRecoilState(writeContentsState);
+  const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
+  const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -18,25 +24,22 @@ function WritingPage() {
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTldr(e.target.value);
   };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files;
-    if (fileList && fileList.length > 0) {
-      setImage(fileList[0]);
-    }
-  };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const fileList = e.dataTransfer.files;
-    if (fileList && fileList.length > 0) {
-      setImage(fileList[0]);
-    }
-  };
+  const postData = async () => {
+    const url = 'http://localhost:8080/api/v1/projects';
+    const data = {
+      projectName: title,
+      content: writeContents,
+      description: tldr,
+      techTags: selectedStack,
+      thumbNail: thumbnailUrl,
+    };
 
-  const handleClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+    try {
+      const response = await axios.post(url, data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -73,40 +76,7 @@ function WritingPage() {
             </div>
           </div>
           {/*사진 드롭박스*/}
-          <div className=" w-full bg-[#F9F8F8] sm:w-284">
-            <div
-              className="relative mb-4 flex h-228 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-400"
-              onDrop={handleDrop}
-              onDragOver={(e) => e.preventDefault()}
-              onClick={handleClick}
-            >
-              <input
-                id="image"
-                type="file"
-                className="hidden"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                {image ? (
-                  <img
-                    className="h-full"
-                    src={URL.createObjectURL(image)}
-                    alt="이미지"
-                  />
-                ) : (
-                  <div className="text-center font-ng text-gray-500">
-                    <img
-                      className="ml-9 font-ng"
-                      src={imginsert}
-                      alt="이미지 삽입"
-                    />
-                    프로젝트 메인 이미지
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <ImageUploader />
         </div>
         {/*글쓰기 구역*/}
         <div className="relative z-0 mt-60 sm:mt-2">
@@ -122,7 +92,7 @@ function WritingPage() {
           </button>
           <button
             className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 font-ng text-white hover:bg-blue-700"
-            onClick={() => console.log('저장 버튼 클릭')}
+            onClick={() => postData()}
           >
             저장
           </button>
