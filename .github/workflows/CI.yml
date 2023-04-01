@@ -36,6 +36,8 @@ jobs:
         echo "${{ secrets.TEST_PROPERTIES }}" > ./application.properties
       shell: bash
     
+    - name: Grant Execute Permission For Gradlew
+      run: chmod +x backend/gradlew
     
     - name: Build with Gradle
       run: |
