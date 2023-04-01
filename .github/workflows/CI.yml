@@ -18,11 +18,6 @@ jobs:
       with:
         java-version: 11
         distribution: 'temurin'
-        
-    - name: Build with Gradle
-      run: |
-        cd backend
-        ./gradlew build -x test
   
     - name: Setup MySQL
       uses: samin/mysql-action@v1
@@ -31,6 +26,13 @@ jobs:
         mysql database: 'graphy' 
         mysql user: 'root'
         mysql password: ${{ secrets.TEST_MYSQL_PASSWORD }} 
+
+
+    - name: Build with Gradle
+      run: |
+        cd backend
+        ./gradlew build -x test
+  
     
     - name: Test with Gradle # test application build
       run: |
