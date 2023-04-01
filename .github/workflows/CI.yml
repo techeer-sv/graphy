@@ -23,9 +23,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Change directory to backend
-      run: cd backend/
     - name: Grant execute permission for gradlew
-      run:  chmod +x gradlew
+      run:  chmod +x backend/gradlew
     - name: Build with Gradle
       run: ./gradlew build
