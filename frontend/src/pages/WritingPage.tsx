@@ -17,6 +17,13 @@ function WritingPage() {
   const [contents, setContents] = useRecoilState(contentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
+  useEffect(() => {
+    setTitle('');
+    setTldr('');
+    setContents('');
+    setSelectedStack([]);
+    setThumbnailUrl('');
+  }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
