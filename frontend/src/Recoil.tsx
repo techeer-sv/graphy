@@ -22,7 +22,7 @@ const thumbnailUrlState = atom<string | null>({
 });
 const projectIdState = atom<number>({
   key: 'projectIdState',
-  default: 2,
+  default: 0,
 });
 
 export {

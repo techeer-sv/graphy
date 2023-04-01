@@ -13,6 +13,7 @@ import {
 import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import ImageUploader from '../components/ImageUploader';
+import { useNavigate } from 'react-router-dom';
 
 function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -21,6 +22,7 @@ function ModifyingPage() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const navigate = useNavigate();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -42,10 +44,15 @@ function ModifyingPage() {
     try {
       const response = await axios.put(url, data);
       console.log(response.data);
+      navigate('/read');
     } catch (error) {
       console.error(error);
     }
   };
+
+  function cancelButton() {
+    navigate('/read');
+  }
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center bg-[#F9F8F8] pb-10">
@@ -90,7 +97,7 @@ function ModifyingPage() {
         <div className="mt-20 mb-4 flex justify-end sm:mt-20 lg:mt-12">
           <button
             className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
-            onClick={() => console.log('취소 버튼 클릭')}
+            onClick={() => cancelButton()}
           >
             취소
           </button>

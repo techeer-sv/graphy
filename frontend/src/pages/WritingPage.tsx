@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import {
   contentsState,
+  projectIdState,
   selectedStackState,
   thumbnailUrlState,
+  titleState,
+  tldrState,
 } from '../Recoil';
 
 import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import ImageUploader from '../components/ImageUploader';
+import { useNavigate } from 'react-router-dom';
 
 function WritingPage() {
-  const [title, setTitle] = useState<string>('');
-  const [tldr, setTldr] = useState<string>('');
+  const [title, setTitle] = useRecoilState(titleState);
+  const [tldr, setTldr] = useRecoilState(tldrState);
   const [contents, setContents] = useRecoilState(contentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
+  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const navigate = useNavigate();
+
   useEffect(() => {
     setTitle('');
     setTldr('');
@@ -43,12 +50,18 @@ function WritingPage() {
     };
 
     try {
-      const response = await axios.post(url, data);
-      console.log(response.data);
+      const res = await axios.post(url, data);
+      console.log(res.data);
+      navigate('/read');
+      setProjectId(res.data.data.projectId);
     } catch (error) {
       console.error(error);
     }
   };
+
+  function cancelButton() {
+    navigate('/');
+  }
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center bg-[#F9F8F8] pb-10">
@@ -93,7 +106,7 @@ function WritingPage() {
         <div className="mt-20 mb-4 flex justify-end sm:mt-20 lg:mt-12">
           <button
             className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
-            onClick={() => console.log('취소 버튼 클릭')}
+            onClick={() => cancelButton()}
           >
             취소
           </button>
