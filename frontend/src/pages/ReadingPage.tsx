@@ -2,12 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import { readContentsState } from '../Recoil';
+import axios from 'axios';
 
 function ReadingPage() {
   const [title, setTitle] = useState<string>('제목');
   const [tldr, setTldr] = useState<string>('한 줄 소개');
   const [stacks, setStacks] = useState([]);
   const [readContents, setReadContents] = useRecoilState(readContentsState);
+
+  const projectId = '2';
+
+  const getData = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/api/v1/projects/${projectId}`,
+      );
+      console.log(res.data);
+      setTitle(res.data.data.projectName);
+      setTldr(res.data.data.description);
+      setStacks(res.data.data.techTags);
+      setReadContents(res.data.data.content);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (title) {
@@ -26,6 +44,10 @@ function ReadingPage() {
       setStacks(stacks);
     }
   }, [stacks]);
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="mt-0 flex h-screen w-screen justify-center bg-[#F9F8F8] pb-10">
