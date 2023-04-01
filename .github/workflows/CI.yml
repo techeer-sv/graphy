@@ -20,12 +20,6 @@ jobs:
         distribution: 'temurin'
 
     
-    - name: Build with Gradle
-      run: |
-        cd backend
-        ./gradlew build -x test
-        
-
     - name: Setup MySQL
       uses: samin/mysql-action@v1
       with:
@@ -41,6 +35,12 @@ jobs:
         touch ./application.properties
         echo "${{ secrets.TEST_PROPERTIES }}" > ./application.properties
       shell: bash
+    
+    
+    - name: Build with Gradle
+      run: |
+        cd backend
+        ./gradlew build -x test
         
     
     - name: Test with Gradle # test application build
