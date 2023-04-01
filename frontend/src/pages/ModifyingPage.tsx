@@ -6,6 +6,8 @@ import {
   projectIdState,
   selectedStackState,
   thumbnailUrlState,
+  titleState,
+  tldrState,
 } from '../Recoil';
 
 import QuillEditor from '../components/QuillEditor';
@@ -13,8 +15,8 @@ import TechStackSelection from '../components/TechStackSelection';
 import ImageUploader from '../components/ImageUploader';
 
 function ModifyingPage() {
-  const [title, setTitle] = useState<string>('');
-  const [tldr, setTldr] = useState<string>('');
+  const [title, setTitle] = useRecoilState(titleState);
+  const [tldr, setTldr] = useRecoilState(tldrState);
   const [contents, setContents] = useRecoilState(contentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
