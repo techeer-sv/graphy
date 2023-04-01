@@ -23,6 +23,14 @@ jobs:
       run: |
         cd backend
         ./gradlew build -x test
+  
+    - name: Setup MySQL
+      uses: samin/mysql-action@v1
+      with:
+        character set server: 'utf8' 
+        mysql database: 'graphy' 
+        mysql user: 'root'
+        mysql password: ${{ secrets.TEST_MYSQL_PASSWORD }} 
     
     - name: Test with Gradle # test application build
       run: |
