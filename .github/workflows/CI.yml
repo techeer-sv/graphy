@@ -29,7 +29,21 @@ jobs:
         cd backend
         ./gradlew build -x test
     
-    
+    - name: Setup MySQL
+      uses: samin/mysql-action@v1
+      with:
+        character set server: utf8
+        mysql database: 'graphy'
+        mysql user: 'graphy'
+        mysql password: ${{ secrets.TEST_MYSQL_PASSWORD }}
+        
+        
+    - name: Make properties
+      run: |
+        cd backend/src/main/resources
+        touch ./application.properties
+        echo "${{ secrets.TEST_PROPERTIES }}" > ./application.properties
+      shell: bash
 
     
 
