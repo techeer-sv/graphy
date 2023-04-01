@@ -19,23 +19,35 @@ jobs:
         java-version: 11
         distribution: 'temurin'
 
-
+    
     - name: Build with Gradle
       run: |
         cd backend
         ./gradlew build -x test
+        
 
+    - name: Setup MySQL
+      uses: samin/mysql-action@v1
+      with:
+        character set server: utf8
+        mysql database: 'graphy'
+        mysql user: 'root'
+        mysql password: ${{ secrets.TEST_MYSQL_PASSWORD }}
+        
+        
+    - name: Make properties
+      run: |
+        cd ./src/test/resources
+        touch ./application.properties
+        echo "${{ secrets.TEST_PROPERTIES }}" > ./application.properties
+      shell: bash
         
     
     - name: Test with Gradle # test application build
       run: |
         cd backend
         ./gradlew --info test
-      env:
-        DB_URL: jdbc:mysql://localhost:3306/graphy
-        DB_USERNAME: root
-        DB_PASSWORD: ${{ secrets.TEST_MYSQL_PASSWORD }}
-
+        
 
     - name: Test Results # test 후 result를 보기 위해 추가
       uses: EnricoMi/publish-unit-test-result-action@v1
