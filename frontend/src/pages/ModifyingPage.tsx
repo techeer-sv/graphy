@@ -51,7 +51,7 @@ function ModifyingPage() {
       console.error(error);
     }
   };
-
+  // 취소 버튼 누를시 원래 글 페이지로 이동
   function cancelButton() {
     navigate('/read');
   }

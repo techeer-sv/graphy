@@ -61,7 +61,7 @@ function WritingPage() {
       console.error(error);
     }
   };
-
+  // 취소 버튼 누를시 메인페이지 이동
   function cancelButton() {
     navigate('/');
   }

@@ -28,7 +28,7 @@ function ReadingPage() {
     // react-router-dom을 이용한 글 수정 페이지로 이동 함수
     navigate('/modify');
   }
-  //GET요청 보내고 받은 데이터 변수에 넣어주는 함수
+  //GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
   const getData = async () => {
     try {
       const res = await axios.get(
