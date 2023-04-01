@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import {
   contentsState,
+  projectIdState,
   selectedStackState,
   thumbnailUrlState,
 } from '../Recoil';
@@ -11,12 +12,13 @@ import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import ImageUploader from '../components/ImageUploader';
 
-function WritingPage() {
+function ModifyingPage() {
   const [title, setTitle] = useState<string>('');
   const [tldr, setTldr] = useState<string>('');
   const [contents, setContents] = useRecoilState(contentsState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
+  const [projectId, setProjectId] = useRecoilState(projectIdState);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -25,8 +27,8 @@ function WritingPage() {
     setTldr(e.target.value);
   };
 
-  const postData = async () => {
-    const url = 'http://localhost:8080/api/v1/projects';
+  const putData = async () => {
+    const url = `http://localhost:8080/api/v1/projects/${projectId}`;
     const data = {
       projectName: title,
       content: contents,
@@ -36,7 +38,7 @@ function WritingPage() {
     };
 
     try {
-      const response = await axios.post(url, data);
+      const response = await axios.put(url, data);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -92,9 +94,9 @@ function WritingPage() {
           </button>
           <button
             className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 font-ng text-white hover:bg-blue-700"
-            onClick={() => postData()}
+            onClick={() => putData()}
           >
-            저장
+            수정
           </button>
         </div>
       </div>
@@ -102,4 +104,4 @@ function WritingPage() {
   );
 }
 
-export default WritingPage;
+export default ModifyingPage;

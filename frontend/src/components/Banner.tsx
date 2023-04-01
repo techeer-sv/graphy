@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const Banner = () => {
   return <div className="bg-fuchsia-200"></div>;

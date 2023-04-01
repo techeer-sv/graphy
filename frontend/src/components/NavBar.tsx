@@ -22,8 +22,8 @@ const NavBar = () => {
 
       {/* 프로젝트 작성 버튼 */}
       <button
-        className="invisible sm:ml-1 sm:mr-5 h-0 w-0 sm:h-auto sm:w-auto flex shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue sm:px-4
-      sm:py-1 text-slate-50 sm:visible sm:ml-1"
+        className="invisible flex h-0 w-0 shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue text-slate-50 sm:visible sm:mr-5 sm:ml-1
+      sm:h-auto sm:w-auto sm:px-4 sm:py-1"
       >
         <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
         <span className="font-semibold">프로젝트 공유</span>
@@ -32,9 +32,10 @@ const NavBar = () => {
       {/* 마이페이지 아이콘 */}
       <button className="mr-12">
         <img
-        className="w-[30px] h-[30px] appearance-none fixed top-4 right-4"
-        src={ProfileIcon}
-        alt="" />
+          className="fixed top-4 right-4 h-[30px] w-[30px] appearance-none"
+          src={ProfileIcon}
+          alt=""
+        />
       </button>
     </div>
   );

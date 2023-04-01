@@ -5,7 +5,7 @@ import ReactS3Client from 'react-aws-s3-typescript';
 
 import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/monokai-sublime.css';
-import { writeContentsState } from '../Recoil';
+import { contentsState } from '../Recoil';
 import { useRecoilState } from 'recoil';
 import s3config from '../s3config';
 
@@ -17,7 +17,7 @@ const s3 = new ReactS3Client(s3config);
 
 function QuillEditor() {
   const QuillRef = useRef<ReactQuill>();
-  const [writeContents, setWriteContents] = useRecoilState(writeContentsState);
+  const [contents, setContents] = useRecoilState(contentsState);
 
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
@@ -94,8 +94,8 @@ function QuillEditor() {
           }
         }}
         className=" h-96 font-ng"
-        value={writeContents}
-        onChange={setWriteContents}
+        value={contents}
+        onChange={setContents}
         modules={modules}
         theme="snow"
       />

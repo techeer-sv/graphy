@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
-import { readContentsState } from '../Recoil';
+import {
+  contentsState,
+  selectedStackState,
+  titleState,
+  tldrState,
+  projectIdState,
+} from '../Recoil';
 import axios from 'axios';
 
 function ReadingPage() {
-  const [title, setTitle] = useState<string>('제목');
-  const [tldr, setTldr] = useState<string>('한 줄 소개');
-  const [stacks, setStacks] = useState([]);
-  const [readContents, setReadContents] = useRecoilState(readContentsState);
-
-  const projectId = '2';
+  const [title, setTitle] = useRecoilState(titleState);
+  const [tldr, setTldr] = useRecoilState(tldrState);
+  const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
+  const [contents, setContents] = useRecoilState(contentsState);
+  const [projectId, setProjectId] = useRecoilState(projectIdState);
 
   const getData = async () => {
     try {
@@ -20,8 +25,8 @@ function ReadingPage() {
       console.log(res.data);
       setTitle(res.data.data.projectName);
       setTldr(res.data.data.description);
-      setStacks(res.data.data.techTags);
-      setReadContents(res.data.data.content);
+      setSelectedStack(res.data.data.techTags);
+      setContents(res.data.data.content);
     } catch (error) {
       console.error(error);
     }
@@ -40,10 +45,10 @@ function ReadingPage() {
   }, [tldr]);
 
   useEffect(() => {
-    if (stacks.length !== 0) {
-      setStacks(stacks);
+    if (selectedStack.length !== 0) {
+      setSelectedStack(selectedStack);
     }
-  }, [stacks]);
+  }, [selectedStack]);
 
   useEffect(() => {
     getData();
@@ -63,9 +68,9 @@ function ReadingPage() {
             {/**한줄소개**/}
             <div className="mb-2 font-ng-b text-2xl">{tldr}</div>
             {/**사용기술**/}
-            {stacks.length !== 0 ? (
+            {selectedStack.length !== 0 ? (
               <div className="mb-2 font-ng-b text-2xl sm:mx-auto sm:mr-2">
-                {stacks}
+                {selectedStack}
               </div>
             ) : (
               <div className="mb-2 font-ng-b text-2xl sm:mx-auto sm:mr-2">
