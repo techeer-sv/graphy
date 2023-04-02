@@ -18,8 +18,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |  
-          backend/.gradle/caches
-          backend/.gradle/wrapper
+          ${{ github.workspace }}/backend/.gradle/caches
+          ${{ github.workspace }}/backend/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties') }}
         restore-keys: ${{ runner.os }}-gradle-
         enableCrossOsArchive: false
