@@ -18,11 +18,13 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |  
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-            ${{ runner.os }}-gradle-
+            graphy/backend/.gradle/caches
+            graphy/backend/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle-
+        enableCrossOsArchive: false
+        fail-on-cache-miss: false
+        lookup-only: false
         
         
     - name: Set up JDK 11
