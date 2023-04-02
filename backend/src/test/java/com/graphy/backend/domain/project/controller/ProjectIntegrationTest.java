@@ -72,12 +72,7 @@ class ProjectIntegrationTest {
         projectService.updateProject(savedProject.getId(), dto);
         Project findProject = projectRepository.findById(savedProject.getId()).get();
 
-
-        /**
-         * then
-         * 저장한 Project 인스턴스인 savedProject와
-         * 수정한 Project 인스턴스인 findProject를 비교
-         */
+        //then
         assertThat(findProject.getProjectName()).isEqualTo(savedProject.getProjectName());
         assertThat(findProject.getContent()).isEqualTo(savedProject.getContent());
         assertThat(findProject.getDescription()).isEqualTo(savedProject.getDescription());
