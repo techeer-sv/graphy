@@ -24,9 +24,10 @@ jobs:
     - name: Cache Gradle packages
       uses: gradle/gradle-build-action@v2
       with:
+        project-dir: ./backend
         arguments: build --info
         cache-dir: ~/.gradle/caches/
-        project-dir: ./backend
+        
 
     - name: Setup MySQL
       uses: samin/mysql-action@v1
