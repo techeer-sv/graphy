@@ -64,9 +64,9 @@ jobs:
         ./gradlew test --info
         
 
-    - name: Test Results # test 후 result를 보기 위해 추가
+    - name: Test Results 
       uses: EnricoMi/publish-unit-test-result-action@v1
-      if: ${{ always() }} # test가 실패해도 report를 남기기 위해 설정
+      if: ${{ always() }} 
       with:
         files: backend/build/test-results/**/*.xml
               
