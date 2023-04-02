@@ -1,8 +1,6 @@
 import React from 'react';
 import ProfileIcon from '../assets/GraphyProfile.svg';
 import WriteIcon from '../assets/pencil.svg';
-// import ProfileIcon from '../assets/person-circle.svg';
-// import WriteIcon from '../assets/pencil-square.svg';
 import { useNavigate } from 'react-router';
 import WritingPage from '../pages/WritingPage';
 
@@ -10,7 +8,7 @@ function NavBar() {
   const navigate = useNavigate();
 
   const goToWriting = () => {
-    navigate("/WritingPage");
+    navigate("/Write");
   };
 
   return (

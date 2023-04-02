@@ -1,17 +1,23 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router';
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
 import ProjectCard from '../components/ProjectCard';
-import WriteIcon from '../assets/pencil-square.svg';
+import WriteIcon from '../assets/pencil.svg';
 
 function MainPage()  {
+  const navigate = useNavigate();
+
+  const goToWriting = () => {
+    navigate("/Write");
+  };
+
   return (
     <div className="relative h-screen w-screen bg-gray-50">
       <NavBar />
       <div>
         <Banner />
-        <button
+        <button onClick={goToWriting}
           className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
           bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md
           sm:invisible"
