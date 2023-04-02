@@ -18,8 +18,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |  
-          ${{ github.workspace }}/backend/.gradle/caches
-          ${{ github.workspace }}/backend/.gradle/wrapper
+          backend/.gradle/caches
+          backend/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties') }}
         restore-keys: ${{ runner.os }}-gradle-
         enableCrossOsArchive: false
@@ -38,11 +38,6 @@ jobs:
     - name: Grant Execute Permission For Gradlew
       run: chmod +x backend/gradlew
       
-    
-    - name: Build with Gradle
-      run: |
-        cd backend
-        ./gradlew build -x test
     
     - name: Setup MySQL
       uses: samin/mysql-action@v1
@@ -65,7 +60,7 @@ jobs:
     - name: Test with Gradle # test application build
       run: |
         cd backend
-        ./gradlew test --info
+        ./gradlew build --info
         
 
     - name: Test Results 
