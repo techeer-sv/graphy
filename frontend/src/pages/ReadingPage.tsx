@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import { selectedStackState, titleState, tldrState } from '../Recoil';
+import NavBar from '../components/NavBar';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState<string>(titleState);
@@ -27,9 +28,11 @@ function ReadingPage() {
   }, [setSelectedStack]);
 
   return (
+    <div>
+      <NavBar/>
     <div className="mt-0 flex h-screen w-screen justify-center bg-[#F9F8F8] pb-10">
       {/**전체 컨텐츠 영역**/}
-      <div className="w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
+      <div className="my-14 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/**텍스트 영역**/}
         <div>
           {/**제목**/}
@@ -79,6 +82,7 @@ function ReadingPage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

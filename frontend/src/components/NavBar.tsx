@@ -7,6 +7,10 @@ import WritingPage from '../pages/WritingPage';
 function NavBar() {
   const navigate = useNavigate();
 
+  const goToMain = () => {
+    navigate("/");
+  };
+
   const goToWriting = () => {
     navigate("/Write");
   };
@@ -14,12 +18,12 @@ function NavBar() {
   return (
     <div className="fixed z-20 mb-5 flex w-screen flex-row content-center border-b border-zinc-400 bg-white pt-3 pb-3 align-middle ">
       {/* 로고 */}
-      <button className="ml-10 hidden text-4xl font-bold text-graphyblue sm:block">
+      <button onClick={goToMain} className="ml-10 hidden text-4xl font-bold text-graphyblue sm:block">
         Graphy
       </button>
-      <span className="ml-10 text-4xl font-bold text-graphyblue sm:hidden">
+      <button onClick={goToMain} className="ml-10 text-4xl font-bold text-graphyblue sm:hidden">
         G
-      </span>
+      </button>
 
       {/* 검색창 */}
       <input

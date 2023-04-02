@@ -5,6 +5,7 @@ import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import imginsert from '/src/images/imginsert.svg';
 import { titleState, tldrState, imageState } from '../Recoil';
+import NavBar from '../components/NavBar';
 
 function WritingPage() {
   const [title, setTitle] = useRecoilState<string>(titleState);
@@ -42,10 +43,11 @@ function WritingPage() {
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center bg-[#F9F8F8] pb-10">
+      <NavBar />
       {/*젤 큰 박스*/}
-      <div className="w-11/12 max-w-1100 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
+      <div className="z-10 top-4 w-11/12 max-w-1100 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/*서식 구역*/}
-        <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
+        <div className="top-4 mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
           <div className="mr-2 mt-64 mb-2 w-full overflow-visible sm:mt-0 sm:w-10/12">
             {/*제목 상자*/}
@@ -105,6 +107,7 @@ function WritingPage() {
                   </div>
                 )}
               </div>
+              
             </div>
           </div>
         </div>
