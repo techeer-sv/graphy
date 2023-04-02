@@ -5,7 +5,7 @@ import Banner from '../components/Banner';
 import ProjectCard from '../components/ProjectCard';
 import WriteIcon from '../assets/pencil-square.svg';
 
-const MainPage = () => {
+function MainPage()  {
   return (
     <div className="relative h-screen w-screen bg-gray-50">
       <NavBar />

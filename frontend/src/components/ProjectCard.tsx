@@ -1,12 +1,10 @@
 import React from 'react';
 import project from '../assets/image/project.png';
 
-const ProjectCard = () => {
+function ProjectCard() {
   return (
     <div className="rounded-md drop-shadow-md">
       <div className="flex flex-col justify-center text-center w-[200px] h-[160px] bg-sky-100 rounded-t-lg">
-        {/* <div>우리 학교 동창회 서비스</div>
-        <div>moyora</div> */}
         <img
           className="flex flex-col justify-center text-center w-[200px] h-[160px] bg-sky-100 rounded-t-lg"
           src={project}
@@ -24,7 +22,6 @@ const ProjectCard = () => {
             <span>#Typescript</span>
           </div>
         </div>
-        {/* <div>좋아요/저장하기</div> */}
       </div>
     </div>
   );
