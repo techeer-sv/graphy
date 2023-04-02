@@ -77,7 +77,6 @@ class ProjectIntegrationTest {
         assertThat(findProject.getContent()).isEqualTo(savedProject.getContent());
         assertThat(findProject.getDescription()).isEqualTo(savedProject.getDescription());
     }
-    
 
     @Test
     @DisplayName("프로젝트 생성 테스트")
