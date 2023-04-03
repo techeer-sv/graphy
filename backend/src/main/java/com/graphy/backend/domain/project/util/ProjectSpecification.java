@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ProjectSpecification {
 
-    public static Specification<Project> searchWith(final String content, final String projectName) {
+    public static Specification<Project> searchWith(final String projectName, final String content) {
 
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
