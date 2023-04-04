@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ant_path_matcher
   profiles:
     include: local
