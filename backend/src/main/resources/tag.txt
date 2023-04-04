@@ -1,0 +1,44 @@
+JavaScript
+TypeScript
+React
+Vue
+Svelte
+Nextjs
+Nodejs
+Java
+Spring
+Go
+Nestjs
+Kotlin
+Express
+MySQL
+MongoDB
+Python
+Django
+php
+GraphQL
+Firebase
+Flutter
+Swift
+ReactNative
+Unity
+AWS
+Kubernetes
+Docker
+Android Studio
+FastAPI
+Flask
+Github actions
+Jenkins
+C
+C++
+C#
+Rust
+Julia
+PyTorch
+TensorFlow
+Apache Spark
+Apache Kafka
+Apache Cassandra
+Redis
+Redux
