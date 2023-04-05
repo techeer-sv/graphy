@@ -35,10 +35,6 @@ public class ProjectController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
     }
 
-    /**
-     * A-3) [DELETE] /api/v1/projects/{project_id} 프로젝트 삭제(soft delete)
-     */
-
     @Operation(summary = "deleteProject", description = "프로젝트 삭제(soft delete)")
     @DeleteMapping("/{project_id}")
     public ResponseEntity<ResultResponse> deleteProject(@PathVariable Long project_id) {
@@ -46,10 +42,6 @@ public class ProjectController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_DELETE_SUCCESS));
     }
 
-
-    /**
-     * A-4) [PUT] /api/v1/projects/{project_id} 프로젝트 수정(변경감지)
-     */
 
     @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
     @PutMapping("/{projectId}")
@@ -59,23 +51,17 @@ public class ProjectController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
     }
 
+
     @Operation(summary = "findProjects", description = "프로젝트 조회 \n\n" + "\t⚠️ sort 주의사항 ⚠️\n\n" +
             "\t\t1. sort는 공백(\"\"), id, createdAt, updatedAt, content, description, projectName 중 하나 입력\n\n" +
             "\t\t2. 오름차순이 기본입니다. 내림차순을 원하실 경우 {정렬기준},desc (ex. \"id,desc\")를 입력해주세요 (콤마 사이 띄어쓰기 X)\n\n" +
             "\t\t3. sort의 default(공백 입력) : createdAt(최신순), 내림차순")
-    @GetMapping("")
-    public ResponseEntity<ResultResponse> getProjects(@RequestParam(required = false) String projectName, @RequestParam(required = false) String content,
-                                                      @PageableDefault(sort = {"createdAt"}, direction = Sort.Direction.DESC) Pageable page) {
 
-        List<GetProjectResponse> result;
+    @PostMapping("/search")
+    public ResponseEntity<ResultResponse> getProjects(GetProjectsRequest dto,
+            @PageableDefault(sort = {"createdAt"}, direction = Sort.Direction.DESC) Pageable page) {
 
-        if (projectName != null) {
-            result = projectService.getProjectByName(projectName, page);
-        } else if (content != null) {
-            result = projectService.getProjectByContent(content, page);
-        } else {
-            result = projectService.getProjects(page);
-        }
+        List<GetProjectResponse> result = projectService.getProjects(dto, page);
 
         if (result.size() == 0) throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
 
@@ -83,7 +69,7 @@ public class ProjectController {
     }
 
     @Operation(summary = "findProject", description = "프로젝트 상세 조회")
-    @GetMapping("{projectId}")
+    @GetMapping("/{projectId}")
     public ResponseEntity<ResultResponse> getProject(@PathVariable Long projectId) {
         GetProjectDetailResponse result = projectService.getProjectById(projectId);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));

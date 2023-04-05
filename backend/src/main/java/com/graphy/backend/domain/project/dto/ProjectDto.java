@@ -3,7 +3,6 @@ package com.graphy.backend.domain.project.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,14 +29,16 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CreateProjectResponse {
-        private Long projectId;
+    public static class GetProjectsRequest {
+
+        private String projectName;
+        private String content;
     }
+
 
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor
     public static class UpdateProjectRequest {
         @NotBlank(message = "project name cannot be blank")
         private String projectName;
@@ -47,6 +48,13 @@ public class ProjectDto {
         private String description;
         private List<String> techTags;
         private String thumbNail;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class CreateProjectResponse {
+        private Long projectId;
     }
 
     @Getter

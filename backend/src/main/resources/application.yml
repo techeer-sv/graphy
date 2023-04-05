@@ -18,9 +18,6 @@ spring:
         format_sql: true
     defer-datasource-initialization: true
 
-  sql:
-    init:
-      mode: never
 
 # swaggerDOC
 springdoc:

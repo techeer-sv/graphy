@@ -7,16 +7,23 @@ import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
+import com.graphy.backend.domain.project.util.ProjectSpecification;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +38,21 @@ public class ProjectService {
 
     private final ProjectMapper mapper;
 
+
+    @PostConstruct
+    public void initTag() throws IOException {
+
+        ClassPathResource resource = new ClassPathResource("tag.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+
+        String s;
+        while ((s = br.readLine()) != null){
+            Tag tag = Tag.builder().tech(s).build();
+            tagRepository.save(tag);
+
+        }
+        br.close();
+    }
 
     public CreateProjectResponse createProject(CreateProjectRequest dto) {
         Tags foundTags = getTagsWithName(dto.getTechTags());
@@ -60,17 +82,6 @@ public class ProjectService {
         return mapper.toUpdateProjectDto(project);
     }
 
-    public List<GetProjectResponse> getProjectByName(String projectName, Pageable pageable) {
-
-        Page<Project> projects = projectRepository.findByProjectNameContaining(projectName, pageable);
-        return mapper.toDtoList(projects).getContent();
-    }
-
-    public List<GetProjectResponse> getProjectByContent(String content, Pageable pageable) {
-        Page<Project> projects = projectRepository.findByContentContaining(content, pageable);
-        return mapper.toDtoList(projects).getContent();
-    }
-
     public List<GetProjectResponse> getProjects(Pageable pageable) {
 
         Page<Project> projects = projectRepository.findAll(pageable);
@@ -86,5 +97,15 @@ public class ProjectService {
         List<Tag> foundTags =  techStacks.stream().map(tagRepository::findTagByTech)
                 .collect(Collectors.toList());
         return new Tags(foundTags);
+    }
+
+    public List<GetProjectResponse> getProjects(GetProjectsRequest dto, Pageable pageable) {
+        if (dto == null) {
+            return getProjects(pageable);
+        }
+
+        Specification projectSpecification = ProjectSpecification.searchWith(dto.getProjectName(), dto.getContent());
+        Page<Project> projects = projectRepository.findAll(projectSpecification, pageable);
+        return mapper.toDtoList(projects).getContent();
     }
 }
