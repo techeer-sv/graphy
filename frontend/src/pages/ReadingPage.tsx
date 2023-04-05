@@ -10,6 +10,7 @@ import {
 } from '../Recoil';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/NavBar';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -79,9 +80,10 @@ function ReadingPage() {
   }, []);
 
   return (
-    <div className="mt-0 flex h-screen w-screen justify-center bg-[#F9F8F8] pb-10">
+    <div className="mt-0 flex h-auto w-screen justify-center overflow-y-auto overflow-x-hidden bg-[#F9F8F8] pb-10">
+      <NavBar />
       {/**전체 컨텐츠 영역**/}
-      <div className="w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
+      <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/**텍스트 영역**/}
         <div>
           {/**제목**/}

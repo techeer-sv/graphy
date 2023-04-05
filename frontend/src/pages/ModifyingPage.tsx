@@ -14,6 +14,7 @@ import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import ImageUploader from '../components/ImageUploader';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/NavBar';
 
 function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -58,8 +59,9 @@ function ModifyingPage() {
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center bg-[#F9F8F8] pb-10">
+      <NavBar />
       {/*젤 큰 박스*/}
-      <div className="w-11/12 max-w-1100 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
+      <div className="mt-16 w-11/12 max-w-1100 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/*서식 구역*/}
         <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
@@ -84,7 +86,7 @@ function ModifyingPage() {
               onChange={handleTldrChange}
             />
             {/*사용 기술 상자*/}
-            <div className="relative z-50 h-110 w-full bg-[#F9F8F8] font-ng">
+            <div className="relative z-10 h-110 w-full bg-[#F9F8F8] font-ng">
               <TechStackSelection />
             </div>
           </div>
