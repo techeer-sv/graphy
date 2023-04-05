@@ -5,19 +5,21 @@ import ReactS3Client from 'react-aws-s3-typescript';
 
 import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/monokai-sublime.css';
-import { writeContentsState } from '../Recoil';
+import { contentsState } from '../Recoil';
 import { useRecoilState } from 'recoil';
 import s3config from '../s3config';
 
+//코드 하이라이트 설정
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
 });
 
+//s3 변수 선언
 const s3 = new ReactS3Client(s3config);
 
 function QuillEditor() {
   const QuillRef = useRef<ReactQuill>();
-  const [writeContents, setWriteContents] = useRecoilState(writeContentsState);
+  const [contents, setContents] = useRecoilState(contentsState);
 
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
@@ -72,7 +74,6 @@ function QuillEditor() {
             { list: 'bullet' },
             { indent: '-1' },
             { indent: '+1' },
-            { align: [] },
             'link',
           ],
           ['image', 'video'],
@@ -93,9 +94,9 @@ function QuillEditor() {
             QuillRef.current = element;
           }
         }}
-        className=" h-96 font-ng"
-        value={writeContents}
-        onChange={setWriteContents}
+        className=" font-ng"
+        value={contents}
+        onChange={setContents}
         modules={modules}
         theme="snow"
       />

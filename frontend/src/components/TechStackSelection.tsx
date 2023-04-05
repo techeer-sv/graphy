@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { selectedStackState } from '../Recoil';
-
-const allStacks = [
-  'React',
-  'Vue',
-  'Angular',
-  'Node.js',
-  'Express',
-  'MongoDB',
-  'PostgreSQL',
-];
+import AllStacks from '../Stack';
 
 function TechStackSelection() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
@@ -18,13 +9,14 @@ function TechStackSelection() {
   // 검색어와 검색어 변경 이벤트 처리를 위한 상태 및 함수
   const [searchText, setSearchText] = useState('');
 
+  //검색 글 변경 함수
   const handleSearchTextChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSearchText(event.target.value);
   };
 
-  // 기존에 선택된 기술 스택 삭제 함수
+  // 기존 선택 기술 스택 삭제 함수
   const handleDeleteStack = (stack: string) => {
     setSelectedStack(selectedStack.filter((s) => s !== stack));
   };
@@ -36,6 +28,8 @@ function TechStackSelection() {
     }
   };
 
+  const allStacks = AllStacks.map((x) => x.name);
+
   // 검색어에 따른 기술 스택 필터링
   const filteredStacks =
     searchText !== ''
@@ -46,7 +40,7 @@ function TechStackSelection() {
 
   return (
     <div>
-      <div className="focus:shadow-outline m-0 mb-2.5 flex h-49 w-full shrink-0 appearance-none flex-row overflow-x-auto overflow-y-hidden rounded border bg-[#F9F8F8] px-3 font-ng leading-tight text-gray-700 shadow focus:outline-none sm:h-49">
+      <div className="focus:shadow-outline m-0 mb-2.5 flex h-49 w-full shrink-0 appearance-none flex-row overflow-x-hidden overflow-y-hidden rounded border bg-[#F9F8F8] px-3 font-ng leading-tight text-gray-700 shadow hover:overflow-x-auto focus:outline-none sm:h-49">
         <div className="pointer-events-none flex-none border-r pt-3 pr-3">
           사용 기술{' '}
         </div>

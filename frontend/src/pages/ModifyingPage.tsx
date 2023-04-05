@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import {
@@ -16,7 +16,7 @@ import ImageUploader from '../components/ImageUploader';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 
-function WritingPage() {
+function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);
   const [tldr, setTldr] = useRecoilState(tldrState);
   const [contents, setContents] = useRecoilState(contentsState);
@@ -24,15 +24,6 @@ function WritingPage() {
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const [projectId, setProjectId] = useRecoilState(projectIdState);
   const navigate = useNavigate();
-
-  //글쓰기 페이지 렌더링 시 변수 초기화
-  useEffect(() => {
-    setTitle('');
-    setTldr('');
-    setContents('');
-    setSelectedStack([]);
-    setThumbnailUrl('');
-  }, []);
 
   //제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,9 +33,9 @@ function WritingPage() {
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTldr(e.target.value);
   };
-  //POST요청 보내서 데이터 전송하는 함수
-  const postData = async () => {
-    const url = 'http://localhost:8080/api/v1/projects';
+  //PUT요청 보내서 데이터 수정하는 함수
+  const putData = async () => {
+    const url = `http://localhost:8080/api/v1/projects/${projectId}`;
     const data = {
       projectName: title,
       content: contents,
@@ -54,24 +45,23 @@ function WritingPage() {
     };
 
     try {
-      const res = await axios.post(url, data);
-      console.log(res.data);
+      const response = await axios.put(url, data);
+      console.log(response.data);
       navigate('/read');
-      setProjectId(res.data.data.projectId);
     } catch (error) {
       console.error(error);
     }
   };
-  // 취소 버튼 누를시 메인페이지 이동
+  // 취소 버튼 누를시 원래 글 페이지로 이동
   function cancelButton() {
-    navigate('/');
+    navigate('/read');
   }
 
   return (
-    <div className="mt-0 flex h-auto w-screen justify-center overflow-hidden bg-[#F9F8F8] pb-10">
+    <div className="mt-0 flex h-auto w-screen justify-center bg-[#F9F8F8] pb-10">
       <NavBar />
       {/*젤 큰 박스*/}
-      <div className="mt-16 w-11/12 max-w-1100 overflow-auto border border-black px-2 sm:flex sm:h-5/6  sm:flex-col">
+      <div className="mt-16 w-11/12 max-w-1100 border border-black px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/*서식 구역*/}
         <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
@@ -117,9 +107,9 @@ function WritingPage() {
           </button>
           <button
             className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 font-ng text-white hover:bg-blue-700"
-            onClick={() => postData()}
+            onClick={() => putData()}
           >
-            저장
+            수정
           </button>
         </div>
       </div>
@@ -127,4 +117,4 @@ function WritingPage() {
   );
 }
 
-export default WritingPage;
+export default ModifyingPage;
