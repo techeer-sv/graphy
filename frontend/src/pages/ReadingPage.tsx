@@ -97,27 +97,28 @@ function ReadingPage() {
           <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
           </div>
-          <div></div>
-          <div className="flex flex-row">
-            <div className=" mb-2 mr-2 shrink-0 font-ng-b text-xl text-zinc-500">
+          <div className="mb-2 flex flex-row overflow-hidden hover:overflow-x-auto">
+            <div className=" mb-2 mr-3 shrink-0 font-ng-b text-2xl text-zinc-500 ">
               한줄 소개
             </div>
             {/**한줄소개**/}
-            <div className="mb-2 font-ng-b text-xl">{tldr}</div>
+            <div className="mb-2 font-ng-b text-2xl">{tldr}</div>
           </div>
           {/**사용기술**/}
           {selectedStack.length !== 0 ? (
-            <div className="flex flex-row items-center">
-              <div className=" mb-2 mr-2 shrink-0 font-ng-b text-xl text-zinc-500">
+            <div className="flex flex-row items-center overflow-hidden hover:overflow-x-auto">
+              <div className=" mb-2 mr-3 shrink-0 font-ng-b text-2xl text-zinc-500">
                 기술 스택
               </div>
               <>
                 {selectedStack.map((x: string) => (
-                  <img
-                    className=" mr-2 mb-2 h-8 w-8"
-                    src={findimg(x)}
+                  <div
                     key={x}
-                  />
+                    className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border py-1 pr-3"
+                  >
+                    <img className="mx-3 my-1 h-8 w-8" src={findimg(x)} />
+                    <p className="shrink-0 font-ng-b">{x}</p>
+                  </div>
                 ))}
               </>
             </div>
