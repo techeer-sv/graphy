@@ -3,9 +3,9 @@ import Apache_cassandra from './assets/image/stacklogo/Apache_cassandra.svg';
 import Apache_kafka from './assets/image/stacklogo/Apache_kafka.svg';
 import Apache_spark from './assets/image/stacklogo/Apache_spark.svg';
 import Aws from './assets/image/stacklogo/AWS.svg';
-import Clang from './assets/image/stacklogo/C.svg';
-import Cpp from './assets/image/stacklogo/C++.svg';
-import CSharp from './assets/image/stacklogo/C#.svg';
+import Clang from './assets/image/stacklogo/Clang.svg';
+import Cpp from './assets/image/stacklogo/Cpp.svg';
+import CSharp from './assets/image/stacklogo/CSharp.svg';
 import Django from './assets/image/stacklogo/Django.svg';
 import Docker from './assets/image/stacklogo/Docker.svg';
 import Express from './assets/image/stacklogo/Express.svg';
@@ -42,7 +42,7 @@ import TypeScript from './assets/image/stacklogo/TypeScript.svg';
 import Unity from './assets/image/stacklogo/Unity.svg';
 import Vue from './assets/image/stacklogo/Vue.svg';
 
-class Stack {
+class AllStack {
   name: string;
   image: string;
   constructor(name: string, image: string) {
@@ -51,48 +51,50 @@ class Stack {
   }
 }
 
-const android_studio = new Stack('Android Studio', Android_studio);
-const apache_cassandra = new Stack('Apache Cassandra', Apache_cassandra);
-const apache_kafka = new Stack('Apache Kafka', Apache_kafka);
-const apache_spark = new Stack('Apache Spark', Apache_spark);
-const aws = new Stack('AWS', Aws);
-const clang = new Stack('C', Clang);
-const cpp = new Stack('C++', Cpp);
-const csharp = new Stack('C#', CSharp);
-const django = new Stack('Django', Django);
-const docker = new Stack('Docker', Docker);
-const express = new Stack('Express', Express);
-const fastapi = new Stack('FastAPI', Fastapi);
-const firebase = new Stack('Firebase', Firebase);
-const flask = new Stack('Flask', Flask);
-const flutter = new Stack('Flutter', Flutter);
-const github_actions = new Stack('Github actions', Github_actions);
-const go = new Stack('Go', Go);
-const graphql = new Stack('GraphQL', GraphQL);
-const java = new Stack('Java', Java);
-const jenkins = new Stack('Jenkins', Jenkins);
-const julia = new Stack('Julia', Julia);
-const kotlin = new Stack('Kotlin', Kotlin);
-const kubernetes = new Stack('Kubernetes', Kubernetes);
-const mongodb = new Stack('MongoDB', Mongodb);
-const mysql = new Stack('MYSQL', Mysql);
-const nextjs = new Stack('Nextjs', Nextjs);
-const nodejs = new Stack('Nodejs', Nodejs);
-const nestjs = new Stack('Nestjs', Nestjs);
-const php = new Stack('php', Php);
-const python = new Stack('Python', Python);
-const pytorch = new Stack('PyTorch', PyTorch);
-const react = new Stack('React', React);
-const react_native = new Stack('ReactNative', React_native);
-const redux = new Stack('Redux', Redux);
-const redis = new Stack('Redis', Redis);
-const rust = new Stack('Rust', Rust);
-const spring = new Stack('Spring', Spring);
-const svelte = new Stack('Svelte', Svelte);
-const swift = new Stack('Swift', Swift);
-const tensorflow = new Stack('TensorFlow', TensorFlow);
-const typescript = new Stack('TypeScript', TypeScript);
-const unity = new Stack('Unity', Unity);
-const vue = new Stack('Vue', Vue);
+const AllStacks = [
+  new AllStack('Android Studio', Android_studio),
+  new AllStack('Apache Cassandra', Apache_cassandra),
+  new AllStack('Apache Kafka', Apache_kafka),
+  new AllStack('Apache Spark', Apache_spark),
+  new AllStack('AWS', Aws),
+  new AllStack('C', Clang),
+  new AllStack('C++', Cpp),
+  new AllStack('C#', CSharp),
+  new AllStack('Django', Django),
+  new AllStack('Docker', Docker),
+  new AllStack('Express', Express),
+  new AllStack('FastAPI', Fastapi),
+  new AllStack('Firebase', Firebase),
+  new AllStack('Flask', Flask),
+  new AllStack('Flutter', Flutter),
+  new AllStack('Github actions', Github_actions),
+  new AllStack('Go', Go),
+  new AllStack('GraphQL', GraphQL),
+  new AllStack('Java', Java),
+  new AllStack('Jenkins', Jenkins),
+  new AllStack('Julia', Julia),
+  new AllStack('Kotlin', Kotlin),
+  new AllStack('Kubernetes', Kubernetes),
+  new AllStack('MongoDB', Mongodb),
+  new AllStack('MYSQL', Mysql),
+  new AllStack('Nextjs', Nextjs),
+  new AllStack('Nodejs', Nodejs),
+  new AllStack('Nestjs', Nestjs),
+  new AllStack('php', Php),
+  new AllStack('Python', Python),
+  new AllStack('PyTorch', PyTorch),
+  new AllStack('React', React),
+  new AllStack('ReactNative', React_native),
+  new AllStack('Redux', Redux),
+  new AllStack('Redis', Redis),
+  new AllStack('Rust', Rust),
+  new AllStack('Spring', Spring),
+  new AllStack('Svelte', Svelte),
+  new AllStack('Swift', Swift),
+  new AllStack('TensorFlow', TensorFlow),
+  new AllStack('TypeScript', TypeScript),
+  new AllStack('Unity', Unity),
+  new AllStack('Vue', Vue),
+];
 
-export default Stack;
+export default AllStacks;

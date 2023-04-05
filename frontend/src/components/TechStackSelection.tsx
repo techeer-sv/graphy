@@ -1,54 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { selectedStackState } from '../Recoil';
-
-//스택 종류 선언
-const allStacks = [
-  'JavaScript',
-  'TypeScript',
-  'React',
-  'Vue',
-  'Svelte',
-  'Nextjs',
-  'Nodejs',
-  'Java',
-  'Spring',
-  'Go',
-  'Nestjs',
-  'Kotlin',
-  'Express',
-  'MySQL',
-  'MongoDB',
-  'Python',
-  'Django',
-  'php',
-  'GraphQL',
-  'Firebase',
-  'Flutter',
-  'Swift',
-  'ReactNative',
-  'Unity',
-  'AWS',
-  'Kubernetes',
-  'Docker',
-  'Android Studio',
-  'FastAPI',
-  'Flask',
-  'Github actions',
-  'Jenkins',
-  'C',
-  'C++',
-  'C#',
-  'Rust',
-  'Julia',
-  'PyTorch',
-  'TensorFlow',
-  'Apache Spark',
-  'Apache Kafka',
-  'Apache Cassandra',
-  'Redis',
-  'Redux',
-];
+import AllStacks from '../Stack';
 
 function TechStackSelection() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
@@ -74,6 +27,8 @@ function TechStackSelection() {
       setSelectedStack([...selectedStack, stack]);
     }
   };
+
+  const allStacks = AllStacks.map((x) => x.name);
 
   // 검색어에 따른 기술 스택 필터링
   const filteredStacks =

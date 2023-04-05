@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import AllStacks from '../Stack';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -79,31 +80,55 @@ function ReadingPage() {
     getData();
   }, []);
 
+  //이미지 찾는 함수
+  function findimg(s: string) {
+    return AllStacks[AllStacks.map((x) => x.name).findIndex((x) => x == s)]
+      .image;
+  }
+
   return (
     <div className="mt-0 flex h-auto w-screen justify-center overflow-y-auto overflow-x-hidden bg-[#F9F8F8] pb-10">
       <NavBar />
       {/**전체 컨텐츠 영역**/}
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/**텍스트 영역**/}
-        <div>
+        <div className="h-auto border-b border-black">
           {/**제목**/}
           <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
           </div>
-          <div className="flex flex-col border-b border-black sm:flex-row">
+          <div></div>
+          <div className="flex flex-row">
+            <div className=" mb-2 mr-2 shrink-0 font-ng-b text-xl text-zinc-500">
+              한줄 소개
+            </div>
             {/**한줄소개**/}
-            <div className="mb-2 font-ng-b text-2xl">{tldr}</div>
-            {/**사용기술**/}
-            {selectedStack.length !== 0 ? (
-              <div className="mb-2 font-ng-b text-2xl sm:mx-auto sm:mr-2">
-                {selectedStack}
-              </div>
-            ) : (
-              <div className="mb-2 font-ng-b text-2xl sm:mx-auto sm:mr-2">
-                사용 기술
-              </div>
-            )}
+            <div className="mb-2 font-ng-b text-xl">{tldr}</div>
           </div>
+          {/**사용기술**/}
+          {selectedStack.length !== 0 ? (
+            <div className="flex flex-row items-center">
+              <div className=" mb-2 mr-2 shrink-0 font-ng-b text-xl text-zinc-500">
+                기술 스택
+              </div>
+              <>
+                {selectedStack.map((x: string) => (
+                  <img
+                    className=" mr-2 mb-2 h-8 w-8"
+                    src={findimg(x)}
+                    key={x}
+                  />
+                ))}
+              </>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row">
+              <div className=" mb-2 mr-2 font-ng-b text-xl text-zinc-500">
+                기술 스택
+              </div>
+              <div className="mb-2  font-ng-b text-xl">사용 기술</div>
+            </div>
+          )}
         </div>
         {/**글 영역**/}
         <div>
