@@ -25,6 +25,17 @@ services:
     environment:
       WAIT_HOSTS: mysql:3306
 
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - springboot
+      
   # frontend:
   #   build: ./frontend
   #   image: frontend:latest
