@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "CommentController", description = "댓글 관련 API")
 @RestController
 @RequestMapping("api/v1/comments")
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class CommentController {
 
-    @GetMapping
-    public String test() {
-        return "Hello world!";
-    }
 }
