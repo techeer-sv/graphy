@@ -1,13 +1,11 @@
 package com.graphy.backend.global.error.exception;
 
 import com.graphy.backend.global.error.ErrorCode;
-import lombok.Getter;
 
-@Getter
-public class BusinessException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
     private final ErrorCode errorCode;
 
-    public BusinessException(ErrorCode errorCode) {
+    public BadRequestException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }

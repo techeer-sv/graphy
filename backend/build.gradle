@@ -64,9 +64,12 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
-
     //swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
+
+    // annotation
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 
 }
 
