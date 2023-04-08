@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        graphybg: '#F9F8F8',
         graphyblue: '#505F9A',
       },
       width: {

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
+import NavBar from '../components/NavBar';
+import Reply from '../components/Reply';
 import {
   contentsState,
   selectedStackState,
@@ -10,7 +12,6 @@ import {
 } from '../Recoil';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import NavBar from '../components/NavBar';
 import AllStacks from '../Stack';
 
 function ReadingPage() {
@@ -87,12 +88,12 @@ function ReadingPage() {
   }
 
   return (
-    <div className="mt-0 flex h-auto w-screen justify-center overflow-y-auto overflow-x-hidden bg-[#F9F8F8] pb-10">
+    <div className="mt-0 flex h-screen w-screen justify-center overflow-y-auto overflow-x-hidden bg-graphybg pb-10">
       <NavBar />
       {/**전체 컨텐츠 영역**/}
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/**텍스트 영역**/}
-        <div className="h-auto border-b border-black">
+        <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/**제목**/}
           <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
@@ -107,7 +108,7 @@ function ReadingPage() {
           {/**사용기술**/}
           {selectedStack.length !== 0 ? (
             <div className="flex flex-row items-center overflow-hidden hover:overflow-x-auto">
-              <div className=" mb-2 mr-3 shrink-0 font-ng-b text-2xl text-zinc-500">
+              <div className="mb-2 mr-3 shrink-0 font-ng-b text-2xl text-zinc-500">
                 기술 스택
               </div>
               <>
@@ -124,40 +125,37 @@ function ReadingPage() {
             </div>
           ) : (
             <div className="flex flex-col sm:flex-row">
-              <div className=" mb-2 mr-2 font-ng-b text-xl text-zinc-500">
+              <div className="mb-2 mr-2 font-ng-b text-xl text-zinc-500">
                 기술 스택
               </div>
-              <div className="mb-2  font-ng-b text-xl">사용 기술</div>
+              <div className="mb-2 font-ng-b text-xl">사용 기술</div>
             </div>
           )}
         </div>
         {/**글 영역**/}
-        <div>
-          <QuillWrtten />
-        </div>
+        <QuillWrtten />
         {/**버튼 영역**/}
-        <div>
-          <div className="mt-20 mb-4 flex justify-end sm:mt-20 lg:mt-12">
-            <button
-              className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
-              onClick={() => toModify()}
-            >
-              수정
-            </button>
-            <button
-              className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
-              onClick={() => deleteData()}
-            >
-              삭제
-            </button>
-            <button
-              className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-blue-500 font-ng text-white hover:bg-blue-700"
-              onClick={() => toWrite()}
-            >
-              글작성
-            </button>
-          </div>
+        <div className="mt-20 mb-4 flex justify-end pb-4 sm:mt-20 lg:mt-12">
+          <button
+            className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
+            onClick={() => toModify()}
+          >
+            수정
+          </button>
+          <button
+            className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
+            onClick={() => deleteData()}
+          >
+            삭제
+          </button>
+          <button
+            className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-graphyblue font-ng text-white hover:bg-blue-800"
+            onClick={() => toWrite()}
+          >
+            글작성
+          </button>
         </div>
+        <Reply />
       </div>
     </div>
   );
