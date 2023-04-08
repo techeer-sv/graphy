@@ -3,16 +3,19 @@ package com.graphy.backend.domain.comment.domain;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
+
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Table(name = "Comment")
 @Entity
-@Builder
 public class Comment extends BaseEntity {
 
     @Id
@@ -23,7 +26,21 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> childList = new ArrayList<>();
+
+    @Builder
+    public Comment(String content, Project project, Comment parent) {
+        this.content = content;
+        this.project = project;
+        this.parent = parent;
+    }
 }
