@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import nested_reply from '../assets/nested_reply.svg';
-import reply_icon from '../assets/reply_icon.svg';
+import nested_reply from '../assets/image/nested_reply.svg';
+import reply_icon from '../assets/image/reply_icon.svg';
 
 function Reply() {
   const [count, SetCount] = useState(0);

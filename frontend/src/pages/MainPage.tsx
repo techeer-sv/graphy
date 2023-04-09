@@ -1,9 +1,7 @@
-import React from 'react';
-
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
 import ProjectCard from '../components/ProjectCard';
-import WriteIcon from '../assets/pencil-square.svg';
+import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {

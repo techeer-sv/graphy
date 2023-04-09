@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileIcon from '../assets/person-circle.svg';
-import WriteIcon from '../assets/pencil-square.svg';
+import ProfileIcon from '../assets/image/person-circle.svg';
+import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router';
 
 const NavBar = () => {

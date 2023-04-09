@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import NavBar from '../components/NavBar';

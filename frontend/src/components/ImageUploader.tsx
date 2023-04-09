@@ -4,7 +4,7 @@ import ReactS3Client from 'react-aws-s3-typescript';
 import { thumbnailUrlState } from '../Recoil';
 import s3config from '../s3config';
 
-import imginsert from '../assets/imginsert.svg';
+import imginsert from '../assets/image/imginsert.svg';
 
 //s3 변수 선언
 const s3 = new ReactS3Client(s3config);
