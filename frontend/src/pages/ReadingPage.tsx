@@ -128,7 +128,7 @@ function ReadingPage() {
               <div className="mb-2 mr-2 font-ng-b text-xl text-zinc-500">
                 기술 스택
               </div>
-              <div className="mb-2 font-ng-b text-xl">사용 기술</div>
+              <div className="mb-2 font-ng-b text-xl">로딩중</div>
             </div>
           )}
         </div>
