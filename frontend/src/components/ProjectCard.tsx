@@ -1,7 +1,8 @@
 import React from 'react';
 import project from '../assets/image/project.png';
 
-function ProjectCard() {
+function ProjectCard(items:any) {
+  console.log(items.items.projectName);
   return (
     <div className="rounded-md drop-shadow-md">
       <div className="flex h-[160px] w-[200px] flex-col justify-center rounded-t-lg bg-sky-100 text-center">
@@ -16,12 +17,10 @@ function ProjectCard() {
 
       <div className="flex h-[90px] w-[200px] justify-center rounded-b-lg bg-stone-50">
         <div className="grow">
-          <h1 className="font-ng-eb text-lg">Title</h1>
-          <p className="font-ng-b">explain</p>
+          <h1 className="font-ng-eb text-lg">{items.items.projectName}</h1>
+          <p className="font-ng-b">{items.items.description}</p>
           <div className="font-ng">
-            <span>#Spring</span>
-            <span>#React</span>
-            <span>#Typescript</span>
+          {items.items.techTags.map((x:string, y:number)=> <span key={y} >{x}</span>)}
           </div>
         </div>
       </div>

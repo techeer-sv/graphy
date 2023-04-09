@@ -158,7 +158,6 @@ function ReadingPage() {
         <Reply />
       </div>
     </div>
-    </div>
   );
 }
 
