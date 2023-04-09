@@ -1,10 +1,13 @@
 package com.graphy.backend.domain.project.dto;
 
+import com.graphy.backend.domain.comment.dto.CommentDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
 public class ProjectDto {
 
@@ -92,7 +95,7 @@ public class ProjectDto {
         private String content;
         private String description;
         private String thumbNail;
-
+        private List<GetCommentsResponse> commentsList;
         private LocalDateTime createdAt;
         private List<String> techTags;
     }
