@@ -1,30 +1,53 @@
-import { atom, RecoilRoot } from 'recoil';
+import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
-const titleState = atom({
+const { persistAtom } = recoilPersist();
+
+const titleState = atom<string>({
   key: 'titleState',
-  default: '제목',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
 });
-const tldrState = atom({
+const tldrState = atom<string>({
   key: 'tldrState',
-  default: '한 줄 소개',
-});
-const imageState = atom<File | null>({
-  key: 'imageState',
-  default: null,
+  default: '',
+  effects_UNSTABLE: [persistAtom],
 });
 const selectedStackState = atom<string[]>({
   key: 'selectedStackState',
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
-const quillContentsState = atom({
-  key: 'quillContentsState',
+const contentsState = atom({
+  key: 'contentsState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+const thumbnailUrlState = atom<string | null>({
+  key: 'thumbnailUrlState',
+  default: null,
+});
+const projectIdState = atom<number>({
+  key: 'projectIdState',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+const replyState = atom({
+  key: 'replyState',
+  default: '',
+});
+const reReplyState = atom({
+  key: 'reReplyState',
   default: '',
 });
 
 export {
   titleState,
   tldrState,
-  imageState,
   selectedStackState,
-  quillContentsState,
+  contentsState,
+  thumbnailUrlState,
+  projectIdState,
+  replyState,
+  reReplyState,
 };

@@ -18,13 +18,9 @@ spring:
         format_sql: true
     defer-datasource-initialization: true
 
-  sql:
-    init:
-      mode: never
 
 # swaggerDOC
 springdoc:
   swagger-ui:
     version: v1.0
   packages-to-scan: com.graphy.backend
-

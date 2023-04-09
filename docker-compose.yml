@@ -12,7 +12,7 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_USER_PASSWORD}
       TZ: Asia/Seoul
-      
+
   springboot:
     container_name: springboot
     build:
@@ -25,8 +25,23 @@ services:
     environment:
       WAIT_HOSTS: mysql:3306
 
-  # frontend:
-  #   build: ./frontend
-  #   image: frontend:latest
-  #   ports:
-  #     - "3000:3000"
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - springboot
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: frontend
+
+    ports:
+      - "3000:3000"
