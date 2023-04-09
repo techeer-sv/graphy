@@ -1,9 +1,7 @@
-import React from 'react';
-
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
 import ProjectCard from '../components/ProjectCard';
-import WriteIcon from '../assets/pencil-square.svg';
+import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
@@ -27,7 +25,7 @@ const MainPage = () => {
           <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
-        <div className="ml-10 mb-5 pt-20 text-2xl font-medium">All</div>
+        <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
         <div className="ml-8 flex w-11/12 flex-wrap justify-center gap-10">
           <ProjectCard />
           <ProjectCard />

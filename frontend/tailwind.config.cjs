@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        graphybg: '#F9F8F8',
         graphyblue: '#505F9A',
       },
       width: {
@@ -24,6 +25,7 @@ module.exports = {
         96: '24rem',
       },
       fontFamily: {
+        sans: ['NanumGothic', 'Arial', 'sans-serif'],
         ng: ['NanumGothic', 'sans-serif'],
         'ng-b': ['NanumGothicBold', 'sans-serif'],
         'ng-eb': ['NanumGothicExtraBold', 'sans-serif'],

@@ -12,7 +12,7 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_USER_PASSWORD}
       TZ: Asia/Seoul
-      
+
   springboot:
     container_name: springboot
     build:
@@ -35,9 +35,13 @@ services:
     restart: always
     depends_on:
       - springboot
-      
-  # frontend:
-  #   build: ./frontend
-  #   image: frontend:latest
-  #   ports:
-  #     - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: frontend
+
+    ports:
+      - "3000:3000"

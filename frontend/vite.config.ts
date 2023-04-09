@@ -1,12 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
+import fs from 'fs';
 
 export default () => {
-  // production 환경일 경우 .env.production 파일을 로드합니다.
-  const env = dotenv.config({
-    path: '../.env',
-  }).parsed;
+  let env = {};
+
+  try {
+    // .env 파일이 있을 경우에만 로드합니다.
+    if (fs.existsSync('../.env')) {
+      env = dotenv.config({
+        path: '../.env',
+      }).parsed;
+    }
+  } catch (err) {
+    console.error(err);
+  }
 
   return defineConfig({
     // Vite config 설정
@@ -24,5 +33,3 @@ export default () => {
     },
   });
 };
-
-// https://vitejs.dev/config/

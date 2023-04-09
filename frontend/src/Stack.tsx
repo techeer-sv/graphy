@@ -17,6 +17,7 @@ import Github_actions from './assets/image/stacklogo/Github_actions.svg';
 import Go from './assets/image/stacklogo/Go.svg';
 import GraphQL from './assets/image/stacklogo/GraphQL.svg';
 import Java from './assets/image/stacklogo/Java.svg';
+import Javascript from './assets/image/stacklogo/Javascript.svg';
 import Jenkins from './assets/image/stacklogo/Jenkins.svg';
 import Julia from './assets/image/stacklogo/Julia.svg';
 import Kotlin from './assets/image/stacklogo/Kotlin.svg';
@@ -37,8 +38,8 @@ import Rust from './assets/image/stacklogo/Rust.svg';
 import Spring from './assets/image/stacklogo/Spring.svg';
 import Svelte from './assets/image/stacklogo/Svelte.svg';
 import Swift from './assets/image/stacklogo/Swift.svg';
-import TensorFlow from './assets/image/stacklogo/TensorFlow.svg';
-import TypeScript from './assets/image/stacklogo/TypeScript.svg';
+import Tensorflow from './assets/image/stacklogo/Tensorflow.svg';
+import Typescript from './assets/image/stacklogo/Typescript.svg';
 import Unity from './assets/image/stacklogo/Unity.svg';
 import Vue from './assets/image/stacklogo/Vue.svg';
 
@@ -71,6 +72,7 @@ const AllStacks = [
   new AllStack('Go', Go),
   new AllStack('GraphQL', GraphQL),
   new AllStack('Java', Java),
+  new AllStack('Javascript', Javascript),
   new AllStack('Jenkins', Jenkins),
   new AllStack('Julia', Julia),
   new AllStack('Kotlin', Kotlin),
@@ -91,8 +93,8 @@ const AllStacks = [
   new AllStack('Spring', Spring),
   new AllStack('Svelte', Svelte),
   new AllStack('Swift', Swift),
-  new AllStack('TensorFlow', TensorFlow),
-  new AllStack('TypeScript', TypeScript),
+  new AllStack('Tensorflow', Tensorflow),
+  new AllStack('TypeScrips', Typescript),
   new AllStack('Unity', Unity),
   new AllStack('Vue', Vue),
 ];

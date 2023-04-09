@@ -16,9 +16,9 @@ const ProjectCard = () => {
 
       <div className="flex h-[90px] w-[200px] justify-center rounded-b-lg bg-stone-50">
         <div className="grow">
-          <h1 className="text-lg font-bold">Title</h1>
-          <p className="font-semibold">explain</p>
-          <div>
+          <h1 className="font-ng-eb text-lg">Title</h1>
+          <p className="font-ng-b">explain</p>
+          <div className="font-ng">
             <span>#Spring</span>
             <span>#React</span>
             <span>#Typescript</span>
