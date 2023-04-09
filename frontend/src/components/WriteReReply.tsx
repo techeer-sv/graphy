@@ -8,11 +8,16 @@ function WriteReReply() {
   const [value, setValue] = useRecoilState(reReplyState);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
+    const inputValue = event.target.value;
     if (textAreaRef.current) {
       textAreaRef.current.style.height = 'auto';
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
+    if (inputValue.length > 256) {
+      setValue(inputValue.substring(0, 256));
+      return;
+    }
+    setValue(event.target.value);
   };
 
   return (
