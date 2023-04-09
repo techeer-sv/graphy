@@ -25,6 +25,7 @@ module.exports = {
         96: '24rem',
       },
       fontFamily: {
+        sans: ['NanumGothic', 'Arial', 'sans-serif'],
         ng: ['NanumGothic', 'sans-serif'],
         'ng-b': ['NanumGothicBold', 'sans-serif'],
         'ng-eb': ['NanumGothicExtraBold', 'sans-serif'],

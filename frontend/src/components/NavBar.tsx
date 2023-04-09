@@ -12,12 +12,12 @@ const NavBar = () => {
   }
 
   return (
-    <div className="fixed z-20 mb-5 flex w-screen flex-row content-center overflow-hidden border-b border-zinc-400 bg-white pt-3 pb-3 align-middle">
+    <div className="fixed z-20 mb-5 flex w-screen flex-row content-center overflow-hidden border-b border-zinc-400 bg-white pt-3 pb-3 align-middle font-ng-eb">
       {/* 로고 */}
-      <span className="ml-10 hidden text-4xl font-bold text-graphyblue sm:block">
+      <span className="ml-10 hidden font-ng-eb text-4xl text-graphyblue sm:block">
         Graphy
       </span>
-      <span className="ml-10 text-4xl font-bold text-graphyblue sm:hidden">
+      <span className="ml-10 font-ng-eb text-4xl text-graphyblue sm:hidden">
         G
       </span>
 
