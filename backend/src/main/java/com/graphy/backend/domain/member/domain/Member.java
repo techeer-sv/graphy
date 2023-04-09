@@ -25,11 +25,14 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     private String email;
 
     private String password;
 
-    private String social;
 
     private String name;
 
