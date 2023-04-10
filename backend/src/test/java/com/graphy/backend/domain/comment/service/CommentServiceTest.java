@@ -51,4 +51,36 @@ class CommentServiceTest {
         Comment findComment = commentRepository.findById(response.getCommentId()).get();
         assertEquals(dto.getContent(), findComment.getContent());
     }
+
+    @Test
+    void 대댓글이_생성된다() {
+
+        //given
+        CreateCommentRequest dto = new CreateCommentRequest("내용", 1L, 1L);
+        Project project = Project.builder().id(1L).content("테스트 프로젝트").description("테스트 프로젝트 한 줄 소개").projectName("테스트").build();
+
+        Comment parentComment = Comment.builder().id(1L).content("내용").project(project).parent(null).build();
+        Comment comment = Comment.builder().id(2L).content("내용").project(project).parent(parentComment).build();
+
+        // mocking
+
+        given(commentRepository.save(any()))
+                .willReturn(comment);
+
+        given(projectRepository.findById(1L))
+                .willReturn(Optional.of(project));
+        given(commentRepository.findById(1L))
+                .willReturn(Optional.of(parentComment));
+        given(commentRepository.findById(2L))
+                .willReturn(Optional.of(comment));
+
+
+        //when
+        CreateCommentResponse response = commentService.createComment(dto);
+
+        //then
+        Comment findComment = commentRepository.findById(response.getCommentId()).get();
+        assertEquals(parentComment, findComment.getParent());
+        assertEquals(dto.getContent(), findComment.getContent());
+    }
 }
