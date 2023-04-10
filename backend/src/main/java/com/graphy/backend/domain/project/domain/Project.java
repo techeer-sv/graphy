@@ -7,7 +7,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,7 +32,7 @@ public class Project extends BaseEntity {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("createdAt")
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments;
 
     @Column(nullable = true)
     private String description;
