@@ -10,7 +10,7 @@ function ProjectCard(items:any) {
         <div>moyora</div> */}
         <img
           className="flex h-[160px] w-[200px] flex-col justify-center rounded-t-lg bg-sky-100 text-center"
-          src={project}
+          src={items.items.thumbNail}
           alt="프로젝트 이미지"
         />
       </div>
