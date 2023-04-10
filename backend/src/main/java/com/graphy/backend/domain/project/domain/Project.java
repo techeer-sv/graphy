@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.project.domain;
 
+import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -28,6 +29,10 @@ public class Project extends BaseEntity {
 
     @Column(nullable = true)
     private String content;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdAt")
+    private List<Comment> comments;
 
     @Column(nullable = true)
     private String description;
