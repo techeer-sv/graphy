@@ -8,10 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.*;
+import static com.graphy.backend.domain.comment.dto.CommentDto.GetCommentsResponse;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Component
@@ -59,6 +58,7 @@ public class ProjectMapper {
                 .description(project.getDescription())
                 .createdAt(project.getCreatedAt())
                 .techTags(project.getTagNames())
+                .thumbNail(project.getThumbNail())
                 .build();
     }
 
