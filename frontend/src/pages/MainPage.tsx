@@ -6,10 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { log } from 'console';
 import { useEffect, useState } from 'react';
+import { searchTextState } from '../Recoil';
+import { useRecoilState } from 'recoil';
 
 
 function MainPage() {
   const [data, setData] = useState<any[]>([]);
+  const [searchText, SetSearchText] = useRecoilState(searchTextState);
+
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
   function toWrite() {
@@ -58,7 +62,9 @@ function MainPage() {
         </button>
         <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
         <div className="ml-8 flex w-11/12 flex-wrap justify-center gap-10">
-          {data.map((item,num:number) => <ProjectCard key={num} items={item} />)}
+          {searchText == ''  
+          ?data.map((item,num:number) => <ProjectCard key={num} items={item}/>)
+          :data.filter(x => x.projectName == searchText).map((item,num:number) => <ProjectCard key={num} items={item} />)}
         </div>
       </div>
     </div>

@@ -2,9 +2,11 @@ import React, { ChangeEvent, useState } from 'react';
 import ProfileIcon from '../assets/image/person-circle.svg';
 import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router';
+import { atom, useRecoilState } from 'recoil';
+import { searchTextState } from '../Recoil'
 
-const NavBar = () => {
-  const [searchText, SetSearchText] = useState<string>('');
+function NavBar() {
+  const [searchText, SetSearchText] = useRecoilState(searchTextState);
   const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
     SetSearchText(e.target.value.toLowerCase());
     }

@@ -40,6 +40,10 @@ const reReplyState = atom({
   key: 'reReplyState',
   default: '',
 });
+const searchTextState = atom<string>({
+  key: 'searchTextState',
+  default: '',
+});
 
 export {
   titleState,
@@ -50,4 +54,5 @@ export {
   projectIdState,
   replyState,
   reReplyState,
+  searchTextState,
 };
