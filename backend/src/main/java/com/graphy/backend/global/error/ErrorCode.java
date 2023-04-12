@@ -15,14 +15,11 @@ public enum ErrorCode {
   // Project
   PROJECT_DELETED_OR_NOT_EXIST(HttpStatus.BAD_REQUEST, "P001", "이미 삭제되거나 존재하지 않는 프로젝트"),
 
-<<<<<<< feature
   // Comment
   COMMENT_DELETED_OR_NOT_EXIST(HttpStatus.BAD_REQUEST, "C001", "이미 삭제되거나 존재하지 않는 댓글"),
 
-=======
 
   NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "M001", "찾을 수 없는 사용자"),
->>>>>>> feat: 소셜 로그인 세팅
   ;
 
   private final HttpStatus status;
