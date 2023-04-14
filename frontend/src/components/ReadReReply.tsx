@@ -1,7 +1,7 @@
 import nested_reply from '../assets/image/nested_reply.svg';
 import reply_icon from '../assets/image/reply_icon.svg';
 
-function ReadReReply() {
+function ReadReReply(props: any) {
   return (
     <div className="relative">
       <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
@@ -14,7 +14,7 @@ function ReadReReply() {
           </button>
         </div>
         <p className="my-1 ml-2 font-ng" placeholder="댓글 로딩중">
-          대댓글 내용
+          {props.contents.content}
         </p>
       </div>
     </div>

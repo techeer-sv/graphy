@@ -1,14 +1,12 @@
 import { useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { replyState } from '../Recoil';
-import WriteReReply from './WriteReReply';
+import { writeReplyState } from '../Recoil';
 import ReadReply from './ReadReply';
-import ReadReReply from './ReadReReply';
 
-function Reply() {
+function Reply(props: any) {
   const [count, SetCount] = useState(0);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useRecoilState(replyState);
+  const [value, setValue] = useRecoilState(writeReplyState);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
@@ -46,11 +44,9 @@ function Reply() {
       </div>
       {/*댓글 표시*/}
       <div className="my-2 border-graphyblue">
-        <ReadReply />
-        {/*대댓글 표시*/}
-        <ReadReReply />
-        {/*대댓글 입력창*/}
-        <WriteReReply />
+        {props.contents.map((x: object, y: number) => (
+          <ReadReply contents={x} key={y} />
+        ))}
         {/*댓글 입력창*/}
         <div className="mb-8 mt-3 border-t-2 border-graphyblue py-3">
           <div className="min-h-24 flex h-auto flex-col rounded-xl border-2 border-gray-400">

@@ -32,12 +32,12 @@ const projectIdState = atom<number>({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
-const replyState = atom({
-  key: 'replyState',
+const writeReplyState = atom({
+  key: 'writeReplyState',
   default: '',
 });
-const reReplyState = atom({
-  key: 'reReplyState',
+const writeReReplyState = atom({
+  key: 'writeReReplyState',
   default: '',
 });
 
@@ -48,6 +48,6 @@ export {
   contentsState,
   thumbnailUrlState,
   projectIdState,
-  replyState,
-  reReplyState,
+  writeReplyState,
+  writeReReplyState,
 };

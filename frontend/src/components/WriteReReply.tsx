@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import reply_icon from '../assets/image/reply_icon.svg';
 import { useRecoilState } from 'recoil';
-import { reReplyState } from '../Recoil';
+import { writeReReplyState } from '../Recoil';
 
 function WriteReReply() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useRecoilState(reReplyState);
+  const [value, setValue] = useRecoilState(writeReReplyState);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;

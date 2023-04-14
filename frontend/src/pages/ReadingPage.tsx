@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import NavBar from '../components/NavBar';
@@ -20,6 +20,7 @@ function ReadingPage() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [contents, setContents] = useRecoilState(contentsState);
   const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const [readReply, setReadReply] = useState<object>([]);
   const navigate = useNavigate();
 
   function toWrite() {
@@ -42,6 +43,7 @@ function ReadingPage() {
       setTldr(res.data.data.description);
       setSelectedStack(res.data.data.techTags);
       setContents(res.data.data.content);
+      setReadReply(res.data.data.commentsList);
     } catch (error) {
       console.error(error);
     }
@@ -155,7 +157,7 @@ function ReadingPage() {
             글작성
           </button>
         </div>
-        <Reply />
+        <Reply contents={readReply} />
       </div>
     </div>
   );
