@@ -29,7 +29,7 @@ function ReadReply(props: any) {
         <ReadReReply contents={x} key={y} />
       ))}
       {/*대댓글 입력창*/}
-      {visible ? <WriteReReply /> : null}
+      {visible ? <WriteReReply contents={props.contents} /> : null}
     </>
   );
 }
