@@ -8,9 +8,9 @@ import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentRequest;
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentResponse;
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +34,13 @@ public class CommentService {
         Comment entity = CreateCommentRequest.to(dto, project, parentComment);
 
         return new CreateCommentResponse(commentRepository.save(entity).getId());
+    }
+
+    @Transactional
+    public void updateComment(Long commentId, UpdateCommentRequest dto) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST));
+
+        comment.updateContent(dto.getContent());
     }
 }

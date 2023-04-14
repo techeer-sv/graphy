@@ -52,6 +52,15 @@ public class CommentDto {
         }
     }
 
+    @Getter
+    @AllArgsConstructor
+    public static class UpdateCommentRequest {
+
+        @NotBlank
+        private String content;
+
+    }
+
 
     @Getter
     @AllArgsConstructor
