@@ -9,6 +9,7 @@ import {
   titleState,
   tldrState,
   projectIdState,
+  refreshState,
 } from '../Recoil';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +22,7 @@ function ReadingPage() {
   const [contents, setContents] = useRecoilState(contentsState);
   const [projectId, setProjectId] = useRecoilState(projectIdState);
   const [readReply, setReadReply] = useState<object>([]);
+  const [refresh, setrefresh] = useRecoilState(refreshState);
   const navigate = useNavigate();
 
   function toWrite() {
@@ -88,6 +90,10 @@ function ReadingPage() {
     return AllStacks[AllStacks.map((x) => x.name).findIndex((x) => x == s)]
       .image;
   }
+
+  useEffect(() => {
+    getData();
+  }, [refresh]);
 
   return (
     <div className="mt-0 flex h-screen w-screen justify-center overflow-y-auto overflow-x-hidden bg-graphybg pb-10">

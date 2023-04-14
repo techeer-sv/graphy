@@ -40,6 +40,10 @@ const writeReReplyState = atom({
   key: 'writeReReplyState',
   default: '',
 });
+const refreshState = atom({
+  key: 'refreshState',
+  default: false,
+});
 
 export {
   titleState,
@@ -50,4 +54,5 @@ export {
   projectIdState,
   writeReplyState,
   writeReReplyState,
+  refreshState,
 };
