@@ -9,7 +9,8 @@ function Reply(props: any) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useRecoilState(writeReplyState);
   const [projectId, setProjectId] = useRecoilState(projectIdState);
-  const [refresh, setrefresh] = useRecoilState(refreshState);
+  const [refresh, setRefresh] = useRecoilState(refreshState);
+  const [visible, setVisible] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
@@ -34,7 +35,7 @@ function Reply(props: any) {
     try {
       const res = await axios.post(url, data);
       console.log(res.data);
-      setrefresh(!refresh);
+      setRefresh(!refresh);
       setValue('');
     } catch (error) {
       console.error(error);
@@ -65,12 +66,15 @@ function Reply(props: any) {
           <button className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm">
             본문 보기
           </button>
-          <button className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm">
-            댓글 닫기
+          <button
+            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm"
+            onClick={() => setVisible(!visible)}
+          >
+            {visible ? '댓글 닫기' : '댓글 열기'}
           </button>
           <button
             className="mr-1 font-ng-b text-sm"
-            onClick={() => setrefresh(!refresh)}
+            onClick={() => setRefresh(!refresh)}
           >
             새로고침
           </button>
@@ -78,9 +82,13 @@ function Reply(props: any) {
       </div>
       {/*댓글 표시*/}
       <div className="my-2 border-graphyblue">
-        {props.contents.map((x: object, y: number) => (
-          <ReadReply contents={x} key={y} />
-        ))}
+        {visible ? (
+          <>
+            {props.contents.map((x: object, y: number) => (
+              <ReadReply contents={x} key={y} />
+            ))}
+          </>
+        ) : null}
         {/*댓글 입력창*/}
         <div className="mb-8 mt-3 border-t-2 border-graphyblue py-3">
           <div className="min-h-24 flex h-auto flex-col rounded-xl border-2 border-gray-400">
