@@ -33,7 +33,7 @@ function ReadingPage() {
     navigate('/modify');
   }
   //GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
-  const getData = async () => {
+  async function getData() {
     try {
       const res = await axios.get(
         `http://localhost:8080/api/v1/projects/${projectId}`,
@@ -47,7 +47,7 @@ function ReadingPage() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
   //DELETE 요청 보내는 함수
   const deleteData = async () => {
     try {

@@ -34,7 +34,7 @@ function ModifyingPage() {
     setTldr(e.target.value);
   };
   //PUT요청 보내서 데이터 수정하는 함수
-  const putData = async () => {
+  async function putData() {
     const url = `http://localhost:8080/api/v1/projects/${projectId}`;
     const data = {
       projectName: title,
@@ -51,7 +51,7 @@ function ModifyingPage() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
   // 취소 버튼 누를시 원래 글 페이지로 이동
   function cancelButton() {
     navigate('/read');
