@@ -26,9 +26,9 @@ function Reply() {
     <div>
       {/*댓글 개수, 댓글 나열 카테고리*/}
       <div className="mb-2 flex flex-row border-b-2 border-graphyblue">
-        <p className="mr-2 flex flex-row font-ng-b text-lg">
+        <span className="mr-2 flex flex-row font-ng-b text-lg">
           전체 댓글 <p className="ml-1 text-graphyblue">{count}</p>개
-        </p>
+        </span>
         <select className="mb-1 rounded border border-black bg-graphybg font-ng text-sm">
           <option value="regist_order">등록순</option>
           <option value="newest_order">최신순</option>
