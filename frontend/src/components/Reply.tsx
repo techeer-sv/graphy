@@ -59,7 +59,12 @@ function Reply(props: any) {
           <button className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm">
             댓글 닫기
           </button>
-          <button className="mr-1 font-ng-b text-sm">새로고침</button>
+          <button
+            className="mr-1 font-ng-b text-sm"
+            onClick={() => setrefresh(!refresh)}
+          >
+            새로고침
+          </button>
         </div>
       </div>
       {/*댓글 표시*/}
