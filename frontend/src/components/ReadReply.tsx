@@ -7,7 +7,7 @@ function ReadReply(props: any) {
     <>
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
         <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
-          닉네임
+          {`댓글 id = ${props.contents.commentId}`}
           <button className="mx-auto mr-0 flex border-l border-dashed border-gray-400 pr-2 pl-2">
             <img src={nested_reply} className="mt-1 mr-1 h-3 font-ng text-sm" />
             답글
