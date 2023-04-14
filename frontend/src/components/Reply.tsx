@@ -25,6 +25,11 @@ function Reply(props: any) {
     setValue(event.target.value);
   };
 
+  function MoveToTop() {
+    // top:0 >> 맨위로  behavior:smooth >> 부드럽게 이동할수 있게 설정하는 속성
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   async function postData() {
     const url = 'http://localhost:8080/api/v1/comments';
     const data = {
@@ -63,7 +68,10 @@ function Reply(props: any) {
           <option value="reply_order">답글순</option>
         </select>
         <div className="mx-auto mr-0 mb-2">
-          <button className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm">
+          <button
+            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm"
+            onClick={() => MoveToTop()}
+          >
             본문 보기
           </button>
           <button
