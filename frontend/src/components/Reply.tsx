@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { projectIdState, refreshState, writeReplyState } from '../Recoil';
 import ReadReply from './ReadReply';
@@ -35,10 +35,19 @@ function Reply(props: any) {
       const res = await axios.post(url, data);
       console.log(res.data);
       setrefresh(!refresh);
+      setValue('');
     } catch (error) {
       console.error(error);
     }
   }
+
+  useEffect(() => {
+    let childlength = 0;
+    props.contents.length != 0
+      ? props.contents.map((x: any) => (childlength += x.childComments.length))
+      : null;
+    SetCount(props.contents.length + childlength);
+  }, [props]);
 
   return (
     <div>

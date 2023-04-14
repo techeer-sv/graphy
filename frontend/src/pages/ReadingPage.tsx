@@ -51,7 +51,7 @@ function ReadingPage() {
     }
   }
   //DELETE 요청 보내는 함수
-  const deleteData = async () => {
+  async function deleteData() {
     try {
       const res = await axios.delete(
         `http://localhost:8080/api/v1/projects/${projectId}`,
@@ -61,7 +61,7 @@ function ReadingPage() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
   //제목 변경시 재 렌더링
   useEffect(() => {
     if (title) {
@@ -80,20 +80,16 @@ function ReadingPage() {
       setSelectedStack(selectedStack);
     }
   }, [selectedStack]);
-  //데이터 가져올때 재 렌더링
+  //렌더링할때 데이터 가져옴
   useEffect(() => {
     getData();
-  }, []);
+  }, [refresh]);
 
   //이미지 찾는 함수
   function findimg(s: string) {
     return AllStacks[AllStacks.map((x) => x.name).findIndex((x) => x == s)]
       .image;
   }
-
-  useEffect(() => {
-    getData();
-  }, [refresh]);
 
   return (
     <div className="mt-0 flex h-screen w-screen justify-center overflow-y-auto overflow-x-hidden bg-graphybg pb-10">
