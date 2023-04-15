@@ -26,7 +26,10 @@ function ReadReply(props: any) {
       </div>
       {/*대댓글 표시*/}
       {props.contents.childComments.map((x: object, y: number) => (
-        <ReadReReply contents={x} key={y} />
+        <ReadReReply
+          contents={x}
+          key={props.contents.childComments[y].commentId}
+        />
       ))}
       {/*대댓글 입력창*/}
       {visible ? <WriteReReply contents={props.contents} /> : null}

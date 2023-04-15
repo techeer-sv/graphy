@@ -93,7 +93,7 @@ function Reply(props: any) {
         {visible ? (
           <>
             {props.contents.map((x: object, y: number) => (
-              <ReadReply contents={x} key={y} />
+              <ReadReply contents={x} key={props.contents[y].commentId} />
             ))}
           </>
         ) : null}
