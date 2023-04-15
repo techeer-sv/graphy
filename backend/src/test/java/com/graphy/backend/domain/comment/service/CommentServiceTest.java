@@ -12,10 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentRequest;
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentResponse;
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
@@ -82,5 +82,21 @@ class CommentServiceTest {
         Comment findComment = commentRepository.findById(response.getCommentId()).get();
         assertEquals(parentComment, findComment.getParent());
         assertEquals(dto.getContent(), findComment.getContent());
+    }
+
+    @Test
+    void 댓글이_수정된다() {
+
+        //given
+        UpdateCommentRequest dto = new UpdateCommentRequest("댓글을 수정하고 싶어요");
+
+        // mocking
+
+
+
+        //when
+
+        //then
+
     }
 }

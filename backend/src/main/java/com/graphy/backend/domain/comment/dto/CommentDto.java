@@ -53,12 +53,12 @@ public class CommentDto {
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdateCommentRequest {
 
         @NotBlank
         private String content;
-
     }
 
 
@@ -66,7 +66,6 @@ public class CommentDto {
     @AllArgsConstructor
     public static class CreateCommentResponse {
         private Long commentId;
-
     }
 
     @Getter
