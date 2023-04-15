@@ -73,7 +73,7 @@ function WritingPage() {
       {/*젤 큰 박스*/}
       <div className="mt-16 w-11/12 max-w-1100 overflow-auto border border-black px-2 sm:flex sm:h-5/6  sm:flex-col">
         {/*서식 구역*/}
-        <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
+        <div className="top-4 mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
           <div className="mr-2 mt-64 mb-2 w-full overflow-visible sm:mt-0 sm:w-10/12">
             {/*제목 상자*/}
