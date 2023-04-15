@@ -46,7 +46,7 @@ function MainPage() {
   }, [data]);
 
   return (
-    <div className="relative h-screen w-screen bg-gray-50">
+    <div className="relative h-auto min-h-screen w-screen bg-gray-50">
       <NavBar />
       <div>
         <Banner />
@@ -60,15 +60,19 @@ function MainPage() {
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
         <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
-        <div className="ml-8 flex w-11/12 flex-wrap justify-center gap-10">
+        <div className="relative mx-4 flex flex-wrap justify-center">
           {searchText == ''
             ? data.map((item, num: number) => (
-                <ProjectCard key={num} items={item} />
+                <div className="mx-8 mb-10">
+                  <ProjectCard key={num} items={item} />
+                </div>
               ))
             : data
                 .filter((x) => x.projectName == searchText)
                 .map((item, num: number) => (
-                  <ProjectCard key={num} items={item} />
+                  <div className=" mx-auto ml-16">
+                    <ProjectCard key={num} items={item} />
+                  </div>
                 ))}
         </div>
       </div>

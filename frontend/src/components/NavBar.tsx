@@ -45,13 +45,13 @@ function NavBar() {
         onChange={getSearchData}
         type="text"
         placeholder="  search"
-        className=" mx-5 h-[40px] w-[950px] appearance-none rounded-xl border"
+        className=" mx-2 h-auto w-[950px] appearance-none rounded-xl border pl-2 sm:w-full"
       />
 
       {/* 프로젝트 작성 버튼 */}
       <button
-        className="invisible flex h-0 w-0 shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue text-slate-50 sm:visible sm:mr-5 sm:ml-1
-      sm:h-auto sm:w-auto sm:px-4 sm:py-1"
+        className="invisible mx-auto mr-4 flex h-0 w-0 shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue text-slate-50 sm:visible sm:mr-5
+        sm:h-auto sm:w-auto sm:px-4 sm:py-1"
         onClick={() => toWrite()}
       >
         <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
