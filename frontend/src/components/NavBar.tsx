@@ -1,15 +1,15 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import ProfileIcon from '../assets/image/person-circle.svg';
 import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router';
 import { atom, useRecoilState } from 'recoil';
-import { searchTextState } from '../Recoil'
+import { searchTextState } from '../Recoil';
 
 function NavBar() {
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
   const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
     SetSearchText(e.target.value.toLowerCase());
-    }
+  };
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
@@ -23,14 +23,19 @@ function NavBar() {
     navigate('/');
   }
 
-
   return (
     <div className="fixed z-20 mb-5 flex w-screen flex-row content-center overflow-hidden border-b border-zinc-400 bg-white pt-3 pb-3 align-middle font-ng-eb">
       {/* 로고 */}
-      <button onClick={() => toMain()} className="ml-10 hidden font-ng-eb text-4xl text-graphyblue sm:block">
+      <button
+        onClick={() => toMain()}
+        className="ml-10 hidden font-ng-eb text-4xl text-graphyblue sm:block"
+      >
         Graphy
       </button>
-      <button onClick={() => toMain()} className="ml-10 font-ng-eb text-4xl text-graphyblue sm:hidden">
+      <button
+        onClick={() => toMain()}
+        className="ml-10 font-ng-eb text-4xl text-graphyblue sm:hidden"
+      >
         G
       </button>
 
@@ -63,6 +68,6 @@ function NavBar() {
       </button>
     </div>
   );
-};
+}
 
 export default NavBar;

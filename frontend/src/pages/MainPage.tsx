@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import { searchTextState } from '../Recoil';
 import { useRecoilState } from 'recoil';
 
-
 function MainPage() {
   const [data, setData] = useState<any[]>([]);
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
@@ -22,13 +21,13 @@ function MainPage() {
   }
 
   async function postCard() {
-    const url = "http://localhost:8080/api/v1/projects/search"
+    const url = 'http://localhost:8080/api/v1/projects/search';
     const params = {
-      projectName : 'graphy',
-      content : 'hello',
-      page : 0,
-      size : 4
-    }
+      projectName: 'graphy',
+      content: 'hello',
+      page: 0,
+      size: 4,
+    };
     try {
       const res = await axios.post(url, params);
       setData(res.data.data);
@@ -40,11 +39,11 @@ function MainPage() {
 
   useEffect(() => {
     postCard(); //랜더링이 될 때 실행되는 함수
-  }, []); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴 
+  }, []); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
 
   useEffect(() => {
-    setData(data)
-  }, [data]); 
+    setData(data);
+  }, [data]);
 
   return (
     <div className="relative h-screen w-screen bg-gray-50">
@@ -62,13 +61,19 @@ function MainPage() {
         </button>
         <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
         <div className="ml-8 flex w-11/12 flex-wrap justify-center gap-10">
-          {searchText == ''  
-          ?data.map((item,num:number) => <ProjectCard key={num} items={item}/>)
-          :data.filter(x => x.projectName == searchText).map((item,num:number) => <ProjectCard key={num} items={item} />)}
+          {searchText == ''
+            ? data.map((item, num: number) => (
+                <ProjectCard key={num} items={item} />
+              ))
+            : data
+                .filter((x) => x.projectName == searchText)
+                .map((item, num: number) => (
+                  <ProjectCard key={num} items={item} />
+                ))}
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default MainPage;

@@ -44,6 +44,10 @@ const refreshState = atom({
   key: 'refreshState',
   default: false,
 });
+const searchTextState = atom<string>({
+  key: 'searchTextState',
+  default: '',
+});
 
 export {
   titleState,
@@ -55,4 +59,5 @@ export {
   writeReplyState,
   writeReReplyState,
   refreshState,
+  searchTextState,
 };
