@@ -86,9 +86,10 @@ function ReadingPage() {
   }, [refresh]);
 
   //이미지 찾는 함수
-  function findimg(s: string) {
-    return AllStacks[AllStacks.map((x) => x.name).findIndex((x) => x == s)]
-      .image;
+  function findImage(tag: string) {
+    return AllStacks.map((x) => x.image)[
+      AllStacks.map((x) => x.name).findIndex((x) => x == tag)
+    ];
   }
 
   return (
@@ -121,7 +122,7 @@ function ReadingPage() {
                     key={x}
                     className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border py-1 pr-3"
                   >
-                    <img className="mx-3 my-1 h-8 w-8" src={findimg(x)} />
+                    <img className="mx-3 my-1 h-8 w-8" src={findImage(x)} />
                     <p className="shrink-0 font-ng-b">{x}</p>
                   </div>
                 ))}
