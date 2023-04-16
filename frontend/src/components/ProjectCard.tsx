@@ -43,12 +43,14 @@ function ProjectCard(items: any) {
         )}
       </div>
 
-      <div className="flex h-[120px] w-[260px] flex-col justify-center rounded-b-lg bg-stone-50">
-        <p className="my-auto mt-2 font-ng-eb text-lg">
+      <div className="flex h-[120px] w-[260px] flex-col rounded-b-lg bg-stone-50">
+        <p className="my-auto mx-auto mt-2 ml-4 font-ng-eb text-lg">
           {items.items.projectName}
         </p>
-        <p className="font-ng-b">{items.items.description}</p>
-        <div className="my-auto ml-3 mb-2   flex flex-row font-ng">
+        <p className="mx-auto my-auto ml-4 font-ng-b">
+          {items.items.description}
+        </p>
+        <div className="ml-3 mb-2 mt-2   flex flex-row font-ng">
           {items.items.techTags.map((x: string, y: number) => (
             <img className=" mr-2 h-8 w-8 " src={findImage(x)} key={y} />
           ))}
