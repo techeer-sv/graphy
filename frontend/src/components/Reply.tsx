@@ -1,14 +1,16 @@
-import { useRef, useState } from 'react';
-import nested_reply from '../assets/image/nested_reply.svg';
-import reply_icon from '../assets/image/reply_icon.svg';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { replyState } from '../Recoil';
-import WriteReReply from './WriteReReply';
+import { projectIdState, refreshState, writeReplyState } from '../Recoil';
+import ReadReply from './ReadReply';
+import axios from 'axios';
 
-function Reply() {
+function Reply(props: any) {
   const [count, SetCount] = useState(0);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useRecoilState(replyState);
+  const [value, setValue] = useRecoilState(writeReplyState);
+  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const [refresh, setRefresh] = useRecoilState(refreshState);
+  const [visible, setVisible] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
@@ -22,66 +24,79 @@ function Reply() {
     }
     setValue(event.target.value);
   };
+
+  function MoveToTop() {
+    // top:0 >> 맨위로  behavior:smooth >> 부드럽게 이동할수 있게 설정하는 속성
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function postData() {
+    const url = 'http://localhost:8080/api/v1/comments';
+    const data = {
+      content: value,
+      projectId: projectId,
+    };
+
+    try {
+      const res = await axios.post(url, data);
+      console.log(res.data);
+      setRefresh(!refresh);
+      setValue('');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    let childlength = 0;
+    props.contents.length != 0
+      ? props.contents.map((x: any) => (childlength += x.childComments.length))
+      : null;
+    SetCount(props.contents.length + childlength);
+  }, [props]);
+
   return (
     <div>
       {/*댓글 개수, 댓글 나열 카테고리*/}
       <div className="mb-2 flex flex-row border-b-2 border-graphyblue">
-        <p className="mr-2 flex flex-row font-ng-b text-lg">
+        <span className="mr-2 flex flex-row font-ng-b text-lg">
           전체 댓글 <p className="ml-1 text-graphyblue">{count}</p>개
-        </p>
+        </span>
         <select className="mb-1 rounded border border-black bg-graphybg font-ng text-sm">
           <option value="regist_order">등록순</option>
           <option value="newest_order">최신순</option>
           <option value="reply_order">답글순</option>
         </select>
         <div className="mx-auto mr-0 mb-2">
-          <button className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm">
+          <button
+            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm"
+            onClick={() => MoveToTop()}
+          >
             본문 보기
           </button>
-          <button className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm">
-            댓글 닫기
+          <button
+            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm"
+            onClick={() => setVisible(!visible)}
+          >
+            {visible ? '댓글 닫기' : '댓글 열기'}
           </button>
-          <button className="mr-1 font-ng-b text-sm">새로고침</button>
+          <button
+            className="mr-1 font-ng-b text-sm"
+            onClick={() => setRefresh(!refresh)}
+          >
+            새로고침
+          </button>
         </div>
       </div>
       {/*댓글 표시*/}
       <div className="my-2 border-graphyblue">
-        <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
-          <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
-            닉네임
-            <button className="mx-auto mr-0 flex border-l border-dashed border-gray-400 pr-2 pl-2">
-              <img
-                src={nested_reply}
-                className="mt-1 mr-1 h-3 font-ng text-sm"
-              />
-              답글
-            </button>
-          </div>
-          <p className="my-1 ml-2 font-ng" placeholder="댓글 로딩중">
-            댓글 내용
-          </p>
-        </div>
-        {/*대댓글 표시*/}
-        <div className="relative">
-          <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
-          <div className="mt-3 ml-8 h-auto rounded-lg border-2 border-gray-400">
-            <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm ">
-              닉네임
-              <button className="mx-auto mr-0 flex border-l border-dashed border-gray-400 pr-2 pl-2">
-                <img
-                  src={nested_reply}
-                  className="mt-1 mr-1 h-3 font-ng text-sm"
-                />
-                답글
-              </button>
-            </div>
-            <p className="my-1 ml-2 font-ng" placeholder="댓글 로딩중">
-              대댓글 내용
-            </p>
-          </div>
-        </div>
-        {/*대댓글 입력창*/}
-        <WriteReReply />
+        {visible ? (
+          <>
+            {props.contents.map((x: object, y: number) => (
+              <ReadReply contents={x} key={props.contents[y].commentId} />
+            ))}
+          </>
+        ) : null}
         {/*댓글 입력창*/}
         <div className="mb-8 mt-3 border-t-2 border-graphyblue py-3">
           <div className="min-h-24 flex h-auto flex-col rounded-xl border-2 border-gray-400">
@@ -95,7 +110,7 @@ function Reply() {
             />
             <button
               className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
-              onClick={() => console.log('등록 버튼 클릭')}
+              onClick={() => postData()}
             >
               등록
             </button>

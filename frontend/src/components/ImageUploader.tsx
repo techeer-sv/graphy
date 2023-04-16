@@ -15,7 +15,7 @@ function ImageUploader() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   //이미지 S3로 업로드 하는 함수
-  const uploadImage = async () => {
+  async function uploadImage() {
     if (image) {
       try {
         const res = await s3.uploadFile(image);
@@ -25,7 +25,7 @@ function ImageUploader() {
         console.log(error);
       }
     }
-  };
+  }
 
   // 이미지 변경마다 uploadImage함수 실행
   useEffect(() => {

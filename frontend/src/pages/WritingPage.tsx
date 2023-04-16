@@ -43,7 +43,7 @@ function WritingPage() {
     setTldr(e.target.value);
   };
   //POST요청 보내서 데이터 전송하는 함수
-  const postData = async () => {
+  async function postData() {
     const url = 'http://localhost:8080/api/v1/projects';
     const data = {
       projectName: title,
@@ -61,7 +61,7 @@ function WritingPage() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
   // 취소 버튼 누를시 메인페이지 이동
   function cancelButton() {
     navigate('/');

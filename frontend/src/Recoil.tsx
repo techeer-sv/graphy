@@ -32,13 +32,17 @@ const projectIdState = atom<number>({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
-const replyState = atom({
-  key: 'replyState',
+const writeReplyState = atom({
+  key: 'writeReplyState',
   default: '',
 });
-const reReplyState = atom({
-  key: 'reReplyState',
+const writeReReplyState = atom({
+  key: 'writeReReplyState',
   default: '',
+});
+const refreshState = atom({
+  key: 'refreshState',
+  default: false,
 });
 const searchTextState = atom<string>({
   key: 'searchTextState',
@@ -52,7 +56,8 @@ export {
   contentsState,
   thumbnailUrlState,
   projectIdState,
-  replyState,
-  reReplyState,
+  writeReplyState,
+  writeReReplyState,
+  refreshState,
   searchTextState,
 };
