@@ -20,7 +20,7 @@ public enum ResultCode {
 
     // comment
     COMMENT_CREATE_SUCCESS("C001", "댓글 생성 성공"),
-
+    COMMENT_UPDATE_SUCCESS("C002", "댓글 수정 성공"),
     ;
 
     private final String code;
