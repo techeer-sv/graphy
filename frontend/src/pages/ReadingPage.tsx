@@ -22,7 +22,7 @@ function ReadingPage() {
   const [contents, setContents] = useRecoilState(contentsState);
   const [projectId, setProjectId] = useRecoilState(projectIdState);
   const [readReply, setReadReply] = useState<object>([]);
-  const [refresh, setrefresh] = useRecoilState(refreshState);
+  const [refresh, setRefresh] = useRecoilState(refreshState);
   const navigate = useNavigate();
 
   function toWrite() {
