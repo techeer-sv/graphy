@@ -4,6 +4,7 @@ import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -147,7 +148,8 @@ class CommentServiceTest {
     }
 
     @Test
-    public void 댓글의_경우_대댓글이_없으면_삭제() throws Exception {
+    @DisplayName("댓글의 경우 대댓글이 없으면 삭제")
+    public void deleteCommentWithoutReComment() throws Exception {
 
         //given
 
@@ -155,6 +157,7 @@ class CommentServiceTest {
 
         //mocking
         given(commentRepository.findById(2L)).willReturn(Optional.ofNullable(comment));
+
 
         // when
         commentService.deleteComment(2L);

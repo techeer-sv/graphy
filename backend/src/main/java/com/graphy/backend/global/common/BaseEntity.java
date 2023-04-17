@@ -32,7 +32,7 @@ public abstract class BaseEntity {
 
     private boolean isDeleted;
 
-    public void setDeletedTrue() {
+    public void delete() {
         this.isDeleted = true;
     }
 }

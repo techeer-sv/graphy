@@ -5,6 +5,7 @@ import com.graphy.backend.domain.project.domain.Project;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ public class CommentDto {
         private Long commentId;
         private String content;
         private List<ChildComments> childComments;
+        private LocalDateTime createdAt;
 
         public static GetCommentsResponse from(Comment comment) {
             List<ChildComments> childCommentsList = comment.getChildList()
@@ -27,7 +29,8 @@ public class CommentDto {
                     comment.getProject().getId(),
                     comment.getId(),
                     comment.getContent(),
-                    childCommentsList
+                    childCommentsList,
+                    comment.getCreatedAt()
             );
         }
     }
@@ -66,10 +69,14 @@ public class CommentDto {
         private Long parentId;
         private Long commentId;
         private String content;
+        private LocalDateTime createdAt;
 
         public static ChildComments from(Comment childComment) {
-            return new ChildComments(childComment.getParent().getId(),
-                    childComment.getId(), childComment.getContent());
+            return new ChildComments(
+                    childComment.getParent().getId(),
+                    childComment.getId(),
+                    childComment.getContent(),
+                    childComment.getCreatedAt());
         }
     }
 }
