@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import reply_icon from '../assets/image/reply_icon.svg';
 import nested_reply from '../assets/image/nested_reply.svg';
+import delete_reply from '../assets/image/delete.svg';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../Recoil';
@@ -26,13 +27,10 @@ function ReadReReply(props: any) {
           {`댓글 Id = ${props.contents.commentId}, 부모 Id = ${props.contents.parentId}`}
           {props.contents.content !== '삭제된 댓글입니다.' ? (
             <button
-              className="mx-auto mr-0 flex border-l border-dashed border-gray-400 pr-2 pl-2"
+              className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
               onClick={() => deleteReReply()}
             >
-              <img
-                src={nested_reply}
-                className="mt-1 mr-1 h-3 font-ng text-sm"
-              />
+              <img src={delete_reply} className="mr-1 h-4 font-ng text-sm" />
               삭제
             </button>
           ) : null}

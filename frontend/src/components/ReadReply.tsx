@@ -3,6 +3,7 @@ import { useState } from 'react';
 import nested_reply from '../assets/image/nested_reply.svg';
 import ReadReReply from './ReadReReply';
 import WriteReReply from './WriteReReply';
+import delete_reply from '../assets/image/delete.svg';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../Recoil';
@@ -27,27 +28,21 @@ function ReadReply(props: any) {
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
         <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
           {`댓글 Id = ${props.contents.commentId}`}
-          <div className="mx-auto mr-0 flex flex-row">
+          <div className="mx-auto mr-1 flex flex-row">
             {props.contents.content !== '삭제된 댓글입니다.' ? (
               <button
-                className="flex border-l border-dashed border-gray-400 pr-2 pl-2"
+                className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
                 onClick={() => deleteReply()}
               >
-                <img
-                  src={nested_reply}
-                  className="mt-1 mr-1 h-3 font-ng text-sm"
-                />
+                <img src={delete_reply} className="mr-1 h-4 font-ng text-sm" />
                 삭제
               </button>
             ) : null}
             <button
-              className="mx-auto mr-0 flex border-l border-dashed border-gray-400 pr-2 pl-2"
+              className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
               onClick={() => setVisible(!visible)}
             >
-              <img
-                src={nested_reply}
-                className="mt-1 mr-1 h-3 font-ng text-sm"
-              />
+              <img src={nested_reply} className=" mr-1 h-3 font-ng text-sm" />
               답글
             </button>
           </div>
