@@ -37,10 +37,11 @@ public class CommentService {
     }
 
     @Transactional
-    public void updateComment(Long commentId, UpdateCommentRequest dto) {
+    public Long updateComment(Long commentId, UpdateCommentRequest dto) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST));
 
         comment.updateContent(dto.getContent());
+        return comment.getId();
     }
 }
