@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.comment.controller;
 
-import com.graphy.backend.domain.comment.dto.CommentDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -12,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentResponse;
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
 @Tag(name = "CommentController", description = "댓글 관련 API")
 @RestController
@@ -23,11 +22,20 @@ public class CommentController {
 
     @Operation(summary = "createComment", description = "댓글 생성")
     @PostMapping
-    public ResponseEntity<ResultResponse> createProject(@Validated @RequestBody CommentDto.CreateCommentRequest dto) {
+    public ResponseEntity<ResultResponse> createComment(@Validated @RequestBody CreateCommentRequest dto) {
         CreateCommentResponse response = commentService.createComment(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResultResponse.of(ResultCode.COMMENT_CREATE_SUCCESS, response));
+    }
+
+    @Operation(summary = "updateComment", description = "댓글 수정")
+    @PutMapping("/{commentId}")
+    public ResponseEntity<ResultResponse> updateComment(@Validated @RequestBody UpdateCommentRequest dto, @PathVariable Long commentId) {
+        commentService.updateComment(commentId, dto);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResultResponse.of(ResultCode.COMMENT_UPDATE_SUCCESS));
     }
 
     @Operation(summary = "deleteComment", description = "댓글 삭제")

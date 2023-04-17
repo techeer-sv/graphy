@@ -46,6 +46,10 @@ public class Comment extends BaseEntity {
         this.parent = parent;
     }
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
     public void deleteComment(Comment comment) {
         comment.content = "삭제된 댓글입니다.";
     }

@@ -1,15 +1,18 @@
 package com.graphy.backend.domain.comment.service;
 
 import com.graphy.backend.domain.comment.domain.Comment;
+import com.graphy.backend.domain.comment.dto.CommentDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
+import com.graphy.backend.test.MockTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -20,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CommentServiceTest {
+class CommentServiceTest extends MockTest {
 
     @InjectMocks
     private CommentService commentService;
@@ -31,7 +34,8 @@ class CommentServiceTest {
     private ProjectRepository projectRepository;
 
     @Test
-    void 댓글이_생성된다() {
+    @DisplayName("댓글이 생성된다")
+    void createCommentTest() {
 
         //given
         CreateCommentRequest dto = new CreateCommentRequest("내용", 1L, null);
@@ -55,7 +59,8 @@ class CommentServiceTest {
     }
 
     @Test
-    void 대댓글이_생성된다() {
+    @DisplayName("대댓글이 생성된다")
+    void createCommentTest2() {
 
         //given
         CreateCommentRequest dto = new CreateCommentRequest("내용", 1L, 1L);
@@ -65,7 +70,6 @@ class CommentServiceTest {
         Comment comment = Comment.builder().id(2L).content("내용").project(project).parent(parentComment).build();
 
         // mocking
-
         given(commentRepository.save(any()))
                 .willReturn(comment);
 
@@ -165,4 +169,27 @@ class CommentServiceTest {
         // then
         assertTrue(comment.isDeleted());
     }
+
+    @Test
+    @DisplayName("삭제되거나 없는 댓글 수정시 오류가 발생한다")
+    void updateCommentTest() {
+
+        //given
+        Long commentId = 1L;
+
+        String updatedContent = "수정된 내용";
+
+        CommentDto.UpdateCommentRequest commentRequest = new CommentDto.UpdateCommentRequest(updatedContent);
+
+        // mocking
+        given(commentRepository.findById(1L))
+                .willReturn(Optional.empty());
+        //when
+
+        //then
+        assertThrows(EmptyResultDataAccessException.class, () -> {
+            commentService.updateComment(1L, commentRequest);
+        });
+    }
+
 }
