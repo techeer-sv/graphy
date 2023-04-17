@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentResponse;
 
@@ -31,5 +28,13 @@ public class CommentController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResultResponse.of(ResultCode.COMMENT_CREATE_SUCCESS, response));
+    }
+
+    @Operation(summary = "deleteComment", description = "댓글 삭제")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResultResponse> deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));
     }
 }
