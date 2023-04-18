@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import reply_icon from '../assets/image/reply_icon.svg';
 import { useRecoilState } from 'recoil';
 import { projectIdState, refreshState, writeReReplyState } from '../Recoil';
@@ -6,7 +6,7 @@ import axios from 'axios';
 
 function WriteReReply(props: any) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useRecoilState(writeReReplyState);
+  const [value, setValue] = useState('');
   const [projectId, setProjectId] = useRecoilState(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
@@ -17,7 +17,8 @@ function WriteReReply(props: any) {
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
     if (inputValue.length > 256) {
-      setValue(inputValue.substring(0, 256));
+      setValue(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
       return;
     }
     setValue(event.target.value);
@@ -42,6 +43,11 @@ function WriteReReply(props: any) {
       setValue('');
     } catch (error) {
       console.error(error);
+      if (value.length === 0) {
+        alert('대댓글을 입력해주세요.');
+      } else {
+        alert('네트워크 오류');
+      }
     }
   }
 

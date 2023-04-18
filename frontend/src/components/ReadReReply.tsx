@@ -35,7 +35,7 @@ function ReadReReply(props: any) {
             </button>
           ) : null}
         </div>
-        <p className="my-1 ml-2 font-ng" placeholder="댓글 로딩중">
+        <p className="my-1 ml-2 break-words font-ng" placeholder="댓글 로딩중">
           {props.contents.content}
         </p>
       </div>

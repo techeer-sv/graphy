@@ -19,7 +19,8 @@ function Reply(props: any) {
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
     if (inputValue.length > 256) {
-      setValue(inputValue.substring(0, 256));
+      setValue(inputValue.substring(0, 255));
+      alert('댓글은 255자까지 입력하실 수 있습니다.');
       return;
     }
     setValue(event.target.value);
