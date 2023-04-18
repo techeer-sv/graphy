@@ -10,18 +10,18 @@ function WriteReReply(props: any) {
   const [projectId, setProjectId] = useRecoilState(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = event.target.value;
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = e.target.value;
     if (textAreaRef.current) {
       textAreaRef.current.style.height = 'auto';
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
-    if (inputValue.length > 256) {
+    if (inputValue.length > 255) {
       setValue(inputValue.substring(0, 255));
       alert('대댓글은 255자까지 입력하실 수 있습니다.');
       return;
     }
-    setValue(event.target.value);
+    setValue(inputValue);
   };
 
   useEffect(() => {

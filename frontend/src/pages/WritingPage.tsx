@@ -36,11 +36,23 @@ function WritingPage() {
 
   //제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length > 255) {
+      setTitle(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
+      return;
+    }
+    setTitle(inputValue);
   };
   //소개 변경 함수
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTldr(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length > 255) {
+      setTldr(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
+      return;
+    }
+    setTldr(inputValue);
   };
   //POST요청 보내서 데이터 전송하는 함수
   async function postData() {
@@ -60,6 +72,15 @@ function WritingPage() {
       setProjectId(res.data.data.projectId);
     } catch (error) {
       console.error(error);
+      if (title.length === 0) {
+        alert('제목을 입력해주세요.');
+      } else if (tldr.length === 0) {
+        alert('한줄 소개를 입력해주세요.');
+      } else if (contents.length === 0) {
+        alert('내용을 입력해주세요.');
+      } else {
+        alert('네트워크 오류');
+      }
     }
   }
   // 취소 버튼 누를시 메인페이지 이동

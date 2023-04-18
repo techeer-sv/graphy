@@ -53,6 +53,7 @@ function QuillEditor() {
           }
         } catch (error) {
           console.log(error);
+          alert('이미지 업로드 실패');
         }
       }
     };

@@ -23,6 +23,7 @@ function ImageUploader() {
         console.log(res);
       } catch (error) {
         console.log(error);
+        alert('업로드 실패');
       }
     }
   }
