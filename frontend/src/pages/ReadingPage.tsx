@@ -60,6 +60,16 @@ function ReadingPage() {
       navigate('/');
     } catch (error) {
       console.error(error);
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response?.data.message ===
+          '이미 삭제되거나 존재하지 않는 프로젝트'
+        ) {
+          alert('이미 삭제되거나 존재하지 않는 프로젝트입니다.');
+        } else {
+          alert('네트워크 오류');
+        }
+      }
     }
   }
   //제목 변경시 재 렌더링
