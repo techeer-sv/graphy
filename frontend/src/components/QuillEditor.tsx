@@ -95,7 +95,7 @@ function QuillEditor() {
             QuillRef.current = element;
           }
         }}
-        className=" font-ng"
+        className="font-ng"
         value={contents}
         onChange={setContents}
         modules={modules}

@@ -54,7 +54,7 @@ function MainPage() {
           sm:invisible"
           onClick={() => toWrite()}
         >
-          <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
+          <img className="mr-2 h-5 w-5" src={WriteIcon} />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
         <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
@@ -68,7 +68,7 @@ function MainPage() {
             : data
                 .filter((x) => x.projectName == searchText)
                 .map((item) => (
-                  <div className=" mx-auto ml-16" key={item.id}>
+                  <div className="mx-auto ml-16" key={item.id}>
                     <ProjectCard items={item} />
                   </div>
                 ))}

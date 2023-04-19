@@ -25,32 +25,31 @@ function ProjectCard(items: any) {
       onClick={() => toRead()}
       className="h-[300px] w-[260px] overflow-hidden rounded-md drop-shadow-md"
     >
-      <div className="flex flex-col justify-center rounded-t-lg bg-sky-100 text-center">
+      <div className="flex flex-col justify-center rounded-t-lg border-b-2 bg-sky-100 text-center">
         {/* <div>우리 학교 동창회 서비스</div>
         <div>moyora</div> */}
         {items.items.thumbNail === '' ? (
           <img
-            className="flex h-[180px] flex-col justify-center rounded-t-lg bg-sky-100 text-center"
+            className="h-48 rounded-t-lg bg-sky-100 text-center"
             src={project}
             alt="프로젝트 이미지"
           />
         ) : (
           <img
-            className="flex h-[180px] flex-col justify-center rounded-t-lg bg-sky-100 text-center"
+            className="h-48 rounded-t-lg bg-sky-100 text-center"
             src={items.items.thumbNail}
             alt="프로젝트 이미지"
           />
         )}
       </div>
-
-      <div className="flex h-[120px] flex-col rounded-b-lg bg-stone-50">
-        <p className="my-auto mx-auto mt-2 ml-4 w-[236px] truncate font-ng-eb text-xl">
+      <div className="flex h-28 flex-col rounded-b-lg bg-white">
+        <p className="my-auto mt-2 ml-4 w-56 truncate text-left font-ng-eb text-xl">
           {items.items.projectName}
         </p>
-        <p className="mx-auto my-auto ml-4 w-[236px] truncate font-ng-b">
+        <p className="my-auto ml-4 w-56 truncate text-left font-ng-b">
           {items.items.description}
         </p>
-        <div className="ml-3 mb-2 mt-2   flex flex-row font-ng">
+        <div className="ml-3 mb-2 mt-2 flex flex-row font-ng">
           {items.items.techTags.map((x: string, y: number) => (
             <img className=" mr-2 h-8 w-8 " src={findImage(x)} key={y} />
           ))}

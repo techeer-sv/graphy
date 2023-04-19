@@ -26,7 +26,7 @@ function ReadReply(props: any) {
   return (
     <>
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
-        <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
+        <div className="flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
           {`댓글 Id = ${props.contents.commentId}`}
           <div className="mx-auto mr-1 flex flex-row">
             {props.contents.content !== '삭제된 댓글입니다.' ? (
@@ -42,7 +42,7 @@ function ReadReply(props: any) {
               className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
               onClick={() => setVisible(!visible)}
             >
-              <img src={nested_reply} className=" mr-1 h-3 font-ng text-sm" />
+              <img src={nested_reply} className="mr-1 h-3 font-ng text-sm" />
               답글
             </button>
           </div>

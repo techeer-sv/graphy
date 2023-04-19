@@ -110,7 +110,7 @@ function ReadingPage() {
         {/**텍스트 영역**/}
         <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/**제목**/}
-          <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
+          <div className="mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
           </div>
           <div className="mb-2 flex flex-row overflow-hidden hover:overflow-x-auto">

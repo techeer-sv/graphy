@@ -45,7 +45,7 @@ function NavBar() {
         onChange={getSearchData}
         type="text"
         placeholder="  search"
-        className=" mx-2 h-auto w-[950px] appearance-none rounded-xl border pl-2 sm:w-full"
+        className=" mx-2 h-auto w-full appearance-none rounded-xl border pl-2 sm:w-full"
       />
 
       {/* 프로젝트 작성 버튼 */}
@@ -54,14 +54,14 @@ function NavBar() {
         sm:h-auto sm:w-auto sm:px-4 sm:py-1"
         onClick={() => toWrite()}
       >
-        <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
+        <img className="mr-2 h-5 w-5" src={WriteIcon} />
         <span className="font-semibold">프로젝트 공유</span>
       </button>
 
       {/* 마이페이지 아이콘 */}
       <button className="mr-12">
         <img
-          className="fixed top-4 right-4 h-[30px] w-[30px] appearance-none"
+          className="fixed top-4 right-4 h-8 w-8 appearance-none"
           src={ProfileIcon}
           alt=""
         />
