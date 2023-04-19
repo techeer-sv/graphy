@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { projectIdState, refreshState, writeReplyState } from '../Recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { projectIdState, refreshState } from '../Recoil';
 import ReadReply from './ReadReply';
 import axios from 'axios';
 
 function Reply(props: any) {
   const [count, SetCount] = useState(0);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useRecoilState(writeReplyState);
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const [value, setValue] = useState('');
+  const projectId = useRecoilValue(projectIdState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
   const [visible, setVisible] = useState(true);
 

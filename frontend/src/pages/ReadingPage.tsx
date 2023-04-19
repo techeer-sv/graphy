@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import NavBar from '../components/NavBar';
 import Reply from '../components/Reply';
@@ -20,9 +20,9 @@ function ReadingPage() {
   const [tldr, setTldr] = useRecoilState(tldrState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [contents, setContents] = useRecoilState(contentsState);
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const projectId = useRecoilValue(projectIdState);
   const [readReply, setReadReply] = useState<object>([]);
-  const [refresh, setRefresh] = useRecoilState(refreshState);
+  const refresh = useRecoilValue(refreshState);
   const navigate = useNavigate();
 
   function toWrite() {

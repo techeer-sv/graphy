@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
 import {
   contentsState,
@@ -19,10 +19,10 @@ import NavBar from '../components/NavBar';
 function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);
   const [tldr, setTldr] = useRecoilState(tldrState);
-  const [contents, setContents] = useRecoilState(contentsState);
-  const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
-  const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const contents = useRecoilValue(contentsState);
+  const selectedStack = useRecoilValue(selectedStackState);
+  const thumbnailUrl = useRecoilValue(thumbnailUrlState);
+  const projectId = useRecoilValue(projectIdState);
   const navigate = useNavigate();
 
   //제목 변경 함수

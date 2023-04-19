@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import reply_icon from '../assets/image/reply_icon.svg';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { projectIdState, refreshState } from '../Recoil';
 import axios from 'axios';
 
 function WriteReReply(props: any) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const projectId = useRecoilValue(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

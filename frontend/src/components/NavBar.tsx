@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import ProfileIcon from '../assets/image/person-circle.svg';
 import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router';
-import { atom, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { searchTextState } from '../Recoil';
 
 function NavBar() {

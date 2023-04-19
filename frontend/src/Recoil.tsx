@@ -18,7 +18,7 @@ const selectedStackState = atom<string[]>({
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
-const contentsState = atom({
+const contentsState = atom<string>({
   key: 'contentsState',
   default: '',
   effects_UNSTABLE: [persistAtom],
@@ -32,11 +32,7 @@ const projectIdState = atom<number>({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
-const writeReplyState = atom({
-  key: 'writeReplyState',
-  default: '',
-});
-const refreshState = atom({
+const refreshState = atom<boolean>({
   key: 'refreshState',
   default: false,
 });
@@ -52,7 +48,6 @@ export {
   contentsState,
   thumbnailUrlState,
   projectIdState,
-  writeReplyState,
   refreshState,
   searchTextState,
 };

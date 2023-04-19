@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { searchTextState } from '../Recoil';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 function MainPage() {
   const [data, setData] = useState<any[]>([]);
-  const [searchText, SetSearchText] = useRecoilState(searchTextState);
+  const searchText = useRecoilValue(searchTextState);
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
@@ -60,16 +60,16 @@ function MainPage() {
         <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
         <div className="relative mx-4 flex flex-wrap justify-center">
           {searchText == ''
-            ? data.map((item, num: number) => (
-                <div className="mx-8 mb-10">
-                  <ProjectCard key={num} items={item} />
+            ? data.map((item) => (
+                <div className="mx-8 mb-10" key={item.id}>
+                  <ProjectCard items={item} />
                 </div>
               ))
             : data
                 .filter((x) => x.projectName == searchText)
-                .map((item, num: number) => (
-                  <div className=" mx-auto ml-16">
-                    <ProjectCard key={num} items={item} />
+                .map((item) => (
+                  <div className=" mx-auto ml-16" key={item.id}>
+                    <ProjectCard items={item} />
                   </div>
                 ))}
         </div>
