@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import reply_icon from '../assets/image/reply_icon.svg';
 import { useRecoilState } from 'recoil';
-import { projectIdState, refreshState, writeReReplyState } from '../Recoil';
+import { projectIdState, refreshState } from '../Recoil';
 import axios from 'axios';
 
 function WriteReReply(props: any) {

@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import reply_icon from '../assets/image/reply_icon.svg';
-import nested_reply from '../assets/image/nested_reply.svg';
 import delete_reply from '../assets/image/delete.svg';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';

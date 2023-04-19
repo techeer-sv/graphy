@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import hljs from 'highlight.js';
 import ReactS3Client from 'react-aws-s3-typescript';

@@ -4,7 +4,6 @@ import ProjectCard from '../components/ProjectCard';
 import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { log } from 'console';
 import { useEffect, useState } from 'react';
 import { searchTextState } from '../Recoil';
 import { useRecoilState } from 'recoil';
@@ -23,10 +22,8 @@ function MainPage() {
   async function postCard() {
     const url = 'http://localhost:8080/api/v1/projects/search';
     const params = {
-      projectName: 'graphy',
-      content: 'hello',
       page: 0,
-      size: 4,
+      size: 0,
     };
     try {
       const res = await axios.post(url, params);
@@ -34,6 +31,7 @@ function MainPage() {
       console.log(res.data.data);
     } catch (error) {
       console.log(error);
+      alert('프로젝트 조회 실패');
     }
   }
 

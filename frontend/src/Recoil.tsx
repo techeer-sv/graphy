@@ -36,10 +36,6 @@ const writeReplyState = atom({
   key: 'writeReplyState',
   default: '',
 });
-const writeReReplyState = atom({
-  key: 'writeReReplyState',
-  default: '',
-});
 const refreshState = atom({
   key: 'refreshState',
   default: false,
@@ -57,7 +53,6 @@ export {
   thumbnailUrlState,
   projectIdState,
   writeReplyState,
-  writeReReplyState,
   refreshState,
   searchTextState,
 };

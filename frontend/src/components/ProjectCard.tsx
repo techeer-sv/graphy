@@ -1,7 +1,6 @@
 import project from '../assets/image/project.png';
 import AllStacks from '../Stack';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { projectIdState } from '../Recoil';
 
