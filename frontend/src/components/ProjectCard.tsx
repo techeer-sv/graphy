@@ -23,7 +23,7 @@ function ProjectCard(items: any) {
   return (
     <button
       onClick={() => toRead()}
-      className="h-[300px] w-[260px] overflow-hidden rounded-md drop-shadow-md"
+      className="w-64 overflow-hidden rounded-md drop-shadow-md transition duration-150 hover:scale-105 hover:shadow-lg"
     >
       <div className="flex flex-col justify-center rounded-t-lg border-b-2 bg-sky-100 text-center">
         {/* <div>우리 학교 동창회 서비스</div>
