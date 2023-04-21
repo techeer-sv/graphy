@@ -23,13 +23,12 @@ function MainPage() {
   async function postCard() {
     const url = 'http://localhost:8080/api/v1/projects/search';
     const params = {
-      projectName: 'graphy',
-      content: 'hello',
+      projectName: searchText,
       page: 0,
-      size: 4,
+      size: 1
     };
     try {
-      const res = await axios.post(url, params);
+      const res = await axios.post(url, null, { params });
       setData(res.data.data);
       console.log(res.data.data);
     } catch (error) {
@@ -39,7 +38,7 @@ function MainPage() {
 
   useEffect(() => {
     postCard(); //랜더링이 될 때 실행되는 함수
-  }, []); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
+  }, [searchText]); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
 
   useEffect(() => {
     setData(data);
@@ -68,7 +67,7 @@ function MainPage() {
                 </div>
               ))
             : data
-                .filter((x) => x.projectName == searchText)
+              .filter((x) => x.projectName.includes(searchText))
                 .map((item, num: number) => (
                   <div className=" mx-auto ml-16">
                     <ProjectCard key={num} items={item} />
