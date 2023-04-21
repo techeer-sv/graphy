@@ -45,8 +45,8 @@ public class ProjectControllerTest {
     @Test
     public void 댓글과_대댓글이_조회된다() throws Exception {
         //given
-        GetCommentsResponse getCommentsResponse1 = new GetCommentsResponse(1L, 3L, "content", null);
-        GetCommentsResponse getCommentsResponse2 = new GetCommentsResponse(1L, 4L, "content2", null);
+        GetCommentsResponse getCommentsResponse1 = new GetCommentsResponse(1L, 3L, "content", null, null);
+        GetCommentsResponse getCommentsResponse2 = new GetCommentsResponse(1L, 4L, "content2", null, null);
 
         List<GetCommentsResponse> list = new ArrayList<>();
         list.add(getCommentsResponse1);

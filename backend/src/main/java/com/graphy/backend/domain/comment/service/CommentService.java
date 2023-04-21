@@ -8,11 +8,9 @@ import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentRequest;
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentResponse;
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,20 +37,29 @@ public class CommentService {
     }
 
     @Transactional
+    public Long updateComment(Long commentId, UpdateCommentRequest dto) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST));
+
+        comment.updateContent(dto.getContent());
+        return comment.getId();
+    }
+
+    @Transactional
     public void deleteComment(Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
-
-        // 대댓글인 경우
+        comment.delete();
+//         대댓글인 경우
         if (comment.getParent() != null) {
             // 삭제
-            comment.setDeletedTrue();
+            comment.delete();
             //commentRepository.delete(comment);
 
             //부모 댓글이 삭제된 상태고 다른 대댓글이 없으면 부모 댓글도 삭제
             if (comment.getParent().getContent().equals("삭제된 댓글입니다.") &&
                     comment.getParent().getChildList().size() == 1) {
-                comment.getParent().setDeletedTrue();
+                comment.getParent().delete();
 //                commentRepository.delete(comment.getParent());
             }
 
@@ -61,7 +68,7 @@ public class CommentService {
 
             // 자식 댓글이 없으면 삭제
             if (comment.getChildList().isEmpty()) {
-                comment.setDeletedTrue();
+                comment.delete();
 //                commentRepository.delete(comment);
             }
             // 자식 댓글이 남았으면 "삭제된 댓글입니다."

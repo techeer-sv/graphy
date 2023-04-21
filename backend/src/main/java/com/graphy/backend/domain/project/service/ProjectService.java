@@ -55,9 +55,12 @@ public class ProjectService {
     }
 
     public CreateProjectResponse createProject(CreateProjectRequest dto) {
-        Tags foundTags = getTagsWithName(dto.getTechTags());
         Project entity = mapper.toEntity(dto);
-        entity.addTag(foundTags);
+        if (dto.getTechTags() != null) {
+            Tags foundTags = getTagsWithName(dto.getTechTags());
+            entity.addTag(foundTags);
+        }
+
 
         Project project = projectRepository.save(entity);
         return mapper.toCreateProjectDto(project.getId());
@@ -89,7 +92,8 @@ public class ProjectService {
     }
 
     public GetProjectDetailResponse getProjectById(Long projectId) {
-        Project project = projectRepository.findById(projectId).get();
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
         return mapper.toGetProjectDetailDto(project);
     }
 
