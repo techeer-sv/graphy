@@ -46,7 +46,9 @@ function MainPage() {
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
       <NavBar />
       <Banner />
+      
       <div>
+        {/* 프로젝트 공유 버튼 */}
         <button
           className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
           bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md
@@ -56,7 +58,11 @@ function MainPage() {
           <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
+
+        {/* 카테고리 */}
         {/* <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div> */}
+
+        {/* 프로젝트 카드 리스트 */}
         <div className="relative mx-4 flex flex-wrap justify-center">
           {searchText == ''
             ? data.map((item, num: number) => (
