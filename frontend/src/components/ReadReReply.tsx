@@ -3,9 +3,17 @@ import delete_reply from '../assets/image/delete.svg';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../Recoil';
+import { useState } from 'react';
+import pencil_square from '../assets/image/pencil-square.svg';
+import PutReply from './PutReply';
 
 function ReadReReply(props: any) {
+  const [putVis, setPutVis] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
+
+  function changePutVis() {
+    setPutVis(false);
+  }
 
   async function deleteReReply() {
     const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
@@ -18,26 +26,44 @@ function ReadReReply(props: any) {
     }
   }
   return (
-    <div className="relative">
-      <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
-      <div className="mt-3 ml-8 h-auto rounded-lg border-2 border-gray-400">
-        <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm ">
-          {`댓글 Id = ${props.contents.commentId}, 부모 Id = ${props.contents.parentId}`}
-          {props.contents.content !== '삭제된 댓글입니다.' ? (
+    <>
+      <div className="relative">
+        <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
+        <div className="mt-3 ml-8 h-auto rounded-lg border-2 border-gray-400">
+          <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm ">
+            {`댓글 Id = ${props.contents.commentId}, 부모 Id = ${props.contents.parentId}`}
+            {props.contents.content !== '삭제된 댓글입니다.' ? (
+              <button
+                className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
+                onClick={() => deleteReReply()}
+              >
+                <img src={delete_reply} className="mr-1 h-4 font-ng text-sm" />
+                삭제
+              </button>
+            ) : null}
             <button
-              className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
-              onClick={() => deleteReReply()}
+              className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
+              onClick={() => setPutVis(!putVis)}
             >
-              <img src={delete_reply} className="mr-1 h-4 font-ng text-sm" />
-              삭제
+              <img src={pencil_square} className="mr-1 h-3 font-ng text-sm" />
+              수정
             </button>
-          ) : null}
+          </div>
+          <p
+            className="my-1 ml-2 break-words font-ng"
+            placeholder="댓글 로딩중"
+          >
+            {props.contents.content}
+          </p>
         </div>
-        <p className="my-1 ml-2 break-words font-ng" placeholder="댓글 로딩중">
-          {props.contents.content}
-        </p>
       </div>
-    </div>
+      {/*댓글 수정창*/}
+      {putVis ? (
+        <div className="ml-8">
+          <PutReply contents={props.contents} changePutVis={changePutVis} />
+        </div>
+      ) : null}
+    </>
   );
 }
 

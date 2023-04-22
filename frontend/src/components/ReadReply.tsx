@@ -4,13 +4,24 @@ import nested_reply from '../assets/image/nested_reply.svg';
 import ReadReReply from './ReadReReply';
 import WriteReReply from './WriteReReply';
 import delete_reply from '../assets/image/delete.svg';
+import pencil_square from '../assets/image/pencil-square.svg';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../Recoil';
+import PutReply from './PutReply';
 
 function ReadReply(props: any) {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [writeVis, setWriteVis] = useState<boolean>(false);
+  const [putVis, setPutVis] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
+
+  function changeWriteVis() {
+    setWriteVis(false);
+  }
+
+  function changePutVis() {
+    setPutVis(false);
+  }
 
   async function deleteReply() {
     const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
@@ -39,8 +50,15 @@ function ReadReply(props: any) {
               </button>
             ) : null}
             <button
+              className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
+              onClick={() => setPutVis(!putVis)}
+            >
+              <img src={pencil_square} className="mr-1 h-3 font-ng text-sm" />
+              수정
+            </button>
+            <button
               className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
-              onClick={() => setVisible(!visible)}
+              onClick={() => setWriteVis(!writeVis)}
             >
               <img src={nested_reply} className="mr-1 h-3 font-ng text-sm" />
               답글
@@ -51,6 +69,10 @@ function ReadReply(props: any) {
           {props.contents.content}
         </p>
       </div>
+      {/*댓글 수정창*/}
+      {putVis ? (
+        <PutReply contents={props.contents} changePutVis={changePutVis} />
+      ) : null}
       {/*대댓글 표시*/}
       {props.contents.childComments.map((x: object, y: number) => (
         <ReadReReply
@@ -59,7 +81,12 @@ function ReadReply(props: any) {
         />
       ))}
       {/*대댓글 입력창*/}
-      {visible ? <WriteReReply contents={props.contents} /> : null}
+      {writeVis ? (
+        <WriteReReply
+          contents={props.contents}
+          changeWriteVis={changeWriteVis}
+        />
+      ) : null}
     </>
   );
 }
