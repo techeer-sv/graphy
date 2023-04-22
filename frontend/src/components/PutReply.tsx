@@ -69,7 +69,7 @@ function PutReply(props: any) {
             className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
             onClick={() => put()}
           >
-            등록
+            수정
           </button>
         </div>
       </div>
