@@ -8,7 +8,8 @@ import { searchTextState } from '../Recoil';
 function NavBar() {
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
   const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    SetSearchText(e.target.value.toLowerCase());
+    //SetSearchText(e.target.value.toLowerCase());
+    SetSearchText(e.target.value);
   };
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언

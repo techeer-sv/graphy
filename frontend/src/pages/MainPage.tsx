@@ -24,8 +24,6 @@ function MainPage() {
     const url = 'http://localhost:8080/api/v1/projects/search';
     const params = {
       projectName: searchText,
-      page: 0,
-      size: 1
     };
     try {
       const res = await axios.post(url, null, { params });
@@ -47,8 +45,8 @@ function MainPage() {
   return (
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
       <NavBar />
+      <Banner />
       <div>
-        <Banner />
         <button
           className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
           bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md
@@ -58,7 +56,7 @@ function MainPage() {
           <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
-        <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
+        {/* <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div> */}
         <div className="relative mx-4 flex flex-wrap justify-center">
           {searchText == ''
             ? data.map((item, num: number) => (
