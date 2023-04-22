@@ -44,7 +44,11 @@ function Reply(props: any) {
       setRefresh(!refresh);
       setValue('');
     } catch (error) {
-      console.error(error);
+      if (value.trim().length === 0) {
+        alert('댓글을 입력해주세요.');
+      } else {
+        alert('네트워크 오류');
+      }
     }
   }
 

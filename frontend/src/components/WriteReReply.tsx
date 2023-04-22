@@ -46,7 +46,7 @@ function WriteReReply(props: any) {
       setValue('');
     } catch (error) {
       console.error(error);
-      if (value.length === 0) {
+      if (value.trim().length === 0) {
         alert('대댓글을 입력해주세요.');
       } else {
         alert('네트워크 오류');

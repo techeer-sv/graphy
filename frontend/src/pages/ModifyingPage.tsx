@@ -62,11 +62,11 @@ function ModifyingPage() {
       navigate('/read');
     } catch (error) {
       console.error(error);
-      if (title.length === 0) {
+      if (title.trim().length === 0) {
         alert('제목을 입력해주세요.');
-      } else if (tldr.length === 0) {
+      } else if (tldr.trim().length === 0) {
         alert('한줄 소개를 입력해주세요.');
-      } else if (contents.length === 0) {
+      } else if (contents.trim().length === 0) {
         alert('내용을 입력해주세요.');
       } else {
         alert('네트워크 오류');

@@ -23,6 +23,7 @@ function ReadReReply(props: any) {
       setRefresh(!refresh);
     } catch (error) {
       console.error(error);
+      alert('대댓글 삭제 실패');
     }
   }
   return (
