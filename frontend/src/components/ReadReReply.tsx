@@ -11,6 +11,15 @@ function ReadReReply(props: any) {
   const [putVis, setPutVis] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
+  const date = new Date(props.contents.createdAt);
+
+  const formattedDate = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+
   function changePutVis() {
     setPutVis(false);
   }
@@ -26,16 +35,18 @@ function ReadReReply(props: any) {
       alert('대댓글 삭제 실패');
     }
   }
+
   return (
     <>
       <div className="relative">
         <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
         <div className="mt-3 ml-8 h-auto rounded-lg border-2 border-gray-400">
           <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm ">
-            {`댓글 Id = ${props.contents.commentId}, 부모 Id = ${props.contents.parentId}`}
+            <p className="font-ng">{`ID ${props.contents.commentId}`}</p>
+            <p className="mx-auto mr-2 font-ng-b">{formattedDate}</p>
             {props.contents.content !== '삭제된 댓글입니다.' ? (
               <button
-                className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
+                className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
                 onClick={() => deleteReReply()}
               >
                 <img src={delete_reply} className="mr-1 h-4 font-ng text-sm" />
