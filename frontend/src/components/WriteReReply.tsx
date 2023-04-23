@@ -27,7 +27,10 @@ function WriteReReply(props: any) {
   useEffect(() => {
     console.log(props);
     if (textAreaRef.current) {
-      textAreaRef.current.scrollIntoView({ behavior: 'auto' });
+      textAreaRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
     }
   }, []);
 

@@ -24,6 +24,12 @@ function PutReply(props: any) {
 
   useEffect(() => {
     console.log(props);
+    if (textAreaRef.current) {
+      textAreaRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
   }, []);
 
   async function putData() {
