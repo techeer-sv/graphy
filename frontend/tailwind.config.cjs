@@ -6,6 +6,9 @@ module.exports = {
       colors: {
         graphybg: '#F9F8F8',
         graphyblue: '#505F9A',
+        mainbannerleft: '#678EF4',
+        mainbannerright: '#FF93AE',
+        subbanner: '#C1D0EF',
       },
       width: {
         284: '17.75rem',
@@ -22,6 +25,7 @@ module.exports = {
         1100: '68.75rem',
       },
       minHeight: {
+        56: '14rem',
         96: '24rem',
       },
       fontFamily: {
@@ -30,6 +34,8 @@ module.exports = {
         'ng-b': ['NanumGothicBold', 'sans-serif'],
         'ng-eb': ['NanumGothicExtraBold', 'sans-serif'],
         'ng-l': ['NanumGothicLight', 'sans-serif'],
+        lef: ['LeferiBaseRegular', 'sans-serif'],
+        'lef-b': ['LeferiBaseBold', 'sans-serif'],
       },
     },
   },
