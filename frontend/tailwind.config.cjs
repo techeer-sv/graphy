@@ -36,6 +36,8 @@ module.exports = {
         'ng-l': ['NanumGothicLight', 'sans-serif'],
         lef: ['LeferiBaseRegular', 'sans-serif'],
         'lef-b': ['LeferiBaseBold', 'sans-serif'],
+        lato: ['LatoBold', 'sans-serif'],
+
       },
     },
   },

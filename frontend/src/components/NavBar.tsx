@@ -29,13 +29,13 @@ function NavBar() {
       {/* 로고 */}
       <button
         onClick={() => toMain()}
-        className="ml-10 hidden font-ng-eb text-4xl text-graphyblue sm:block"
+        className="ml-10 hidden font-lato text-4xl text-graphyblue sm:block"
       >
         Graphy
       </button>
       <button
         onClick={() => toMain()}
-        className="ml-10 font-ng-eb text-4xl text-graphyblue sm:hidden"
+        className="ml-10 font-lato text-4xl text-graphyblue sm:hidden"
       >
         G
       </button>

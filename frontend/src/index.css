@@ -29,3 +29,7 @@
   font-family: "LeferiBaseBold";
   src: url("./assets/fonts/LeferiBaseBold.ttf");
 }
+@font-face {
+  font-family: "LatoBold";
+  src: url("./assets/fonts/LatoBold.ttf");
+}

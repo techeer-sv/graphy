@@ -14,8 +14,8 @@ function Banner() {
       className="bg-subbanner h-56 "
     >
       <SwiperSlide className="bg-gradient-to-r from-mainbannerleft to-mainbannerright h-56 ">
-      <p className='mt-20 ml-20 font-lef-b text-4xl text-white'>프로젝트 기록과 공유의 공간, Graphy</p>
-      <p className='ml-20 font-lef text-2xl text-white'>Graphy와 함께 성장해보세요.</p>
+        <p className='mt-16 ml-20 font-lef-b text-4xl text-white border-b-4 pb-3 pr-0 w-fit '>프로젝트 기록과 공유의 공간, Graphy</p>
+        <p className='mt-3 ml-20 font-lef text-2xl text-white'>Graphy와 함께 성장해보세요.</p>
       </SwiperSlide>
       <SwiperSlide className='bg-subbanner'></SwiperSlide>
     </Swiper>
