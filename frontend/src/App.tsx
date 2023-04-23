@@ -17,7 +17,6 @@ function App() {
           <Route path="/write" element={<WritingPage />} />
           <Route path="/read" element={<ReadingPage />} />
           <Route path="/modify" element={<ModifyingPage />} />
-          <Route path="/banner" element={<Banner />} />
         </Routes>
       </Router>
     </RecoilRoot>
