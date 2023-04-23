@@ -7,9 +7,6 @@ plugins {
     // rest-docs
     id 'org.asciidoctor.jvm.convert' version "3.3.2"
 
-    // jacoco
-    id 'jacoco'
-
     // sonarqube
     id 'org.sonarqube' version "3.3"
 }
