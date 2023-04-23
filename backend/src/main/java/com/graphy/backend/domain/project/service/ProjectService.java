@@ -92,7 +92,8 @@ public class ProjectService {
     }
 
     public GetProjectDetailResponse getProjectById(Long projectId) {
-        Project project = projectRepository.findById(projectId).get();
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
         return mapper.toGetProjectDetailDto(project);
     }
 

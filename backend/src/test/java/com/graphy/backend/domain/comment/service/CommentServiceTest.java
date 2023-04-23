@@ -14,14 +14,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentRequest;
 import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest extends MockTest {
@@ -89,6 +88,86 @@ class CommentServiceTest extends MockTest {
         Comment findComment = commentRepository.findById(response.getCommentId()).get();
         assertEquals(parentComment, findComment.getParent());
         assertEquals(dto.getContent(), findComment.getContent());
+    }
+
+    @Test
+    public void 대댓글의_경우_바로_삭제() throws Exception {
+        //given
+        Comment comment = Comment.builder().id(1L).content("댓글").build();
+        Comment reComment = Comment.builder().id(2L).content("대댓글1").parent(comment).build();
+
+        // mocking
+        given(commentRepository.findById(2L)).willReturn(Optional.of(reComment));
+
+        // when
+        commentService.deleteComment(2L);
+
+        //then
+        assertTrue(reComment.isDeleted());
+    }
+
+    @Test
+    public void 대댓글_삭제_후에_부모댓글이_삭제된_상태고_대댓글이_없으면_부모댓글도_삭제() throws Exception {
+
+        //given
+        Comment comment = Comment.builder().id(1L).content("삭제된 댓글입니다.").childList(new ArrayList<>()).build();
+        Comment reComment = Comment.builder().id(2L).content("대댓글").parent(comment).build();
+        comment.getChildList().add(reComment);
+
+        //mocking
+        given(commentRepository.findById(2L)).willReturn(Optional.of(reComment));
+
+        // when
+        commentService.deleteComment(2L);
+
+        //then
+        assertTrue(comment.isDeleted());
+        assertTrue(reComment.isDeleted());
+    }
+
+    @Test
+    public void 댓글의_경우_대댓글이_남았으면_삭제된_댓글입니다_표시() throws Exception {
+
+        //given
+        Comment comment = Comment.builder().id(2L).content("댓글").childList(new ArrayList<>()).build();
+
+        Comment reComment1 = Comment.builder().content("대댓글1").build();
+        Comment reComment2 = Comment.builder().content("대댓글2").build();
+
+        comment.getChildList().add(reComment1);
+        comment.getChildList().add(reComment2);
+
+        // mocking
+        given(commentRepository.findById(2L)).willReturn(Optional.of(comment));
+
+        //when
+        System.out.println("============삭제 전============");
+        System.out.println(comment.getContent()+"\n");
+        commentService.deleteComment(2L);
+
+        //then
+        System.out.println("============삭제 후============");
+        System.out.println(comment.getContent());
+        assertEquals(comment.getContent(), "삭제된 댓글입니다.");
+    }
+
+    @Test
+    @DisplayName("댓글의 경우 대댓글이 없으면 삭제")
+    public void deleteCommentWithoutReComment() throws Exception {
+
+        //given
+
+        Comment comment = Comment.builder().id(2L).content("댓글").childList(new ArrayList<>()).build();
+
+        //mocking
+        given(commentRepository.findById(2L)).willReturn(Optional.ofNullable(comment));
+
+
+        // when
+        commentService.deleteComment(2L);
+
+        // then
+        assertTrue(comment.isDeleted());
     }
 
     @Test

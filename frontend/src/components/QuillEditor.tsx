@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import hljs from 'highlight.js';
 import ReactS3Client from 'react-aws-s3-typescript';
@@ -53,6 +53,7 @@ function QuillEditor() {
           }
         } catch (error) {
           console.log(error);
+          alert('이미지 업로드 실패');
         }
       }
     };
@@ -94,7 +95,7 @@ function QuillEditor() {
             QuillRef.current = element;
           }
         }}
-        className=" font-ng"
+        className="font-ng"
         value={contents}
         onChange={setContents}
         modules={modules}

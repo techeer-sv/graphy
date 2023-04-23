@@ -37,4 +37,12 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.COMMENT_UPDATE_SUCCESS));
     }
+
+    @Operation(summary = "deleteComment", description = "댓글 삭제")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResultResponse> deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));
+    }
 }

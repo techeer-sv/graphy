@@ -14,7 +14,7 @@ function QuillWrtten() {
   }, [contents]);
 
   return (
-    <div className=" pointer-events-none mt-4 h-auto border text-2xl">
+    <div className="pointer-events-none mt-4 h-auto border text-2xl">
       {contents ? (
         <ReactQuill value={contents} readOnly={true} theme="bubble" />
       ) : (

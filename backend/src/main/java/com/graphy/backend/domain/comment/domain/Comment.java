@@ -3,6 +3,8 @@ package com.graphy.backend.domain.comment.domain;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +16,8 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Entity
 @Builder
+@SQLDelete(sql = "UPDATE comment SET is_deleted = true WHERE comment_id = ?")
+@Where(clause = "is_deleted = false")
 public class Comment extends BaseEntity {
 
     @Id
@@ -44,5 +48,9 @@ public class Comment extends BaseEntity {
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void deleteComment(Comment comment) {
+        comment.content = "삭제된 댓글입니다.";
     }
 }
