@@ -1,1 +1,1 @@
-export { default as lottie } from './lottie/Lottiecoding.json';
+export { default as lottie } from './lottie/developer.json';
