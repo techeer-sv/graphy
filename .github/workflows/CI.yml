@@ -41,12 +41,14 @@ jobs:
 
     - name: Make properties
       run: |
-        cd backend/src/main/resources
-        touch ./application.properties
-        echo "${{ secrets.TEST_PROPERTIES }}" > ./application.properties
         cd backend
         touch ./gradle.properties
         echo "${{ secrets.TEST_GRADLE_PROPERTIES }}" > ./gradle.properties
+        
+        cd src/main/resources
+        touch ./application.properties
+        echo "${{ secrets.TEST_PROPERTIES }}" > ./application.properties
+
       shell: bash
 
     - name: Test with Gradle
