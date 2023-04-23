@@ -38,7 +38,7 @@ import Rust from './assets/image/stacklogo/Rust.svg';
 import Spring from './assets/image/stacklogo/Spring.svg';
 import Svelte from './assets/image/stacklogo/Svelte.svg';
 import Swift from './assets/image/stacklogo/Swift.svg';
-import Tensorflow from './assets/image/stacklogo/Tensorflow.svg';
+import TensorFlow from './assets/image/stacklogo/TensorFlow.svg';
 import Typescript from './assets/image/stacklogo/Typescript.svg';
 import Unity from './assets/image/stacklogo/Unity.svg';
 import Vue from './assets/image/stacklogo/Vue.svg';
@@ -93,7 +93,7 @@ const AllStacks = [
   new AllStack('Spring', Spring),
   new AllStack('Svelte', Svelte),
   new AllStack('Swift', Swift),
-  new AllStack('Tensorflow', Tensorflow),
+  new AllStack('TensorFlow', TensorFlow),
   new AllStack('TypeScript', Typescript),
   new AllStack('Unity', Unity),
   new AllStack('Vue', Vue),

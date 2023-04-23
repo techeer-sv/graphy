@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import NavBar from '../components/NavBar';
 import Reply from '../components/Reply';
@@ -20,9 +20,9 @@ function ReadingPage() {
   const [tldr, setTldr] = useRecoilState(tldrState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [contents, setContents] = useRecoilState(contentsState);
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const projectId = useRecoilValue(projectIdState);
   const [readReply, setReadReply] = useState<object>([]);
-  const [refresh, setrefresh] = useRecoilState(refreshState);
+  const refresh = useRecoilValue(refreshState);
   const navigate = useNavigate();
 
   function toWrite() {
@@ -48,6 +48,7 @@ function ReadingPage() {
       setReadReply(res.data.data.commentsList);
     } catch (error) {
       console.error(error);
+      alert('프로젝트 상세 조회 실패');
     }
   }
   //DELETE 요청 보내는 함수
@@ -60,6 +61,16 @@ function ReadingPage() {
       navigate('/');
     } catch (error) {
       console.error(error);
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response?.data.message ===
+          '이미 삭제되거나 존재하지 않는 프로젝트'
+        ) {
+          alert('이미 삭제되거나 존재하지 않는 프로젝트입니다.');
+        } else {
+          alert('네트워크 오류');
+        }
+      }
     }
   }
   //제목 변경시 재 렌더링
@@ -100,7 +111,7 @@ function ReadingPage() {
         {/**텍스트 영역**/}
         <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/**제목**/}
-          <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
+          <div className="mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
           </div>
           <div className="mb-2 flex flex-row overflow-hidden hover:overflow-x-auto">
@@ -160,7 +171,7 @@ function ReadingPage() {
             글작성
           </button>
         </div>
-        <Reply contents={readReply} />
+        <Reply contents={readReply} setReadReply={setReadReply} />
       </div>
     </div>
   );

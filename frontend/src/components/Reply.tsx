@@ -1,28 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { projectIdState, refreshState, writeReplyState } from '../Recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { projectIdState, refreshState } from '../Recoil';
 import ReadReply from './ReadReply';
 import axios from 'axios';
 
 function Reply(props: any) {
   const [count, SetCount] = useState(0);
+  const [selectedValue, setSelectedValue] = useState<string>('regist_order');
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useRecoilState(writeReplyState);
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const [value, setValue] = useState('');
+  const projectId = useRecoilValue(projectIdState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
   const [visible, setVisible] = useState(true);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = event.target.value;
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = e.target.value;
     if (textAreaRef.current) {
       textAreaRef.current.style.height = 'auto';
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
-    if (inputValue.length > 256) {
-      setValue(inputValue.substring(0, 256));
+    if (inputValue.length > 255) {
+      setValue(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
       return;
     }
-    setValue(event.target.value);
+    setValue(inputValue);
   };
 
   function MoveToTop() {
@@ -42,9 +44,61 @@ function Reply(props: any) {
       console.log(res.data);
       setRefresh(!refresh);
       setValue('');
+      setSelectedValue('regist_order');
     } catch (error) {
-      console.error(error);
+      if (value.trim().length === 0) {
+        alert('댓글을 입력해주세요.');
+      } else {
+        alert('네트워크 오류');
+      }
     }
+  }
+
+  function handleselectChange(event: { target: { value: any } }) {
+    const selectedValue = event.target.value; // 선택된 값 가져오기
+    setSelectedValue(selectedValue); // 선택된 값 상태 업데이트
+    myFunction(selectedValue); // 선택된 값 전달하여 실행할 함수 호출
+  }
+
+  function myFunction(selectedValue: any) {
+    switch (selectedValue) {
+      case 'newest_order':
+        console.log(props);
+        const sortedContents = props.contents.slice().sort((a: any, b: any) => {
+          const aTime = new Date(a.createdAt).getTime();
+          const bTime = new Date(b.createdAt).getTime();
+          return bTime - aTime;
+        });
+        props.setReadReply(sortedContents);
+        break;
+      case 'reply_order':
+        console.log(props);
+        // 답글순 정렬
+        const replyedContents = props.contents
+          .slice()
+          .sort((a: any, b: any) => {
+            return b.childComments.length - a.childComments.length;
+          });
+        props.setReadReply(replyedContents);
+        break;
+      default:
+        console.log(props);
+        // 등록순 정렬
+        const regisedContents = props.contents
+          .slice()
+          .sort((a: any, b: any) => {
+            const aTime = new Date(a.createdAt).getTime();
+            const bTime = new Date(b.createdAt).getTime();
+            return aTime - bTime;
+          });
+        props.setReadReply(regisedContents);
+        break;
+    }
+  }
+
+  function handleRefresh() {
+    setRefresh(!refresh);
+    setSelectedValue('regist_order');
   }
 
   useEffect(() => {
@@ -62,7 +116,11 @@ function Reply(props: any) {
         <span className="mr-2 flex flex-row font-ng-b text-lg">
           전체 댓글 <p className="ml-1 text-graphyblue">{count}</p>개
         </span>
-        <select className="mb-1 rounded border border-black bg-graphybg font-ng text-sm">
+        <select
+          className="mb-1 rounded border border-black bg-graphybg font-ng text-sm"
+          value={selectedValue}
+          onChange={handleselectChange}
+        >
           <option value="regist_order">등록순</option>
           <option value="newest_order">최신순</option>
           <option value="reply_order">답글순</option>
@@ -82,7 +140,7 @@ function Reply(props: any) {
           </button>
           <button
             className="mr-1 font-ng-b text-sm"
-            onClick={() => setRefresh(!refresh)}
+            onClick={() => handleRefresh()}
           >
             새로고침
           </button>
@@ -93,7 +151,11 @@ function Reply(props: any) {
         {visible ? (
           <>
             {props.contents.map((x: object, y: number) => (
-              <ReadReply contents={x} key={props.contents[y].commentId} />
+              <ReadReply
+                contents={x}
+                key={props.contents[y].commentId}
+                setSelectedValue={setSelectedValue}
+              />
             ))}
           </>
         ) : null}

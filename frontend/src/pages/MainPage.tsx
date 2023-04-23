@@ -4,14 +4,13 @@ import ProjectCard from '../components/ProjectCard';
 import WriteIcon from '../assets/image/pencil-square.svg';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { log } from 'console';
 import { useEffect, useState } from 'react';
 import { searchTextState } from '../Recoil';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 function MainPage() {
   const [data, setData] = useState<any[]>([]);
-  const [searchText, SetSearchText] = useRecoilState(searchTextState);
+  const searchText = useRecoilValue(searchTextState);
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
@@ -31,6 +30,7 @@ function MainPage() {
       console.log(res.data.data);
     } catch (error) {
       console.log(error);
+      alert('프로젝트 조회 실패');
     }
   }
 
@@ -55,7 +55,7 @@ function MainPage() {
           sm:invisible"
           onClick={() => toWrite()}
         >
-          <img className="mr-2 h-[20px] w-[20px]" src={WriteIcon} />
+          <img className="mr-2 h-5 w-5" src={WriteIcon} />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
 
@@ -65,9 +65,9 @@ function MainPage() {
         {/* 프로젝트 카드 리스트 */}
         <div className="relative mx-4 flex flex-wrap justify-center">
           {searchText == ''
-            ? data.map((item, num: number) => (
-                <div className="mx-8 mb-10">
-                  <ProjectCard key={num} items={item} />
+            ? data.map((item) => (
+                <div className="mx-8 mb-10" key={item.id}>
+                  <ProjectCard items={item} />
                 </div>
               ))
             : data
