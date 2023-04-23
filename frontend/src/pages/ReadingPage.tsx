@@ -171,7 +171,7 @@ function ReadingPage() {
             글작성
           </button>
         </div>
-        <Reply contents={readReply} />
+        <Reply contents={readReply} setReadReply={setReadReply} />
       </div>
     </div>
   );

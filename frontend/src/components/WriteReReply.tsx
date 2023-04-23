@@ -60,6 +60,7 @@ function WriteReReply(props: any) {
   function post() {
     postData();
     props.changeWriteVis();
+    props.setSelectedValue('regist_order');
   }
 
   return (

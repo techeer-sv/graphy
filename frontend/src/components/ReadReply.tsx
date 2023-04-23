@@ -82,7 +82,11 @@ function ReadReply(props: any) {
       </div>
       {/*댓글 수정창*/}
       {putVis ? (
-        <PutReply contents={props.contents} changePutVis={changePutVis} />
+        <PutReply
+          contents={props.contents}
+          changePutVis={changePutVis}
+          setSelectedValue={props.setSelectedValue}
+        />
       ) : null}
       {/*대댓글 표시*/}
       {props.contents.childComments.map((x: object, y: number) => (
@@ -96,6 +100,7 @@ function ReadReply(props: any) {
         <WriteReReply
           contents={props.contents}
           changeWriteVis={changeWriteVis}
+          setSelectedValue={props.setSelectedValue}
         />
       ) : null}
     </>

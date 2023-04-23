@@ -151,7 +151,11 @@ function Reply(props: any) {
         {visible ? (
           <>
             {props.contents.map((x: object, y: number) => (
-              <ReadReply contents={x} key={props.contents[y].commentId} />
+              <ReadReply
+                contents={x}
+                key={props.contents[y].commentId}
+                setSelectedValue={setSelectedValue}
+              />
             ))}
           </>
         ) : null}

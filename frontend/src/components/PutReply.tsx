@@ -56,6 +56,7 @@ function PutReply(props: any) {
   function put() {
     putData();
     props.changePutVis();
+    props.setSelectedValue('regist_order');
   }
 
   return (
