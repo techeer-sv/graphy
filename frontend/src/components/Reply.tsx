@@ -112,12 +112,12 @@ function Reply(props: any) {
   return (
     <div>
       {/*댓글 개수, 댓글 나열 카테고리*/}
-      <div className="mb-2 flex flex-row border-b-2 border-graphyblue">
-        <span className="mr-2 flex flex-row font-ng-b text-lg">
+      <div className="mb-2 flex flex-row whitespace-nowrap border-b-2 border-graphyblue">
+        <span className="mr-2 flex flex-row font-ng-b text-sm sm:text-lg">
           전체 댓글 <p className="ml-1 text-graphyblue">{count}</p>개
         </span>
         <select
-          className="mb-1 rounded border border-black bg-graphybg font-ng text-sm"
+          className="mb-1 hidden rounded border border-black bg-graphybg font-ng text-sm sm:block"
           value={selectedValue}
           onChange={handleselectChange}
         >
@@ -127,19 +127,19 @@ function Reply(props: any) {
         </select>
         <div className="mx-auto mr-0 mb-2">
           <button
-            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm"
+            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-xs sm:text-sm"
             onClick={() => MoveToTop()}
           >
             본문 보기
           </button>
           <button
-            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-sm"
+            className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-xs sm:text-sm"
             onClick={() => setVisible(!visible)}
           >
             {visible ? '댓글 닫기' : '댓글 열기'}
           </button>
           <button
-            className="mr-1 font-ng-b text-sm"
+            className="mr-1 font-ng-b text-xs sm:text-sm"
             onClick={() => handleRefresh()}
           >
             새로고침

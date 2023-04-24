@@ -59,11 +59,12 @@ function MainPage() {
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
 
-        {/* 카테고리 */}
-        {/* <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div> */}
+        <div className="mx-10 border-b-2 border-black pt-0 font-ng-b text-2xl sm:mx-28 sm:mb-5 sm:pt-5">
+          {/* All */}
+        </div>
 
         {/* 프로젝트 카드 리스트 */}
-        <div className="relative mx-4 flex flex-wrap justify-center">
+        <div className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8">
           {searchText == ''
             ? data.map((item) => (
                 <div className="mx-8 mb-10" key={item.id}>
@@ -71,7 +72,7 @@ function MainPage() {
                 </div>
               ))
             : data
-              .filter((x) => x.projectName.includes(searchText))
+                .filter((x) => x.projectName.includes(searchText))
                 .map((item, num: number) => (
                   <div className=" mx-auto ml-16">
                     <ProjectCard key={num} items={item} />
