@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import NavBar from '../components/NavBar';
 import Reply from '../components/Reply';
@@ -9,6 +9,7 @@ import {
   titleState,
   tldrState,
   projectIdState,
+  refreshState,
 } from '../Recoil';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,9 @@ function ReadingPage() {
   const [tldr, setTldr] = useRecoilState(tldrState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [contents, setContents] = useRecoilState(contentsState);
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const projectId = useRecoilValue(projectIdState);
+  const [readReply, setReadReply] = useState<object>([]);
+  const refresh = useRecoilValue(refreshState);
   const navigate = useNavigate();
 
   function toWrite() {
@@ -32,7 +35,7 @@ function ReadingPage() {
     navigate('/modify');
   }
   //GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
-  const getData = async () => {
+  async function getData() {
     try {
       const res = await axios.get(
         `http://localhost:8080/api/v1/projects/${projectId}`,
@@ -42,12 +45,14 @@ function ReadingPage() {
       setTldr(res.data.data.description);
       setSelectedStack(res.data.data.techTags);
       setContents(res.data.data.content);
+      setReadReply(res.data.data.commentsList);
     } catch (error) {
       console.error(error);
+      alert('프로젝트 상세 조회 실패');
     }
-  };
+  }
   //DELETE 요청 보내는 함수
-  const deleteData = async () => {
+  async function deleteData() {
     try {
       const res = await axios.delete(
         `http://localhost:8080/api/v1/projects/${projectId}`,
@@ -56,8 +61,18 @@ function ReadingPage() {
       navigate('/');
     } catch (error) {
       console.error(error);
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response?.data.message ===
+          '이미 삭제되거나 존재하지 않는 프로젝트'
+        ) {
+          alert('이미 삭제되거나 존재하지 않는 프로젝트입니다.');
+        } else {
+          alert('네트워크 오류');
+        }
+      }
     }
-  };
+  }
   //제목 변경시 재 렌더링
   useEffect(() => {
     if (title) {
@@ -76,26 +91,27 @@ function ReadingPage() {
       setSelectedStack(selectedStack);
     }
   }, [selectedStack]);
-  //데이터 가져올때 재 렌더링
+  //렌더링할때 데이터 가져옴
   useEffect(() => {
     getData();
-  }, []);
+  }, [refresh]);
 
   //이미지 찾는 함수
-  function findimg(s: string) {
-    return AllStacks[AllStacks.map((x) => x.name).findIndex((x) => x == s)]
-      .image;
+  function findImage(tag: string) {
+    return AllStacks.map((x) => x.image)[
+      AllStacks.map((x) => x.name).findIndex((x) => x == tag)
+    ];
   }
 
   return (
-    <div className="mt-0 flex h-screen w-screen justify-center overflow-y-auto overflow-x-hidden bg-graphybg pb-10">
+    <div className="mt-0 flex h-auto w-screen justify-center bg-graphybg pb-10">
       <NavBar />
       {/**전체 컨텐츠 영역**/}
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/**텍스트 영역**/}
         <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/**제목**/}
-          <div className=" mt-10 mb-4 text-center font-ng-eb text-4xl">
+          <div className="mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
           </div>
           <div className="mb-2 flex flex-row overflow-hidden hover:overflow-x-auto">
@@ -117,7 +133,7 @@ function ReadingPage() {
                     key={x}
                     className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border py-1 pr-3"
                   >
-                    <img className="mx-3 my-1 h-8 w-8" src={findimg(x)} />
+                    <img className="mx-3 my-1 h-8 w-8" src={findImage(x)} />
                     <p className="shrink-0 font-ng-b">{x}</p>
                   </div>
                 ))}
@@ -128,7 +144,7 @@ function ReadingPage() {
               <div className="mb-2 mr-2 font-ng-b text-xl text-zinc-500">
                 기술 스택
               </div>
-              <div className="mb-2 font-ng-b text-xl">로딩중</div>
+              <div className="mb-2 font-ng-b text-xl">없음</div>
             </div>
           )}
         </div>
@@ -155,7 +171,7 @@ function ReadingPage() {
             글작성
           </button>
         </div>
-        <Reply />
+        <Reply contents={readReply} setReadReply={setReadReply} />
       </div>
     </div>
   );
