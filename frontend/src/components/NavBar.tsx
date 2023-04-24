@@ -8,7 +8,8 @@ import { searchTextState } from '../Recoil';
 function NavBar() {
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
   const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    SetSearchText(e.target.value.toLowerCase());
+    //SetSearchText(e.target.value.toLowerCase());
+    SetSearchText(e.target.value);
   };
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
@@ -28,13 +29,13 @@ function NavBar() {
       {/* 로고 */}
       <button
         onClick={() => toMain()}
-        className="ml-10 hidden font-ng-eb text-4xl text-graphyblue sm:block"
+        className="ml-8 hidden font-lato text-4xl text-graphyblue sm:block"
       >
         Graphy
       </button>
       <button
         onClick={() => toMain()}
-        className="ml-10 font-ng-eb text-4xl text-graphyblue sm:hidden"
+        className="ml-8 font-lato text-4xl text-graphyblue sm:hidden"
       >
         G
       </button>
@@ -45,7 +46,7 @@ function NavBar() {
         onChange={getSearchData}
         type="text"
         placeholder="  search"
-        className=" mx-2 h-auto w-full appearance-none rounded-xl border pl-2 sm:w-full"
+        className=" mx-4 h-auto w-full appearance-none rounded-xl border pl-2 sm:w-full"
       />
 
       {/* 프로젝트 작성 버튼 */}
@@ -58,14 +59,14 @@ function NavBar() {
         <span className="font-semibold">프로젝트 공유</span>
       </button>
 
-      {/* 마이페이지 아이콘 */}
+      {/* 마이페이지 아이콘
       <button className="mr-12">
         <img
           className="fixed top-4 right-4 h-8 w-8 appearance-none"
           src={ProfileIcon}
           alt=""
         />
-      </button>
+      </button> */}
     </div>
   );
 }

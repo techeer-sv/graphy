@@ -22,22 +22,20 @@ function MainPage() {
   async function postCard() {
     const url = 'http://localhost:8080/api/v1/projects/search';
     const params = {
-      page: 0,
-      size: 0,
+      projectName: searchText,
     };
     try {
-      const res = await axios.post(url, params);
+      const res = await axios.post(url, null, { params });
       setData(res.data.data);
       console.log(res.data.data);
     } catch (error) {
       console.log(error);
-      alert('프로젝트 조회 실패');
     }
   }
 
   useEffect(() => {
     postCard(); //랜더링이 될 때 실행되는 함수
-  }, []); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
+  }, [searchText]); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
 
   useEffect(() => {
     setData(data);
@@ -46,8 +44,10 @@ function MainPage() {
   return (
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
       <NavBar />
+      <Banner />
+      
       <div>
-        <Banner />
+        {/* 프로젝트 공유 버튼 */}
         <button
           className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
           bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md
@@ -57,21 +57,26 @@ function MainPage() {
           <img className="mr-2 h-5 w-5" src={WriteIcon} />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
-        <div className="ml-10 mb-5 pt-20 font-ng-b text-2xl">All</div>
-        <div className="relative mx-4 flex flex-wrap justify-center">
+
+        <div className="mx-10 border-b-2 border-b-neutral-300 pt-0 font-ng-b text-2xl sm:mx-28 sm:mb-5 sm:pt-5">
+          {/* All */}
+        </div>
+
+        {/* 프로젝트 카드 리스트 */}
+        <div className="">
           {searchText == ''
-            ? data.map((item) => (
+            ? <div className='relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8'> {data.map((item) => (
                 <div className="mx-8 mb-10" key={item.id}>
                   <ProjectCard items={item} />
                 </div>
-              ))
-            : data
-                .filter((x) => x.projectName == searchText)
-                .map((item) => (
-                  <div className="mx-auto ml-16" key={item.id}>
-                    <ProjectCard items={item} />
+              ))} </div>
+            : <div className='flex flex-wrap min-[680px]:ml-10 min-[680px]:justify-start justify-center ml-0'> {data
+                .filter((x) => x.projectName.includes(searchText))
+                .map((item, num: number) => (
+                  <div className="mt-9 min-[680px]:ml-16 min-[680px]:mx-0 mx-3 ">
+                    <ProjectCard key={num} items={item} />
                   </div>
-                ))}
+                ))} </div> }
         </div>
       </div>
     </div>

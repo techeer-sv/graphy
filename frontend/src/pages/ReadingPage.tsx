@@ -115,16 +115,16 @@ function ReadingPage() {
             {title}
           </div>
           <div className="mb-2 flex flex-row overflow-hidden hover:overflow-x-auto">
-            <div className=" mb-2 mr-3 shrink-0 font-ng-b text-2xl text-zinc-500 ">
+            <div className=" mb-2 mr-3 shrink-0 font-ng-b text-xl text-zinc-500 sm:text-2xl ">
               한줄 소개
             </div>
             {/**한줄소개**/}
-            <div className="mb-2 font-ng-b text-2xl">{tldr}</div>
+            <div className="mb-2 font-ng-b text-xl sm:text-2xl">{tldr}</div>
           </div>
           {/**사용기술**/}
           {selectedStack.length !== 0 ? (
             <div className="flex flex-row items-center overflow-hidden hover:overflow-x-auto">
-              <div className="mb-2 mr-3 shrink-0 font-ng-b text-2xl text-zinc-500">
+              <div className="mb-2 mr-3 shrink-0 font-ng-b text-xl text-zinc-500 sm:text-2xl">
                 기술 스택
               </div>
               <>
@@ -140,11 +140,11 @@ function ReadingPage() {
               </>
             </div>
           ) : (
-            <div className="flex flex-col sm:flex-row">
-              <div className="mb-2 mr-2 font-ng-b text-xl text-zinc-500">
+            <div className="flex flex-row">
+              <div className="mb-2 mr-2 font-ng-b text-xl text-zinc-500 sm:text-2xl">
                 기술 스택
               </div>
-              <div className="mb-2 font-ng-b text-xl">없음</div>
+              <div className="mb-2 font-ng-b text-xl sm:text-2xl">없음</div>
             </div>
           )}
         </div>
