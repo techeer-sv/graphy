@@ -3,6 +3,9 @@ plugins {
     id 'org.springframework.boot' version '2.7.9'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 
+    // QueryDSL
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+
     // rest-docs
     id 'org.asciidoctor.jvm.convert' version "3.3.2"
 
@@ -18,6 +21,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+    // QueryDSL
+    querydsl.extendsFrom compileClasspath
 
     // rest-docs
     asciidoctorExtensions
@@ -78,6 +84,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:5.0.0"
+    implementation "com.querydsl:querydsl-apt:5.0.0"
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -88,7 +97,18 @@ dependencies {
 
     //swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
+}
 
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
 }
 
 tasks.named('test') {
