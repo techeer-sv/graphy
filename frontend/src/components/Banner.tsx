@@ -7,7 +7,7 @@ import { lottie } from '../assets/lottie';
 
 function Banner() {
   return (
-    <div className="pt-16 pb-8">
+    <div className="pt-16 pb-9">
       <Swiper
         modules={[Pagination]}
         spaceBetween={50}
@@ -38,7 +38,7 @@ function Banner() {
             </p>
           </div>
           <Lottie
-            className="mx-auto hidden bg-subbanner pb-20 sm:block sm:h-72 sm:min-h-56 sm:w-72"
+            className="mx-auto hidden bg-subbanner pb-20 sm:block sm:h-80 sm:min-h-56 sm:w-80"
             animationData={lottie}
           />
         </SwiperSlide>

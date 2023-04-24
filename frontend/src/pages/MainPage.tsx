@@ -30,7 +30,6 @@ function MainPage() {
       console.log(res.data.data);
     } catch (error) {
       console.log(error);
-      alert('프로젝트 조회 실패');
     }
   }
 
@@ -59,25 +58,25 @@ function MainPage() {
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
 
-        <div className="mx-10 border-b-2 border-black pt-0 font-ng-b text-2xl sm:mx-28 sm:mb-5 sm:pt-5">
+        <div className="mx-10 border-b-2 border-b-neutral-300 pt-0 font-ng-b text-2xl sm:mx-28 sm:mb-5 sm:pt-5">
           {/* All */}
         </div>
 
         {/* 프로젝트 카드 리스트 */}
-        <div className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8">
+        <div className="">
           {searchText == ''
-            ? data.map((item) => (
+            ? <div className='relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8'> {data.map((item) => (
                 <div className="mx-8 mb-10" key={item.id}>
                   <ProjectCard items={item} />
                 </div>
-              ))
-            : data
+              ))} </div>
+            : <div className='flex flex-wrap min-[680px]:ml-10 min-[680px]:justify-start justify-center ml-0'> {data
                 .filter((x) => x.projectName.includes(searchText))
                 .map((item, num: number) => (
-                  <div className=" mx-auto ml-16">
+                  <div className="mt-9 min-[680px]:ml-16 min-[680px]:mx-0 mx-3 ">
                     <ProjectCard key={num} items={item} />
                   </div>
-                ))}
+                ))} </div> }
         </div>
       </div>
     </div>
