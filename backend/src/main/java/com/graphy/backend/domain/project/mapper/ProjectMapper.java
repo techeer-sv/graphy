@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.project.mapper;
 
+import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.ProjectTag;
 import com.graphy.backend.domain.project.domain.ProjectTags;
@@ -7,10 +8,9 @@ import com.graphy.backend.domain.project.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.GetCommentsResponse;
+import java.util.List;
+
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Component
@@ -62,12 +62,8 @@ public class ProjectMapper {
                 .build();
     }
 
-    public GetProjectDetailResponse toGetProjectDetailDto(Project project) {
-        List<GetCommentsResponse> commentsResponses = project.getComments()
-                .stream()
-                .filter(comment -> comment.getParent() == null) // 답글은 부모 댓글과 같이 조회됨 -> 부모 댓글만 조회
-                .map(GetCommentsResponse::from)
-                .collect(Collectors.toList());
+    public GetProjectDetailResponse toGetProjectDetailDto(Project project,
+                                                          List<GetCommentWithMaskingDto> comments) {
 
         return GetProjectDetailResponse.builder()
                 .id(project.getId())
@@ -76,7 +72,7 @@ public class ProjectMapper {
                 .createdAt(project.getCreatedAt())
                 .techTags(project.getTagNames())
                 .content(project.getContent())
-                .commentsList(commentsResponses)
+                .commentsList(comments)
                 .thumbNail(project.getThumbNail())
                 .build();
     }
