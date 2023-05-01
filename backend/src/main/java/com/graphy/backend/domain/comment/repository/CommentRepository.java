@@ -20,7 +20,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "FROM (SELECT *\n" +
             "      FROM comment\n" +
             "      WHERE parent_id IS NULL\n" +
-            "        AND project_id = 1) AS parent\n" +
+            "        AND project_id = :id) AS parent\n" +
             "         LEFT JOIN\n" +
             "     comment AS child\n" +
             "     ON\n" +
