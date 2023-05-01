@@ -14,32 +14,6 @@ plugins {
     id 'org.sonarqube' version "3.3"
 }
 
-
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.enabled true
-        html.enabled true
-    }
-}
-
-sonarqube {
-    properties {
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.exclusions", "src/test/java/**"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/jacoco/xml/jacoco.xml"
-        property 'sonar.sources', 'src'
-        property 'sonar.language', 'java'
-        property 'sonar.login', '${project.login}'
-    }
-}
-tasks.sonarqube.dependsOn test
-
 group = 'com.graphy'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
@@ -59,39 +33,6 @@ configurations {
 
 repositories {
     mavenCentral()
-}
-
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
-
-// jacoco
-jacoco {
-    toolVersion = "0.8.7"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled true
-        html.enabled true
-    }
-    finalizedBy 'jacocoTestCoverageVerification'
-}
-
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            element = 'CLASS' // role을 체크하는 단위
-
-            limit {
-                counter = 'BRANCH' // 브랜치를 기준으로
-                value = 'COVEREDRATIO' // 커버리지가
-                minimum = 0
-//                minimum = 0.90 // 최소 90% 이상이 되면 합
-            }
-        }
-    }
 }
 
 dependencies {
@@ -127,41 +68,102 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
 }
 
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+}
+
+
+// ====================================== rest-docs ======================================
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+    configurations 'asciidoctorExtensions'
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("build/resources/main/static/docs")
+}
+
+bootJar {
+    dependsOn copyDocument
+}
+
+jar {
+    dependsOn bootJar
+}
+
+bootJarMainClassName {
+    dependsOn copyDocument
+}
+
+
+// ====================================== sonarqube ======================================
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.enabled true
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS' // role을 체크하는 단위
+
+            limit {
+                counter = 'BRANCH' // 브랜치를 기준으로
+                value = 'COVEREDRATIO' // 커버리지가
+                minimum = 0
+//                minimum = 0.90 // 최소 90% 이상이 되면 합
+            }
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.exclusions", "src/test/java/**"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/jacoco/xml/jacoco.xml"
+        property 'sonar.sources', 'src'
+        property 'sonar.language', 'java'
+        property 'sonar.login', '${project.login}'
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    }
+}
+tasks.sonarqube.dependsOn test
+
+
+// ====================================== querydsl ======================================
 def querydslDir = "$buildDir/generated/querydsl"
+
 querydsl {
     jpa = true
     querydslSourcesDir = querydslDir
 }
+
 sourceSets {
     main.java.srcDir querydslDir
 }
+
 compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
 }
 
 
-tasks.named('test') {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
 
-    // test 실행 마다 jacocoTestReport 실행
-    finalizedBy jacocoTestReport
-}
 
-// jacocoTestReport와 jacocoTestCoverageVerification를 묶어서 실행
-task testCoverage(type: Test) {
-    group 'verification'
-    description 'Runs the unit tests with coverage'
-
-    dependsOn(':test',
-            ':jacocoTestReport',
-            ':jacocoTestCoverageVerification')
-
-    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
-    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
-}
-
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
-}

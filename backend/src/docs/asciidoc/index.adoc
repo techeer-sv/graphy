@@ -1,0 +1,17 @@
+= Graphy API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 1
+
+= Project
+
+== 삭제
+=== Request
+include::{snippets}/comment-delete/http-request.adoc[]
+
+=== Response
+include::{snippets}/comment-delete/http-response.adoc[]
+
+
