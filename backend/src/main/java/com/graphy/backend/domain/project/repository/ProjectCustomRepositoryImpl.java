@@ -22,7 +22,7 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
     @Override
     public Page<Project> searchProjectsWith(Pageable pageable, String projectName, String content) {
         List<Project> fetch = queryFactory
-                .selectFrom(project).where(projectNameEq(projectName), contentEq(content))
+                .selectFrom(project).where(projectNameLike(projectName), contentLike(content))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -30,16 +30,16 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
         JPQLQuery<Project> count = queryFactory
                 .select(project)
                 .from(project)
-                .where(projectNameEq(projectName), contentEq(content));
+                .where(projectNameLike(projectName), contentLike(content));
 
         return PageableExecutionUtils.getPage(fetch, pageable, count::fetchCount);
     }
 
-    private BooleanExpression projectNameEq(String projectName) {
+    private BooleanExpression projectNameLike(String projectName) {
         return projectName != null ? project.projectName.eq(projectName) : null;
     }
 
-    private BooleanExpression contentEq(String content) {
+    private BooleanExpression contentLike(String content) {
         return content != null ? project.content.eq(content) : null;
     }
 }
