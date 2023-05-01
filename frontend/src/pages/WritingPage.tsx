@@ -36,14 +36,26 @@ function WritingPage() {
 
   //제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length > 255) {
+      setTitle(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
+      return;
+    }
+    setTitle(inputValue);
   };
   //소개 변경 함수
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTldr(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length > 255) {
+      setTldr(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
+      return;
+    }
+    setTldr(inputValue);
   };
   //POST요청 보내서 데이터 전송하는 함수
-  const postData = async () => {
+  async function postData() {
     const url = 'http://localhost:8080/api/v1/projects';
     const data = {
       projectName: title,
@@ -60,8 +72,17 @@ function WritingPage() {
       setProjectId(res.data.data.projectId);
     } catch (error) {
       console.error(error);
+      if (title.trim().length === 0) {
+        alert('제목을 입력해주세요.');
+      } else if (tldr.trim().length === 0) {
+        alert('한줄 소개를 입력해주세요.');
+      } else if (contents.trim().length === 0) {
+        alert('내용을 입력해주세요.');
+      } else {
+        alert('네트워크 오류');
+      }
     }
-  };
+  }
   // 취소 버튼 누를시 메인페이지 이동
   function cancelButton() {
     navigate('/');
@@ -73,7 +94,7 @@ function WritingPage() {
       {/*젤 큰 박스*/}
       <div className="mt-16 w-11/12 max-w-1100 overflow-auto border border-black px-2 sm:flex sm:h-5/6  sm:flex-col">
         {/*서식 구역*/}
-        <div className="mt-2 flex h-228 flex-col justify-center sm:flex-row">
+        <div className="top-4 mt-2 flex h-228 flex-col justify-center sm:flex-row">
           {/*텍스트 구역*/}
           <div className="mr-2 mt-64 mb-2 w-full overflow-visible sm:mt-0 sm:w-10/12">
             {/*제목 상자*/}

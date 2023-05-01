@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
 import {
   contentsState,
@@ -19,22 +19,34 @@ import NavBar from '../components/NavBar';
 function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);
   const [tldr, setTldr] = useRecoilState(tldrState);
-  const [contents, setContents] = useRecoilState(contentsState);
-  const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
-  const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+  const contents = useRecoilValue(contentsState);
+  const selectedStack = useRecoilValue(selectedStackState);
+  const thumbnailUrl = useRecoilValue(thumbnailUrlState);
+  const projectId = useRecoilValue(projectIdState);
   const navigate = useNavigate();
 
   //제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length > 255) {
+      setTitle(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
+      return;
+    }
+    setTitle(inputValue);
   };
   //소개 변경 함수
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTldr(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length > 255) {
+      setTldr(inputValue.substring(0, 255));
+      alert('대댓글은 255자까지 입력하실 수 있습니다.');
+      return;
+    }
+    setTldr(inputValue);
   };
   //PUT요청 보내서 데이터 수정하는 함수
-  const putData = async () => {
+  async function putData() {
     const url = `http://localhost:8080/api/v1/projects/${projectId}`;
     const data = {
       projectName: title,
@@ -50,8 +62,17 @@ function ModifyingPage() {
       navigate('/read');
     } catch (error) {
       console.error(error);
+      if (title.trim().length === 0) {
+        alert('제목을 입력해주세요.');
+      } else if (tldr.trim().length === 0) {
+        alert('한줄 소개를 입력해주세요.');
+      } else if (contents.trim().length === 0) {
+        alert('내용을 입력해주세요.');
+      } else {
+        alert('네트워크 오류');
+      }
     }
-  };
+  }
   // 취소 버튼 누를시 원래 글 페이지로 이동
   function cancelButton() {
     navigate('/read');

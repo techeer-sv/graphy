@@ -27,6 +27,7 @@ public class Project extends BaseEntity {
     @Column(nullable = false)
     private String projectName;
 
+    @Lob
     @Column(nullable = true)
     private String content;
 

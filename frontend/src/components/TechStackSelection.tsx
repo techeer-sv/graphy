@@ -23,7 +23,7 @@ function TechStackSelection() {
 
   // 새로운 기술 스택 추가 함수
   const handleAddStack = (stack: string) => {
-    if (!selectedStack.includes(stack)) {
+    if (selectedStack.length < 6 && !selectedStack.includes(stack)) {
       setSelectedStack([...selectedStack, stack]);
     }
   };
@@ -40,7 +40,7 @@ function TechStackSelection() {
 
   return (
     <div>
-      <div className="focus:shadow-outline m-0 mb-2.5 flex h-49 w-full shrink-0 appearance-none flex-row overflow-x-hidden overflow-y-hidden rounded border bg-[#F9F8F8] px-3 font-ng leading-tight text-gray-700 shadow hover:overflow-x-auto focus:outline-none sm:h-49">
+      <div className="focus:shadow-outline max:w-full m-0 mb-2.5 flex h-49 shrink-0 appearance-none flex-row overflow-hidden rounded border bg-[#F9F8F8] px-3 font-ng leading-tight text-gray-700 shadow hover:overflow-x-auto focus:outline-none sm:h-49">
         <div className="pointer-events-none flex-none border-r pt-3 pr-3">
           사용 기술{' '}
         </div>
