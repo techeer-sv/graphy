@@ -42,20 +42,20 @@ public class ProjectService {
     private final CommentRepository commentRepository;
 
 
-    @PostConstruct
-    public void initTag() throws IOException {
-
-        ClassPathResource resource = new ClassPathResource("tag.txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-
-        String s;
-        while ((s = br.readLine()) != null){
-            Tag tag = Tag.builder().tech(s).build();
-            tagRepository.save(tag);
-
-        }
-        br.close();
-    }
+//    @PostConstruct
+//    public void initTag() throws IOException {
+//
+//        ClassPathResource resource = new ClassPathResource("tag.txt");
+//        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+//
+//        String s;
+//        while ((s = br.readLine()) != null){
+//            Tag tag = Tag.builder().tech(s).build();
+//            tagRepository.save(tag);
+//
+//        }
+//        br.close();
+//    }
 
     public CreateProjectResponse createProject(CreateProjectRequest dto) {
         Project entity = mapper.toEntity(dto);

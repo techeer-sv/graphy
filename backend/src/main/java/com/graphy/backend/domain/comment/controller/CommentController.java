@@ -42,7 +42,7 @@ public class CommentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResultResponse> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));
     }
 }
