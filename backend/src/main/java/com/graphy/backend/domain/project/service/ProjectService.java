@@ -1,5 +1,7 @@
 package com.graphy.backend.domain.project.service;
 
+import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
+import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.Tag;
 import com.graphy.backend.domain.project.domain.Tags;
@@ -37,22 +39,23 @@ public class ProjectService {
     private final ProjectTagRepository projectTagRepository;
 
     private final ProjectMapper mapper;
+    private final CommentRepository commentRepository;
 
 
-    @PostConstruct
-    public void initTag() throws IOException {
-
-        ClassPathResource resource = new ClassPathResource("tag.txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-
-        String s;
-        while ((s = br.readLine()) != null){
-            Tag tag = Tag.builder().tech(s).build();
-            tagRepository.save(tag);
-
-        }
-        br.close();
-    }
+//    @PostConstruct
+//    public void initTag() throws IOException {
+//
+//        ClassPathResource resource = new ClassPathResource("tag.txt");
+//        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+//
+//        String s;
+//        while ((s = br.readLine()) != null){
+//            Tag tag = Tag.builder().tech(s).build();
+//            tagRepository.save(tag);
+//
+//        }
+//        br.close();
+//    }
 
     public CreateProjectResponse createProject(CreateProjectRequest dto) {
         Project entity = mapper.toEntity(dto);
@@ -94,11 +97,14 @@ public class ProjectService {
     public GetProjectDetailResponse getProjectById(Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
-        return mapper.toGetProjectDetailDto(project);
+
+        List<GetCommentWithMaskingDto> comments = commentRepository.findCommentsWithMasking(projectId);
+
+        return mapper.toGetProjectDetailDto(project, comments);
     }
 
     public Tags getTagsWithName(List<String> techStacks) {
-        List<Tag> foundTags =  techStacks.stream().map(tagRepository::findTagByTech)
+        List<Tag> foundTags = techStacks.stream().map(tagRepository::findTagByTech)
                 .collect(Collectors.toList());
         return new Tags(foundTags);
     }
