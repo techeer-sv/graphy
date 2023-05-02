@@ -9,24 +9,35 @@ import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CommentController.class)
+@ExtendWith(RestDocumentationExtension.class)
 class CommentControllerTest extends MockApiTest {
 
     @Autowired
     private WebApplicationContext context;
-
     @MockBean
     private CommentService commentService;
     @MockBean
@@ -34,8 +45,8 @@ class CommentControllerTest extends MockApiTest {
 
 
     @BeforeEach
-    public void setup() {
-        this.mvc = buildMockMvc(context);
+    public void setup(RestDocumentationContextProvider provider) {
+        this.mvc = buildMockMvc(context, provider);
     }
 
     @Test
@@ -67,10 +78,15 @@ class CommentControllerTest extends MockApiTest {
 
 
         // when
-        ResultActions resultActions = mvc.perform(delete("/api/v1/comments/{commentId}", 1L).contentType(MediaType.APPLICATION_JSON));
+        ResultActions resultActions = mvc.perform(delete("/api/v1/comments/{commentId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON));
 
 
         // then
-        resultActions.andExpect((status().isOk()));
+        resultActions.andExpect((status().isOk()))
+//                .andDo(print())
+                .andDo(document("comment-delete",
+                        preprocessResponse(prettyPrint()))
+                );
     }
 }
