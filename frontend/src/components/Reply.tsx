@@ -54,60 +54,60 @@ function Reply(props: any) {
     }
   }
 
-  function handleselectChange(event: { target: { value: any } }) {
-    const selectedValue = event.target.value; // 선택된 값 가져오기
-    setSelectedValue(selectedValue); // 선택된 값 상태 업데이트
-    myFunction(selectedValue); // 선택된 값 전달하여 실행할 함수 호출
-  }
+  // function myFunction(selectedValue: any) {
+  //   switch (selectedValue) {
+  //     case 'newest_order':
+  //       console.log(props);
+  //       const sortedContents = props.contents.slice().sort((a: any, b: any) => {
+  //         const aTime = new Date(a.createdAt).getTime();
+  //         const bTime = new Date(b.createdAt).getTime();
+  //         return bTime - aTime;
+  //       });
+  //       props.setReadReply(sortedContents);
+  //       break;
+  //     case 'reply_order':
+  //       console.log(props);
+  //       // 답글순 정렬
+  //       const replyedContents = props.contents
+  //         .slice()
+  //         .sort((a: any, b: any) => {
+  //           return b.childComments.length - a.childComments.length;
+  //         });
+  //       props.setReadReply(replyedContents);
+  //       break;
+  //     default:
+  //       console.log(props);
+  //       // 등록순 정렬
+  //       const regisedContents = props.contents
+  //         .slice()
+  //         .sort((a: any, b: any) => {
+  //           const aTime = new Date(a.createdAt).getTime();
+  //           const bTime = new Date(b.createdAt).getTime();
+  //           return aTime - bTime;
+  //         });
+  //       props.setReadReply(regisedContents);
+  //       break;
+  //   }
+  // }
 
-  function myFunction(selectedValue: any) {
-    switch (selectedValue) {
-      case 'newest_order':
-        console.log(props);
-        const sortedContents = props.contents.slice().sort((a: any, b: any) => {
-          const aTime = new Date(a.createdAt).getTime();
-          const bTime = new Date(b.createdAt).getTime();
-          return bTime - aTime;
-        });
-        props.setReadReply(sortedContents);
-        break;
-      case 'reply_order':
-        console.log(props);
-        // 답글순 정렬
-        const replyedContents = props.contents
-          .slice()
-          .sort((a: any, b: any) => {
-            return b.childComments.length - a.childComments.length;
-          });
-        props.setReadReply(replyedContents);
-        break;
-      default:
-        console.log(props);
-        // 등록순 정렬
-        const regisedContents = props.contents
-          .slice()
-          .sort((a: any, b: any) => {
-            const aTime = new Date(a.createdAt).getTime();
-            const bTime = new Date(b.createdAt).getTime();
-            return aTime - bTime;
-          });
-        props.setReadReply(regisedContents);
-        break;
-    }
-  }
+  // function handleselectChange(event: { target: { value: any } }) {
+  //   const selectedValue = event.target.value; // 선택된 값 가져오기
+  //   setSelectedValue(selectedValue); // 선택된 값 상태 업데이트
+  //   myFunction(selectedValue); // 선택된 값 전달하여 실행할 함수 호출
+  // }
 
   function handleRefresh() {
     setRefresh(!refresh);
     setSelectedValue('regist_order');
   }
 
-  useEffect(() => {
-    let childlength = 0;
-    props.contents.length != 0
-      ? props.contents.map((x: any) => (childlength += x.childComments.length))
-      : null;
-    SetCount(props.contents.length + childlength);
-  }, [props]);
+  // useEffect(() => {
+  //   let childlength = 0;
+  //   props.contents.length != 0
+  //     ? props.contents.map((x: any) => (childlength += x.childComments.length))
+  //     : null;
+  //   SetCount(props.contents.length + childlength);
+  // }, [props]);
 
   return (
     <div>
@@ -118,8 +118,8 @@ function Reply(props: any) {
         </span>
         <select
           className="mb-1 hidden rounded border border-black bg-graphybg font-ng text-sm sm:block"
-          value={selectedValue}
-          onChange={handleselectChange}
+          // value={selectedValue}
+          // onChange={handleselectChange}
         >
           <option value="regist_order">등록순</option>
           <option value="newest_order">최신순</option>

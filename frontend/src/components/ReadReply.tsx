@@ -15,14 +15,14 @@ function ReadReply(props: any) {
   const [putVis, setPutVis] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
-  const date = new Date(props.contents.createdAt);
+  // const date = new Date(props.contents.createdAt);
 
-  const formattedDate = `${date.getFullYear()}-${
-    date.getMonth() + 1
-  }-${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date
-    .getMinutes()
-    .toString()
-    .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+  // const formattedDate = `${date.getFullYear()}-${
+  //   date.getMonth() + 1
+  // }-${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date
+  //   .getMinutes()
+  //   .toString()
+  //   .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 
   function changeWriteVis() {
     setWriteVis(false);
@@ -49,8 +49,8 @@ function ReadReply(props: any) {
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
         <div className="flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
           <p className="font-ng">{`ID ${props.contents.commentId}`}</p>
-          <p className="mx-auto mr-2 font-ng-b">{formattedDate}</p>
-          <div className="mr-1 flex flex-row">
+          {/* <p className="mx-auto mr-2 font-ng-b">{formattedDate}</p> */}
+          <div className="mx-auto mr-2 flex flex-row">
             {props.contents.content !== '삭제된 댓글입니다.' ? (
               <button
                 className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
@@ -89,20 +89,20 @@ function ReadReply(props: any) {
         />
       ) : null}
       {/*대댓글 표시*/}
-      {props.contents.childComments.map((x: object, y: number) => (
+      {/* {props.contents.childComments.map((x: object, y: number) => (
         <ReadReReply
           contents={x}
           key={props.contents.childComments[y].commentId}
         />
-      ))}
+      ))} */}
       {/*대댓글 입력창*/}
-      {writeVis ? (
+      {/* {writeVis ? (
         <WriteReReply
           contents={props.contents}
           changeWriteVis={changeWriteVis}
           setSelectedValue={props.setSelectedValue}
         />
-      ) : null}
+      ) : null} */}
     </>
   );
 }
