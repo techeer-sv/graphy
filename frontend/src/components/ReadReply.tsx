@@ -51,6 +51,11 @@ function ReadReply(props: any) {
           <p className="font-ng">{`ID ${props.contents.commentId}`}</p>
           {/* <p className="mx-auto mr-2 font-ng-b">{formattedDate}</p> */}
           <div className="mx-auto mr-2 flex flex-row">
+            {props.contents.childCount == 0 ? null : (
+              <button className="mr-2 font-ng">
+                ▼ 답글 {props.contents.childCount}개
+              </button>
+            )}
             {props.contents.content !== '삭제된 댓글입니다.' ? (
               <button
                 className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
@@ -96,13 +101,13 @@ function ReadReply(props: any) {
         />
       ))} */}
       {/*대댓글 입력창*/}
-      {/* {writeVis ? (
+      {writeVis ? (
         <WriteReReply
           contents={props.contents}
           changeWriteVis={changeWriteVis}
           setSelectedValue={props.setSelectedValue}
         />
-      ) : null} */}
+      ) : null}
     </>
   );
 }

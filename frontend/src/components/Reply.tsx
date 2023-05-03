@@ -150,13 +150,16 @@ function Reply(props: any) {
       <div className="my-2 border-graphyblue">
         {visible ? (
           <>
-            {props.contents.map((x: object, y: number) => (
-              <ReadReply
-                contents={x}
-                key={props.contents[y].commentId}
-                setSelectedValue={setSelectedValue}
-              />
-            ))}
+            {props.contents.map((x: object, y: number) =>
+              props.contents[y].content == '삭제된 댓글입니다.' &&
+              props.contents[y].childCount == 0 ? null : (
+                <ReadReply
+                  contents={x}
+                  key={props.contents[y].commentId}
+                  setSelectedValue={setSelectedValue}
+                />
+              ),
+            )}
           </>
         ) : null}
         {/*댓글 입력창*/}
