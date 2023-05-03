@@ -48,7 +48,9 @@ function ReadReply(props: any) {
     <>
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
         <div className="flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
-          <p className="font-ng">{`ID ${props.contents.commentId}`}</p>
+          {props.contents.content !== '삭제된 댓글입니다.' ? (
+            <p className="font-ng">{`ID ${props.contents.commentId}`}</p>
+          ) : null}
           {/* <p className="mx-auto mr-2 font-ng-b">{formattedDate}</p> */}
           <div className="mx-auto mr-2 flex flex-row">
             {props.contents.childCount == 0 ? null : (
@@ -57,21 +59,30 @@ function ReadReply(props: any) {
               </button>
             )}
             {props.contents.content !== '삭제된 댓글입니다.' ? (
-              <button
-                className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
-                onClick={() => deleteReply()}
-              >
-                <img src={delete_reply} className="mr-1 h-4 font-ng text-sm" />
-                삭제
-              </button>
+              <>
+                <button
+                  className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
+                  onClick={() => deleteReply()}
+                >
+                  <img
+                    src={delete_reply}
+                    className="mr-1 h-4 font-ng text-sm"
+                  />
+                  삭제
+                </button>
+                <button
+                  className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
+                  onClick={() => setPutVis(!putVis)}
+                >
+                  <img
+                    src={pencil_square}
+                    className="mr-1 h-3 font-ng text-sm"
+                  />
+                  수정
+                </button>
+              </>
             ) : null}
-            <button
-              className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
-              onClick={() => setPutVis(!putVis)}
-            >
-              <img src={pencil_square} className="mr-1 h-3 font-ng text-sm" />
-              수정
-            </button>
+
             <button
               className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
               onClick={() => setWriteVis(!writeVis)}
@@ -81,9 +92,21 @@ function ReadReply(props: any) {
             </button>
           </div>
         </div>
-        <p className="my-1 ml-2 break-words font-ng" placeholder="댓글 로딩중">
-          {props.contents.content}
-        </p>
+        {props.contents.content !== '삭제된 댓글입니다.' ? (
+          <p
+            className="my-1 ml-2 break-words font-ng"
+            placeholder="댓글 로딩중"
+          >
+            {props.contents.content}
+          </p>
+        ) : (
+          <p
+            className="my-1 ml-2 break-words font-ng text-gray-400"
+            placeholder="댓글 로딩중"
+          >
+            {props.contents.content}
+          </p>
+        )}
       </div>
       {/*댓글 수정창*/}
       {putVis ? (
