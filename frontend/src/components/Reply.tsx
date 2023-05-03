@@ -101,13 +101,15 @@ function Reply(props: any) {
     setSelectedValue('regist_order');
   }
 
-  // useEffect(() => {
-  //   let childlength = 0;
-  //   props.contents.length != 0
-  //     ? props.contents.map((x: any) => (childlength += x.childComments.length))
-  //     : null;
-  //   SetCount(props.contents.length + childlength);
-  // }, [props]);
+  useEffect(() => {
+    SetCount(
+      props.contents.reduce(
+        (acc: number, cur: any) =>
+          acc + (cur.content !== '삭제된 댓글입니다.' ? 1 : 0),
+        0,
+      ),
+    );
+  }, [props]);
 
   return (
     <div>
