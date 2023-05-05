@@ -81,7 +81,11 @@ function ReadReReply(props: any) {
       {/*댓글 수정창*/}
       {putVis ? (
         <div className="ml-8">
-          <PutReply contents={props.contents} changePutVis={changePutVis} />
+          <PutReply
+            contents={props.contents}
+            changePutVis={changePutVis}
+            setSelectedValue={props.setSelectedValue}
+          />
         </div>
       ) : null}
     </>

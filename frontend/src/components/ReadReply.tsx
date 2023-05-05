@@ -67,18 +67,20 @@ function ReadReply(props: any) {
 
   useEffect(() => {
     getComment();
-  }, [comment]);
+  }, [refresh]);
 
   return (
     <>
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
         <div className="flex flex-row whitespace-nowrap border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-xs sm:text-sm">
           {props.contents.content !== '삭제된 댓글입니다.' ? (
-            <p className="ml-1 mr-3 font-ng">{`ID ${props.contents.commentId}`}</p>
+            <>
+              <p className="ml-1 mr-3 font-ng">{`ID ${props.contents.commentId}`}</p>
+              <p className="mr-3 hidden border-l border-dashed border-gray-400 pl-3 pr-3 font-ng-b sm:block">
+                {formattedDate}
+              </p>
+            </>
           ) : null}
-          <p className="mr-3 hidden border-l border-dashed border-gray-400 pl-3 pr-3 font-ng-b sm:block">
-            {formattedDate}
-          </p>
 
           <div className="mx-auto mr-2 flex flex-row">
             {props.contents.childCount == 0 ? null : commentVis ? (

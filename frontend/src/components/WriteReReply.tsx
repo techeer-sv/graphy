@@ -72,7 +72,7 @@ function WriteReReply(props: any) {
           <textarea
             className="min-h-24 h-auto w-full resize-none appearance-none rounded-xl bg-graphybg py-2 px-3 font-ng leading-tight text-gray-700 focus:outline-none"
             id="reply"
-            placeholder="대댓글을 입력하세요."
+            placeholder="답글을 입력하세요."
             ref={textAreaRef}
             value={value}
             onChange={handleChange}
