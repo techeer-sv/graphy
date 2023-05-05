@@ -83,6 +83,11 @@ public class ProjectControllerTest extends MockApiTest {
             public Integer getChildCount() {
                 return null;
             }
+
+            @Override
+            public LocalDateTime getCreatedAt() {
+                return LocalDateTime.now();
+            }
         };
         List<GetCommentWithMaskingDto> list = new ArrayList<>();
         list.add(dto);
