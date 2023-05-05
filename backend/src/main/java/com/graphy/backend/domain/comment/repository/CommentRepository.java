@@ -2,10 +2,12 @@ package com.graphy.backend.domain.comment.repository;
 
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
+import com.graphy.backend.domain.comment.dto.GetReplyListDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+
 
 public interface CommentRepository extends JpaRepository<Comment, Long>, CommentCustomRepository {
 
@@ -25,6 +27,12 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "     comment AS child\n" +
             "     ON\n" +
             "         parent.comment_id = child.parent_id\n" +
-            "GROUP BY parent.comment_id", nativeQuery = true )
+            "GROUP BY parent.comment_id", nativeQuery = true)
     List<GetCommentWithMaskingDto> findCommentsWithMasking(Long id);
+
+    @Query(value = "SELECT comment_id as commentId, created_at as createdAt, content " +
+            "FROM comment\n" +
+            "where parent_id = :parentId", nativeQuery = true)
+     List<GetReplyListDto> findReplyList(Long parentId);
+
 }
