@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.project.controller;
 
-import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
+import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.dto.ProjectDto;
 import com.graphy.backend.domain.project.service.ProjectService;
@@ -15,15 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
@@ -31,15 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.GetProjectDetailResponse;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,7 +59,7 @@ public class ProjectControllerTest extends MockApiTest {
     public void getProjectWithComments() throws Exception {
 
         //given
-        GetCommentWithMaskingDto dto = new GetCommentWithMaskingDto() {
+        CommentWithMaskingDto dto = new CommentWithMaskingDto() {
             @Override
             public String getContent() {
                 return "testComment";
@@ -83,8 +74,13 @@ public class ProjectControllerTest extends MockApiTest {
             public Integer getChildCount() {
                 return null;
             }
+
+            @Override
+            public LocalDateTime getCreatedAt() {
+                return LocalDateTime.now();
+            }
         };
-        List<GetCommentWithMaskingDto> list = new ArrayList<>();
+        List<CommentWithMaskingDto> list = new ArrayList<>();
         list.add(dto);
 
         given(projectService.getProjectById(1L))
