@@ -2,6 +2,7 @@ package com.graphy.backend.domain.comment.controller;
 
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.CommentDto;
+import com.graphy.backend.domain.comment.dto.GetReplyListDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.test.MockApiTest;
@@ -18,12 +19,19 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CommentController.class)
@@ -78,9 +86,39 @@ class CommentControllerTest extends MockApiTest {
 
         // then
         resultActions.andExpect((status().isOk()))
-//                .andDo(print())
+                .andDo(print())
                 .andDo(document("comment-delete",
                         preprocessResponse(prettyPrint()))
                 );
+    }
+
+    @Test
+    @DisplayName("답글 조회 API 테스트")
+    public void getReplyList() throws Exception {
+        //given
+        List<GetReplyListDto> dtoList = Arrays.asList(new GetReplyListDto() {
+            @Override
+            public String getContent() {
+                return "test";
+            }
+
+            @Override
+            public Long getCommentId() {
+                return 1L;
+            }
+
+            @Override
+            public LocalDateTime getCreatedAt() {
+                return LocalDateTime.now();
+            }
+        });
+
+        given(commentService.getReplyList(any())).willReturn(dtoList);
+
+        //then
+        mvc.perform(get("/api/v1/comments/{commentId}", 1L))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("reply-get", preprocessResponse(prettyPrint())));
     }
 }
