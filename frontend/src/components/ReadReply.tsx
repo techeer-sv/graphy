@@ -19,14 +19,14 @@ function ReadReply(props: any) {
   >([]);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
-  // const date = new Date(props.contents.createdAt);
+  const date = new Date(props.contents.createdAt);
 
-  // const formattedDate = `${date.getFullYear()}-${
-  //   date.getMonth() + 1
-  // }-${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date
-  //   .getMinutes()
-  //   .toString()
-  //   .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+  const formattedDate = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 
   function changeWriteVis() {
     setWriteVis(false);
