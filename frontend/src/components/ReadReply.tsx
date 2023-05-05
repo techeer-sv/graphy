@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import nested_reply from '../assets/image/nested_reply.svg';
 import ReadReReply from './ReadReReply';
@@ -13,6 +13,10 @@ import PutReply from './PutReply';
 function ReadReply(props: any) {
   const [writeVis, setWriteVis] = useState<boolean>(false);
   const [putVis, setPutVis] = useState<boolean>(false);
+  const [commentVis, setCommentVis] = useState<boolean>(false);
+  const [comment, setComment] = useState<
+    { commentId: number; content: string; createdAt: string }[]
+  >([]);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
   // const date = new Date(props.contents.createdAt);
@@ -32,6 +36,18 @@ function ReadReply(props: any) {
     setPutVis(false);
   }
 
+  async function getComment() {
+    const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
+    try {
+      const res = await axios.get(url);
+      console.log(res);
+      setComment(res.data.data);
+    } catch (error) {
+      console.error(error);
+      alert('답글 조회 실패');
+    }
+  }
+
   async function deleteReply() {
     const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
     try {
@@ -44,20 +60,36 @@ function ReadReply(props: any) {
     }
   }
 
+  function openComment() {
+    setCommentVis(true);
+    getComment();
+  }
+
   return (
     <>
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
-        <div className="flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm">
+        <div className="flex flex-row whitespace-nowrap border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-xs sm:text-sm">
           {props.contents.content !== '삭제된 댓글입니다.' ? (
-            <p className="font-ng">{`ID ${props.contents.commentId}`}</p>
+            <p className="ml-1 mr-3 font-ng">{`ID ${props.contents.commentId}`}</p>
           ) : null}
-          {/* <p className="mx-auto mr-2 font-ng-b">{formattedDate}</p> */}
+          <p className="mr-3 hidden border-l border-dashed border-gray-400 pl-3 pr-3 font-ng-b sm:block">
+            {formattedDate}
+          </p>
+
           <div className="mx-auto mr-2 flex flex-row">
-            {props.contents.childCount == 0 ? null : (
-              <button className="mr-2 font-ng">
+            {props.contents.childCount == 0 ? null : commentVis ? (
+              <button
+                className="mr-2 font-ng"
+                onClick={() => setCommentVis(false)}
+              >
+                ▲ 답글 {props.contents.childCount}개
+              </button>
+            ) : (
+              <button className="mr-2 font-ng" onClick={() => openComment()}>
                 ▼ 답글 {props.contents.childCount}개
               </button>
             )}
+
             {props.contents.content !== '삭제된 댓글입니다.' ? (
               <>
                 <button
@@ -117,12 +149,11 @@ function ReadReply(props: any) {
         />
       ) : null}
       {/*대댓글 표시*/}
-      {/* {props.contents.childComments.map((x: object, y: number) => (
-        <ReadReReply
-          contents={x}
-          key={props.contents.childComments[y].commentId}
-        />
-      ))} */}
+      {commentVis
+        ? comment.map((x: object, y: number) => (
+            <ReadReReply contents={x} key={comment[y].commentId} />
+          ))
+        : null}
       {/*대댓글 입력창*/}
       {writeVis ? (
         <WriteReReply
