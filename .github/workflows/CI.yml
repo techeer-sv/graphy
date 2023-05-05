@@ -31,13 +31,13 @@ jobs:
     - name: Grant Execute Permission For Gradlew
       run: chmod +x backend/gradlew
       
-    - name: Setup MySQL
-      uses: samin/mysql-action@v1
-      with:
-        character set server: utf8
-        mysql database: 'graphy'
-        mysql user: 'graphy'
-        mysql password: ${{ secrets.TEST_MYSQL_PASSWORD }}
+#    - name: Setup MySQL
+#      uses: samin/mysql-action@v1
+#      with:
+#        character set server: utf8
+#        mysql database: 'graphy'
+#        mysql user: 'graphy'
+#        mysql password: ${{ secrets.TEST_MYSQL_PASSWORD }}
 
     - name: Make properties
       run: |
