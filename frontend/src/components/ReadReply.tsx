@@ -65,6 +65,10 @@ function ReadReply(props: any) {
     getComment();
   }
 
+  useEffect(() => {
+    getComment();
+  }, [comment]);
+
   return (
     <>
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
