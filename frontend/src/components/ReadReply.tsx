@@ -155,7 +155,11 @@ function ReadReply(props: any) {
       {/*대댓글 표시*/}
       {commentVis
         ? comment.map((x: object, y: number) => (
-            <ReadReReply contents={x} key={comment[y].commentId} />
+            <ReadReReply
+              contents={x}
+              key={comment[y].commentId}
+              setSelectedValue={props.setSelectedValue}
+            />
           ))
         : null}
       {/*대댓글 입력창*/}
