@@ -21,9 +21,12 @@ function MainPage() {
 
   async function postCard() {
     const url = 'http://localhost:8080/api/v1/projects/search';
-    const params = {
-      projectName: searchText,
-    };
+    const params =
+      searchText == ''
+        ? {}
+        : {
+            projectName: searchText,
+          };
     try {
       const res = await axios.post(url, null, { params });
       setData(res.data.data);
@@ -45,7 +48,7 @@ function MainPage() {
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
       <NavBar />
       <Banner />
-      
+
       <div>
         {/* 프로젝트 공유 버튼 */}
         <button
@@ -64,19 +67,27 @@ function MainPage() {
 
         {/* 프로젝트 카드 리스트 */}
         <div className="">
-          {searchText == ''
-            ? <div className='relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8'> {data.map((item) => (
+          {searchText == '' ? (
+            <div className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8">
+              {' '}
+              {data.map((item) => (
                 <div className="mx-8 mb-10" key={item.id}>
                   <ProjectCard items={item} />
                 </div>
-              ))} </div>
-            : <div className='flex flex-wrap min-[680px]:ml-10 min-[680px]:justify-start justify-center ml-0'> {data
+              ))}{' '}
+            </div>
+          ) : (
+            <div className="ml-0 flex flex-wrap justify-center min-[680px]:ml-10 min-[680px]:justify-start">
+              {' '}
+              {data
                 .filter((x) => x.projectName.includes(searchText))
                 .map((item, num: number) => (
-                  <div className="mt-9 min-[680px]:ml-16 min-[680px]:mx-0 mx-3 ">
+                  <div className="mx-3 mt-9 min-[680px]:mx-0 min-[680px]:ml-16 ">
                     <ProjectCard key={num} items={item} />
                   </div>
-                ))} </div> }
+                ))}{' '}
+            </div>
+          )}
         </div>
       </div>
     </div>
