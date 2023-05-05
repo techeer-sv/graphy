@@ -31,9 +31,15 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "GROUP BY parent.comment_id", nativeQuery = true)
     List<CommentWithMaskingDto> findCommentsWithMasking(Long id);
 
-    @Query(value = "SELECT comment_id as commentId, created_at as createdAt, content " +
-            "FROM comment\n" +
-            "where parent_id = :parentId", nativeQuery = true)
+@Query(value = "SELECT\n" +
+        "    CASE\n" +
+        "        WHEN is_deleted\n" +
+        "            THEN '삭제된 댓글입니다.'\n" +
+        "        ELSE content\n" +
+        "        END AS content,\n" +
+        "    comment_id AS commentId,\n" +
+        "    created_at AS createdAt\n" +
+        "FROM comment\n" +
+        "WHERE parent_id = :parentId", nativeQuery = true)
      List<ReplyListDto> findReplyList(Long parentId);
-
 }
