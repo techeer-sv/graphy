@@ -43,22 +43,32 @@ function ReadReReply(props: any) {
         <div className="mt-3 ml-8 h-auto rounded-lg border-2 border-gray-400">
           {props.contents.content !== '삭제된 댓글입니다.' ? (
             <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm ">
-              <p className="font-ng">{`ID ${props.contents.commentId}`}</p>
-              <p className="mx-auto mr-2 font-ng-b">{formattedDate}</p>
-              <button
-                className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
-                onClick={() => deleteReReply()}
-              >
-                <img src={delete_reply} className="mr-1 h-4 font-ng text-sm" />
-                삭제
-              </button>
-              <button
-                className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
-                onClick={() => setPutVis(!putVis)}
-              >
-                <img src={pencil_square} className="mr-1 h-3 font-ng text-sm" />
-                수정
-              </button>
+              <p className="ml-1 mr-3 font-ng">{`ID ${props.contents.commentId}`}</p>
+              <p className="mr-3 hidden border-l border-dashed border-gray-400 pl-3 pr-3 font-ng-b sm:block">
+                {formattedDate}
+              </p>
+              <div className="mx-auto mr-2 flex flex-row">
+                <button
+                  className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
+                  onClick={() => deleteReReply()}
+                >
+                  <img
+                    src={delete_reply}
+                    className="mr-1 h-4 font-ng text-sm"
+                  />
+                  삭제
+                </button>
+                <button
+                  className="flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
+                  onClick={() => setPutVis(!putVis)}
+                >
+                  <img
+                    src={pencil_square}
+                    className="mr-1 h-3 font-ng text-sm"
+                  />
+                  수정
+                </button>
+              </div>
             </div>
           ) : null}
           {props.contents.content !== '삭제된 댓글입니다.' ? (
