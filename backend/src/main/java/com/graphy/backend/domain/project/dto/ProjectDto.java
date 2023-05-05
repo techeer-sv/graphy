@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.project.dto;
 
-import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
+import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -94,7 +94,7 @@ public class ProjectDto {
         private String content;
         private String description;
         private String thumbNail;
-        private List<GetCommentWithMaskingDto> commentsList;
+        private List<CommentWithMaskingDto> commentsList;
         private LocalDateTime createdAt;
         private List<String> techTags;
     }
