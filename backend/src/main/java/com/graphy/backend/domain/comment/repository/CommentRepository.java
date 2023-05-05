@@ -18,6 +18,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "           ELSE parent.content\n" +
             "           END                 AS content,\n" +
             "       parent.comment_id AS commentId,\n" +
+            "       parent.created_at AS createdAt, \n" +
             "       COUNT(child.comment_id) AS childCount\n" +
             "FROM (SELECT *\n" +
             "      FROM comment\n" +
