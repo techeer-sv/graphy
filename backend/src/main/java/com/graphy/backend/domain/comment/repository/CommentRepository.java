@@ -1,8 +1,8 @@
 package com.graphy.backend.domain.comment.repository;
 
 import com.graphy.backend.domain.comment.domain.Comment;
-import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
-import com.graphy.backend.domain.comment.dto.GetReplyListDto;
+import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
+import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -29,11 +29,17 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "     ON\n" +
             "         parent.comment_id = child.parent_id\n" +
             "GROUP BY parent.comment_id", nativeQuery = true)
-    List<GetCommentWithMaskingDto> findCommentsWithMasking(Long id);
+    List<CommentWithMaskingDto> findCommentsWithMasking(Long id);
 
-    @Query(value = "SELECT comment_id as commentId, created_at as createdAt, content " +
-            "FROM comment\n" +
-            "where parent_id = :parentId", nativeQuery = true)
-     List<GetReplyListDto> findReplyList(Long parentId);
-
+@Query(value = "SELECT\n" +
+        "    CASE\n" +
+        "        WHEN is_deleted\n" +
+        "            THEN '삭제된 댓글입니다.'\n" +
+        "        ELSE content\n" +
+        "        END AS content,\n" +
+        "    comment_id AS commentId,\n" +
+        "    created_at AS createdAt\n" +
+        "FROM comment\n" +
+        "WHERE parent_id = :parentId", nativeQuery = true)
+     List<ReplyListDto> findReplyList(Long parentId);
 }

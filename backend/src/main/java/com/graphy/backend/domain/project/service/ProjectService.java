@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.project.service;
 
-import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
+import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.Tag;
@@ -96,7 +96,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
 
-        List<GetCommentWithMaskingDto> comments = commentRepository.findCommentsWithMasking(projectId);
+        List<CommentWithMaskingDto> comments = commentRepository.findCommentsWithMasking(projectId);
 
         return mapper.toGetProjectDetailDto(project, comments);
     }

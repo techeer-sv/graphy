@@ -2,7 +2,7 @@ package com.graphy.backend.domain.comment.controller;
 
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.CommentDto;
-import com.graphy.backend.domain.comment.dto.GetReplyListDto;
+import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.test.MockApiTest;
@@ -96,7 +96,7 @@ class CommentControllerTest extends MockApiTest {
     @DisplayName("답글 조회 API 테스트")
     public void getReplyList() throws Exception {
         //given
-        List<GetReplyListDto> dtoList = Arrays.asList(new GetReplyListDto() {
+        List<ReplyListDto> dtoList = Arrays.asList(new ReplyListDto() {
             @Override
             public String getContent() {
                 return "test";
