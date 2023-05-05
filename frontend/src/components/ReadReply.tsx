@@ -42,6 +42,7 @@ function ReadReply(props: any) {
       const res = await axios.get(url);
       console.log(res);
       setComment(res.data.data);
+      setCommentVis(true);
     } catch (error) {
       console.error(error);
       alert('답글 조회 실패');
