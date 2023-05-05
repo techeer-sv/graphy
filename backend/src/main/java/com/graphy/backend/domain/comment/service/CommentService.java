@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.comment.service;
 
 import com.graphy.backend.domain.comment.domain.Comment;
+import com.graphy.backend.domain.comment.dto.GetReplyListDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
@@ -9,6 +10,8 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
@@ -51,5 +54,9 @@ public class CommentService {
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
 
         comment.delete();
+    }
+
+    public List<GetReplyListDto> getReplyList(Long commentId) {
+        return commentRepository.findReplyList(commentId);
     }
 }

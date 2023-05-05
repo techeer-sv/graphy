@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.comment.controller;
 
+import com.graphy.backend.domain.comment.dto.GetReplyListDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+
+import java.util.List;
 
 import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
@@ -44,5 +48,13 @@ public class CommentController {
         commentService.deleteComment(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));
+    }
+
+    @Operation(summary = "getReComment", description = "답글 조회")
+    @GetMapping("/{commentId}")
+    public ResponseEntity<ResultResponse> getReComment(@PathVariable Long commentId) {
+        List<GetReplyListDto> replyList = commentService.getReplyList(commentId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResultResponse.of(ResultCode.RECOMMENT_GET_SUCCESS, replyList));
     }
 }
