@@ -133,9 +133,9 @@ jacocoTestReport {
 
 jacocoTestCoverageVerification {
     violationRules {
-//        rule {
+        rule {
 //            element = 'CLASS'
-//
+
 //            limit {
 //                counter = 'BRANCH'
 //                value = 'COVEREDRATIO'
