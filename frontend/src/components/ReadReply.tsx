@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useDidMountEffect from '../useDidMountEffect';
 
 import nested_reply from '../assets/image/nested_reply.svg';
 import ReadReReply from './ReadReReply';
@@ -17,6 +18,7 @@ function ReadReply(props: any) {
   const [comment, setComment] = useState<
     { commentId: number; content: string; createdAt: string }[]
   >([]);
+  const [commentRef, setCommentRef] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
   const date = new Date(props.contents.createdAt);
@@ -42,7 +44,6 @@ function ReadReply(props: any) {
       const res = await axios.get(url);
       console.log(res);
       setComment(res.data.data);
-      setCommentVis(true);
     } catch (error) {
       console.error(error);
       alert('답글 조회 실패');
@@ -66,9 +67,13 @@ function ReadReply(props: any) {
     getComment();
   }
 
-  useEffect(() => {
+  function changeCommentRef() {
+    setCommentRef(!commentRef);
+  }
+
+  useDidMountEffect(() => {
     getComment();
-  }, [refresh]);
+  }, [commentRef]);
 
   return (
     <>
@@ -162,6 +167,7 @@ function ReadReply(props: any) {
               contents={x}
               key={comment[y].commentId}
               setSelectedValue={props.setSelectedValue}
+              changeCommentRef={changeCommentRef}
             />
           ))
         : null}

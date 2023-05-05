@@ -42,6 +42,7 @@ function PutReply(props: any) {
       const res = await axios.put(url, data);
       console.log(res.data);
       setrefresh(!refresh);
+      props.hasOwnProperty('childCount') ? null : props.changeCommentRef();
       setValue('');
     } catch (error) {
       console.error(error);

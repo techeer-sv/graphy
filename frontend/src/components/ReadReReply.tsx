@@ -30,6 +30,7 @@ function ReadReReply(props: any) {
       const res = await axios.delete(url);
       console.log(res);
       setRefresh(!refresh);
+      props.changeCommentRef();
     } catch (error) {
       console.error(error);
       alert('대댓글 삭제 실패');
@@ -95,6 +96,7 @@ function ReadReReply(props: any) {
             contents={props.contents}
             changePutVis={changePutVis}
             setSelectedValue={props.setSelectedValue}
+            changeCommentRef={props.changeCommentRef}
           />
         </div>
       ) : null}
