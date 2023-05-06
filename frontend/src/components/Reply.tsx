@@ -54,12 +54,6 @@ function Reply(props: any) {
     }
   }
 
-  function handleselectChange(event: { target: { value: any } }) {
-    const selectedValue = event.target.value; // 선택된 값 가져오기
-    setSelectedValue(selectedValue); // 선택된 값 상태 업데이트
-    myFunction(selectedValue); // 선택된 값 전달하여 실행할 함수 호출
-  }
-
   function myFunction(selectedValue: any) {
     switch (selectedValue) {
       case 'newest_order':
@@ -77,7 +71,7 @@ function Reply(props: any) {
         const replyedContents = props.contents
           .slice()
           .sort((a: any, b: any) => {
-            return b.childComments.length - a.childComments.length;
+            return b.childCount - a.childCount;
           });
         props.setReadReply(replyedContents);
         break;
@@ -96,17 +90,25 @@ function Reply(props: any) {
     }
   }
 
+  function handleselectChange(event: { target: { value: any } }) {
+    const selectedValue = event.target.value; // 선택된 값 가져오기
+    setSelectedValue(selectedValue); // 선택된 값 상태 업데이트
+    myFunction(selectedValue); // 선택된 값 전달하여 실행할 함수 호출
+  }
+
   function handleRefresh() {
     setRefresh(!refresh);
     setSelectedValue('regist_order');
   }
 
   useEffect(() => {
-    let childlength = 0;
-    props.contents.length != 0
-      ? props.contents.map((x: any) => (childlength += x.childComments.length))
-      : null;
-    SetCount(props.contents.length + childlength);
+    SetCount(
+      props.contents.reduce(
+        (acc: number, cur: any) =>
+          acc + (cur.content !== '삭제된 댓글입니다.' ? 1 : 0),
+        0,
+      ),
+    );
   }, [props]);
 
   return (
@@ -150,13 +152,16 @@ function Reply(props: any) {
       <div className="my-2 border-graphyblue">
         {visible ? (
           <>
-            {props.contents.map((x: object, y: number) => (
-              <ReadReply
-                contents={x}
-                key={props.contents[y].commentId}
-                setSelectedValue={setSelectedValue}
-              />
-            ))}
+            {props.contents.map((x: object, y: number) =>
+              props.contents[y].content == '삭제된 댓글입니다.' &&
+              props.contents[y].childCount == 0 ? null : (
+                <ReadReply
+                  contents={x}
+                  key={props.contents[y].commentId}
+                  setSelectedValue={setSelectedValue}
+                />
+              ),
+            )}
           </>
         ) : null}
         {/*댓글 입력창*/}
