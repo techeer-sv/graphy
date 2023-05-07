@@ -1,6 +1,8 @@
 package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
+import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.result.ResultCode;
@@ -26,6 +28,7 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProjectController {
     private final ProjectService projectService;
+    private final GPTChatRestService gptChatRestService;
 
     @Operation(summary = "createProject", description = "프로젝트 생성")
     @PostMapping
@@ -62,7 +65,6 @@ public class ProjectController {
             @PageableDefault(sort = {"createdAt"}, direction = Sort.Direction.DESC) Pageable page) {
 
         List<GetProjectResponse> result = projectService.getProjects(dto, page);
-
         if (result.size() == 0) throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
 
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
@@ -73,5 +75,12 @@ public class ProjectController {
     public ResponseEntity<ResultResponse> getProject(@PathVariable Long projectId) {
         GetProjectDetailResponse result = projectService.getProjectById(projectId);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
+    }
+
+    @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
+    @PostMapping("/plans")
+    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GptCompletionDto.GptCompletionRequest gptCompletionRequest) {
+        GptCompletionDto.GptCompletionResponse response = gptChatRestService.completion(gptCompletionRequest);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.PLAN_CREATE_SUCCESS, response));
     }
 }

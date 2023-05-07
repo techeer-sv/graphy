@@ -9,10 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class ProjectServiceTest extends MockTest {
@@ -28,6 +24,4 @@ public class ProjectServiceTest extends MockTest {
 
     @InjectMocks
     private ProjectService projectService;
-
-
 }

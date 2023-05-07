@@ -22,8 +22,11 @@ public enum ResultCode {
     RECOMMENT_GET_SUCCESS("C001", "답글 조회 성공"),
     COMMENT_CREATE_SUCCESS("C002", "댓글 생성 성공"),
     COMMENT_DELETE_SUCCESS("C003", "댓글 삭제 성공"),
-
     COMMENT_UPDATE_SUCCESS("C004", "댓글 수정 성공"),
+
+    // plan
+    PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공"),
+
     ;
 
     private final String code;
