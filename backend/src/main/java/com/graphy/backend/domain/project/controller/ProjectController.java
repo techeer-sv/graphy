@@ -3,6 +3,7 @@ package com.graphy.backend.domain.project.controller;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
+import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.result.ResultCode;
@@ -12,8 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,10 +60,9 @@ public class ProjectController {
             "\t\t3. sort의 default(공백 입력) : createdAt(최신순), 내림차순")
 
     @PostMapping("/search")
-    public ResponseEntity<ResultResponse> getProjects(GetProjectsRequest dto,
-            @PageableDefault(sort = {"createdAt"}, direction = Sort.Direction.DESC) Pageable page) {
-
-        List<GetProjectResponse> result = projectService.getProjects(dto, page);
+    public ResponseEntity<ResultResponse> getProjects(GetProjectsRequest dto, PageRequest pageRequest) {
+        Pageable pageable = pageRequest.of();
+        List<GetProjectResponse> result = projectService.getProjects(dto, pageable);
         if (result.size() == 0) throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
 
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
