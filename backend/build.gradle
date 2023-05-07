@@ -43,7 +43,6 @@ dependencies {
 
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'junit:junit:4.13.2'
 
     // lombok
     annotationProcessor 'org.projectlombok:lombok'

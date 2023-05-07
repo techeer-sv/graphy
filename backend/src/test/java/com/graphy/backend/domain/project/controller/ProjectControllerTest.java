@@ -4,10 +4,12 @@ import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.dto.ProjectDto;
 import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,12 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.ResultActions;
@@ -31,16 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.GetProjectDetailResponse;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
@@ -52,6 +42,9 @@ public class ProjectControllerTest extends MockApiTest {
     private WebApplicationContext context;
     @MockBean
     ProjectService projectService;
+
+    @MockBean
+    GPTChatRestService gptChatRestService;
 
     @MockBean
     CommentService commentService;
