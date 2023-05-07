@@ -1,4 +1,4 @@
-package com.graphy.backend.global.chatgpt.dto.service;
+package com.graphy.backend.global.chatgpt.service;
 
 import com.theokanning.openai.completion.CompletionResult;
 import com.theokanning.openai.service.OpenAiService;

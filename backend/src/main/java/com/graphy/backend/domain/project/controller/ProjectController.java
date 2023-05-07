@@ -2,7 +2,7 @@ package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
-import com.graphy.backend.global.chatgpt.dto.service.GPTChatRestService;
+import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.result.ResultCode;
