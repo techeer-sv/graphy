@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.project.controller;
 
-import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
+import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.dto.ProjectDto;
 import com.graphy.backend.domain.project.service.ProjectService;
@@ -17,9 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+
+import org.springframework.test.web.servlet.ResultActions;
+
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
@@ -61,7 +63,7 @@ public class ProjectControllerTest extends MockApiTest {
     public void getProjectWithComments() throws Exception {
 
         //given
-        GetCommentWithMaskingDto dto = new GetCommentWithMaskingDto() {
+        CommentWithMaskingDto dto = new CommentWithMaskingDto() {
             @Override
             public String getContent() {
                 return "testComment";
@@ -76,8 +78,13 @@ public class ProjectControllerTest extends MockApiTest {
             public Integer getChildCount() {
                 return null;
             }
+
+            @Override
+            public LocalDateTime getCreatedAt() {
+                return LocalDateTime.now();
+            }
         };
-        List<GetCommentWithMaskingDto> list = new ArrayList<>();
+        List<CommentWithMaskingDto> list = new ArrayList<>();
         list.add(dto);
 
         given(projectService.getProjectById(1L))
