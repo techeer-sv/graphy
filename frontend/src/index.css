@@ -5,7 +5,7 @@
 .ql-editor {
   min-height: 600px;
 }
-@font-face {
+/* @font-face {
   font-family: 'NanumGothic';
   src: url('./assets/fonts/NanumGothic.ttf');
 }
@@ -20,7 +20,7 @@
 @font-face {
   font-family: 'NanumGothicLight';
   src: url('./assets/fonts/NanumGothicLight.ttf');
-}
+} */
 @font-face {
   font-family: 'LeferiBaseRegular';
   src: url('./assets/fonts/LeferiBaseRegular.ttf');

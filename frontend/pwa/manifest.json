@@ -1,13 +1,25 @@
 {
   "icons": [
     {
-      "src": "https://www.pwabuilder.com/assets/icons/icon_192.png",
+      "src": "../src/assets/image/manifest-icon-192.maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://www.pwabuilder.com/assets/icons/icon_512.png",
+      "src": "../src/assets/image/manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "../src/assets/image/manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../src/assets/image/manifest-icon-512.maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -22,7 +34,7 @@
   ],
   "name": "Graphy",
   "short_name": "Graphy",
-  "start_url": "/",
+  "start_url": "http://localhost:3001",
   "display": "standalone",
   "description": "Sharing project",
   "lang": "Korean",
