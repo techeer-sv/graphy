@@ -2,6 +2,7 @@ package com.graphy.backend.global.common;
 
 import org.springframework.data.domain.Sort;
 
+
 public class PageRequest {
 
     private int page = 1;
