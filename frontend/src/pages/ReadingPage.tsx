@@ -14,6 +14,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AllStacks from '../Stack';
+import WriteIcon from '../assets/image/pencil-square.svg';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -108,6 +109,16 @@ function ReadingPage() {
       <NavBar />
       {/**전체 컨텐츠 영역**/}
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
+        {/* AI 고도화 버튼 */}
+        <button
+          className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
+          bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md"
+          onClick={() => toWrite()}
+        >
+          <img className="mr-2 h-5 w-5" src={WriteIcon} />
+          <span className="shrink-0 font-semibold">AI 고도화 추천</span>
+        </button>
+
         {/**텍스트 영역**/}
         <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/**제목**/}
