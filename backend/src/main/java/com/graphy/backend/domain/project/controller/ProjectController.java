@@ -77,8 +77,8 @@ public class ProjectController {
 
     @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
     @PostMapping("/plans")
-    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GptCompletionDto.GptCompletionRequest gptCompletionRequest) {
-        GptCompletionDto.GptCompletionResponse response = gptChatRestService.completion(gptCompletionRequest);
+    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest) {
+        GptCompletionDto.GptCompletionResponse response = projectService.getProjectPlan(getPlanRequest);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PLAN_CREATE_SUCCESS, response));
     }
 }

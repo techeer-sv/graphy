@@ -9,6 +9,8 @@ import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
+import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
+import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
@@ -39,6 +41,7 @@ public class ProjectService {
     private final ProjectMapper mapper;
     private final CommentRepository commentRepository;
 
+    private final GPTChatRestService gptChatRestService;
 
     @PostConstruct
     public void initTag() throws IOException {
@@ -110,5 +113,16 @@ public class ProjectService {
     public List<GetProjectResponse> getProjects(GetProjectsRequest dto, Pageable pageable) {
         Page<Project> projects = projectRepository.searchProjectsWith(pageable, dto.getProjectName(), dto.getContent());
         return mapper.toDtoList(projects).getContent();
+    }
+
+    public GptCompletionDto.GptCompletionResponse getProjectPlan(final GetPlanRequest request) {
+        GptCompletionDto.GptCompletionRequest dto = new GptCompletionDto.GptCompletionRequest();
+        String techStacks = String.join(", ", request.getTechStacks());
+        String plans = String.join(", ", request.getPlans());
+        String features = String.join(", ", request.getFeatures());
+        String prompt = techStacks + "를 이용해" + request.getTopic() +"를 개발 중이고, 현재"
+                + features + "까지 기능 구현한 상태에서 고도화된 기능과 " + plans + "을 사용한 고도화 방안을 알려줘";
+        dto.setPrompt(prompt);
+        return gptChatRestService.completion(dto);
     }
 }
