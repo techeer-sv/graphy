@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AllStacks from '../Stack';
-import WriteIcon from '../assets/image/pencil-square.svg';
+import gptIcon from '../assets/image/gptIcon.svg';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -115,7 +115,7 @@ function ReadingPage() {
           bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md"
           onClick={() => toWrite()}
         >
-          <img className="mr-2 h-5 w-5" src={WriteIcon} />
+          <img className="mr-2 h-5 w-5" src={gptIcon} />
           <span className="shrink-0 font-semibold">AI 고도화 추천</span>
         </button>
 
