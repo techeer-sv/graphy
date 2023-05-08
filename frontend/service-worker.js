@@ -5,11 +5,10 @@
       while also being easily customizeable. You can add in your own code to implement the capabilities
       listed below, or change anything else you would like.
 
-
       Need an introduction to Service Workers? Check our docs here: https://docs.pwabuilder.com/#/home/sw-intro
       Want to learn more about how our Service Worker generation works? Check our docs here: https://docs.pwabuilder.com/#/studio/existing-app?id=add-a-service-worker
 
-      Did you know that Service Workers offer many more capabilities than just offline? 
+      Did you know that Service Workers offer many more capabilities than just offline?
         - Background Sync: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/06
         - Periodic Background Sync: https://web.dev/periodic-background-sync/
         - Push Notifications: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=push-notifications-on-the-web
@@ -61,39 +60,39 @@ self.addEventListener('activate', (event) => {
  *
  *  void respondWith(Promise<Response> r)
  */
-self.addEventListener('fetch', (event) => {
-  // Skip some of cross-origin requests, like those for Google Analytics.
-  if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
-    // Stale-while-revalidate
-    // similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
-    // Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
-    const cached = caches.match(event.request);
-    const fixedUrl = getFixedUrl(event.request);
-    const fetched = fetch(fixedUrl, { cache: 'no-store' });
-    const fetchedCopy = fetched.then((resp) => resp.clone());
+// self.addEventListener('fetch', (event) => {
+//   // Skip some of cross-origin requests, like those for Google Analytics.
+//   if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
+//     // Stale-while-revalidate
+//     // similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
+//     // Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
+//     const cached = caches.match(event.request);
+//     const fixedUrl = getFixedUrl(event.request);
+//     const fetched = fetch(fixedUrl, { cache: 'no-store' });
+//     const fetchedCopy = fetched.then((resp) => resp.clone());
 
-    // Call respondWith() with whatever we get first.
-    // If the fetch fails (e.g disconnected), wait for the cache.
-    // If there’s nothing in cache, wait for the fetch.
-    // If neither yields a response, return offline pages.
-    event.respondWith(
-      Promise.race([fetched.catch((_) => cached), cached])
-        .then((resp) => resp || fetched)
-        .catch((_) => {
-          /* eat any errors */
-        }),
-    );
+//     // Call respondWith() with whatever we get first.
+//     // If the fetch fails (e.g disconnected), wait for the cache.
+//     // If there’s nothing in cache, wait for the fetch.
+//     // If neither yields a response, return offline pages.
+//     event.respondWith(
+//       Promise.race([fetched.catch((_) => cached), cached])
+//         .then((resp) => resp || fetched)
+//         .catch((_) => {
+//           /* eat any errors */
+//         }),
+//     );
 
-    // Update the cache with the version we fetched (only for ok status)
-    event.waitUntil(
-      Promise.all([fetchedCopy, caches.open('pwa-cache')])
-        .then(
-          ([response, cache]) =>
-            response.ok && cache.put(event.request, response),
-        )
-        .catch((_) => {
-          /* eat any errors */
-        }),
-    );
-  }
-});
+//     // Update the cache with the version we fetched (only for ok status)
+//     event.waitUntil(
+//       Promise.all([fetchedCopy, caches.open('pwa-cache')])
+//         .then(
+//           ([response, cache]) =>
+//             response.ok && cache.put(event.request, response),
+//         )
+//         .catch((_) => {
+//           /* eat any errors */
+//         }),
+//     );
+//   }
+// });

@@ -1,25 +1,25 @@
 {
   "icons": [
     {
-      "src": "../src/assets/image/manifest-icon-192.maskable.png",
+      "src": "src/assets/image/icon/192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "../src/assets/image/manifest-icon-192.maskable.png",
+      "src": "src/assets/image/icon/192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "../src/assets/image/manifest-icon-512.maskable.png",
+      "src": "src/assets/image/icon/512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "../src/assets/image/manifest-icon-512.maskable.png",
+      "src": "src/assets/image/icon/512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -35,6 +35,7 @@
   "name": "Graphy",
   "short_name": "Graphy",
   "start_url": "http://localhost:3001",
+  "id": "/",
   "display": "standalone",
   "description": "Sharing project",
   "lang": "Korean",
@@ -45,7 +46,7 @@
   "screenshots": [
     {
       "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
-      "sizes": "2880x1800",
+      "sizes": "1630x918",
       "type": "image/png",
       "description": "A screenshot of the home page"
     }
@@ -54,7 +55,16 @@
     {
       "name": "write",
       "url": "/write",
-      "description": "write"
+      "description": "write",
+      "icons": [
+        {
+          "src": "src/assets/image/icon/96.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ]
     }
-  ]
+  ],
+  "related_applications": []
 }
