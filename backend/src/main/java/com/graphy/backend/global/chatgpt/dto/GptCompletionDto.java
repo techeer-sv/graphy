@@ -17,9 +17,9 @@ public class GptCompletionDto {
     @AllArgsConstructor
     public static class GptCompletionRequest {
 
-        private String model;
+        private String model = "text-davinci-003";
         private String prompt;
-        private Integer maxToken;
+        private Integer maxToken = 3500;
 
         public static CompletionRequest of(GptCompletionRequest restRequest) {
             return CompletionRequest.builder()
@@ -27,6 +27,10 @@ public class GptCompletionDto {
                     .prompt(restRequest.getPrompt())
                     .maxTokens(restRequest.getMaxToken())
                     .build();
+        }
+
+        public void setPrompt(String prompt) {
+            this.prompt = prompt;
         }
     }
 
