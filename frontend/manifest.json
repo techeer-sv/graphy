@@ -45,8 +45,8 @@
   "orientation": "any",
   "screenshots": [
     {
-      "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
-      "sizes": "1630x918",
+      "src": "src/assets/image/icon/screenshot.png",
+      "sizes": "2560x1380",
       "type": "image/png",
       "description": "A screenshot of the home page"
     }
