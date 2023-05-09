@@ -15,6 +15,9 @@ public class ChatGPTConfig {
     @Value("${gpt.token}")
     private String token;
 
+    public static final String MODEL_NAME = "text-davinci-003";
+    public static final int MAX_TOKEN = 3500;
+
     @Bean
     public OpenAiService openAiService() {
         return new OpenAiService(token, Duration.ofSeconds(120));

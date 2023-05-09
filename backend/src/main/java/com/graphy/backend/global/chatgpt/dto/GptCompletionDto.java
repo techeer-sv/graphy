@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.graphy.backend.global.config.ChatGPTConfig.*;
+
 public class GptCompletionDto {
 
     @Getter
@@ -17,9 +19,9 @@ public class GptCompletionDto {
     @AllArgsConstructor
     public static class GptCompletionRequest {
 
-        private String model = "text-davinci-003";
+        private String model = MODEL_NAME;
         private String prompt;
-        private Integer maxToken = 3500;
+        private Integer maxToken = MAX_TOKEN;
 
         public static CompletionRequest of(GptCompletionRequest restRequest) {
             return CompletionRequest.builder()
