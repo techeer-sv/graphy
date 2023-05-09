@@ -60,8 +60,9 @@ function ReadingPage() {
       console.log(res.data);
       navigate('/');
     } catch (error) {
-      console.error(error);
-      if (axios.isAxiosError(error)) {
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (axios.isAxiosError(error)) {
         if (
           error.response?.data.message ===
           '이미 삭제되거나 존재하지 않는 프로젝트'

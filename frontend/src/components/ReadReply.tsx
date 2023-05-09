@@ -57,8 +57,12 @@ function ReadReply(props: any) {
       console.log(res);
       setRefresh(!refresh);
     } catch (error) {
-      console.error(error);
-      alert('댓글 삭제 실패');
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else {
+        console.error(error);
+        alert('댓글 삭제 실패');
+      }
     }
   }
 

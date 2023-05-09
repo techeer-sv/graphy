@@ -48,10 +48,12 @@ function WriteReReply(props: any) {
       setrefresh(!refresh);
       setValue('');
     } catch (error) {
-      console.error(error);
-      if (value.trim().length === 0) {
-        alert('대댓글을 입력해주세요.');
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (value.trim().length === 0) {
+        alert('답글을 입력해주세요.');
       } else {
+        console.log(error);
         alert('네트워크 오류');
       }
     }

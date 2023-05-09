@@ -46,9 +46,12 @@ function Reply(props: any) {
       setValue('');
       setSelectedValue('regist_order');
     } catch (error) {
-      if (value.trim().length === 0) {
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (value.trim().length === 0) {
         alert('댓글을 입력해주세요.');
       } else {
+        console.log(error);
         alert('네트워크 오류');
       }
     }

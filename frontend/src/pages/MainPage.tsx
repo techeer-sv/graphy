@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { searchTextState } from '../Recoil';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 function MainPage() {
   const [data, setData] = useState<any[]>([]);
-  const searchText = useRecoilValue(searchTextState);
+  const [searchText, setSearchText] = useRecoilState(searchTextState);
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
@@ -32,7 +32,13 @@ function MainPage() {
       setData(res.data.data);
       console.log(res.data.data);
     } catch (error) {
-      console.log(error);
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+        setSearchText('');
+      } else {
+        console.log(error);
+        alert('네트워크 오류');
+      }
     }
   }
 

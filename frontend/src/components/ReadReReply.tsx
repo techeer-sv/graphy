@@ -32,8 +32,12 @@ function ReadReReply(props: any) {
       setRefresh(!refresh);
       props.changeCommentRef();
     } catch (error) {
-      console.error(error);
-      alert('대댓글 삭제 실패');
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else {
+        console.error(error);
+        alert('답글 삭제 실패');
+      }
     }
   }
 

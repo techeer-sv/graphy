@@ -22,8 +22,12 @@ function ImageUploader() {
         setThumbnailUrl(res.location);
         console.log(res);
       } catch (error) {
-        console.log(error);
-        alert('업로드 실패');
+        if (!navigator.onLine) {
+          alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+        } else {
+          console.log(error);
+          alert('이미지 업로드 실패');
+        }
       }
     }
   }

@@ -47,11 +47,13 @@ function PutReply(props: any) {
         : props.changeCommentRef();
       setValue('');
     } catch (error) {
-      console.error(error);
-      if (value.length === 0) {
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (value.length === 0) {
         alert('수정할 댓글을 입력해주세요.');
       } else {
-        alert('네트워크 오류');
+        alert('댓글 수정 실패');
+        console.error(error);
       }
     }
   }
