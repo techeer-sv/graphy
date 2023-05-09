@@ -35,10 +35,8 @@ function MainPage() {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
         setSearchText('');
-      } else {
-        console.log(error);
-        alert('네트워크 오류');
       }
+      console.log(error);
     }
   }
 
