@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8" name="theme-color" content="#F9F8F8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="/manifest.json" />
     <script>
       typeof window != 'undefined' && window.document;
-      const registerServiceWorker = async () => {
+      async function registerServiceWorker() {
         if ('serviceWorker' in navigator) {
           try {
             const registration = await navigator.serviceWorker.register(
@@ -27,7 +27,7 @@
             console.error(`Registration failed with ${error}`);
           }
         }
-      };
+      }
       registerServiceWorker();
     </script>
     <title>Vite + React + TS</title>
