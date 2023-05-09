@@ -34,7 +34,7 @@
   ],
   "name": "Graphy",
   "short_name": "Graphy",
-  "start_url": "http://localhost:3001",
+  "start_url": "http://localhost:3000",
   "id": "/",
   "display": "standalone",
   "description": "Sharing project",
