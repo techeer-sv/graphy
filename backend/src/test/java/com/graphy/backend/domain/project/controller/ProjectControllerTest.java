@@ -29,7 +29,6 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.GetProjectDetailR
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
@@ -120,7 +119,7 @@ class ProjectControllerTest extends MockApiTest {
 
         // when
         String body = objectMapper.writeValueAsString(request);
-        ResultActions resultActions = mvc.perform(post(baseUrl+"/search")
+        ResultActions resultActions = mvc.perform(get(baseUrl+"/search")
                 .param("projectName", projectName).param("pageRequest", pageRequest.toString()).contentType(MediaType.APPLICATION_JSON));
 
         // then

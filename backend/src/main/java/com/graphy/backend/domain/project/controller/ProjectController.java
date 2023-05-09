@@ -59,7 +59,7 @@ public class ProjectController {
             "\t\t2. 오름차순이 기본입니다. 내림차순을 원하실 경우 {정렬기준},desc (ex. \"id,desc\")를 입력해주세요 (콤마 사이 띄어쓰기 X)\n\n" +
             "\t\t3. sort의 default(공백 입력) : createdAt(최신순), 내림차순")
 
-    @PostMapping("/search")
+    @GetMapping("/search")
     public ResponseEntity<ResultResponse> getProjects(GetProjectsRequest dto, PageRequest pageRequest) {
         Pageable pageable = pageRequest.of();
         List<GetProjectResponse> result = projectService.getProjects(dto, pageable);
