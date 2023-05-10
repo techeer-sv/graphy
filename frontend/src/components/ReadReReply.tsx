@@ -44,7 +44,11 @@ function ReadReReply(props: any) {
   return (
     <>
       <div className="relative">
-        <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
+        <img
+          src={reply_icon}
+          className="absolute ml-2 mt-1 h-5"
+          alt="reply icon"
+        />
         <div className="mt-3 ml-8 h-auto rounded-lg border-2 border-gray-400">
           {props.contents.content !== '삭제된 댓글입니다.' ? (
             <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm ">
@@ -60,6 +64,7 @@ function ReadReReply(props: any) {
                   <img
                     src={delete_reply}
                     className="mr-1 h-4 font-ng text-sm"
+                    alt="delete icon"
                   />
                   삭제
                 </button>
@@ -70,6 +75,7 @@ function ReadReReply(props: any) {
                   <img
                     src={pencil_square}
                     className="mr-1 h-3 font-ng text-sm"
+                    alt="pencil icon"
                   />
                   수정
                 </button>

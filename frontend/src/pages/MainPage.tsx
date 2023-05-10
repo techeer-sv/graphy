@@ -61,7 +61,7 @@ function MainPage() {
           sm:invisible"
           onClick={() => toWrite()}
         >
-          <img className="mr-2 h-5 w-5" src={WriteIcon} />
+          <img className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
 

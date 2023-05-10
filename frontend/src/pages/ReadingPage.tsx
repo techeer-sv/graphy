@@ -134,7 +134,11 @@ function ReadingPage() {
                     key={x}
                     className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border py-1 pr-3"
                   >
-                    <img className="mx-3 my-1 h-8 w-8" src={findImage(x)} />
+                    <img
+                      className="mx-3 my-1 h-8 w-8"
+                      src={findImage(x)}
+                      alt="Stack"
+                    />
                     <p className="shrink-0 font-ng-b">{x}</p>
                   </div>
                 ))}

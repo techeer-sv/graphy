@@ -69,7 +69,11 @@ function WriteReReply(props: any) {
     <div>
       {/*대댓글 입력창*/}
       <div className="relative">
-        <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
+        <img
+          src={reply_icon}
+          className="absolute ml-2 mt-1 h-5"
+          alt="reply icon"
+        />
         <div className="mt-3 ml-8 flex h-auto flex-col rounded-xl border-2 border-gray-400">
           <textarea
             className="min-h-24 h-auto w-full resize-none appearance-none rounded-xl bg-graphybg py-2 px-3 font-ng leading-tight text-gray-700 focus:outline-none"

@@ -51,7 +51,12 @@ function ProjectCard(items: any) {
         </p>
         <div className="ml-3 mb-2 mt-2 flex flex-row font-ng">
           {items.items.techTags.map((x: string, y: number) => (
-            <img className=" mr-2 h-8 w-8 " src={findImage(x)} key={y} />
+            <img
+              className=" mr-2 h-8 w-8 "
+              src={findImage(x)}
+              key={y}
+              alt="stack"
+            />
           ))}
         </div>
       </div>

@@ -48,7 +48,7 @@ function QuillEditor() {
 
             quill?.clipboard.dangerouslyPasteHTML(
               range,
-              `<img src=${res.location} alt="이미지" />`,
+              `<img src=${res.location} alt="image" />`,
             );
           }
         } catch (error) {
