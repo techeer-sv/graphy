@@ -18,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
@@ -77,8 +79,12 @@ public class ProjectController {
 
     @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
     @PostMapping("/plans")
-    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest) {
-        GptCompletionDto.GptCompletionResponse response = projectService.getProjectPlan(getPlanRequest);
+    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest) throws ExecutionException, InterruptedException {
+        CompletableFuture<GptCompletionDto.GptCompletionResponse> futureResult =
+                projectService.getProjectPlanAsync(getPlanRequest).thenApply(result -> {
+                    return result;
+                });
+        GptCompletionDto.GptCompletionResponse response = futureResult.get();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PLAN_CREATE_SUCCESS, response));
     }
 }

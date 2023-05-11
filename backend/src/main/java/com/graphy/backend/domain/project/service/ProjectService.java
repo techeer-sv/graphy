@@ -10,6 +10,8 @@ import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
+import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
+import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -19,6 +21,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
@@ -115,9 +120,11 @@ public class ProjectService {
         return mapper.toDtoList(projects).getContent();
     }
 
-    public GptCompletionDto.GptCompletionResponse getProjectPlan(final GetPlanRequest request) {
-        GptCompletionDto.GptCompletionRequest dto = new GptCompletionDto.GptCompletionRequest();
+    @Async
+    public CompletableFuture<GptCompletionResponse> getProjectPlanAsync(final GetPlanRequest request) {
+        GptCompletionRequest dto = new GptCompletionDto.GptCompletionRequest();
 
+        CompletableFuture<GptCompletionResponse> response = new CompletableFuture<>();
         String techStacks = String.join(", ", request.getTechStacks());
         String plans = String.join(", ", request.getPlans());
         String features = String.join(", ", request.getFeatures());
@@ -125,6 +132,14 @@ public class ProjectService {
                 + features + "까지 기능 구현한 상태에서 고도화된 기능과 " + plans + "을 사용한 고도화 방안을 알려줘";
 
         dto.setPrompt(prompt);
-        return gptChatRestService.completion(dto);
+        GptAPICall(dto, response::complete);
+        return response;
+    }
+
+    private void GptAPICall(GptCompletionRequest request, Consumer<GptCompletionResponse> callback) {
+        System.out.println("비동기 작업 시작");
+        GptCompletionResponse result = gptChatRestService.completion(request);
+        System.out.println("비동기 작업 완료");
+        callback.accept(result);
     }
 }
