@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import QuillWrtten from '../components/QuillWritten';
 import NavBar from '../components/NavBar';
@@ -15,6 +15,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AllStacks from '../Stack';
 import gptIcon from '../assets/image/gptIcon.svg';
+import Modal from '../components/Modal';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -25,6 +26,13 @@ function ReadingPage() {
   const [readReply, setReadReply] = useState<object>([]);
   const refresh = useRecoilValue(refreshState);
   const navigate = useNavigate();
+
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+    console.log(isOpenModal);
+  }, [isOpenModal]);
 
   function toWrite() {
     // react-router-dom을 이용한 글 쓰기 페이지로 이동 함수
@@ -113,11 +121,15 @@ function ReadingPage() {
         <button
           className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
           bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md"
-          onClick={() => toWrite()}
+          onClick={onClickToggleModal}
         >
           <img className="mr-2 h-5 w-5" src={gptIcon} />
           <span className="shrink-0 font-semibold">AI 고도화 추천</span>
         </button>
+
+        {isOpenModal ? (
+          <Modal onClickToggleModal={onClickToggleModal}></Modal>
+        ) : null}
 
         {/**텍스트 영역**/}
         <div className="h-auto border-b-2 border-graphyblue pb-2">

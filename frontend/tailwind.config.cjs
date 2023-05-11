@@ -10,6 +10,7 @@ module.exports = {
         mainbannerleft: '#678EF4',
         mainbannerright: '#FF93AE',
         subbanner: '#C1D0EF',
+        gptbutton: '#7082CA',
       },
       width: {
         284: '17.75rem',
