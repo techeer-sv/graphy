@@ -80,8 +80,12 @@ public class ProjectController {
     @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
     @PostMapping("/plans")
     public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest) throws ExecutionException, InterruptedException {
+        String prompt = projectService.getPrompt(getPlanRequest);
+        projectService.checkGptRequestToken(prompt);
+
+
         CompletableFuture<GptCompletionDto.GptCompletionResponse> futureResult =
-                projectService.getProjectPlanAsync(getPlanRequest).thenApply(result -> {
+                projectService.getProjectPlanAsync(prompt).thenApply(result -> {
                     return result;
                 });
         GptCompletionDto.GptCompletionResponse response = futureResult.get();

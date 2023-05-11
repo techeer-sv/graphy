@@ -15,6 +15,7 @@ import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRespo
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
+import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
@@ -35,6 +36,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
+import static com.graphy.backend.global.config.ChatGPTConfig.MAX_REQUEST_TOKEN;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -75,9 +77,9 @@ public class ProjectService {
         return mapper.toCreateProjectDto(project.getId());
     }
 
-    public void deleteProject(Long project_id) {
+    public void deleteProject(Long projectId) {
         try {
-            projectRepository.deleteById(project_id);
+            projectRepository.deleteById(projectId);
         } catch (EmptyResultDataAccessException e) {
             throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
         }
@@ -121,25 +123,33 @@ public class ProjectService {
     }
 
     @Async
-    public CompletableFuture<GptCompletionResponse> getProjectPlanAsync(final GetPlanRequest request) {
+    public CompletableFuture<GptCompletionResponse> getProjectPlanAsync(String prompt) {
         GptCompletionRequest dto = new GptCompletionDto.GptCompletionRequest();
-
         CompletableFuture<GptCompletionResponse> response = new CompletableFuture<>();
-        String techStacks = String.join(", ", request.getTechStacks());
-        String plans = String.join(", ", request.getPlans());
-        String features = String.join(", ", request.getFeatures());
-        String prompt = techStacks + "를 이용해" + request.getTopic() +"를 개발 중이고, 현재"
-                + features + "까지 기능 구현한 상태에서 고도화된 기능과 " + plans + "을 사용한 고도화 방안을 알려줘";
 
         dto.setPrompt(prompt);
-        GptAPICall(dto, response::complete);
+        GptApiCall(dto, response::complete);
         return response;
     }
 
-    private void GptAPICall(GptCompletionRequest request, Consumer<GptCompletionResponse> callback) {
+    private void GptApiCall(GptCompletionRequest request, Consumer<GptCompletionResponse> callback) {
         System.out.println("비동기 작업 시작");
         GptCompletionResponse result = gptChatRestService.completion(request);
         System.out.println("비동기 작업 완료");
         callback.accept(result);
+    }
+
+    public void checkGptRequestToken(String prompt) {
+        String[] tokens = prompt.split("\\s+");  // 공백을 기준으로 텍스트를 분할
+       if (tokens.length * 10 > MAX_REQUEST_TOKEN)
+           throw new LongRequestException(ErrorCode.REQUEST_TOO_MUCH_TOKENS);
+    }
+
+    public String getPrompt(final GetPlanRequest request){
+        String techStacks = String.join(", ", request.getTechStacks());
+        String plans = String.join(", ", request.getPlans());
+        String features = String.join(", ", request.getFeatures());
+        return techStacks + "를 이용해" + request.getTopic() +"를 개발 중이고, 현재"
+                + features + "까지 기능 구현한 상태에서 고도화된 기능과 " + plans + "을 사용한 고도화 방안을 알려줘";
     }
 }

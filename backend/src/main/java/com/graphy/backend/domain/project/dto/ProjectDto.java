@@ -61,13 +61,13 @@ public class ProjectDto {
         @NotBlank(message = "topic cannot be blank")
         private String topic;
 
-        @Size(min=1, max=10, message = "features are not the right number.")
+        @Size(min=1, max=5, message = "features are not the right number.")
         private List<String> features;
 
         @Size(min=1, max=15, message = "techStacks are not the right number.")
         private List<String> techStacks;
 
-        @Size(min=1, max=10, message = "plans are not the right number.")
+        @Size(min=1, max=5, message = "plans are not the right number.")
         private List<String> plans;
     }
 
