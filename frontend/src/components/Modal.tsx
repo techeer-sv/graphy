@@ -5,6 +5,7 @@ import monster from '../assets/image/monster.png';
 import desktop from '../assets/image/desktop.png';
 import pick from '../assets/image/pick.png';
 import eyes from '../assets/image/eyes.png';
+import plus from '../assets/image/plus-circle.svg';
 import Android_studio from '../assets/image/stacklogo/Android_studio.svg';
 import Apache_cassandra from '../assets/image/stacklogo/Apache_cassandra.svg';
 import Apache_kafka from '../assets/image/stacklogo/Apache_kafka.svg';
@@ -75,10 +76,10 @@ function Modal({
               이전
             </button>
 
-            <button className="ml-[550px] flex w-56 items-center">
+            {/* <button className="ml-[550px] flex w-56 items-center">
               <div>다음</div>
               <img className="ml-2" src={arrowRightIcon} />
-            </button>
+            </button> */}
           </div>
 
           {/* 단계 */}
@@ -107,13 +108,19 @@ function Modal({
 
           {/* 질문 */}
           <div className="flex items-center justify-center font-lef-b text-[20px]">
-            <img className="h-[20px] w-[20px] " src={monster} />
-            어떤 기술을 사용했나요?
+            {/* <img className="h-[20px] w-[20px] " src={monster} />
+            어떤 기술을 사용했나요? */}
+            {/* <img className="h-[20px] w-[20px] " src={desktop} />
+            어떤 프로젝트를 구현했나요? */}
+            {/* <img className="h-[20px] w-[20px] " src={pick} />
+            어떤 기능을 구현했나요? */}
+            <img className="h-[20px] w-[20px] " src={eyes} />
+            관심있는 고도화 계획이 있나요?
           </div>
 
           {/* 기술 선택 버튼 */}
           <div className="mt-8 flex justify-center">
-            <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
+            {/* <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
               <img className="mr-1 h-[20px] w-[20px]" src={react} />
               React
             </button>
@@ -125,10 +132,10 @@ function Modal({
               <img className="mr-1 h-[20px] w-[20px]" src={Redux} />
               Redux
             </button>
-            {/* <button className="flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
+            <button className="flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
               <img className="mr-1 h-[20px] w-[20px]" src={Android_studio} />
               AndroidStudio
-            </button> */}
+            </button>
             <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
               <img className="mr-1 h-[20px] w-[20px]" src={Firebase} />
               Firebase
@@ -136,16 +143,68 @@ function Modal({
             <button className="flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
               <img className="mr-1 h-[20px] w-[20px]" src={Aws} />
               Aws
-            </button>
+            </button> */}
+          </div>
+
+          {/* 프로젝트 구현 입력창 */}
+          {/* <div className="relative mt-3" data-te-input-wrapper-init>
+            <input
+              type="text"
+              className="ml-[60px] flex w-10/12 justify-center border-b-2"
+              placeholder=" 예시 - 팀원 모집 웹 사이트"
+            />
+          </div> */}
+
+          {/* 기능 구현 입력창 */}
+          {/* <div className="relative mt-3" data-te-input-wrapper-init>
+            <input
+              type="text"
+              className="ml-[60px] mb-5 flex w-10/12 justify-center border-b-2"
+              placeholder=" 예시 - 구인글 작성"
+            />
+            <input
+              type="text"
+              className="ml-[60px] flex w-10/12 justify-center border-b-2"
+              placeholder=" 예시 - 구인글 조회"
+            />
+            <img
+              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
+              src={plus}
+            />
+          </div> */}
+
+          {/* 고도화 기술 입력창 */}
+          <div className="relative mt-3" data-te-input-wrapper-init>
+            <input
+              type="text"
+              className="ml-[60px] mb-5 flex w-10/12 justify-center border-b-2"
+              placeholder=" 예시 - MSA"
+            />
+            <input
+              type="text"
+              className="ml-[60px] flex w-10/12 justify-center border-b-2"
+              placeholder=" 예시 - 캐싱"
+            />
+            <img
+              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
+              src={plus}
+            />
           </div>
 
           {/* 하단 버튼 */}
-          <button
-            className="mt-72 ml-24 flex items-center
+          {/* <button
+            className="mt-60 ml-24 flex items-center
             justify-center
           rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
           >
             다음
+          </button> */}
+          <button
+            className="ml-12 mt-60 flex items-center
+            justify-center
+          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+          >
+            AI 고도화 추천 받기
           </button>
         </div>
         {children}
@@ -167,19 +226,3 @@ function Modal({
 }
 
 export default Modal;
-
-// export default function Modal({ open, onClose, children}) {
-
-//     return (
-//         //backdrop
-//         <div onClick={onClose} className={`
-//          fixed inset-0 flex justify-center items-center
-//          transition-colors
-//          ${open ? "visible bg-black/20" : "invisible"}
-//         `}>
-//             {children}
-//         </div>
-//     )
-// }
-
-//   return (
