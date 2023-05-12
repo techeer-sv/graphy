@@ -4,6 +4,7 @@ import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class ProjectDto {
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CreateProjectRequest {
+
 
         @NotBlank(message = "project name cannot be blank")
         private String projectName;
@@ -37,7 +39,6 @@ public class ProjectDto {
         private String content;
     }
 
-
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -50,6 +51,24 @@ public class ProjectDto {
         private String description;
         private List<String> techTags;
         private String thumbNail;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetPlanRequest {
+        @NotBlank(message = "topic cannot be blank")
+        private String topic;
+
+        @Size(min=1, max=5, message = "features are not the right number.")
+        private List<String> features;
+
+        @Size(min=1, max=15, message = "techStacks are not the right number.")
+        private List<String> techStacks;
+
+        @Size(min=1, max=5, message = "plans are not the right number.")
+        private List<String> plans;
     }
 
     @Getter

@@ -1,8 +1,6 @@
 package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
-import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -18,6 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
@@ -27,7 +27,6 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProjectController {
     private final ProjectService projectService;
-    private final GPTChatRestService gptChatRestService;
 
     @Operation(summary = "createProject", description = "프로젝트 생성")
     @PostMapping
@@ -59,7 +58,7 @@ public class ProjectController {
             "\t\t2. 오름차순이 기본입니다. 내림차순을 원하실 경우 {정렬기준},desc (ex. \"id,desc\")를 입력해주세요 (콤마 사이 띄어쓰기 X)\n\n" +
             "\t\t3. sort의 default(공백 입력) : createdAt(최신순), 내림차순")
 
-    @PostMapping("/search")
+    @GetMapping("/search")
     public ResponseEntity<ResultResponse> getProjects(GetProjectsRequest dto, PageRequest pageRequest) {
         Pageable pageable = pageRequest.of();
         List<GetProjectResponse> result = projectService.getProjects(dto, pageable);
@@ -77,8 +76,16 @@ public class ProjectController {
 
     @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
     @PostMapping("/plans")
-    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GptCompletionDto.GptCompletionRequest gptCompletionRequest) {
-        GptCompletionDto.GptCompletionResponse response = gptChatRestService.completion(gptCompletionRequest);
+    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest) throws ExecutionException, InterruptedException {
+        String prompt = projectService.getPrompt(getPlanRequest);
+        projectService.checkGptRequestToken(prompt);
+
+        CompletableFuture<String> futureResult =
+                projectService.getProjectPlanAsync(prompt).thenApply(result -> {
+                    return result;
+                });
+        String response = futureResult.get();
+
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PLAN_CREATE_SUCCESS, response));
     }
 }
