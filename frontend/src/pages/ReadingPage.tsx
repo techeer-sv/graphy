@@ -15,7 +15,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AllStacks from '../Stack';
 import gptIcon from '../assets/image/gptIcon.svg';
-import Modal from '../components/Modal';
 import RenderModal from '../components/RenderModal';
 
 function ReadingPage() {

@@ -65,18 +65,15 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
     >
       {/* 이전/다음 */}
       <div className="mt-5">
-        <div className="ml-5 flex font-lef text-gray-400 ">
-          <button
-            onClick={onNext}
-            className="ml-[550px] flex w-56 items-center"
-          >
+        <div className="ml-[645px] flex font-lef text-gray-400 ">
+          <button onClick={onNext} className="right-5 flex w-56 items-center">
             <div>다음</div>
             <img className="ml-2" src={arrowRightIcon} />
           </button>
         </div>
 
         {/* 단계 */}
-        <ol className="ml-52 mb-8 flex w-80 items-center justify-center">
+        <ol className="ml-56 mt-3 mb-8 flex w-80 items-center justify-center">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
               <img className="h-[20px] w-[20px] " src={monster} />
@@ -134,7 +131,7 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
         </div>
         {/* 하단 버튼 */}
         <button
-          className="mt-60 ml-24 flex items-center
+          className="mt-80 ml-28 flex items-center
             justify-center
           rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
           onClick={onNext}
@@ -204,7 +201,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
           <img className="h-[20px] w-[20px] " src={desktop} />
-          어떤 프로젝트를 구현했나요?
+          &nbsp; 어떤 프로젝트를 구현했나요?
         </div>
         {/* 프로젝트 설명 입력창 */}
         <div className="relative mt-3" data-te-input-wrapper-init>
@@ -286,7 +283,7 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
           <img className="h-[20px] w-[20px] " src={pick} />
-          어떤 기능을 구현했나요?
+          &nbsp; 어떤 기능을 구현했나요?
         </div>
         {/* 기능 구현 입력창 */}
         <div className="relative mt-3" data-te-input-wrapper-init>
@@ -368,7 +365,7 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
           <img className="h-[20px] w-[20px] " src={eyes} />
-          관심있는 고도화 계획이 있나요?
+          &nbsp; 관심있는 고도화 계획이 있나요?
         </div>
         {/* 고도화 기술 입력창 */}
         <div className="relative mt-3" data-te-input-wrapper-init>
