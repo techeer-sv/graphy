@@ -24,7 +24,7 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 @Tag(name = "ProjectController", description = "프로젝트 관련 API")
 @RestController
 @RequestMapping("api/v1/projects")
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectController {
     private final ProjectService projectService;
 
