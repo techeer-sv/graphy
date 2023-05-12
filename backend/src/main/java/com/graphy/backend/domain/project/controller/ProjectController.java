@@ -1,8 +1,6 @@
 package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
-import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -29,7 +27,6 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProjectController {
     private final ProjectService projectService;
-    private final GPTChatRestService gptChatRestService;
 
     @Operation(summary = "createProject", description = "프로젝트 생성")
     @PostMapping
@@ -83,12 +80,12 @@ public class ProjectController {
         String prompt = projectService.getPrompt(getPlanRequest);
         projectService.checkGptRequestToken(prompt);
 
-
-        CompletableFuture<GptCompletionDto.GptCompletionResponse> futureResult =
+        CompletableFuture<String> futureResult =
                 projectService.getProjectPlanAsync(prompt).thenApply(result -> {
                     return result;
                 });
-        GptCompletionDto.GptCompletionResponse response = futureResult.get();
+        String response = futureResult.get();
+
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PLAN_CREATE_SUCCESS, response));
     }
 }

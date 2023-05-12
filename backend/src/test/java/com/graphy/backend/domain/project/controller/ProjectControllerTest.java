@@ -4,7 +4,6 @@ import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.dto.ProjectDto;
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,12 +22,15 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.GetProjectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
@@ -40,9 +42,6 @@ class ProjectControllerTest extends MockApiTest {
     private WebApplicationContext context;
     @MockBean
     ProjectService projectService;
-
-    @MockBean
-    GPTChatRestService gptChatRestService;
 
     @MockBean
     CommentService commentService;
@@ -121,6 +120,31 @@ class ProjectControllerTest extends MockApiTest {
         String body = objectMapper.writeValueAsString(request);
         ResultActions resultActions = mvc.perform(get(baseUrl+"/search")
                 .param("projectName", projectName).param("pageRequest", pageRequest.toString()).contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        resultActions.andExpect((status().isOk()));
+    }
+
+    @Test
+    @DisplayName("프로젝트 고도화 계획을 제안 받는다")
+    void getProjectPlan() throws Exception {
+
+        // given
+        List<String> features = new ArrayList<>(Arrays.asList("게시물 업로드", "좋아요 누르는 기능"));
+        List<String> techStacks = new ArrayList<>(Arrays.asList("Springboot", "React", "mySQL"));
+        List<String> plans = new ArrayList<>(Arrays.asList("Spring Security", "Docker"));
+        String topic = "간단한 게시판";
+
+        ProjectDto.GetPlanRequest request = new ProjectDto.GetPlanRequest(topic, features, techStacks, plans);
+
+        String apiResult = "API 결과";
+        CompletableFuture<String> result = CompletableFuture.completedFuture(apiResult);
+
+        given(projectService.getProjectPlanAsync(any())).willReturn(result);
+
+        // when
+        String body = objectMapper.writeValueAsString(request);
+        ResultActions resultActions = mvc.perform(post(baseUrl+"/plans").content(objectMapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON));
 
         // then
         resultActions.andExpect((status().isOk()));

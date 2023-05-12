@@ -123,20 +123,20 @@ public class ProjectService {
     }
 
     @Async
-    public CompletableFuture<GptCompletionResponse> getProjectPlanAsync(String prompt) {
+    public CompletableFuture<String> getProjectPlanAsync(String prompt) {
         GptCompletionRequest dto = new GptCompletionDto.GptCompletionRequest();
-        CompletableFuture<GptCompletionResponse> response = new CompletableFuture<>();
+        CompletableFuture<String> response = new CompletableFuture<>();
 
         dto.setPrompt(prompt);
         GptApiCall(dto, response::complete);
         return response;
     }
 
-    private void GptApiCall(GptCompletionRequest request, Consumer<GptCompletionResponse> callback) {
+    private void GptApiCall(GptCompletionRequest request, Consumer<String> callback) {
         System.out.println("비동기 작업 시작");
         GptCompletionResponse result = gptChatRestService.completion(request);
         System.out.println("비동기 작업 완료");
-        callback.accept(result);
+        callback.accept(result.getMessages().get(0).getText());
     }
 
     public void checkGptRequestToken(String prompt) {
