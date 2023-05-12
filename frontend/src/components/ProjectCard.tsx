@@ -17,7 +17,7 @@ function ProjectCard(items: any) {
   const navigate = useNavigate();
 
   function toRead() {
-    navigate('/read');
+    navigate(`/read/${items.items.id}`);
     setProjectId(items.items.id);
   }
   return (

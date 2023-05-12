@@ -28,7 +28,7 @@ function ModifyingPage() {
   useEffect(() => {
     if (!navigator.onLine) {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
-      navigate('/read');
+      navigate(`/read/${projectId}`);
     }
   }, []);
 
@@ -84,7 +84,7 @@ function ModifyingPage() {
   }
   // 취소 버튼 누를시 원래 글 페이지로 이동
   function cancelButton() {
-    navigate('/read');
+    navigate(`/read/${projectId}`);
   }
 
   return (

@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/write" element={<WritingPage />} />
-          <Route path="/read" element={<ReadingPage />} />
+          <Route path="/read/:id" element={<ReadingPage />} />
           <Route path="/modify" element={<ModifyingPage />} />
         </Routes>
       </Router>
