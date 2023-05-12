@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import AllStacks from '../Stack';
 import gptIcon from '../assets/image/gptIcon.svg';
 import Modal from '../components/Modal';
+import RenderModal from '../components/RenderModal';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -128,7 +129,7 @@ function ReadingPage() {
         </button>
 
         {isOpenModal ? (
-          <Modal onClickToggleModal={onClickToggleModal}></Modal>
+          <RenderModal onClickToggleModal={onClickToggleModal}></RenderModal>
         ) : null}
 
         {/**텍스트 영역**/}

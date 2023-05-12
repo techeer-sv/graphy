@@ -110,7 +110,7 @@ function Modal({
           {/* 질문 */}
           <div className="flex items-center justify-center font-lef-b text-[20px]">
             <img className="h-[20px] w-[20px] " src={monster} />
-            어떤 기술을 사용했나요?
+            &nbsp; 어떤 기술을 사용했나요?
           </div>
           {/* 기술 선택 버튼 */}
           <div className="mt-8 flex justify-center">
@@ -146,94 +146,6 @@ function Modal({
           rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
           >
             다음
-          </button>
-
-          {/* screen2 */}
-          {/* 질문 */}
-          <div className="flex items-center justify-center font-lef-b text-[20px]">
-            <img className="h-[20px] w-[20px] " src={desktop} />
-            어떤 프로젝트를 구현했나요?
-          </div>
-          {/* 프로젝트 설명 입력창 */}
-          <div className="relative mt-3" data-te-input-wrapper-init>
-            <input
-              type="text"
-              className="ml-[60px] flex w-10/12 justify-center border-b-2"
-              placeholder=" 예시 - 팀원 모집 웹 사이트"
-            />
-          </div>
-          {/* 하단 버튼 */}
-          <button
-            className="mt-60 ml-24 flex items-center
-            justify-center
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
-          >
-            다음
-          </button>
-
-          {/* screen3 */}
-          {/* 질문 */}
-          <div className="flex items-center justify-center font-lef-b text-[20px]">
-            <img className="h-[20px] w-[20px] " src={pick} />
-            어떤 기능을 구현했나요?
-          </div>
-          {/* 기능 구현 입력창 */}
-          <div className="relative mt-3" data-te-input-wrapper-init>
-            <input
-              type="text"
-              className="ml-[60px] mb-5 flex w-10/12 justify-center border-b-2"
-              placeholder=" 예시 - 구인글 작성"
-            />
-            <input
-              type="text"
-              className="ml-[60px] flex w-10/12 justify-center border-b-2"
-              placeholder=" 예시 - 구인글 조회"
-            />
-            <img
-              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
-              src={plus}
-            />
-          </div>
-          {/* 하단버튼 */}
-          <button
-            className="mt-60 ml-24 flex items-center
-            justify-center
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
-          >
-            다음
-          </button>
-
-          {/* screen4 */}
-          {/* 질문 */}
-          <div className="flex items-center justify-center font-lef-b text-[20px]">
-            <img className="h-[20px] w-[20px] " src={eyes} />
-            관심있는 고도화 계획이 있나요?
-          </div>
-          {/* 고도화 기술 입력창 */}
-          <div className="relative mt-3" data-te-input-wrapper-init>
-            <input
-              type="text"
-              className="ml-[60px] mb-5 flex w-10/12 justify-center border-b-2"
-              placeholder=" 예시 - MSA"
-            />
-            <input
-              type="text"
-              className="ml-[60px] flex w-10/12 justify-center border-b-2"
-              placeholder=" 예시 - 캐싱"
-            />
-            <img
-              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
-              src={plus}
-            />
-          </div>
-
-          {/* 하단 버튼 */}
-          <button
-            className="ml-12 mt-60 flex items-center
-            justify-center
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
-          >
-            AI 고도화 추천 받기
           </button>
         </div>
         {children}
