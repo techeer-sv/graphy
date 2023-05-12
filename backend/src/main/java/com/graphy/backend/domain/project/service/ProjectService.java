@@ -136,7 +136,9 @@ public class ProjectService {
         System.out.println("비동기 작업 시작");
         GptCompletionResponse result = gptChatRestService.completion(request);
         System.out.println("비동기 작업 완료");
-        callback.accept(result.getMessages().get(0).getText());
+        String response = result.getMessages().get(0).getText()
+                .replace("\n", " ").replace("\n\n", " ");
+        callback.accept(response);
     }
 
     public void checkGptRequestToken(String prompt) {
