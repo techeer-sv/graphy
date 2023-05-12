@@ -76,10 +76,10 @@ function Modal({
               이전
             </button>
 
-            {/* <button className="ml-[550px] flex w-56 items-center">
+            <button className="ml-[550px] flex w-56 items-center">
               <div>다음</div>
               <img className="ml-2" src={arrowRightIcon} />
-            </button> */}
+            </button>
           </div>
 
           {/* 단계 */}
@@ -106,21 +106,15 @@ function Modal({
             </li>
           </ol>
 
+          {/* screen1 */}
           {/* 질문 */}
           <div className="flex items-center justify-center font-lef-b text-[20px]">
-            {/* <img className="h-[20px] w-[20px] " src={monster} />
-            어떤 기술을 사용했나요? */}
-            {/* <img className="h-[20px] w-[20px] " src={desktop} />
-            어떤 프로젝트를 구현했나요? */}
-            {/* <img className="h-[20px] w-[20px] " src={pick} />
-            어떤 기능을 구현했나요? */}
-            <img className="h-[20px] w-[20px] " src={eyes} />
-            관심있는 고도화 계획이 있나요?
+            <img className="h-[20px] w-[20px] " src={monster} />
+            어떤 기술을 사용했나요?
           </div>
-
           {/* 기술 선택 버튼 */}
           <div className="mt-8 flex justify-center">
-            {/* <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
+            <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
               <img className="mr-1 h-[20px] w-[20px]" src={react} />
               React
             </button>
@@ -143,20 +137,48 @@ function Modal({
             <button className="flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
               <img className="mr-1 h-[20px] w-[20px]" src={Aws} />
               Aws
-            </button> */}
+            </button>
           </div>
+          {/* 하단 버튼 */}
+          <button
+            className="mt-60 ml-24 flex items-center
+            justify-center
+          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+          >
+            다음
+          </button>
 
-          {/* 프로젝트 구현 입력창 */}
-          {/* <div className="relative mt-3" data-te-input-wrapper-init>
+          {/* screen2 */}
+          {/* 질문 */}
+          <div className="flex items-center justify-center font-lef-b text-[20px]">
+            <img className="h-[20px] w-[20px] " src={desktop} />
+            어떤 프로젝트를 구현했나요?
+          </div>
+          {/* 프로젝트 설명 입력창 */}
+          <div className="relative mt-3" data-te-input-wrapper-init>
             <input
               type="text"
               className="ml-[60px] flex w-10/12 justify-center border-b-2"
               placeholder=" 예시 - 팀원 모집 웹 사이트"
             />
-          </div> */}
+          </div>
+          {/* 하단 버튼 */}
+          <button
+            className="mt-60 ml-24 flex items-center
+            justify-center
+          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+          >
+            다음
+          </button>
 
+          {/* screen3 */}
+          {/* 질문 */}
+          <div className="flex items-center justify-center font-lef-b text-[20px]">
+            <img className="h-[20px] w-[20px] " src={pick} />
+            어떤 기능을 구현했나요?
+          </div>
           {/* 기능 구현 입력창 */}
-          {/* <div className="relative mt-3" data-te-input-wrapper-init>
+          <div className="relative mt-3" data-te-input-wrapper-init>
             <input
               type="text"
               className="ml-[60px] mb-5 flex w-10/12 justify-center border-b-2"
@@ -171,8 +193,22 @@ function Modal({
               className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
               src={plus}
             />
-          </div> */}
+          </div>
+          {/* 하단버튼 */}
+          <button
+            className="mt-60 ml-24 flex items-center
+            justify-center
+          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+          >
+            다음
+          </button>
 
+          {/* screen4 */}
+          {/* 질문 */}
+          <div className="flex items-center justify-center font-lef-b text-[20px]">
+            <img className="h-[20px] w-[20px] " src={eyes} />
+            관심있는 고도화 계획이 있나요?
+          </div>
           {/* 고도화 기술 입력창 */}
           <div className="relative mt-3" data-te-input-wrapper-init>
             <input
@@ -192,13 +228,6 @@ function Modal({
           </div>
 
           {/* 하단 버튼 */}
-          {/* <button
-            className="mt-60 ml-24 flex items-center
-            justify-center
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
-          >
-            다음
-          </button> */}
           <button
             className="ml-12 mt-60 flex items-center
             justify-center
