@@ -57,7 +57,7 @@ function ReadingPage() {
       setReadReply(res.data.data.commentsList);
     } catch (error) {
       console.error(error);
-      alert('프로젝트 상세 조회 실패');
+      // alert('프로젝트 상세 조회 실패');
     }
   }
   //DELETE 요청 보내는 함수

@@ -59,13 +59,13 @@ interface Screen1Props {
 const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-[620px]
-        w-[720px] translate-x-1/2 transform 
+      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
+        w-630 translate-x-1/2 transform 
         rounded-[30px] bg-white"
     >
       {/* 이전/다음 */}
       <div className="mt-5">
-        <div className="ml-[645px] flex font-lef text-gray-400 ">
+        <div className="ml-555 flex font-lef text-gray-400 ">
           <button onClick={onNext} className="right-5 flex w-56 items-center">
             <div>다음</div>
             <img className="ml-2" src={arrowRightIcon} />
@@ -73,7 +73,7 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
         </div>
 
         {/* 단계 */}
-        <ol className="ml-56 mt-3 mb-8 flex w-80 items-center justify-center">
+        <ol className="ml-44 mt-4 mb-8 flex w-80 items-center justify-center">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
               <img className="h-[20px] w-[20px] " src={monster} />
@@ -116,7 +116,7 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
             <img className="mr-1 h-[20px] w-[20px]" src={Redux} />
             Redux
           </button>
-          <button className="flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
+          <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
             <img className="mr-1 h-[20px] w-[20px]" src={Android_studio} />
             AndroidStudio
           </button>
@@ -124,14 +124,10 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
             <img className="mr-1 h-[20px] w-[20px]" src={Firebase} />
             Firebase
           </button>
-          <button className="flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
-            <img className="mr-1 h-[20px] w-[20px]" src={Aws} />
-            Aws
-          </button>
         </div>
         {/* 하단 버튼 */}
         <button
-          className="mt-80 ml-28 flex items-center
+          className="ml-16 mt-80 flex items-center
             justify-center
           rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
           onClick={onNext}
@@ -152,8 +148,8 @@ interface Screen2Props {
 const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-[620px]
-        w-[720px] translate-x-1/2 transform 
+      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
+        w-630 translate-x-1/2 transform 
         rounded-[30px] bg-white"
     >
       {/* 이전/다음 */}
@@ -164,17 +160,14 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
             이전
           </button>
 
-          <button
-            onClick={onNext}
-            className="ml-[550px] flex w-56 items-center"
-          >
+          <button onClick={onNext} className="ml-460 flex w-56 items-center">
             <div>다음</div>
             <img className="ml-2" src={arrowRightIcon} />
           </button>
         </div>
 
         {/* 단계 */}
-        <ol className="ml-52 mb-8 flex w-80 items-center justify-center">
+        <ol className="ml-44 mt-4 mb-8 flex w-80 items-center justify-center">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
               <img className="h-[20px] w-[20px] " src={monster} />
@@ -204,7 +197,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
           &nbsp; 어떤 프로젝트를 구현했나요?
         </div>
         {/* 프로젝트 설명 입력창 */}
-        <div className="relative mt-3" data-te-input-wrapper-init>
+        <div className="relative mt-8" data-te-input-wrapper-init>
           <input
             type="text"
             className="ml-[60px] flex w-10/12 justify-center border-b-2"
@@ -214,9 +207,9 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
         {/* 하단 버튼 */}
         <button
           onClick={onNext}
-          className="mt-60 ml-24 flex items-center
-            justify-center
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+          className="ml-16 mt-80 flex items-center
+          justify-center
+        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
           다음
         </button>
@@ -234,8 +227,8 @@ interface Screen3Props {
 const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-[620px]
-        w-[720px] translate-x-1/2 transform 
+      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
+        w-630 translate-x-1/2 transform 
         rounded-[30px] bg-white"
     >
       {/* 이전/다음 */}
@@ -246,17 +239,14 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
             이전
           </button>
 
-          <button
-            onClick={onNext}
-            className="ml-[550px] flex w-56 items-center"
-          >
+          <button onClick={onNext} className="ml-460 flex w-56 items-center">
             <div>다음</div>
             <img className="ml-2" src={arrowRightIcon} />
           </button>
         </div>
 
         {/* 단계 */}
-        <ol className="ml-52 mb-8 flex w-80 items-center justify-center">
+        <ol className="ml-44 mt-4 mb-8 flex w-80 items-center justify-center">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
               <img className="h-[20px] w-[20px] " src={monster} />
@@ -286,28 +276,44 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
           &nbsp; 어떤 기능을 구현했나요?
         </div>
         {/* 기능 구현 입력창 */}
-        <div className="relative mt-3" data-te-input-wrapper-init>
+        <div className="relative mt-8" data-te-input-wrapper-init>
           <input
             type="text"
-            className="ml-[60px] mb-5 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - 구인글 작성"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - 구인글 작성 (최대 5개 작성 가능)"
           />
           <input
             type="text"
-            className="ml-[60px] flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - 구인글 조회"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - 구인글 조회 (최대 5개 작성 가능)"
           />
-          <img
+          <input
+            type="text"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - 프로젝트 조회 (최대 5개 작성 가능)"
+          />
+          <input
+            type="text"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - 프로젝트 공유글 작성 (최대 5개 작성 가능)"
+          />
+          <input
+            type="text"
+            className="ml-12 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - 프로젝트 공유글 수정 및 삭제 (최대 5개 작성 가능)"
+          />
+
+          {/* <img
             className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
             src={plus}
-          />
+          /> */}
         </div>
         {/* 하단버튼 */}
         <button
           onClick={onNext}
-          className="mt-60 ml-24 flex items-center
-            justify-center
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+          className="mt-28 ml-16 flex items-center
+          justify-center
+        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
           다음
         </button>
@@ -324,9 +330,9 @@ interface Screen4Props {
 const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-[620px]
-          w-[720px] translate-x-1/2 transform 
-          rounded-[30px] bg-white"
+      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
+        w-630 translate-x-1/2 transform 
+        rounded-[30px] bg-white"
     >
       {/* 이전/다음 */}
       <div className="mt-5">
@@ -338,7 +344,7 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
         </div>
 
         {/* 단계 */}
-        <ol className="ml-52 mb-8 flex w-80 items-center justify-center">
+        <ol className="ml-44 mt-4 mb-8 flex w-80 items-center justify-center">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
               <img className="h-[20px] w-[20px] " src={monster} />
@@ -368,30 +374,45 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
           &nbsp; 관심있는 고도화 계획이 있나요?
         </div>
         {/* 고도화 기술 입력창 */}
-        <div className="relative mt-3" data-te-input-wrapper-init>
+        <div className="relative mt-8" data-te-input-wrapper-init>
           <input
             type="text"
-            className="ml-[60px] mb-5 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - MSA"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - 캐싱 (최대 5개 작성 가능)"
           />
           <input
             type="text"
-            className="ml-[60px] flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - 캐싱"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - MSA (최대 5개 작성 가능)"
           />
-          <img
+          <input
+            type="text"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - ReactQuery (최대 5개 작성 가능)"
+          />
+          <input
+            type="text"
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - PWA (최대 5개 작성 가능)"
+          />
+          <input
+            type="text"
+            className="ml-12 flex w-10/12 justify-center border-b-2"
+            placeholder=" 예시 - ELK (최대 5개 작성 가능)"
+          />
+
+          {/* <img
             className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
             src={plus}
-          />
+          /> */}
         </div>
-
-        {/* 하단 버튼 */}
+        {/* 하단버튼 */}
         <button
-          className="ml-12 mt-60 flex items-center
-            justify-center
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+          className="mt-28 ml-16 flex items-center
+          justify-center
+        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
-          AI 고도화 추천 받기
+          추천
         </button>
       </div>
       {/* {children} */}
