@@ -1,5 +1,5 @@
 # docker-compose.prod 와 함께 실행 해야 합니다. # need to run with docker-compose.prod
-# docker compose -f docker-compose.yml -f docker-compose.logging.yml up --build
+# docker compose -f docker-compose.yml -f docker-compose.logging-example.yml up --build
 
 # changeme 로 설정된 임시 패스워드를 변경하여 사용하시길 바랍니다. # need to change temp password 'changeme'
 
@@ -8,11 +8,11 @@ version: '3.7'
 services:
   elasticsearch:
     build:
-      context: logging/elasticsearch
+      context: logging-example/elasticsearch
       args:
         ELASTIC_VERSION: 8.5.2
     volumes:
-      - ./logging/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - ./logging-example/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
       - elasticsearch:/usr/share/elasticsearch/data:Z
     ports:
       - 9200:9200
@@ -31,12 +31,12 @@ services:
 
   logstash:
     build:
-      context: logging/logstash
+      context: logging-example/logstash
       args:
         ELASTIC_VERSION: 8.5.2
     volumes:
-      - ./logging/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
-      - ./logging/logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
+      - ./logging-example/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
+      - ./logging-example/logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
     ports:
       - 5044:5044
       - 50000:50000/tcp
@@ -52,11 +52,11 @@ services:
 
   kibana:
     build:
-      context: logging/kibana
+      context: logging-example/kibana
       args:
         ELASTIC_VERSION: 8.5.2
     volumes:
-      - ./logging/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+      - ./logging-example/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
     ports:
       - 5601:5601
     environment:
@@ -67,12 +67,12 @@ services:
 
   filebeat:
     build:
-      context: logging/filebeat
+      context: logging-example/filebeat
       args:
         ELASTIC_VERSION: 8.5.2
     entrypoint: "filebeat -e -strict.perms=false"
     volumes:
-      - ./logging/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./logging-example/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./spring-boot/log:/var/log/spring-boot
       - ./nginx/log:/var/log/nginx # nginx log path (require same option on nginx container)
     depends_on:
