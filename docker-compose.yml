@@ -25,7 +25,7 @@ services:
     environment:
       WAIT_HOSTS: mysql:3306
     volumes:
-      - ./spring-boot/log:/logs
+      - ./spring-boot/log:/logs #log 연결
 
   nginx:
     container_name: nginx
