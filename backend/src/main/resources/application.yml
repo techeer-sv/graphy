@@ -4,9 +4,9 @@ spring:
 
   mvc:
     pathmatch:
+      matching-strategy: ant_path_matcher
     async:
       request-timeout: 60000
-      matching-strategy: ant_path_matcher
   profiles:
     active: local
 
