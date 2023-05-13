@@ -21,7 +21,7 @@ function ModifyingPage() {
   const [tldr, setTldr] = useRecoilState(tldrState);
   const contents = useRecoilValue(contentsState);
   const selectedStack = useRecoilValue(selectedStackState);
-  const thumbnailUrl = useRecoilValue(thumbnailUrlState);
+  const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const projectId = useRecoilValue(projectIdState);
   const navigate = useNavigate();
 
@@ -66,7 +66,8 @@ function ModifyingPage() {
     try {
       const response = await axios.put(url, data);
       console.log(response.data);
-      navigate('/read');
+      navigate(`/read/${projectId}`);
+      setThumbnailUrl('');
     } catch (error) {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');

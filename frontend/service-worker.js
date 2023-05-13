@@ -42,6 +42,18 @@ self.addEventListener('fetch', function (event) {
   }
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data.action === 'cache-contains') {
+    caches
+      .open('my-cache')
+      .then((cache) => cache.match(event.data.url))
+      .then((match) => {
+        // 메인 스레드에 메시지를 보내 캐시에 매치되는 요청이 있는지 알립니다.
+        event.ports[0].postMessage({ hasMatch: !!match });
+      });
+  }
+});
+
 function handlePostRequest(request) {
   // POST 요청을 처리하는 코드 작성
   // fetch 함수를 사용하여 서버로 요청을 보내고 결과를 반환

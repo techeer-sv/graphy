@@ -27,8 +27,6 @@ function ReadingPage() {
   const location = useLocation();
   const params = useParams();
 
-  console.log(params.id);
-
   function toWrite() {
     // react-router-dom을 이용한 글 쓰기 페이지로 이동 함수
     navigate('/write');

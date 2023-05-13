@@ -72,8 +72,9 @@ function WritingPage() {
     try {
       const res = await axios.post(url, data);
       console.log(res.data);
-      navigate('/read');
       setProjectId(res.data.data.projectId);
+      navigate(`/read/${res.data.data.projectId}`);
+      setThumbnailUrl('');
     } catch (error) {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');

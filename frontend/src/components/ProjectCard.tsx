@@ -17,8 +17,35 @@ function ProjectCard(items: any) {
   const navigate = useNavigate();
 
   function toRead() {
-    navigate(`/read/${items.items.id}`);
-    setProjectId(items.items.id);
+    const urlToCheck = `http://localhost:8080/api/v1/projects/${items.items.id}`;
+
+    if (
+      !navigator.onLine &&
+      'serviceWorker' in navigator &&
+      navigator.serviceWorker.controller
+    ) {
+      const messageChannel = new MessageChannel();
+
+      messageChannel.port1.onmessage = (event) => {
+        if (event.data.hasMatch) {
+          navigate(`/read/${items.items.id}`);
+          setProjectId(items.items.id);
+        } else {
+          alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+        }
+      };
+
+      // 이부분을 Promise.resolve().then(...) 또는 setTimeout(...)으로 감싸줍니다.
+      Promise.resolve().then(() => {
+        navigator.serviceWorker.controller?.postMessage(
+          { action: 'cache-contains', url: urlToCheck },
+          [messageChannel.port2],
+        );
+      });
+    } else {
+      navigate(`/read/${items.items.id}`);
+      setProjectId(items.items.id);
+    }
   }
   return (
     <button
