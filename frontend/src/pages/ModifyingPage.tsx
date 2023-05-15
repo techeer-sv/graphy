@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
 import {
@@ -21,9 +21,16 @@ function ModifyingPage() {
   const [tldr, setTldr] = useRecoilState(tldrState);
   const contents = useRecoilValue(contentsState);
   const selectedStack = useRecoilValue(selectedStackState);
-  const thumbnailUrl = useRecoilValue(thumbnailUrlState);
+  const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const projectId = useRecoilValue(projectIdState);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!navigator.onLine) {
+      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      navigate(`/read/${projectId}`);
+    }
+  }, []);
 
   //제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,23 +66,26 @@ function ModifyingPage() {
     try {
       const response = await axios.put(url, data);
       console.log(response.data);
-      navigate('/read');
+      navigate(`/read/${projectId}`);
+      setThumbnailUrl('');
     } catch (error) {
-      console.error(error);
-      if (title.trim().length === 0) {
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (title.trim().length === 0) {
         alert('제목을 입력해주세요.');
       } else if (tldr.trim().length === 0) {
         alert('한줄 소개를 입력해주세요.');
       } else if (contents.trim().length === 0) {
         alert('내용을 입력해주세요.');
       } else {
+        console.log(error);
         alert('네트워크 오류');
       }
     }
   }
   // 취소 버튼 누를시 원래 글 페이지로 이동
   function cancelButton() {
-    navigate('/read');
+    navigate(`/read/${projectId}`);
   }
 
   return (

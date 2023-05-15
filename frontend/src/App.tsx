@@ -1,20 +1,28 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import MainPage from './pages/MainPage';
-import WritingPage from './pages/WritingPage';
-import ReadingPage from './pages/ReadingPage';
-import ModifyingPage from './pages/ModifyingPage';
+import LoadingSpinner from './components/Loadingspinner';
+
+// lazy 동적으로 필요할 때 import를 하여 실제로 로드되는 것
+const MainPage = lazy(() => import('./pages/MainPage'));
+const WritingPage = lazy(() => import('./pages/WritingPage'));
+const ReadingPage = lazy(() => import('./pages/ReadingPage'));
+const ModifyingPage = lazy(() => import('./pages/ModifyingPage'));
+const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 
 function App() {
   return (
     <RecoilRoot>
       <Router>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/write" element={<WritingPage />} />
-          <Route path="/read" element={<ReadingPage />} />
-          <Route path="/modify" element={<ModifyingPage />} />
-        </Routes>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/write" element={<WritingPage />} />
+            <Route path="/read/:id" element={<ReadingPage />} />
+            <Route path="/modify" element={<ModifyingPage />} />
+            <Route path="/*" element={<ErrorPage />} />
+          </Routes>
+        </Suspense>
       </Router>
     </RecoilRoot>
   );

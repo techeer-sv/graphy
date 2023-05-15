@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { searchTextState } from '../Recoil';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 function MainPage() {
   const [data, setData] = useState<any[]>([]);
-  const searchText = useRecoilValue(searchTextState);
+  const [searchText, setSearchText] = useRecoilState(searchTextState);
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
@@ -19,7 +19,7 @@ function MainPage() {
     navigate('/write');
   }
 
-  async function postCard() {
+  async function getCard() {
     const url = 'http://localhost:8080/api/v1/projects/search';
     const params =
       searchText == ''
@@ -28,16 +28,20 @@ function MainPage() {
             projectName: searchText,
           };
     try {
-      const res = await axios.post(url, null, { params });
+      const res = await axios.get(url, { params });
       setData(res.data.data);
       console.log(res.data.data);
     } catch (error) {
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+        setSearchText('');
+      }
       console.log(error);
     }
   }
 
   useEffect(() => {
-    postCard(); //랜더링이 될 때 실행되는 함수
+    getCard(); //랜더링이 될 때 실행되는 함수
   }, [searchText]); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
 
   useEffect(() => {
@@ -57,7 +61,7 @@ function MainPage() {
           sm:invisible"
           onClick={() => toWrite()}
         >
-          <img className="mr-2 h-5 w-5" src={WriteIcon} />
+          <img className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
 
@@ -82,8 +86,11 @@ function MainPage() {
               {data
                 .filter((x) => x.projectName.includes(searchText))
                 .map((item, num: number) => (
-                  <div className="mx-3 mt-9 min-[680px]:mx-0 min-[680px]:ml-16 ">
-                    <ProjectCard key={num} items={item} />
+                  <div
+                    className="mx-3 mt-9 min-[680px]:mx-0 min-[680px]:ml-16 "
+                    key={item.id}
+                  >
+                    <ProjectCard items={item} />
                   </div>
                 ))}{' '}
             </div>

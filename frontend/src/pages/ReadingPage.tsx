@@ -12,7 +12,7 @@ import {
   refreshState,
 } from '../Recoil';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AllStacks from '../Stack';
 
 function ReadingPage() {
@@ -24,6 +24,8 @@ function ReadingPage() {
   const [readReply, setReadReply] = useState<object>([]);
   const refresh = useRecoilValue(refreshState);
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
 
   function toWrite() {
     // react-router-dom을 이용한 글 쓰기 페이지로 이동 함수
@@ -38,7 +40,7 @@ function ReadingPage() {
   async function getData() {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/v1/projects/${projectId}`,
+        `http://localhost:8080/api/v1/projects/${params.id}`,
       );
       console.log(res.data);
       setTitle(res.data.data.projectName);
@@ -47,8 +49,18 @@ function ReadingPage() {
       setContents(res.data.data.content);
       setReadReply(res.data.data.commentsList);
     } catch (error) {
-      console.error(error);
-      alert('프로젝트 상세 조회 실패');
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response?.data.message ===
+          '이미 삭제되거나 존재하지 않는 프로젝트'
+        ) {
+          alert('이미 삭제되거나 존재하지 않는 프로젝트입니다.');
+        } else {
+          alert('프로젝트 상세 조회 실패');
+          console.error(error);
+        }
+        navigate('/');
+      }
     }
   }
   //DELETE 요청 보내는 함수
@@ -60,8 +72,9 @@ function ReadingPage() {
       console.log(res.data);
       navigate('/');
     } catch (error) {
-      console.error(error);
-      if (axios.isAxiosError(error)) {
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (axios.isAxiosError(error)) {
         if (
           error.response?.data.message ===
           '이미 삭제되거나 존재하지 않는 프로젝트'
@@ -133,7 +146,11 @@ function ReadingPage() {
                     key={x}
                     className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border py-1 pr-3"
                   >
-                    <img className="mx-3 my-1 h-8 w-8" src={findImage(x)} />
+                    <img
+                      className="mx-3 my-1 h-8 w-8"
+                      src={findImage(x)}
+                      alt="Stack"
+                    />
                     <p className="shrink-0 font-ng-b">{x}</p>
                   </div>
                 ))}

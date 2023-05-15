@@ -48,10 +48,12 @@ function WriteReReply(props: any) {
       setrefresh(!refresh);
       setValue('');
     } catch (error) {
-      console.error(error);
-      if (value.trim().length === 0) {
-        alert('대댓글을 입력해주세요.');
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (value.trim().length === 0) {
+        alert('답글을 입력해주세요.');
       } else {
+        console.log(error);
         alert('네트워크 오류');
       }
     }
@@ -67,7 +69,11 @@ function WriteReReply(props: any) {
     <div>
       {/*대댓글 입력창*/}
       <div className="relative">
-        <img src={reply_icon} className="absolute ml-2 mt-1 h-5" />
+        <img
+          src={reply_icon}
+          className="absolute ml-2 mt-1 h-5"
+          alt="reply icon"
+        />
         <div className="mt-3 ml-8 flex h-auto flex-col rounded-xl border-2 border-gray-400">
           <textarea
             className="min-h-24 h-auto w-full resize-none appearance-none rounded-xl bg-graphybg py-2 px-3 font-ng leading-tight text-gray-700 focus:outline-none"

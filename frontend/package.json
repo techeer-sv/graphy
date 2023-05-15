@@ -23,6 +23,7 @@
     "react-icons": "^4.8.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.9.0",
+    "react-spinners": "^0.13.8",
     "recoil": "^0.7.7",
     "recoil-persist": "^4.2.0",
     "sass": "^1.62.0",

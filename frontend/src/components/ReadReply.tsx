@@ -57,8 +57,12 @@ function ReadReply(props: any) {
       console.log(res);
       setRefresh(!refresh);
     } catch (error) {
-      console.error(error);
-      alert('댓글 삭제 실패');
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else {
+        console.error(error);
+        alert('댓글 삭제 실패');
+      }
     }
   }
 
@@ -111,6 +115,7 @@ function ReadReply(props: any) {
                   <img
                     src={delete_reply}
                     className="mr-1 h-4 font-ng text-sm"
+                    alt="delete icon"
                   />
                   삭제
                 </button>
@@ -121,6 +126,7 @@ function ReadReply(props: any) {
                   <img
                     src={pencil_square}
                     className="mr-1 h-3 font-ng text-sm"
+                    alt="pencil icon"
                   />
                   수정
                 </button>
@@ -131,7 +137,11 @@ function ReadReply(props: any) {
               className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
               onClick={() => setWriteVis(!writeVis)}
             >
-              <img src={nested_reply} className="mr-1 h-3 font-ng text-sm" />
+              <img
+                src={nested_reply}
+                className="mr-1 h-3 font-ng text-sm"
+                alt="reply icon"
+              />
               답글
             </button>
           </div>
