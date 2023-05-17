@@ -6,50 +6,13 @@ import desktop from '../assets/image/desktop.png';
 import pick from '../assets/image/pick.png';
 import eyes from '../assets/image/eyes.png';
 import plus from '../assets/image/plus-circle.svg';
-import Android_studio from '../assets/image/stacklogo/Android_studio.svg';
-import Apache_cassandra from '../assets/image/stacklogo/Apache_cassandra.svg';
-import Apache_kafka from '../assets/image/stacklogo/Apache_kafka.svg';
-import Apache_spark from '../assets/image/stacklogo/Apache_spark.svg';
-import Aws from '../assets/image/stacklogo/AWS.svg';
-import Clang from '../assets/image/stacklogo/Clang.svg';
-import Cpp from '../assets/image/stacklogo/Cpp.svg';
-import CSharp from '../assets/image/stacklogo/CSharp.svg';
-import Django from '../assets/image/stacklogo/Django.svg';
-import Docker from '../assets/image/stacklogo/Docker.svg';
-import Express from '../assets/image/stacklogo/Express.svg';
-import Fastapi from '../assets/image/stacklogo/Fastapi.svg';
-import Firebase from '../assets/image/stacklogo/Firebase.svg';
-import Flask from '../assets/image/stacklogo/Flask.svg';
-import Flutter from '../assets/image/stacklogo/Flutter.svg';
-import Github_actions from '../assets/image/stacklogo/Github_actions.svg';
-import Go from '../assets/image/stacklogo/Go.svg';
-import GraphQL from '../assets/image/stacklogo/GraphQL.svg';
-import Java from '../assets/image/stacklogo/Java.svg';
-import JavaScript from '../assets/image/stacklogo/JavaScript.svg';
-import Jenkins from '../assets/image/stacklogo/Jenkins.svg';
-import Julia from '../assets/image/stacklogo/Julia.svg';
-import Kotlin from '../assets/image/stacklogo/Kotlin.svg';
-import Kubernetes from '../assets/image/stacklogo/Kubernetes.svg';
-import Mongodb from '../assets/image/stacklogo/Mongodb.svg';
-import Mysql from '../assets/image/stacklogo/Mysql.svg';
-import Nextjs from '../assets/image/stacklogo/Nextjs.svg';
-import Nodejs from '../assets/image/stacklogo/Nodejs.svg';
-import Nestjs from '../assets/image/stacklogo/Nestjs.svg';
-import Php from '../assets/image/stacklogo/Php.svg';
-import Python from '../assets/image/stacklogo/Python.svg';
-import PyTorch from '../assets/image/stacklogo/PyTorch.svg';
-import react from '../assets/image/stacklogo/React.svg';
-import React_native from '../assets/image/stacklogo/React_native.svg';
-import Redux from '../assets/image/stacklogo/Redux.svg';
-import Redis from '../assets/image/stacklogo/Redis.svg';
-import Rust from '../assets/image/stacklogo/Rust.svg';
-import Spring from '../assets/image/stacklogo/Spring.svg';
-import Svelte from '../assets/image/stacklogo/Svelte.svg';
-import Swift from '../assets/image/stacklogo/Swift.svg';
-import TensorFlow from '../assets/image/stacklogo/TensorFlow.svg';
-import Typescript from '../assets/image/stacklogo/Typescript.svg';
-import Unity from '../assets/image/stacklogo/Unity.svg';
-import Vue from '../assets/image/stacklogo/Vue.svg';
+import AllStacks from '../Stack';
+
+function findImage(tag: string) {
+  return AllStacks.map((x) => x.image)[
+    AllStacks.map((x) => x.name).findIndex((x) => x == tag)
+  ];
+}
 
 // 화면 컴포넌트
 interface Screen1Props {
@@ -103,28 +66,19 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
           &nbsp; 어떤 기술을 사용했나요?
         </div>
         {/* 기술 선택 버튼 */}
+        {/* 배열에 요소를 처음부터 하나씩 읽는 게 map, 하나씩 읽을 때 요소를 가리키는 게 x, y는 요소의 인덱스 */}
         <div className="mt-8 flex justify-center">
-          <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
-            <img className="mr-1 h-[20px] w-[20px]" src={react} />
-            React
-          </button>
-          <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
-            <img className="mr-1 h-[20px] w-[20px]" src={Spring} />
-            Spring
-          </button>
-          <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
-            <img className="mr-1 h-[20px] w-[20px]" src={Redux} />
-            Redux
-          </button>
-          <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
-            <img className="mr-1 h-[20px] w-[20px]" src={Android_studio} />
-            AndroidStudio
-          </button>
-          <button className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500">
-            <img className="mr-1 h-[20px] w-[20px]" src={Firebase} />
-            Firebase
-          </button>
+          {AllStacks.map((x, y) => (
+            <button
+              key={y}
+              className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500"
+            >
+              <img className="mr-1 h-[20px] w-[20px]" src={findImage(x.name)} />
+              {x.name}
+            </button>
+          ))}
         </div>
+
         {/* 하단 버튼 */}
         <button
           className="ml-16 mt-80 flex items-center
@@ -225,6 +179,17 @@ interface Screen3Props {
 }
 
 const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
+  const [Arr, setArr] = useState<number[]>([]);
+
+  function Plus() {
+    let Arr2 = [...Arr];
+    if (Arr.length < 4) {
+      Arr2.push(0);
+      setArr(Arr2);
+    } else {
+      null;
+    }
+  }
   return (
     <div
       className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
@@ -282,31 +247,22 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
             className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
             placeholder=" 예시 - 구인글 작성 (최대 5개 작성 가능)"
           />
-          <input
-            type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - 구인글 조회 (최대 5개 작성 가능)"
-          />
-          <input
-            type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - 프로젝트 조회 (최대 5개 작성 가능)"
-          />
-          <input
-            type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - 프로젝트 공유글 작성 (최대 5개 작성 가능)"
-          />
-          <input
-            type="text"
-            className="ml-12 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - 프로젝트 공유글 수정 및 삭제 (최대 5개 작성 가능)"
-          />
-
-          {/* <img
-            className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
-            src={plus}
-          /> */}
+          {Arr.map((x, y) => (
+            <input
+              key={y}
+              type="text"
+              className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+              placeholder="기능을 입력해주세요"
+            />
+          ))}
+          {Arr.length < 4 ? (
+            <button
+              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
+              onClick={() => Plus()}
+            >
+              <img src={plus} />
+            </button>
+          ) : null}
         </div>
         {/* 하단버튼 */}
         <button
@@ -328,6 +284,17 @@ interface Screen4Props {
 }
 
 const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
+  const [Arr, setArr] = useState<number[]>([]);
+
+  function Plus() {
+    let Arr2 = [...Arr];
+    if (Arr.length < 4) {
+      Arr2.push(0);
+      setArr(Arr2);
+    } else {
+      null;
+    }
+  }
   return (
     <div
       className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
@@ -379,28 +346,23 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
             type="text"
             className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
             placeholder=" 예시 - 캐싱 (최대 5개 작성 가능)"
-          />
-          <input
-            type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - MSA (최대 5개 작성 가능)"
-          />
-          <input
-            type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - ReactQuery (최대 5개 작성 가능)"
-          />
-          <input
-            type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - PWA (최대 5개 작성 가능)"
-          />
-          <input
-            type="text"
-            className="ml-12 flex w-10/12 justify-center border-b-2"
-            placeholder=" 예시 - ELK (최대 5개 작성 가능)"
-          />
-
+          />{' '}
+          {Arr.map((x, y) => (
+            <input
+              key={y}
+              type="text"
+              className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+              placeholder="고도화 계획을 입력해주세요"
+            />
+          ))}
+          {Arr.length < 4 ? (
+            <button
+              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
+              onClick={() => Plus()}
+            >
+              <img src={plus} />
+            </button>
+          ) : null}
           {/* <img
             className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
             src={plus}

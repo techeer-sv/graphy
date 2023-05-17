@@ -8,8 +8,6 @@ function ProjectCard(items: any) {
   const [projectId, setProjectId] = useRecoilState(projectIdState);
 
   function findImage(tag: string) {
-    //AllStacks.map(x => x.name).findIndex(x => x == tag)
-    //AllStacks.map(x => x.image)[AllStacks.map(x => x.name).findIndex(x => x == tag)]
     return AllStacks.map((x) => x.image)[
       AllStacks.map((x) => x.name).findIndex((x) => x == tag)
     ];
