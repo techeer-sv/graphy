@@ -67,7 +67,7 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
         </div>
         {/* 기술 선택 버튼 */}
         {/* 배열에 요소를 처음부터 하나씩 읽는 게 map, 하나씩 읽을 때 요소를 가리키는 게 x, y는 요소의 인덱스 */}
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex justify-center ">
           {AllStacks.map((x, y) => (
             <button
               key={y}
@@ -154,15 +154,16 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
         <div className="relative mt-8" data-te-input-wrapper-init>
           <input
             type="text"
-            className="ml-[60px] flex w-10/12 justify-center border-b-2"
+            maxLength={20}
+            className="ml-[60px] flex w-10/12 justify-center border-b-2 focus:outline-none"
             placeholder=" 예시 - 팀원 모집 웹 사이트"
           />
         </div>
         {/* 하단 버튼 */}
         <button
           onClick={onNext}
-          className="ml-16 mt-80 flex items-center
-          justify-center
+          className="fixed ml-16 mt-80 flex
+          items-center justify-center
         rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
           다음
@@ -244,20 +245,22 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         <div className="relative mt-8" data-te-input-wrapper-init>
           <input
             type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            maxLength={20}
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none"
             placeholder=" 예시 - 구인글 작성 (최대 5개 작성 가능)"
           />
           {Arr.map((x, y) => (
             <input
               key={y}
               type="text"
-              className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+              maxLength={20}
+              className="ml-12 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none"
               placeholder="기능을 입력해주세요"
             />
           ))}
           {Arr.length < 4 ? (
             <button
-              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
+              className="ml-72 mt-5 flex items-center justify-center"
               onClick={() => Plus()}
             >
               <img src={plus} />
@@ -267,8 +270,8 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         {/* 하단버튼 */}
         <button
           onClick={onNext}
-          className="mt-28 ml-16 flex items-center
-          justify-center
+          className="fixed mt-28 ml-16 flex
+          items-center justify-center
         rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
           다음
@@ -344,14 +347,16 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
         <div className="relative mt-8" data-te-input-wrapper-init>
           <input
             type="text"
-            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+            maxLength={20}
+            className="ml-12 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none"
             placeholder=" 예시 - 캐싱 (최대 5개 작성 가능)"
           />{' '}
           {Arr.map((x, y) => (
             <input
               key={y}
+              maxLength={20}
               type="text"
-              className="ml-12 mb-7 flex w-10/12 justify-center border-b-2"
+              className="ml-12 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none"
               placeholder="고도화 계획을 입력해주세요"
             />
           ))}
@@ -370,8 +375,8 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
         </div>
         {/* 하단버튼 */}
         <button
-          className="mt-28 ml-16 flex items-center
-          justify-center
+          className="fixed mt-28 ml-16 flex
+          items-center justify-center
         rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
           추천
