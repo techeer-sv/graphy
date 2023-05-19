@@ -45,7 +45,7 @@ test('NavBar 렌더링 테스트', () => {
   expect(onChange).toHaveBeenCalledWith('바뀐 값'); // 바뀐 값
 
   const toWriteButton = screen.getByRole('button', { name: 'toWritePage' });
-  expect(Biglogo).toBeInTheDocument();
+  expect(toWriteButton).toBeInTheDocument();
   fireEvent.click(toWriteButton);
   expect(window.location.pathname).toBe('/write');
 });

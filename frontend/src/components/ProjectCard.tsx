@@ -52,6 +52,7 @@ function ProjectCard(items: any) {
     <button
       onClick={() => toRead()}
       className="w-64 overflow-hidden rounded-md drop-shadow-md transition duration-150 hover:scale-105 hover:shadow-lg"
+      aria-label="toReadPage"
     >
       <div className="flex flex-col justify-center rounded-t-lg border-b-2 bg-sky-100 text-center">
         {/* <div>우리 학교 동창회 서비스</div>
