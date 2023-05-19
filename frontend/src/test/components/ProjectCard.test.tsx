@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProjectCard from '../../components/ProjectCard';
 import { RecoilRoot, useRecoilValue } from 'recoil';
@@ -51,6 +51,7 @@ describe('ProjectCard', () => {
     expect(toReadButton).toBeInTheDocument();
   });
   test('오프라인 테스트', async () => {
+    const mockHandler = jest.fn();
     // mock serviceWorker
     Object.defineProperty(navigator, 'serviceWorker', {
       value: {
@@ -76,7 +77,7 @@ describe('ProjectCard', () => {
 
       constructor() {
         this.port1 = {
-          onmessage: jest.fn(),
+          onmessage: mockHandler,
           postMessage: jest.fn(),
           onmessageerror: () => {},
           close: () => {},
@@ -97,10 +98,13 @@ describe('ProjectCard', () => {
         };
       }
     };
-
-    expect(toReadButton).toBeInTheDocument();
-    await fireEvent.click(toReadButton);
-    // 서비스 워커로 메시지 잘 보내지는지
-    expect(navigator.serviceWorker.controller?.postMessage).toHaveBeenCalled();
+    fireEvent.click(toReadButton);
+    await waitFor(() =>
+      expect(
+        navigator.serviceWorker.controller?.postMessage,
+      ).toHaveBeenCalled(),
+    );
+    mockHandler();
+    expect(mockHandler).toHaveBeenCalled();
   });
 });
