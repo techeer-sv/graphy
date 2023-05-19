@@ -35,12 +35,13 @@ function ProjectCard(items: any) {
         }
       };
 
-      // 이부분을 Promise.resolve().then(...) 또는 setTimeout(...)으로 감싸줍니다.
       Promise.resolve().then(() => {
-        navigator.serviceWorker.controller?.postMessage(
-          { action: 'cache-contains', url: urlToCheck },
-          [messageChannel.port2],
-        );
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage(
+            { action: 'cache-contains', url: urlToCheck },
+            [messageChannel.port2],
+          );
+        }
       });
     } else {
       navigate(`/read/${items.items.id}`);
