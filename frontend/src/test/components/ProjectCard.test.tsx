@@ -1,4 +1,11 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  getAllByAltText,
+  getByAltText,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProjectCard from '../../components/ProjectCard';
 import { RecoilRoot, useRecoilValue } from 'recoil';
@@ -22,10 +29,10 @@ describe('ProjectCard', () => {
       commentsList: [],
       content: '<p>test</p>',
       createdAt: '2000-00-00T00:00:00.000000',
-      description: '1',
+      description: 'description',
       id: 1,
-      projectName: '1',
-      techTags: [],
+      projectName: 'projectName',
+      techTags: ['React', 'TypeScript'],
       thumbNail: '',
     };
     render(
@@ -38,7 +45,7 @@ describe('ProjectCard', () => {
     );
     toReadButton = screen.getByRole('button', { name: 'toReadPage' });
   });
-  // 테스트 끝난후 온라인
+  // 테스트 끝난후 온라인 상태로 다시 변경
   afterEach(() => {
     Object.defineProperty(navigator, 'onLine', {
       value: true,
@@ -49,6 +56,18 @@ describe('ProjectCard', () => {
 
   test('ProjectCard 테스트', () => {
     expect(toReadButton).toBeInTheDocument();
+
+    const thumbNail = screen.getByAltText('프로젝트 이미지');
+    expect(thumbNail).toBeInTheDocument();
+
+    const projectName = screen.getByText('projectName');
+    expect(projectName).toBeInTheDocument();
+
+    const description = screen.getByText('description');
+    expect(description).toBeInTheDocument();
+
+    const techTags = screen.getAllByAltText('stack');
+    expect(techTags.length).toBeGreaterThanOrEqual(2);
   });
   test('오프라인 테스트', async () => {
     const mockHandler = jest.fn();
