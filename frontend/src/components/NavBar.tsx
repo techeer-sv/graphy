@@ -45,7 +45,8 @@ function NavBar() {
         value={searchText}
         onChange={getSearchData}
         type="text"
-        placeholder="  search"
+        alt="search"
+        placeholder="search"
         className=" mx-4 h-auto w-full appearance-none rounded-xl border pl-2 sm:w-full"
       />
 
@@ -54,6 +55,7 @@ function NavBar() {
         className="invisible mx-auto mr-4 flex h-0 w-0 shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue text-slate-50 sm:visible sm:mr-5
         sm:h-auto sm:w-auto sm:px-4 sm:py-1"
         onClick={() => toWrite()}
+        aria-label="toWritePage"
       >
         <img className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
         <span className="font-semibold">프로젝트 공유</span>
