@@ -3,6 +3,22 @@
 
 <br>
 
+## 👀 Demo
+
+<table align="center">
+  <tr>
+    <td align="center">웹 화면</td>
+    <td align="center">모바일 화면</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/techeer-sv/graphy/assets/97724189/67c1b194-2a95-4cfd-97aa-f8167c824510.gif" alt="웹 화면" width="550px"></td>
+    <td><img src="https://github.com/techeer-sv/graphy/assets/97724189/989504de-f2c2-4de7-aad7-13f3c0cfdc26.gif" alt="모바일 화면" width="200"></td>
+  </tr>
+</table>
+
+<br>
+
+
 ## 🔧 Tech Stack
 
 <div align =center>
