@@ -12,8 +12,8 @@ function Banner() {
         modules={[Pagination]}
         spaceBetween={50}
         slidesPerView={1}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => {}}
+        onSwiper={() => {}}
         pagination={{ clickable: true }}
         className="h-40 bg-subbanner sm:h-56 "
         data-testid="banner"
