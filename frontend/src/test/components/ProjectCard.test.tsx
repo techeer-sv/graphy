@@ -1,5 +1,5 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ProjectCard from '../../components/ProjectCard';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';

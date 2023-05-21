@@ -94,7 +94,7 @@ describe('MainPage', () => {
     expect(window.location.pathname).toBe('/write');
   });
 
-  test('프로젝트 카드 여러개 테스트', async () => {
+  test('프로젝트 카드 생성 테스트', async () => {
     const findProjectCards = await screen.findAllByTestId('ProjectCard');
     expect(findProjectCards).toHaveLength(2);
   });
