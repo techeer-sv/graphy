@@ -1,10 +1,10 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import { contentsState } from '../../Recoil';
 import QuillEditor from '../../components/QuillEditor';
-import { useEffect } from 'react';
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 jest.mock('react-quill', () => ({
   __esModule: true,
@@ -19,14 +19,6 @@ jest.mock('react-quill', () => ({
     />
   )),
 }));
-
-const onChange = jest.fn();
-
-export const RecoilObserver = ({ node, onChange }: any) => {
-  const value = useRecoilValue(node);
-  useEffect(() => onChange(value), [onChange, value]);
-  return null;
-};
 
 test('QuillEditor 테스트', async () => {
   render(

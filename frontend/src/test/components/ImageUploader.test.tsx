@@ -1,17 +1,9 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import ImageUploader from '../../components/ImageUploader';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import { thumbnailUrlState } from '../../Recoil';
-import { useEffect } from 'react';
-
-const onChange = jest.fn();
-
-export const RecoilObserver = ({ node, onChange }: any) => {
-  const value = useRecoilValue(node);
-  useEffect(() => onChange(value), [onChange, value]);
-  return null;
-};
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 jest.mock('react-aws-s3-typescript', () => ({
   __esModule: true,
