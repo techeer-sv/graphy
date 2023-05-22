@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import ReactS3Client from 'react-aws-s3-typescript';
 import { thumbnailUrlState } from '../Recoil';
 import s3config from '../s3config';
+import { act } from '@testing-library/react';
 
 import imginsert from '../assets/image/imginsert.svg';
 
@@ -19,7 +20,9 @@ function ImageUploader() {
     if (image) {
       try {
         const res = await s3.uploadFile(image);
-        setThumbnailUrl(res.location);
+        act(() => {
+          setThumbnailUrl(res.location);
+        });
         console.log(res);
       } catch (error) {
         if (!navigator.onLine) {
@@ -71,6 +74,7 @@ function ImageUploader() {
       >
         <input
           id="image"
+          data-testid="image"
           type="file"
           className="hidden"
           ref={fileInputRef}
