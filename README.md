@@ -1,14 +1,21 @@
 # 🌈 Graphy
 #### 개발자로 취업 준비 중인 사용자를 타겟팅한 포트폴리오 기록 사이트
 
++ **프로젝트 공유**
+  + 개발한 프로젝트 관련 글 작성 및 공유
+  + 댓글 작성
+
++ **고도화 계획 추천**
+  + chatGPT를 이용한 AI 고도화 추천
+
 <br>
 
 ## 👀 Demo
 
-##### [웹]메인 페이지
+##### [웹] 메인 페이지
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/fa9696a4-1754-4c73-adf3-90fc7736a3ec.gif"/>
 
-##### [웹]프로젝트 공유글 작성
+##### [웹] 프로젝트 공유글 작성
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/942a430f-e66a-488a-8493-d6079dfb2e2d.gif"/>
 
 ##### [반응형] 프로젝트 검색
@@ -34,7 +41,9 @@ Area| Tech Stack|
 <br>  
 
 ## 🧩 ERD
+<div align =center>
 <img width="700" alt="스크린샷 2023-01-20 오후 10 04 51" src="https://github.com/techeer-sv/graphy/assets/97724189/ab24977a-b455-435c-b6d9-46d94dc8a914">
+  </div>
 
 <br>  
 <br>
