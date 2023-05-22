@@ -22,77 +22,73 @@ interface Screen1Props {
 const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
-        w-630 translate-x-1/2 transform 
-        rounded-[30px] bg-white"
+      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 mt-5 box-border 
+        h-660 w-[400px] translate-x-1/2 transform rounded-[30px] 
+        bg-white sm:w-630"
     >
       {/* 이전/다음 */}
-      <div className="mt-5">
-        <div className="ml-555 flex font-lef text-gray-400 ">
+
+      <button
+        onClick={onNext}
+        className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600 "
+      >
+        <div>다음</div>
+        <img className="ml-2" src={arrowRightIcon} />
+      </button>
+
+      {/* 1단계 */}
+      <ol className="ml-14 mt-4 mb-8 flex w-80 items-center justify-center sm:ml-44">
+        <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
+            <img className="h-[20px] w-[20px] " src={monster} />
+          </span>
+        </li>
+        <li className="flex w-full items-center after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-gray-100 after:content-[''] dark:after:border-gray-700">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
+            <img className="h-[20px] w-[20px] " src={desktop} />
+          </span>
+        </li>
+        <li className="flex w-full items-center after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-gray-100 after:content-[''] dark:after:border-gray-700">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
+            <img className="h-[20px] w-[20px] " src={pick} />
+          </span>
+        </li>
+        <li className="flex w-full items-center">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
+            <img className="h-[20px] w-[20px] " src={eyes} />
+          </span>
+        </li>
+      </ol>
+
+      {/* screen1 */}
+      {/* 질문 */}
+      <div className="flex items-center justify-center font-lef-b text-[20px]">
+        <img className="h-[20px] w-[20px] " src={monster} />
+        &nbsp; 어떤 기술을 사용했나요?
+      </div>
+      {/* 기술 선택 버튼 */}
+      {/* 배열에 요소를 처음부터 하나씩 읽는 게 map, 하나씩 읽을 때 요소를 가리키는 게 x, y는 요소의 인덱스 */}
+      <div className="mt-8 flex h-80 w-[400px] flex-wrap justify-center overflow-auto sm:w-630 ">
+        {AllStacks.map((x, y) => (
           <button
-            onClick={onNext}
-            className="right-5 flex w-56  items-center hover:text-gray-600"
+            key={y}
+            className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border-[1.5px] border-zinc-300 py-1.5 pl-3 pr-3 text-gray-500"
           >
-            <div>다음</div>
-            <img className="ml-2" src={arrowRightIcon} />
+            <img className="mr-1 h-[20px] w-[20px]" src={findImage(x.name)} />
+            {x.name}
           </button>
-        </div>
+        ))}
+      </div>
 
-        {/* 1단계 */}
-        <ol className="ml-44 mt-4 mb-8 flex w-80 items-center justify-center">
-          <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={monster} />
-            </span>
-          </li>
-          <li className="flex w-full items-center after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-gray-100 after:content-[''] dark:after:border-gray-700">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={desktop} />
-            </span>
-          </li>
-          <li className="flex w-full items-center after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-gray-100 after:content-[''] dark:after:border-gray-700">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={pick} />
-            </span>
-          </li>
-          <li className="flex w-full items-center">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={eyes} />
-            </span>
-          </li>
-        </ol>
-
-        {/* screen1 */}
-        {/* 질문 */}
-        <div className="flex items-center justify-center font-lef-b text-[20px]">
-          <img className="h-[20px] w-[20px] " src={monster} />
-          &nbsp; 어떤 기술을 사용했나요?
-        </div>
-        {/* 기술 선택 버튼 */}
-        {/* 배열에 요소를 처음부터 하나씩 읽는 게 map, 하나씩 읽을 때 요소를 가리키는 게 x, y는 요소의 인덱스 */}
-        <div className="mt-8 flex justify-center ">
-          {AllStacks.map((x, y) => (
-            <button
-              key={y}
-              className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border-[1.5px] border-zinc-300 py-1.5 pl-3 pr-3 text-gray-500"
-            >
-              <img className="mr-1 h-[20px] w-[20px]" src={findImage(x.name)} />
-              {x.name}
-            </button>
-          ))}
-        </div>
-
-        {/* 하단 버튼 */}
-        <button
-          className="ml-16 mt-80 flex items-center
+      {/* 하단 버튼 */}
+      <button
+        className="ml-16  flex items-center
             justify-center rounded-[16px]
           bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50 hover:bg-button"
-          onClick={onNext}
-        >
-          다음
-        </button>
-      </div>
-      {/* {children} */}
+        onClick={onNext}
+      >
+        다음
+      </button>
     </div>
   );
 };
@@ -257,7 +253,7 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
           &nbsp; 어떤 기능을 구현했나요?
         </div>
         {/* 기능 구현 입력창 */}
-        <div className="relative mt-8" data-te-input-wrapper-init>
+        <div className="relative mt-8 h-80 border" data-te-input-wrapper-init>
           <input
             type="text"
             maxLength={20}
@@ -285,7 +281,7 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         {/* 하단버튼 */}
         <button
           onClick={onNext}
-          className="fixed z-40 mt-20 ml-14
+          className="fixed z-40 my-auto ml-14 mb-3
           flex items-center justify-center
         rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50  hover:bg-button"
         >
