@@ -1,17 +1,9 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import TechStackSelection from '../../components/TechStackSelection';
-import { useEffect } from 'react';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import { selectedStackState } from '../../Recoil';
-
-const onChange = jest.fn();
-
-export const RecoilObserver = ({ node, onChange }: any) => {
-  const value = useRecoilValue(node);
-  useEffect(() => onChange(value), [onChange, value]);
-  return null;
-};
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 describe('TechStackSelection', () => {
   test('TechStackSelection 테스트', () => {

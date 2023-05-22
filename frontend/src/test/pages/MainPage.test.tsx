@@ -1,20 +1,12 @@
 import '@testing-library/jest-dom';
-import { useEffect } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import MainPage from '../../pages/MainPage';
 import { BrowserRouter } from 'react-router-dom';
 import { searchTextState } from '../../Recoil';
-
-const onChange = jest.fn();
-
-export const RecoilObserver = ({ node, onChange }: any) => {
-  const value = useRecoilValue(node);
-  useEffect(() => onChange(value), [onChange, value]);
-  return null;
-};
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 jest.mock('../../components/NavBar', () => () => <div data-testid="NavBar" />);
 jest.mock('../../components/Banner', () => () => <div data-testid="Banner" />);

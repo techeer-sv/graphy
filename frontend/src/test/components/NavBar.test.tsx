@@ -2,17 +2,9 @@ import '@testing-library/jest-dom';
 import NavBar from '../../components/NavBar';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
+import { RecoilRoot } from 'recoil';
 import { searchTextState } from '../../Recoil';
-
-const onChange = jest.fn();
-
-export const RecoilObserver = ({ node, onChange }: any) => {
-  const value = useRecoilValue(node);
-  useEffect(() => onChange(value), [onChange, value]);
-  return null;
-};
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 test('NavBar 렌더링 테스트', () => {
   render(
