@@ -74,23 +74,25 @@ function ReadingPage() {
   }
   //DELETE 요청 보내는 함수
   async function deleteData() {
-    try {
-      const res = await axios.delete(
-        `http://localhost:8080/api/v1/projects/${projectId}`,
-      );
-      console.log(res.data);
-      navigate('/');
-    } catch (error) {
-      if (!navigator.onLine) {
-        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
-      } else if (axios.isAxiosError(error)) {
-        if (
-          error.response?.data.message ===
-          '이미 삭제되거나 존재하지 않는 프로젝트'
-        ) {
-          alert('이미 삭제되거나 존재하지 않는 프로젝트입니다.');
-        } else {
-          alert('네트워크 오류');
+    if (!navigator.onLine) {
+      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+    } else {
+      try {
+        const res = await axios.delete(
+          `http://localhost:8080/api/v1/projects/${projectId}`,
+        );
+        console.log(res.data);
+        navigate('/');
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (
+            error.response?.data.message ===
+            '이미 삭제되거나 존재하지 않는 프로젝트'
+          ) {
+            alert('이미 삭제되거나 존재하지 않는 프로젝트입니다.');
+          } else {
+            alert('네트워크 오류');
+          }
         }
       }
     }

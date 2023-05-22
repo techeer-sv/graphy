@@ -7,7 +7,7 @@ function ErrorPage() {
   useEffect(() => {
     navigate('/');
   }, []);
-  return <div>없거나 삭제된 페이지 입니다.</div>;
+  return <></>;
 }
 
 export default ErrorPage;
