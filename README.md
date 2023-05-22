@@ -5,6 +5,8 @@
   + 개발한 프로젝트 관련 글 작성 및 공유
   + 댓글 작성
 
+<br>
+
 + **고도화 계획 추천**
   + chatGPT를 이용한 AI 고도화 추천
 
@@ -14,12 +16,15 @@
 
 ##### [웹] 메인 페이지
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/fa9696a4-1754-4c73-adf3-90fc7736a3ec.gif"/>
+<br>
 
 ##### [웹] 프로젝트 공유글 작성
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/942a430f-e66a-488a-8493-d6079dfb2e2d.gif"/>
+<br>
 
 ##### [반응형] 프로젝트 검색
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/966d7818-202a-4d67-9ca3-03836b7f825a.gif"/>
+<br>
 
 ##### [반응형] 프로젝트 공유글 수정 & 댓글 작성
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/8659fc1b-37fd-40c6-ad96-222acfa54e43.gif"/>
