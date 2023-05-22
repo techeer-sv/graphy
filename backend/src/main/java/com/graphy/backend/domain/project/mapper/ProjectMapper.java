@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.project.mapper;
 
-import com.graphy.backend.domain.comment.dto.GetCommentWithMaskingDto;
+import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.ProjectTag;
 import com.graphy.backend.domain.project.domain.ProjectTags;
@@ -63,7 +63,7 @@ public class ProjectMapper {
     }
 
     public GetProjectDetailResponse toGetProjectDetailDto(Project project,
-                                                          List<GetCommentWithMaskingDto> comments) {
+                                                          List<CommentWithMaskingDto> comments) {
 
         return GetProjectDetailResponse.builder()
                 .id(project.getId())

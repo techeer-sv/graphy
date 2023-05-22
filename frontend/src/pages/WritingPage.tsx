@@ -27,6 +27,10 @@ function WritingPage() {
 
   //글쓰기 페이지 렌더링 시 변수 초기화
   useEffect(() => {
+    if (!navigator.onLine) {
+      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      navigate('/');
+    }
     setTitle('');
     setTldr('');
     setContents('');
@@ -68,17 +72,20 @@ function WritingPage() {
     try {
       const res = await axios.post(url, data);
       console.log(res.data);
-      navigate('/read');
       setProjectId(res.data.data.projectId);
+      navigate(`/read/${res.data.data.projectId}`);
+      setThumbnailUrl('');
     } catch (error) {
-      console.error(error);
-      if (title.trim().length === 0) {
+      if (!navigator.onLine) {
+        alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      } else if (title.trim().length === 0) {
         alert('제목을 입력해주세요.');
       } else if (tldr.trim().length === 0) {
         alert('한줄 소개를 입력해주세요.');
       } else if (contents.trim().length === 0) {
         alert('내용을 입력해주세요.');
       } else {
+        console.log(error);
         alert('네트워크 오류');
       }
     }

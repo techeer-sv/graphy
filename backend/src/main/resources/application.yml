@@ -5,8 +5,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+    async:
+      request-timeout: 60000
   profiles:
-    include: local
+    active: docker
 
   jpa:
     database: mysql
@@ -16,8 +18,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
     defer-datasource-initialization: true
+
+
+logging:
+  config: classpath:logback-spring.xml
 
 
 # swaggerDOC

@@ -55,7 +55,7 @@ function NavBar() {
         sm:h-auto sm:w-auto sm:px-4 sm:py-1"
         onClick={() => toWrite()}
       >
-        <img className="mr-2 h-5 w-5" src={WriteIcon} />
+        <img className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
         <span className="font-semibold">프로젝트 공유</span>
       </button>
 
@@ -64,7 +64,7 @@ function NavBar() {
         <img
           className="fixed top-4 right-4 h-8 w-8 appearance-none"
           src={ProfileIcon}
-          alt=""
+          alt="ProfileIcon"
         />
       </button> */}
     </div>

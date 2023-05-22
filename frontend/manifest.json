@@ -1,0 +1,70 @@
+{
+  "icons": [
+    {
+      "src": "src/assets/image/icon/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "src/assets/image/icon/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "src/assets/image/icon/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "src/assets/image/icon/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "display_override": ["window-controls-overlay"],
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "/newEmail?to=%s"
+    }
+  ],
+  "name": "Graphy",
+  "short_name": "Graphy",
+  "start_url": "http://localhost:3001",
+  "id": "/",
+  "display": "standalone",
+  "description": "Sharing project",
+  "lang": "Korean",
+  "dir": "auto",
+  "theme_color": "#505F9A",
+  "background_color": "#F9F8F8",
+  "orientation": "any",
+  "screenshots": [
+    {
+      "src": "src/assets/image/icon/screenshot.png",
+      "sizes": "2560x1380",
+      "type": "image/png",
+      "description": "A screenshot of the home page"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "write",
+      "url": "/write",
+      "description": "write",
+      "icons": [
+        {
+          "src": "src/assets/image/icon/96.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ]
+    }
+  ],
+  "related_applications": []
+}
