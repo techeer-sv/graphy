@@ -35,6 +35,7 @@ test('이미지 업로드 테스트', async () => {
   const file = new File(['(⌐□_□)'], 'chucknorris.png', { type: 'image/png' });
 
   const fileInput = screen.getByTestId('image');
+  expect(fileInput).toBeInTheDocument();
 
   fireEvent.change(fileInput, { target: { files: [file] } });
 
