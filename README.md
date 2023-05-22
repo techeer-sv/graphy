@@ -45,13 +45,6 @@ Area| Tech Stack|
   
 <br>  
 
-## 🧩 ERD
-<div align =center>
-<img width="700" alt="스크린샷 2023-01-20 오후 10 04 51" src="https://github.com/techeer-sv/graphy/assets/97724189/ab24977a-b455-435c-b6d9-46d94dc8a914">
-  </div>
-
-<br>  
-<br>
 
 ## ✨ API
 
