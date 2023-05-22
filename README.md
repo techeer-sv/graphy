@@ -47,6 +47,7 @@ Area| Tech Stack|
 
 
 ## ✨ API
+<img width="600" src="https://github.com/techeer-sv/graphy/assets/97724189/d58f4bae-1d25-49e9-96ae-b19e27671e43">
 
 <br>
 <br>
