@@ -119,8 +119,8 @@ function ReadingPage() {
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/* AI 고도화 버튼 */}
         <button
-          className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
-          bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md"
+          className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full  bg-graphyblue
+          px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md hover:bg-button"
           onClick={onClickToggleModal}
         >
           <img className="mr-2 h-5 w-5" src={gptIcon} />

@@ -18,6 +18,7 @@ module.exports = {
         mainbannerright: '#FF93AE',
         subbanner: '#C1D0EF',
         gptbutton: '#7082CA',
+        button: '#364A9A',
       },
       width: {
         284: '17.75rem',

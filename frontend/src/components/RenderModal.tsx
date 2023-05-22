@@ -29,7 +29,10 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
       {/* 이전/다음 */}
       <div className="mt-5">
         <div className="ml-555 flex font-lef text-gray-400 ">
-          <button onClick={onNext} className="right-5 flex w-56 items-center">
+          <button
+            onClick={onNext}
+            className="right-5 flex w-56  items-center hover:text-gray-600"
+          >
             <div>다음</div>
             <img className="ml-2" src={arrowRightIcon} />
           </button>
@@ -82,8 +85,8 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
         {/* 하단 버튼 */}
         <button
           className="ml-16 mt-80 flex items-center
-            justify-center 
-          rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+            justify-center rounded-[16px]
+          bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50 hover:bg-button"
           onClick={onNext}
         >
           다음
@@ -109,12 +112,18 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
       {/* 이전/다음 */}
       <div className="mt-5">
         <div className="ml-5 flex font-lef text-gray-400 ">
-          <button onClick={onPrev} className="flex w-56 items-center">
+          <button
+            onClick={onPrev}
+            className="flex w-56 items-center  hover:text-gray-600"
+          >
             <img className="mr-2" src={arrowLeftIcon} />
             이전
           </button>
 
-          <button onClick={onNext} className="ml-460 flex w-56 items-center">
+          <button
+            onClick={onNext}
+            className="ml-460 flex w-56 items-center  hover:text-gray-600"
+          >
             <div>다음</div>
             <img className="ml-2" src={arrowRightIcon} />
           </button>
@@ -164,7 +173,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
           onClick={onNext}
           className="fixed ml-16 mt-80
           flex items-center justify-center
-        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50  hover:bg-button"
         >
           다음
         </button>
@@ -200,12 +209,18 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
       {/* 이전/다음 */}
       <div className="mt-5">
         <div className="ml-5 flex font-lef text-gray-400 ">
-          <button onClick={onPrev} className="flex w-56 items-center">
+          <button
+            onClick={onPrev}
+            className="flex w-56 items-center  hover:text-gray-600"
+          >
             <img className="mr-2" src={arrowLeftIcon} />
             이전
           </button>
 
-          <button onClick={onNext} className="ml-460 flex w-56 items-center">
+          <button
+            onClick={onNext}
+            className="ml-460 flex w-56 items-center  hover:text-gray-600"
+          >
             <div>다음</div>
             <img className="ml-2" src={arrowRightIcon} />
           </button>
@@ -272,7 +287,7 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
           onClick={onNext}
           className="fixed z-40 mt-20 ml-14
           flex items-center justify-center
-        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50  hover:bg-button"
         >
           다음
         </button>
@@ -307,7 +322,10 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
       {/* 이전/다음 */}
       <div className="mt-5">
         <div className="ml-5 flex font-lef text-gray-400 ">
-          <button onClick={onPrev} className="flex w-56 items-center">
+          <button
+            onClick={onPrev}
+            className="flex w-56 items-center  hover:text-gray-600"
+          >
             <img className="mr-2" src={arrowLeftIcon} />
             이전
           </button>
@@ -377,7 +395,7 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
         <button
           className="fixed mt-20 ml-14
           items-center justify-center
-        rounded-[16px] bg-gptbutton px-52 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+        rounded-[16px] bg-gptbutton px-52 py-1 pt-3 pb-3 font-lef-b text-slate-50  hover:bg-button"
         >
           AI 고도화 추천
         </button>
