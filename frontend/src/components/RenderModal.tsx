@@ -71,7 +71,7 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
           {AllStacks.map((x, y) => (
             <button
               key={y}
-              className="mr-2 flex items-center rounded-full border-[1.5px] border-zinc-300 px-3 py-1 text-gray-500"
+              className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border-[1.5px] border-zinc-300 py-1.5 pl-3 pr-3 text-gray-500"
             >
               <img className="mr-1 h-[20px] w-[20px]" src={findImage(x.name)} />
               {x.name}
@@ -82,7 +82,7 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
         {/* 하단 버튼 */}
         <button
           className="ml-16 mt-80 flex items-center
-            justify-center
+            justify-center 
           rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
           onClick={onNext}
         >
@@ -162,8 +162,8 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
         {/* 하단 버튼 */}
         <button
           onClick={onNext}
-          className="fixed ml-16 mt-80 flex
-          items-center justify-center
+          className="fixed ml-16 mt-80
+          flex items-center justify-center
         rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
           다음
@@ -260,7 +260,7 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
           ))}
           {Arr.length < 4 ? (
             <button
-              className="ml-72 mt-5 flex items-center justify-center"
+              className="ml-[297px] mt-5 flex items-center justify-center"
               onClick={() => Plus()}
             >
               <img src={plus} />
@@ -270,8 +270,8 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         {/* 하단버튼 */}
         <button
           onClick={onNext}
-          className="fixed mt-28 ml-16 flex
-          items-center justify-center
+          className="fixed z-40 mt-20 ml-14
+          flex items-center justify-center
         rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
           다음
@@ -362,7 +362,7 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
           ))}
           {Arr.length < 4 ? (
             <button
-              className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
+              className=" ml-[297px] mt-5 flex h-5 w-5 items-center justify-center"
               onClick={() => Plus()}
             >
               <img src={plus} />
@@ -375,11 +375,11 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
         </div>
         {/* 하단버튼 */}
         <button
-          className="fixed mt-28 ml-16 flex
+          className="fixed mt-20 ml-14
           items-center justify-center
-        rounded-[16px] bg-gptbutton px-60 py-1 pt-3 pb-3 font-lef-b text-slate-50"
+        rounded-[16px] bg-gptbutton px-52 py-1 pt-3 pb-3 font-lef-b text-slate-50"
         >
-          추천
+          AI 고도화 추천
         </button>
       </div>
       {/* {children} */}
@@ -387,7 +387,6 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
   );
 };
 
-// 모달 컴포넌트
 // 모달 컴포넌트
 interface ModalDefaultType {
   onClickToggleModal: () => void;
