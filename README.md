@@ -1,5 +1,6 @@
 <div align =center>
-<img width="30%" src="https://github.com/techeer-sv/graphy/assets/97724189/d6d83c8d-13ec-4037-8455-25cd595f2aad">
+<!-- <img width="30%" src="https://github.com/techeer-sv/graphy/assets/97724189/d6d83c8d-13ec-4037-8455-25cd595f2aad"> -->
+  <img width="" src="https://github.com/techeer-sv/graphy/assets/97724189/a53a198d-48ce-4a4b-9dff-3981ab5490ea">
   </div>
 
 <div align = "center">
