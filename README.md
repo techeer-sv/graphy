@@ -23,11 +23,11 @@ Graphy는 창의적인 아이디어를 공유하고, 발전 방향을 제시함�
 <br>
 
 ##### [웹] 메인 페이지
-<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/fa9696a4-1754-4c73-adf3-90fc7736a3ec.gif"/>
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/afed8066-3522-4f56-a625-f4105771b8fc.gif"/>
 <br>
 
 ##### [웹] 프로젝트 공유글 작성
-<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/942a430f-e66a-488a-8493-d6079dfb2e2d.gif"/>
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/e20bae81-a7a0-4186-b923-5c8fef07a6c6.gif"/>
 <br>
 
 ##### [반응형] 프로젝트 검색
