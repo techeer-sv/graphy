@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import Banner from '../../components/Banner';
 
 describe('Banner', () => {
-  test('Banner 렌더링 테스트', () => {
+  test('Banner 테스트', () => {
     render(<Banner />);
 
     // Banner 컴포넌트가 정상적으로 렌더링되었는지 확인

@@ -6,7 +6,7 @@ import QuillWritten from '../../components/QuillWritten';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 describe('QuillWritten', () => {
-  test('noContents 테스트', async () => {
+  test('noContents 테스트', () => {
     render(
       <RecoilRoot>
         <RecoilObserver node={contentsState} onChange={onChange} />
@@ -16,7 +16,7 @@ describe('QuillWritten', () => {
     const noContents = screen.getByText('게시글을 불러오는 중입니다...');
     expect(noContents).toBeInTheDocument();
   });
-  test('Contents 테스트', async () => {
+  test('Contents 테스트', () => {
     render(
       <RecoilRoot
         initializeState={(snapshot: MutableSnapshot) => {

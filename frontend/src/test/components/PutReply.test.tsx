@@ -36,7 +36,7 @@ const server = setupServer(
     },
   ),
 );
-describe('PutReply 테스트', () => {
+describe('PutReply', () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());

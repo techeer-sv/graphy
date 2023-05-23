@@ -20,7 +20,7 @@ jest.mock('react-quill', () => ({
   )),
 }));
 
-test('QuillEditor 테스트', async () => {
+test('QuillEditor 테스트', () => {
   render(
     <RecoilRoot>
       <RecoilObserver node={contentsState} onChange={onChange} />

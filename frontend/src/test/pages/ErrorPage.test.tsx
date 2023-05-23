@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import ErrorPage from '../../pages/ErrorPage';
 import { BrowserRouter } from 'react-router-dom';
 

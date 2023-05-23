@@ -54,7 +54,7 @@ describe('ProjectCard', () => {
     const techTags = screen.getAllByAltText('stack');
     expect(techTags.length).toBeGreaterThanOrEqual(2);
   });
-  test('오프라인 테스트', async () => {
+  test('Offline 테스트', async () => {
     const mockHandler = jest.fn();
     // mock serviceWorker
     Object.defineProperty(navigator, 'serviceWorker', {

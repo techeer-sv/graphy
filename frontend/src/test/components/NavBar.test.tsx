@@ -6,7 +6,7 @@ import { RecoilRoot } from 'recoil';
 import { searchTextState } from '../../Recoil';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
-test('NavBar 렌더링 테스트', () => {
+test('NavBar 테스트', () => {
   render(
     <RecoilRoot>
       <BrowserRouter>

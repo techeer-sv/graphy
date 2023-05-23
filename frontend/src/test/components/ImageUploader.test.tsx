@@ -16,7 +16,7 @@ beforeEach(() => {
   window.alert = jest.fn();
 });
 
-test('이미지 업로드 테스트', async () => {
+test('ImageUploader 테스트', async () => {
   render(
     <RecoilRoot>
       <RecoilObserver node={thumbnailUrlState} onChange={onChange} />

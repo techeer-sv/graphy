@@ -79,7 +79,15 @@ describe('MainPage', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  test('쓰기 버튼 테스트', async () => {
+  test('MainPage 렌더링', () => {
+    const navBar = screen.getByTestId('NavBar');
+    expect(navBar).toBeInTheDocument();
+
+    const banner = screen.getByTestId('Banner');
+    expect(banner).toBeInTheDocument();
+  });
+
+  test('쓰기 버튼 테스트', () => {
     const toWriteButton = screen.getByRole('button', { name: 'toWritePage' });
     expect(toWriteButton).toBeInTheDocument();
     fireEvent.click(toWriteButton);
