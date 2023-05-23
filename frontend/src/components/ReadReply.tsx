@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import useDidMountEffect from '../useDidMountEffect';
-
-import nested_reply from '../assets/image/nested_reply.svg';
-import ReadReReply from './ReadReReply';
-import WriteReReply from './WriteReReply';
-import delete_reply from '../assets/image/delete.svg';
-import pencil_square from '../assets/image/pencil-square.svg';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../Recoil';
 import PutReply from './PutReply';
+import ReadReReply from './ReadReReply';
+import WriteReReply from './WriteReReply';
+import { act } from '@testing-library/react';
+
+import nested_reply from '../assets/image/nested_reply.svg';
+import delete_reply from '../assets/image/delete.svg';
+import pencil_square from '../assets/image/pencil-square.svg';
 
 function ReadReply(props: any) {
   const [writeVis, setWriteVis] = useState<boolean>(false);
@@ -42,8 +43,10 @@ function ReadReply(props: any) {
     const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
     try {
       const res = await axios.get(url);
-      console.log(res);
-      setComment(res.data.data);
+      console.log(res.data);
+      act(() => {
+        setComment(res.data.data);
+      });
     } catch (error) {
       console.error(error);
       alert('답글 조회 실패');
@@ -54,7 +57,7 @@ function ReadReply(props: any) {
     const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
     try {
       const res = await axios.delete(url);
-      console.log(res);
+      console.log(res.data);
       setRefresh(!refresh);
     } catch (error) {
       if (!navigator.onLine) {
@@ -67,7 +70,9 @@ function ReadReply(props: any) {
   }
 
   function openComment() {
-    setCommentVis(true);
+    act(() => {
+      setCommentVis(true);
+    });
     getComment();
   }
 
@@ -97,11 +102,16 @@ function ReadReply(props: any) {
               <button
                 className="mr-2 font-ng"
                 onClick={() => setCommentVis(false)}
+                data-testid="closeReReply"
               >
                 ▲ 답글 {props.contents.childCount}개
               </button>
             ) : (
-              <button className="mr-2 font-ng" onClick={() => openComment()}>
+              <button
+                className="mr-2 font-ng"
+                onClick={() => openComment()}
+                data-testid="openReReply"
+              >
                 ▼ 답글 {props.contents.childCount}개
               </button>
             )}
