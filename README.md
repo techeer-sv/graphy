@@ -1,25 +1,33 @@
-# 🌈 Graphy
-#### 개발자로 취업 준비 중인 사용자를 타겟팅한 포트폴리오 기록 사이트
+<div align =center>
+<img width="30%" src="https://github.com/techeer-sv/graphy/assets/97724189/d6d83c8d-13ec-4037-8455-25cd595f2aad">
+<!--   <img width="" src="https://github.com/techeer-sv/graphy/assets/97724189/a53a198d-48ce-4a4b-9dff-3981ab5490ea"> -->
+<!--   <img width="" src="https://github.com/techeer-sv/graphy/assets/97724189/1d26b973-e8e6-4a49-8dae-9a22a2fb9e80"> -->
+  </div>
 
-+ **프로젝트 공유**
-  + 개발한 프로젝트 관련 글 작성 및 공유
-  + 댓글 작성
+<div align = "center">
+
+<h3>프로젝트를 기록하다, Graphy</h3>
+
+'Graphy'를 통해 당신의 프로젝트를 공유해 보세요 🔥 <br> <br> <br>
+
+</div>
+
+## 🌈 Introduction
+
+**Graphy는 개발자로 취업 준비 중인 사용자를 타겟팅한 포트폴리오 기록 사이트**로써,<br>
+<br>
+사람들이 보다 좋은 프로젝트를 개발할 수 있도록 도와주는 것을 목표로 하고 있어요!<br>
+<br>
+Graphy는 창의적인 아이디어를 공유하고, 발전 방향을 제시함으로써 개발자의 성장을 지원합니다 🌟
 
 <br>
-
-+ **고도화 계획 추천**
-  + chatGPT를 이용한 AI 고도화 추천
-
-<br>
-
-## 👀 Demo
 
 ##### [웹] 메인 페이지
-<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/fa9696a4-1754-4c73-adf3-90fc7736a3ec.gif"/>
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/afed8066-3522-4f56-a625-f4105771b8fc.gif"/>
 <br>
 
 ##### [웹] 프로젝트 공유글 작성
-<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/942a430f-e66a-488a-8493-d6079dfb2e2d.gif"/>
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/e20bae81-a7a0-4186-b923-5c8fef07a6c6.gif"/>
 <br>
 
 ##### [반응형] 프로젝트 검색
@@ -29,6 +37,11 @@
 ##### [반응형] 프로젝트 공유글 수정 & 댓글 작성
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/8659fc1b-37fd-40c6-ad96-222acfa54e43.gif"/>
 
+<br>
+<br>
+
+
+## 🧩 System Architecture
 
 <br>
 <br>
