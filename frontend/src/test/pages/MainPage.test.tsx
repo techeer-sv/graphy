@@ -1,20 +1,12 @@
 import '@testing-library/jest-dom';
-import { useEffect } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import MainPage from '../../pages/MainPage';
 import { BrowserRouter } from 'react-router-dom';
 import { searchTextState } from '../../Recoil';
-
-const onChange = jest.fn();
-
-export const RecoilObserver = ({ node, onChange }: any) => {
-  const value = useRecoilValue(node);
-  useEffect(() => onChange(value), [onChange, value]);
-  return null;
-};
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 jest.mock('../../components/NavBar', () => () => <div data-testid="NavBar" />);
 jest.mock('../../components/Banner', () => () => <div data-testid="Banner" />);
@@ -94,7 +86,7 @@ describe('MainPage', () => {
     expect(window.location.pathname).toBe('/write');
   });
 
-  test('프로젝트 카드 여러개 테스트', async () => {
+  test('프로젝트 카드 생성 테스트', async () => {
     const findProjectCards = await screen.findAllByTestId('ProjectCard');
     expect(findProjectCards).toHaveLength(2);
   });

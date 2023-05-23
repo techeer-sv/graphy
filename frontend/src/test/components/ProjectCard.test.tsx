@@ -1,18 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ProjectCard from '../../components/ProjectCard';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
+import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
 import { projectIdState } from '../../Recoil';
-
-const onChange = jest.fn();
-
-export const RecoilObserver = ({ node, onChange }: any) => {
-  const value = useRecoilValue(node);
-  useEffect(() => onChange(value), [onChange, value]);
-  return null;
-};
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 describe('ProjectCard', () => {
   let toReadButton: HTMLElement;
