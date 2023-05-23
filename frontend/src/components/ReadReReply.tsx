@@ -28,7 +28,7 @@ function ReadReReply(props: any) {
     const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
     try {
       const res = await axios.delete(url);
-      console.log(res);
+      console.log(res.data);
       setRefresh(!refresh);
       props.changeCommentRef();
     } catch (error) {
