@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
-test('renders LoadingSpinner correctly', () => {
+test('LoadingSpinner 테스트', () => {
   render(<LoadingSpinner />);
 
   const dotLoader = screen.getByTestId('DotLoader'); // 스피너 요소가 있는지 확인
