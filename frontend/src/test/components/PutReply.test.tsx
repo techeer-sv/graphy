@@ -60,6 +60,9 @@ describe('PutReply 테스트', () => {
 
     fireEvent.change(textArea, { value: '2' });
     fireEvent.click(putButton);
+
     await waitFor(() => expect(onChange).toBeCalledTimes(2));
+    expect(changePutVis).toHaveBeenCalled();
+    expect(setSelectedValue).toHaveBeenCalled();
   });
 });
