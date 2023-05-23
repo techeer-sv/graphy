@@ -14,6 +14,7 @@ import {
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AllStacks from '../Stack';
+import { act } from '@testing-library/react';
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -42,7 +43,6 @@ function ReadingPage() {
       const res = await axios.get(
         `http://localhost:8080/api/v1/projects/${params.id}`,
       );
-      console.log(res.data);
       setTitle(res.data.data.projectName);
       setTldr(res.data.data.description);
       setSelectedStack(res.data.data.techTags);
@@ -70,10 +70,11 @@ function ReadingPage() {
     } else {
       try {
         const res = await axios.delete(
-          `http://localhost:8080/api/v1/projects/${projectId}`,
+          `http://localhost:8080/api/v1/projects/${params.id}`,
         );
-        console.log(res.data);
-        navigate('/');
+        act(() => {
+          navigate('/');
+        });
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (
