@@ -3,6 +3,7 @@ import reply_icon from '../assets/image/reply_icon.svg';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { projectIdState, refreshState } from '../Recoil';
 import axios from 'axios';
+import { act } from '@testing-library/react';
 
 function WriteReReply(props: any) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -25,7 +26,6 @@ function WriteReReply(props: any) {
   };
 
   useEffect(() => {
-    console.log(props);
     if (textAreaRef.current) {
       textAreaRef.current.scrollIntoView({
         behavior: 'smooth',
@@ -45,8 +45,10 @@ function WriteReReply(props: any) {
     try {
       const res = await axios.post(url, data);
       console.log(res.data);
-      setrefresh(!refresh);
-      setValue('');
+      act(() => {
+        setrefresh(!refresh);
+        setValue('');
+      });
     } catch (error) {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
