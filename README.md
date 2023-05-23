@@ -29,6 +29,11 @@
 ##### [반응형] 프로젝트 공유글 수정 & 댓글 작성
 <img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/8659fc1b-37fd-40c6-ad96-222acfa54e43.gif"/>
 
+<br>
+<br>
+
+
+## 🧩 System Architecture
 
 <br>
 <br>
