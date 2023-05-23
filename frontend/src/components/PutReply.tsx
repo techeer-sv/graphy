@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { projectIdState, refreshState } from '../Recoil';
+import { useRecoilState } from 'recoil';
+import { refreshState } from '../Recoil';
 import axios from 'axios';
 
 function PutReply(props: any) {
@@ -23,7 +23,6 @@ function PutReply(props: any) {
   };
 
   useEffect(() => {
-    console.log(props);
     if (textAreaRef.current) {
       textAreaRef.current.scrollIntoView({
         behavior: 'smooth',
