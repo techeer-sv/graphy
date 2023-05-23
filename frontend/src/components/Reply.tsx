@@ -60,7 +60,6 @@ function Reply(props: any) {
   function myFunction(selectedValue: any) {
     switch (selectedValue) {
       case 'newest_order':
-        console.log(props);
         const sortedContents = props.contents.slice().sort((a: any, b: any) => {
           const aTime = new Date(a.createdAt).getTime();
           const bTime = new Date(b.createdAt).getTime();
@@ -69,7 +68,6 @@ function Reply(props: any) {
         props.setReadReply(sortedContents);
         break;
       case 'reply_order':
-        console.log(props);
         // 답글순 정렬
         const replyedContents = props.contents
           .slice()
@@ -79,7 +77,6 @@ function Reply(props: any) {
         props.setReadReply(replyedContents);
         break;
       default:
-        console.log(props);
         // 등록순 정렬
         const regisedContents = props.contents
           .slice()
@@ -118,13 +115,17 @@ function Reply(props: any) {
     <div>
       {/*댓글 개수, 댓글 나열 카테고리*/}
       <div className="mb-2 flex flex-row whitespace-nowrap border-b-2 border-graphyblue">
-        <span className="mr-2 flex flex-row font-ng-b text-sm sm:text-lg">
+        <span
+          className="mr-2 flex flex-row font-ng-b text-sm sm:text-lg"
+          data-testid="replyCount"
+        >
           전체 댓글 <p className="ml-1 text-graphyblue">{count}</p>개
         </span>
         <select
           className="mb-1 hidden rounded border border-black bg-graphybg font-ng text-sm sm:block"
           value={selectedValue}
           onChange={handleselectChange}
+          data-testid="orderSelect"
         >
           <option value="regist_order">등록순</option>
           <option value="newest_order">최신순</option>
