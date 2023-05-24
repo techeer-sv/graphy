@@ -56,18 +56,22 @@ jobs:
 
       - name: Install packages
         working-directory: frontend
+        shell: bash
         run: npm ci
 
       - name: Prettier
         working-directory: frontend
+        shell: bash
         run: npm run format
         
       - name: Lint
         working-directory: frontend
+        shell: bash
         run: npm run lint
 
       - name: Frontend Test
         working-directory: frontend
+        shell: bash
         run: npm test
 
       - name: Frontend Test Results
