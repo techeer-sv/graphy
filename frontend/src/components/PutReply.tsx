@@ -1,11 +1,14 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
+
 import { refreshState } from '../Recoil';
-import axios from 'axios';
 
 function PutReply(props: any) {
+  const { contents, setSelectedValue, changeCommentRef, changePutVis } = props;
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState<string>(props.contents.content);
+  const [value, setValue] = useState<string>(contents.content);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,7 +35,7 @@ function PutReply(props: any) {
   }, []);
 
   async function putData() {
-    const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
+    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     const data = {
       content: value,
     };
@@ -41,9 +44,9 @@ function PutReply(props: any) {
       const res = await axios.put(url, data);
       console.log(res.data);
       setrefresh(!refresh);
-      props.contents.hasOwnProperty('childCount')
-        ? null
-        : props.changeCommentRef();
+      if (!('childCount' in contents)) {
+        changeCommentRef();
+      }
       setValue('');
     } catch (error) {
       if (!navigator.onLine) {
@@ -59,13 +62,13 @@ function PutReply(props: any) {
 
   function put() {
     putData();
-    props.changePutVis();
-    props.setSelectedValue('regist_order');
+    changePutVis();
+    setSelectedValue('regist_order');
   }
 
   return (
     <div>
-      {/*대댓글 입력창*/}
+      {/* 대댓글 입력창 */}
       <div className="relative">
         <div className="mt-3 flex h-auto flex-col rounded-xl border-2 border-gray-400">
           <textarea
@@ -79,6 +82,7 @@ function PutReply(props: any) {
           <button
             className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
             onClick={() => put()}
+            type="submit"
           >
             수정
           </button>

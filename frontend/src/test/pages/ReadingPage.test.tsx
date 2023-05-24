@@ -1,16 +1,33 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
-import ReadingPage from '../../pages/ReadingPage';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
-jest.mock('../../components/NavBar', () => () => <div data-testid="NavBar" />);
-jest.mock('../../components/QuillWritten', () => () => (
-  <div data-testid="QuillWritten" />
-));
-jest.mock('../../components/Reply', () => () => <div data-testid="Reply" />);
+import ReadingPage from '../../pages/ReadingPage';
+
+jest.mock(
+  '../../components/NavBar',
+  () =>
+    function () {
+      return <div data-testid="NavBar" />;
+    },
+);
+jest.mock(
+  '../../components/QuillWritten',
+  () =>
+    function () {
+      return <div data-testid="QuillWritten" />;
+    },
+);
+jest.mock(
+  '../../components/Reply',
+  () =>
+    function () {
+      return <div data-testid="Reply" />;
+    },
+);
 
 const server = setupServer(
   rest.get('http://localhost:8080/api/v1/projects/0', (req, res, ctx) => {

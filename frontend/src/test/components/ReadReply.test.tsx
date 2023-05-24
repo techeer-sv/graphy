@@ -1,21 +1,34 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import ReadReply from '../../components/ReadReply';
-import { RecoilRoot } from 'recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
-import { refreshState } from '../../Recoil';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { RecoilRoot } from 'recoil';
 
-jest.mock('../../components/PutReply', () => () => (
-  <div data-testid="PutReply" />
-));
-jest.mock('../../components/ReadReReply', () => () => (
-  <div data-testid="ReadReReply" />
-));
-jest.mock('../../components/WriteReReply', () => () => (
-  <div data-testid="WriteReReply" />
-));
+import ReadReply from '../../components/ReadReply';
+import { refreshState } from '../../Recoil';
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+
+jest.mock(
+  '../../components/PutReply',
+  () =>
+    function () {
+      return <div data-testid="PutReply" />;
+    },
+);
+jest.mock(
+  '../../components/ReadReReply',
+  () =>
+    function () {
+      return <div data-testid="ReadReReply" />;
+    },
+);
+jest.mock(
+  '../../components/WriteReReply',
+  () =>
+    function () {
+      return <div data-testid="WriteReReply" />;
+    },
+);
 
 const contents = {
   childCount: 2,

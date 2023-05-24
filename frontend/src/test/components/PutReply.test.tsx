@@ -1,11 +1,12 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import PutReply from '../../components/PutReply';
-import { RecoilRoot } from 'recoil';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import { RecoilRoot } from 'recoil';
+
+import PutReply from '../../components/PutReply';
 import { refreshState } from '../../Recoil';
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 const contents = {
   commentId: 0,

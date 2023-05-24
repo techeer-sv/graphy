@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
-import TechStackSelection from '../../components/TechStackSelection';
 import { RecoilRoot } from 'recoil';
+
+import TechStackSelection from '../../components/TechStackSelection';
 import { selectedStackState } from '../../Recoil';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 

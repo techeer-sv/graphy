@@ -1,21 +1,24 @@
-import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { contentsState } from '../../Recoil';
+
 import QuillEditor from '../../components/QuillEditor';
+import { contentsState } from '../../Recoil';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
 jest.mock('react-quill', () => ({
   __esModule: true,
   default: React.forwardRef<
-    HTMLDivElement,
+    HTMLButtonElement,
     { onChange: (text: string) => void }
   >((props, ref) => (
-    <div
+    <button
       ref={ref}
       data-testid="quill-mock"
       onClick={() => props.onChange('new text')}
+      aria-label="mock-button"
+      type="button"
     />
   )),
 }));

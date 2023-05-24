@@ -1,15 +1,20 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import Reply from '../../components/Reply';
-import { RecoilRoot } from 'recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
-import { refreshState } from '../../Recoil';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { RecoilRoot } from 'recoil';
 
-jest.mock('../../components/ReadReply', () => () => (
-  <div data-testid="ReadReply" />
-));
+import Reply from '../../components/Reply';
+import { refreshState } from '../../Recoil';
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+
+jest.mock(
+  '../../components/ReadReply',
+  () =>
+    function () {
+      return <div data-testid="ReadReply" />;
+    },
+);
 
 const contents = [
   {

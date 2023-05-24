@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
+
 import { selectedStackState } from '../Recoil';
 import AllStacks from '../Stack';
 
@@ -9,7 +10,7 @@ function TechStackSelection() {
   // 검색어와 검색어 변경 이벤트 처리를 위한 상태 및 함수
   const [searchText, setSearchText] = useState('');
 
-  //검색 글 변경 함수
+  // 검색 글 변경 함수
   const handleSearchTextChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -50,7 +51,9 @@ function TechStackSelection() {
             className="ml-2 mt-3 h-6 w-auto shrink-0 rounded-full border bg-blue-500 px-2 font-ng-b text-white"
           >
             <span>{stack} </span>
-            <button onClick={() => handleDeleteStack(stack)}>x</button>
+            <button onClick={() => handleDeleteStack(stack)} type="button">
+              x
+            </button>
           </div>
         ))}
       </div>
@@ -69,6 +72,7 @@ function TechStackSelection() {
                 <li key={stack}>
                   <button
                     onClick={() => handleAddStack(stack)}
+                    type="button"
                     className="focus:shadow-outline h-49 w-full appearance-none rounded border bg-[#F9F8F8] px-3 text-left font-ng leading-tight text-gray-700 shadow focus:outline-none"
                   >
                     {stack} 추가
@@ -79,7 +83,10 @@ function TechStackSelection() {
           ) : (
             <ul>
               <li>
-                <button className="focus:shadow-outline pointer-events-none h-14 w-full appearance-none rounded border bg-[#F9F8F8] px-3 text-left font-ng text-gray-700 shadow focus:outline-none">
+                <button
+                  type="button"
+                  className="focus:shadow-outline pointer-events-none h-14 w-full appearance-none rounded border bg-[#F9F8F8] px-3 text-left font-ng text-gray-700 shadow focus:outline-none"
+                >
                   해당 기술이 없습니다. 영어로만 검색해 주세요.
                 </button>
               </li>

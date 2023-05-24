@@ -1,10 +1,13 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { projectIdState, refreshState } from '../Recoil';
+
 import ReadReply from './ReadReply';
-import axios from 'axios';
+import { projectIdState, refreshState } from '../Recoil';
 
 function Reply(props: any) {
+  const { contents, setReadReply } = props;
+
   const [count, SetCount] = useState(0);
   const [selectedValue, setSelectedValue] = useState<string>('regist_order');
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -36,7 +39,7 @@ function Reply(props: any) {
     const url = 'http://localhost:8080/api/v1/comments';
     const data = {
       content: value,
-      projectId: projectId,
+      projectId,
     };
 
     try {
@@ -57,43 +60,40 @@ function Reply(props: any) {
     }
   }
 
-  function myFunction(selectedValue: any) {
-    switch (selectedValue) {
-      case 'newest_order':
-        const sortedContents = props.contents.slice().sort((a: any, b: any) => {
+  function myFunction(selected: any) {
+    switch (selected) {
+      case 'newest_order': {
+        const sortedContents = contents.slice().sort((a: any, b: any) => {
           const aTime = new Date(a.createdAt).getTime();
           const bTime = new Date(b.createdAt).getTime();
           return bTime - aTime;
         });
-        props.setReadReply(sortedContents);
+        setReadReply(sortedContents);
         break;
-      case 'reply_order':
-        // 답글순 정렬
-        const replyedContents = props.contents
-          .slice()
-          .sort((a: any, b: any) => {
-            return b.childCount - a.childCount;
-          });
-        props.setReadReply(replyedContents);
+      }
+      case 'reply_order': {
+        const replyedContents = contents.slice().sort((a: any, b: any) => {
+          return b.childCount - a.childCount;
+        });
+        setReadReply(replyedContents);
         break;
-      default:
-        // 등록순 정렬
-        const regisedContents = props.contents
-          .slice()
-          .sort((a: any, b: any) => {
-            const aTime = new Date(a.createdAt).getTime();
-            const bTime = new Date(b.createdAt).getTime();
-            return aTime - bTime;
-          });
-        props.setReadReply(regisedContents);
+      }
+      default: {
+        const regisedContents = contents.slice().sort((a: any, b: any) => {
+          const aTime = new Date(a.createdAt).getTime();
+          const bTime = new Date(b.createdAt).getTime();
+          return aTime - bTime;
+        });
+        setReadReply(regisedContents);
         break;
+      }
     }
   }
 
   function handleselectChange(event: { target: { value: any } }) {
-    const selectedValue = event.target.value; // 선택된 값 가져오기
-    setSelectedValue(selectedValue); // 선택된 값 상태 업데이트
-    myFunction(selectedValue); // 선택된 값 전달하여 실행할 함수 호출
+    const selectValue = event.target.value; // 선택된 값 가져오기
+    setSelectedValue(selectValue); // 선택된 값 상태 업데이트
+    myFunction(selectValue); // 선택된 값 전달하여 실행할 함수 호출
   }
 
   function handleRefresh() {
@@ -103,7 +103,7 @@ function Reply(props: any) {
 
   useEffect(() => {
     SetCount(
-      props.contents.reduce(
+      contents.reduce(
         (acc: number, cur: any) =>
           acc + (cur.content !== '삭제된 댓글입니다.' ? 1 : 0),
         0,
@@ -113,7 +113,7 @@ function Reply(props: any) {
 
   return (
     <div>
-      {/*댓글 개수, 댓글 나열 카테고리*/}
+      {/* 댓글 개수, 댓글 나열 카테고리 */}
       <div className="mb-2 flex flex-row whitespace-nowrap border-b-2 border-graphyblue">
         <span
           className="mr-2 flex flex-row font-ng-b text-sm sm:text-lg"
@@ -135,40 +135,43 @@ function Reply(props: any) {
           <button
             className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-xs sm:text-sm"
             onClick={() => MoveToTop()}
+            type="button"
           >
             본문 보기
           </button>
           <button
             className="mr-2 border-r border-gray-500 pr-2 font-ng-b text-xs sm:text-sm"
             onClick={() => setVisible(!visible)}
+            type="button"
           >
             {visible ? '댓글 닫기' : '댓글 열기'}
           </button>
           <button
             className="mr-1 font-ng-b text-xs sm:text-sm"
             onClick={() => handleRefresh()}
+            type="button"
           >
             새로고침
           </button>
         </div>
       </div>
-      {/*댓글 표시*/}
+      {/* 댓글 표시 */}
       <div className="my-2 border-graphyblue">
         {visible ? (
           <>
-            {props.contents.map((x: object, y: number) =>
-              props.contents[y].content == '삭제된 댓글입니다.' &&
-              props.contents[y].childCount == 0 ? null : (
+            {contents.map((x: object, y: number) =>
+              contents[y].content === '삭제된 댓글입니다.' &&
+              contents[y].childCount === 0 ? null : (
                 <ReadReply
                   contents={x}
-                  key={props.contents[y].commentId}
+                  key={contents[y].commentId}
                   setSelectedValue={setSelectedValue}
                 />
               ),
             )}
           </>
         ) : null}
-        {/*댓글 입력창*/}
+        {/* 댓글 입력창 */}
         <div className="mb-8 mt-3 border-t-2 border-graphyblue py-3">
           <div className="min-h-24 flex h-auto flex-col rounded-xl border-2 border-gray-400">
             <textarea
@@ -182,6 +185,7 @@ function Reply(props: any) {
             <button
               className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
               onClick={() => postData()}
+              type="submit"
             >
               등록
             </button>

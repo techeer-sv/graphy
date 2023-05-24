@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import ImageUploader from '../../components/ImageUploader';
 import { RecoilRoot } from 'recoil';
+
+import ImageUploader from '../../components/ImageUploader';
 import { thumbnailUrlState } from '../../Recoil';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
@@ -33,7 +34,7 @@ test('ImageUploader 테스트', async () => {
 
   await waitFor(() => {
     expect(onChange).toHaveBeenCalledWith(null);
-    expect(onChange).toHaveBeenCalledWith('mock-image-url');
-    expect(onChange).toHaveBeenCalledTimes(2);
   });
+  expect(onChange).toHaveBeenCalledWith('mock-image-url');
+  expect(onChange).toHaveBeenCalledTimes(2);
 });

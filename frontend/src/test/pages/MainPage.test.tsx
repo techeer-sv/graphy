@@ -1,18 +1,35 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import MainPage from '../../pages/MainPage';
 import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+
+import MainPage from '../../pages/MainPage';
 import { searchTextState } from '../../Recoil';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
-jest.mock('../../components/NavBar', () => () => <div data-testid="NavBar" />);
-jest.mock('../../components/Banner', () => () => <div data-testid="Banner" />);
-jest.mock('../../components/ProjectCard', () => () => (
-  <div data-testid="ProjectCard" />
-));
+jest.mock(
+  '../../components/NavBar',
+  () =>
+    function () {
+      return <div data-testid="NavBar" />;
+    },
+);
+jest.mock(
+  '../../components/Banner',
+  () =>
+    function () {
+      return <div data-testid="Banner" />;
+    },
+);
+jest.mock(
+  '../../components/ProjectCard',
+  () =>
+    function () {
+      return <div data-testid="ProjectCard" />;
+    },
+);
 
 const server = setupServer(
   rest.get(
@@ -64,7 +81,11 @@ const server = setupServer(
 );
 
 describe('MainPage', () => {
-  beforeEach(() => {
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
+
+  test('MainPage 렌더링', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
@@ -73,13 +94,6 @@ describe('MainPage', () => {
         </BrowserRouter>
       </RecoilRoot>,
     );
-  });
-
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
-
-  test('MainPage 렌더링', () => {
     const navBar = screen.getByTestId('NavBar');
     expect(navBar).toBeInTheDocument();
 
@@ -88,6 +102,14 @@ describe('MainPage', () => {
   });
 
   test('쓰기 버튼 테스트', () => {
+    render(
+      <RecoilRoot>
+        <BrowserRouter>
+          <RecoilObserver node={searchTextState} onChange={onChange} />
+          <MainPage />
+        </BrowserRouter>
+      </RecoilRoot>,
+    );
     const toWriteButton = screen.getByRole('button', { name: 'toWritePage' });
     expect(toWriteButton).toBeInTheDocument();
     fireEvent.click(toWriteButton);
@@ -95,6 +117,14 @@ describe('MainPage', () => {
   });
 
   test('프로젝트 카드 생성 테스트', async () => {
+    render(
+      <RecoilRoot>
+        <BrowserRouter>
+          <RecoilObserver node={searchTextState} onChange={onChange} />
+          <MainPage />
+        </BrowserRouter>
+      </RecoilRoot>,
+    );
     const findProjectCards = await screen.findAllByTestId('ProjectCard');
     expect(findProjectCards).toHaveLength(2);
   });

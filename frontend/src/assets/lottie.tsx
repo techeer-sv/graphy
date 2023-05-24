@@ -1,1 +1,3 @@
-export { default as lottie } from './lottie/developer.json';
+import developerAnimation from './lottie/developer.json';
+
+export default developerAnimation;

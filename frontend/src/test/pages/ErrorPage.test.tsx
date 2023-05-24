@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import ErrorPage from '../../pages/ErrorPage';
 import { BrowserRouter } from 'react-router-dom';
+
+import ErrorPage from '../../pages/ErrorPage';
 
 beforeEach(() => {
   window.alert = jest.fn();
