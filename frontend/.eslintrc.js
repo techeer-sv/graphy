@@ -34,6 +34,10 @@ module.exports = {
     'testing-library/no-dom-import': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     '@typescript-eslint/no-var-requires': 0,
+    'no-console': 'off',
+    'no-alert': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'func-names': 'off',
     'react/function-component-definition': [
       2,
       { namedComponents: ['arrow-function', 'function-declaration'] },
