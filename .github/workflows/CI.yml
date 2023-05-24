@@ -65,7 +65,7 @@ jobs:
         working-directory: frontend
         run: npm run format
 
-      - name: Lint
+      - name: ESLint
         working-directory: frontend
         run: npm run lint
 
