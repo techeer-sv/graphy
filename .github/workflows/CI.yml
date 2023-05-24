@@ -46,7 +46,7 @@ jobs:
   frontend-test:
     runs-on: ubuntu-latest
 
-strategy:
+    strategy:
       matrix:
         version: [14, 16, 18] 
     steps:
