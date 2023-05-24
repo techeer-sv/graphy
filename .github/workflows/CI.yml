@@ -61,7 +61,9 @@ jobs:
           key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
           restore-keys: ${{ runner.os }}-frontend-
 
-      
+      - run: cd frontend
+
+
       - run: npm ci
 
        
