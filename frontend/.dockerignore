@@ -3,5 +3,5 @@ package-lock.json
 src/test
 babel.config.js
 jest.config.cjs
-.eslintrc
+.eslintrc.js
 .prettierrc
