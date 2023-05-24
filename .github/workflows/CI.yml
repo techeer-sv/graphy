@@ -45,32 +45,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
+      - name: Cache frontend packages
+        uses: actions/cache@v2
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          path: frontend/node_modules
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: npm list
+      - name: Install packages
+        working-directory: frontend
+        run: npm ci
 
-      - name: Install dependencies
-        run: npm install
+      - name: Prettier
+        working-directory: frontend
+        run: npm run format
 
-      - name: Build
-        run: npm run build
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
 
-      - name: Test
+      - name: Frontend Test
+        working-directory: frontend
         run: npm test
 
       - name: Frontend Test Results
