@@ -55,9 +55,8 @@ jobs:
           node-version: ${{ matrix.version }}
 
       - name: Install packages
-        working-directory: frontend
-        shell: bash
-        run: npm i
+        dir: frontend
+        run: npm ci
 
       - name: Prettier
         working-directory: frontend
