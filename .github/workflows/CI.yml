@@ -7,7 +7,7 @@ on:
     branches: [ "feature" ]
 
 jobs:
-  build:
+  backend-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,8 +37,41 @@ jobs:
         cd backend
         ./gradlew build --info
 
-    - name: Test Results 
+    - name: Backend Test Results 
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: ${{ always() }} 
       with:
         files: backend/build/test-results/**/*.xml
+
+  frontend-test:
+    runs-on: ubuntu-latest
+
+strategy:
+      matrix:
+        version: [14, 16, 18] 
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: Install packages
+        working-directory: frontend
+        run: npm ci
+
+      - name: Prettier
+        working-directory: frontend
+        run: npm run format
+        
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Frontend Test
+        working-directory: frontend
+        run: npm test
+
+      - name: Frontend Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }} 
+        with:
+          files: frontend/test-results.xml
