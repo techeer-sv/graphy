@@ -57,9 +57,9 @@ jobs:
       - name: Cache frontend packages
         uses: actions/cache@v2
         with:
-        path: frontend/node_modules
-        key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
-        restore-keys: ${{ runner.os }}-frontend-
+          path: frontend/node_modules
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-
 
       - name: Install packages
         run: npm ci
