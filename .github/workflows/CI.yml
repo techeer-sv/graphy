@@ -55,7 +55,8 @@ jobs:
           node-version: ${{ matrix.version }}
 
       - name: Install packages
-        dir: frontend
+        working-directory: frontend
+        shell: sh
         run: npm ci
 
       - name: Prettier
