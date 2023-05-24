@@ -1,23 +1,26 @@
-import project from '../assets/image/project.png';
-import AllStacks from '../Stack';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { projectIdState } from '../Recoil';
 
-function ProjectCard(items: any) {
-  const [projectId, setProjectId] = useRecoilState(projectIdState);
+import project from '../assets/image/project.png';
+import { projectIdState } from '../Recoil';
+import AllStacks from '../Stack';
+
+function ProjectCard(props: any) {
+  const { items } = props;
+
+  const [, setProjectId] = useRecoilState(projectIdState);
 
   function findImage(tag: string) {
-    //AllStacks.map(x => x.name).findIndex(x => x == tag)
-    //AllStacks.map(x => x.image)[AllStacks.map(x => x.name).findIndex(x => x == tag)]
+    // AllStacks.map(x => x.name).findIndex(x => x == tag)
+    // AllStacks.map(x => x.image)[AllStacks.map(x => x.name).findIndex(x => x == tag)]
     return AllStacks.map((x) => x.image)[
-      AllStacks.map((x) => x.name).findIndex((x) => x == tag)
+      AllStacks.map((x) => x.name).findIndex((x) => x === tag)
     ];
   }
   const navigate = useNavigate();
 
   function toRead() {
-    const urlToCheck = `http://localhost:8080/api/v1/projects/${items.items.id}`;
+    const urlToCheck = `http://localhost:8080/api/v1/projects/${items.id}`;
 
     if (
       !navigator.onLine &&
@@ -28,8 +31,8 @@ function ProjectCard(items: any) {
 
       messageChannel.port1.onmessage = (event) => {
         if (event.data.hasMatch) {
-          navigate(`/read/${items.items.id}`);
-          setProjectId(items.items.id);
+          navigate(`/read/${items.id}`);
+          setProjectId(items.id);
         } else {
           alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
         }
@@ -44,8 +47,8 @@ function ProjectCard(items: any) {
         }
       });
     } else {
-      navigate(`/read/${items.items.id}`);
-      setProjectId(items.items.id);
+      navigate(`/read/${items.id}`);
+      setProjectId(items.id);
     }
   }
   return (
@@ -53,11 +56,12 @@ function ProjectCard(items: any) {
       onClick={() => toRead()}
       className="w-64 overflow-hidden rounded-md drop-shadow-md transition duration-150 hover:scale-105 hover:shadow-lg"
       aria-label="toReadPage"
+      type="button"
     >
       <div className="flex flex-col justify-center rounded-t-lg border-b-2 bg-sky-100 text-center">
         {/* <div>우리 학교 동창회 서비스</div>
         <div>moyora</div> */}
-        {items.items.thumbNail === '' ? (
+        {items.thumbNail === '' ? (
           <img
             className="h-48 rounded-t-lg bg-sky-100 text-center"
             src={project}
@@ -66,26 +70,23 @@ function ProjectCard(items: any) {
         ) : (
           <img
             className="h-48 rounded-t-lg bg-sky-100 text-center"
-            src={items.items.thumbNail}
+            src={items.thumbNail}
             alt="프로젝트 이미지"
           />
         )}
       </div>
       <div className="flex h-28 flex-col rounded-b-lg bg-white">
         <p className="my-auto mt-2 ml-4 w-56 truncate text-left font-ng-eb text-xl">
-          {items.items.projectName}
+          {items.projectName}
         </p>
         <p className="my-auto ml-4 w-56 truncate text-left font-ng-b">
-          {items.items.description}
+          {items.description}
         </p>
         <div className="ml-3 mb-2 mt-2 flex flex-row font-ng">
-          {items.items.techTags.map((x: string, y: number) => (
-            <img
-              className=" mr-2 h-8 w-8 "
-              src={findImage(x)}
-              key={y}
-              alt="stack"
-            />
+          {items.techTags.map((x: string) => (
+            <div key={x}>
+              <img className="mr-2 h-8 w-8" src={findImage(x)} alt="stack" />
+            </div>
           ))}
         </div>
       </div>

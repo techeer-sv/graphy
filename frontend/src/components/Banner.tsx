@@ -1,9 +1,10 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
+import Lottie from 'lottie-react';
 import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/scss/pagination';
-import Lottie from 'lottie-react';
-import { lottie } from '../assets/lottie';
+
+import lottie from '../assets/lottie';
 
 function Banner() {
   return (

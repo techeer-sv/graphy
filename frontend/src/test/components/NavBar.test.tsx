@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom';
-import NavBar from '../../components/NavBar';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+
+import NavBar from '../../components/NavBar';
 import { searchTextState } from '../../Recoil';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
-test('NavBar 렌더링 테스트', () => {
+test('NavBar 테스트', () => {
   render(
     <RecoilRoot>
       <BrowserRouter>
@@ -16,11 +17,11 @@ test('NavBar 렌더링 테스트', () => {
     </RecoilRoot>,
   );
 
-  const Biglogo = screen.getByText('Graphy'); //Graphy 텍스트가 있는 요소
-  expect(Biglogo).toBeInTheDocument(); //그 요소가 있는지 확인(렌더링 테스트)
+  const Biglogo = screen.getByText('Graphy'); // Graphy 텍스트가 있는 요소
+  expect(Biglogo).toBeInTheDocument(); // 그 요소가 있는지 확인(렌더링 테스트)
 
-  fireEvent.click(Biglogo); //Biglogo를 클릭해봄
-  expect(window.location.pathname).toBe('/'); //메인페이지로 이동하는지 확인
+  fireEvent.click(Biglogo); // Biglogo를 클릭해봄
+  expect(window.location.pathname).toBe('/'); // 메인페이지로 이동하는지 확인
 
   const Smalllogo = screen.getByText('G');
   expect(Smalllogo).toBeInTheDocument();

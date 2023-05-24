@@ -16,4 +16,8 @@ module.exports = {
     '^.+\\.(ts|js)$': 'babel-jest',
     '^.+\\.(css|scss)$': '<rootDir>/src/test/jest/__mocks__/fileTransform.js',
   },
+  reporters: [
+    'default',
+    ['jest-junit', { outputDirectory: './', outputName: 'test-results.xml' }],
+  ],
 };

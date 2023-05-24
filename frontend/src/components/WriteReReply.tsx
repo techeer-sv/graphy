@@ -1,14 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
-import reply_icon from '../assets/image/reply_icon.svg';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { projectIdState, refreshState } from '../Recoil';
+import { act } from '@testing-library/react';
 import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import reply_icon from '../assets/image/reply_icon.svg';
+import { projectIdState, refreshState } from '../Recoil';
 
 function WriteReReply(props: any) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
   const projectId = useRecoilValue(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
+
+  const {
+    contents: { commentId },
+  } = props;
+  const parentId = commentId;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
@@ -25,7 +32,6 @@ function WriteReReply(props: any) {
   };
 
   useEffect(() => {
-    console.log(props);
     if (textAreaRef.current) {
       textAreaRef.current.scrollIntoView({
         behavior: 'smooth',
@@ -38,15 +44,17 @@ function WriteReReply(props: any) {
     const url = 'http://localhost:8080/api/v1/comments';
     const data = {
       content: value,
-      projectId: projectId,
-      parentId: props.contents.commentId,
+      projectId,
+      parentId,
     };
 
     try {
       const res = await axios.post(url, data);
       console.log(res.data);
-      setrefresh(!refresh);
-      setValue('');
+      act(() => {
+        setrefresh(!refresh);
+        setValue('');
+      });
     } catch (error) {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
@@ -60,14 +68,15 @@ function WriteReReply(props: any) {
   }
 
   function post() {
+    const { changeWriteVis, setSelectedValue } = props; // 프로퍼티 구조 분해 할당
     postData();
-    props.changeWriteVis();
-    props.setSelectedValue('regist_order');
+    changeWriteVis();
+    setSelectedValue('regist_order');
   }
 
   return (
     <div>
-      {/*대댓글 입력창*/}
+      {/* 대댓글 입력창 */}
       <div className="relative">
         <img
           src={reply_icon}
@@ -86,6 +95,7 @@ function WriteReReply(props: any) {
           <button
             className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
             onClick={() => post()}
+            type="submit"
           >
             등록
           </button>

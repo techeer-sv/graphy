@@ -1,17 +1,20 @@
-import reply_icon from '../assets/image/reply_icon.svg';
-import delete_reply from '../assets/image/delete.svg';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
-import { refreshState } from '../Recoil';
 import { useState } from 'react';
-import pencil_square from '../assets/image/pencil-square.svg';
+import { useRecoilState } from 'recoil';
+
 import PutReply from './PutReply';
+import delete_reply from '../assets/image/delete.svg';
+import pencil_square from '../assets/image/pencil-square.svg';
+import reply_icon from '../assets/image/reply_icon.svg';
+import { refreshState } from '../Recoil';
 
 function ReadReReply(props: any) {
+  const { contents, setSelectedValue, changeCommentRef } = props;
+
   const [putVis, setPutVis] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
-  const date = new Date(props.contents.createdAt);
+  const date = new Date(contents.createdAt);
 
   const formattedDate = `${date.getFullYear()}-${
     date.getMonth() + 1
@@ -20,17 +23,17 @@ function ReadReReply(props: any) {
     .toString()
     .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 
-  function changePutVis() {
+  const changePutVis = () => {
     setPutVis(false);
-  }
+  };
 
   async function deleteReReply() {
-    const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
+    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
       const res = await axios.delete(url);
-      console.log(res);
+      console.log(res.data);
       setRefresh(!refresh);
-      props.changeCommentRef();
+      changeCommentRef();
     } catch (error) {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
@@ -50,9 +53,9 @@ function ReadReReply(props: any) {
           alt="reply icon"
         />
         <div className="mt-3 ml-8 h-auto rounded-lg border-2 border-gray-400">
-          {props.contents.content !== '삭제된 댓글입니다.' ? (
+          {contents.content !== '삭제된 댓글입니다.' ? (
             <div className=" flex flex-row border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-sm ">
-              <p className="ml-1 mr-3 font-ng">{`ID ${props.contents.commentId}`}</p>
+              <p className="ml-1 mr-3 font-ng">{`ID ${contents.commentId}`}</p>
               <p className="mr-3 hidden border-l border-dashed border-gray-400 pl-3 pr-3 font-ng-b sm:block">
                 {formattedDate}
               </p>
@@ -60,6 +63,7 @@ function ReadReReply(props: any) {
                 <button
                   className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-2"
                   onClick={() => deleteReReply()}
+                  type="button"
                 >
                   <img
                     src={delete_reply}
@@ -71,6 +75,7 @@ function ReadReReply(props: any) {
                 <button
                   className="flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
                   onClick={() => setPutVis(!putVis)}
+                  type="button"
                 >
                   <img
                     src={pencil_square}
@@ -82,31 +87,31 @@ function ReadReReply(props: any) {
               </div>
             </div>
           ) : null}
-          {props.contents.content !== '삭제된 댓글입니다.' ? (
+          {contents.content !== '삭제된 댓글입니다.' ? (
             <p
               className="my-1 ml-2 break-words font-ng"
               placeholder="댓글 로딩중"
             >
-              {props.contents.content}
+              {contents.content}
             </p>
           ) : (
             <p
               className="my-1 ml-2 break-words font-ng text-gray-400"
               placeholder="댓글 로딩중"
             >
-              {props.contents.content}
+              {contents.content}
             </p>
           )}
         </div>
       </div>
-      {/*댓글 수정창*/}
+      {/* 댓글 수정창 */}
       {putVis ? (
         <div className="ml-8">
           <PutReply
-            contents={props.contents}
+            contents={contents}
             changePutVis={changePutVis}
-            setSelectedValue={props.setSelectedValue}
-            changeCommentRef={props.changeCommentRef}
+            setSelectedValue={setSelectedValue}
+            changeCommentRef={changeCommentRef}
           />
         </div>
       ) : null}

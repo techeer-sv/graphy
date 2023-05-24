@@ -1,23 +1,43 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
-import WritingPage from '../../pages/WritingPage';
-import { BrowserRouter } from 'react-router-dom';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
-import { titleState, tldrState } from '../../Recoil';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 
-jest.mock('../../components/NavBar', () => () => <div data-testid="NavBar" />);
-jest.mock('../../components/TechStackSelection', () => () => (
-  <div data-testid="TechStackSelection" />
-));
-jest.mock('../../components/ImageUploader', () => () => (
-  <div data-testid="ImageUploader" />
-));
-jest.mock('../../components/QuillEditor', () => () => (
-  <div data-testid="QuillEditor" />
-));
+import WritingPage from '../../pages/WritingPage';
+import { titleState, tldrState } from '../../Recoil';
+import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+
+jest.mock(
+  '../../components/NavBar',
+  () =>
+    function () {
+      return <div data-testid="NavBar" />;
+    },
+);
+jest.mock(
+  '../../components/TechStackSelection',
+  () =>
+    function () {
+      return <div data-testid="TechStackSelection" />;
+    },
+);
+jest.mock(
+  '../../components/ImageUploader',
+  () =>
+    function () {
+      return <div data-testid="ImageUploader" />;
+    },
+);
+jest.mock(
+  '../../components/QuillEditor',
+  () =>
+    function () {
+      return <div data-testid="QuillEditor" />;
+    },
+);
 
 const server = setupServer(
   rest.post('http://localhost:8080/api/v1/projects', (req, res, ctx) => {
@@ -34,7 +54,12 @@ const server = setupServer(
 );
 
 describe('WritingPage', () => {
-  const onChange1 = jest.fn();
+  const onChange2 = jest.fn();
+  const RecoilObserver2 = ({ node, onchange }: any) => {
+    const value = useRecoilValue(node);
+    useEffect(() => onChange2(value), [onchange, value]);
+    return null;
+  };
   beforeEach(() => {
     window.alert = jest.fn();
   });
@@ -46,7 +71,7 @@ describe('WritingPage', () => {
       <RecoilRoot>
         <BrowserRouter>
           <RecoilObserver node={titleState} onChange={onChange} />
-          <RecoilObserver node={tldrState} onChange={onChange1} />
+          <RecoilObserver2 node={tldrState} onChange={onChange2} />
           <WritingPage />
         </BrowserRouter>
       </RecoilRoot>,
@@ -64,9 +89,9 @@ describe('WritingPage', () => {
     const tldrInput = screen.getByPlaceholderText('한 줄 소개를 입력해주세요.');
     expect(tldrInput).toBeInTheDocument();
     fireEvent.change(tldrInput, { target: { value: 'testTldr' } });
-    expect(onChange1).toHaveBeenCalledWith('');
-    expect(onChange1).toHaveBeenCalledWith('testTldr');
-    expect(onChange1).toHaveBeenCalledTimes(2);
+    expect(onChange2).toHaveBeenCalledWith('');
+    expect(onChange2).toHaveBeenCalledWith('testTldr');
+    expect(onChange2).toHaveBeenCalledTimes(2);
 
     const techStackSelection = screen.getByTestId('TechStackSelection');
     expect(techStackSelection).toBeInTheDocument();

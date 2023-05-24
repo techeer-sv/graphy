@@ -1,13 +1,14 @@
-import NavBar from '../components/NavBar';
-import Banner from '../components/Banner';
-import ProjectCard from '../components/ProjectCard';
-import WriteIcon from '../assets/image/pencil-square.svg';
-import { useNavigate } from 'react-router-dom';
+import { act } from '@testing-library/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { searchTextState } from '../Recoil';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { act } from '@testing-library/react';
+
+import WriteIcon from '../assets/image/pencil-square.svg';
+import Banner from '../components/Banner';
+import NavBar from '../components/NavBar';
+import ProjectCard from '../components/ProjectCard';
+import { searchTextState } from '../Recoil';
 
 function MainPage() {
   const [data, setData] = useState<any[]>([]);
@@ -23,7 +24,7 @@ function MainPage() {
   async function getCard() {
     const url = 'http://localhost:8080/api/v1/projects/search';
     const params =
-      searchText == ''
+      searchText === ''
         ? {}
         : {
             projectName: searchText,
@@ -43,8 +44,8 @@ function MainPage() {
   }
 
   useEffect(() => {
-    getCard(); //랜더링이 될 때 실행되는 함수
-  }, [searchText]); //변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
+    getCard(); // 랜더링이 될 때 실행되는 함수
+  }, [searchText]); // 변수가 들어가있으면 변수가 바뀔 때마다 useEffect 안에 있는 함수를 실행시킴
 
   return (
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
@@ -59,6 +60,7 @@ function MainPage() {
           sm:invisible"
           onClick={() => toWrite()}
           aria-label="toWritePage"
+          type="button"
         >
           <img className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
@@ -70,7 +72,7 @@ function MainPage() {
 
         {/* 프로젝트 카드 리스트 */}
         <div className="">
-          {searchText == '' ? (
+          {searchText === '' ? (
             <div className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8">
               {' '}
               {data.map((item) => (
@@ -84,7 +86,7 @@ function MainPage() {
               {' '}
               {data
                 .filter((x) => x.projectName.includes(searchText))
-                .map((item, num: number) => (
+                .map((item) => (
                   <div
                     className="mx-3 mt-9 min-[680px]:mx-0 min-[680px]:ml-16 "
                     key={item.id}
