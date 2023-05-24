@@ -57,7 +57,7 @@ jobs:
       - name: Install packages
         working-directory: frontend
         shell: bash
-        run: npm ci
+        run: npm i
 
       - name: Prettier
         working-directory: frontend
