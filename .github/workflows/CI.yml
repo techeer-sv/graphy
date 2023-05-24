@@ -61,23 +61,17 @@ jobs:
           key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
           restore-keys: ${{ runner.os }}-frontend-
 
-      - name: Install packages
-        run: npm ci
+      
+      - run: npm ci
 
-      - name: Prettier
-        working-directory: frontend
-        shell: bash
-        run: npm run format
+       
+      - run: npm run format
         
-      - name: Lint
-        working-directory: frontend
-        shell: bash
-        run: npm run lint
+      
+      - run: npm run lint
 
-      - name: Frontend Test
-        working-directory: frontend
-        shell: bash
-        run: npm test
+      
+      - run: npm test
 
       - name: Frontend Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
