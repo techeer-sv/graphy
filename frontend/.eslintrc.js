@@ -24,6 +24,7 @@ module.exports = {
     project: './tsconfig.json',
     ecmaVersion: 'latest',
     sourceType: 'module',
+    jest: 'jest.config.cjs',
   },
   plugins: ['react', '@typescript-eslint', 'testing-library', 'react-hooks'],
   rules: {

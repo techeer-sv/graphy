@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "types": ["node", "jest"]
   },
-  "include": ["src", ".eslintrc.js"],
+  "include": ["src", ".eslintrc.js", "jest.config.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
