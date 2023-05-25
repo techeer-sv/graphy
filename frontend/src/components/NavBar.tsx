@@ -1,14 +1,15 @@
 import { ChangeEvent } from 'react';
-import ProfileIcon from '../assets/image/person-circle.svg';
-import WriteIcon from '../assets/image/pencil-square.svg';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+
+import WriteIcon from '../assets/image/pencil-square.svg';
 import { searchTextState } from '../Recoil';
+// import ProfileIcon from '../assets/image/person-circle.svg';
 
 function NavBar() {
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
   const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    //SetSearchText(e.target.value.toLowerCase());
+    // SetSearchText(e.target.value.toLowerCase());
     SetSearchText(e.target.value);
   };
 
@@ -30,12 +31,14 @@ function NavBar() {
       <button
         onClick={() => toMain()}
         className="ml-8 hidden font-lato text-4xl text-graphyblue sm:block"
+        type="button"
       >
         Graphy
       </button>
       <button
         onClick={() => toMain()}
         className="ml-8 font-lato text-4xl text-graphyblue sm:hidden"
+        type="button"
       >
         G
       </button>
@@ -45,7 +48,8 @@ function NavBar() {
         value={searchText}
         onChange={getSearchData}
         type="text"
-        placeholder="  search"
+        alt="search"
+        placeholder="search"
         className=" mx-4 h-auto w-full appearance-none rounded-xl border pl-2 sm:w-full"
       />
 
@@ -54,6 +58,8 @@ function NavBar() {
         className="invisible mx-auto mr-4 flex h-0 w-0 shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue text-slate-50 sm:visible sm:mr-5
         sm:h-auto sm:w-auto sm:px-4 sm:py-1"
         onClick={() => toWrite()}
+        aria-label="toWritePage"
+        type="button"
       >
         <img className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
         <span className="font-semibold">프로젝트 공유</span>

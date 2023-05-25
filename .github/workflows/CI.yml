@@ -2,43 +2,79 @@ name: CI
 
 on:
   push:
-    branches: [ "feature" ]
+    branches: ["feature"]
   pull_request:
-    branches: [ "feature" ]
+    branches: ["feature"]
 
 jobs:
-  build:
+  backend-test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    
-    
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: 11
-        distribution: 'temurin'
-        
+      - uses: actions/checkout@v3
 
-    - name: Cache Gradle packages
-      uses: actions/cache@v2
-      with:
-        path: graphy/backend/.gradle
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-        restore-keys: ${{ runner.os }}-gradle-
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: "temurin"
 
-    - name: Grant Execute Permission For Gradlew
-      run: chmod +x backend/gradlew
-      
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: backend/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*') }}
+          restore-keys: ${{ runner.os }}-gradle-
 
-    - name: Test with Gradle
-      run: |
-        cd backend
-        ./gradlew build --info
+      - name: Grant Execute Permission For Gradlew
+        run: chmod +x backend/gradlew
 
-    - name: Test Results 
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: ${{ always() }} 
-      with:
-        files: backend/build/test-results/**/*.xml
+      - name: Test with Gradle
+        run: |
+          cd backend
+          ./gradlew build --info
+
+      - name: Backend Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}
+        with:
+          files: backend/build/test-results/**/*.xml
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache frontend packages
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install packages
+        working-directory: frontend
+        run: npm ci
+
+      - name: Prettier
+        working-directory: frontend
+        run: npm run format
+
+      - name: ESLint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Frontend Test
+        working-directory: frontend
+        run: npm test
+
+      - name: Frontend Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}
+        with:
+          files: frontend/test-results.xml

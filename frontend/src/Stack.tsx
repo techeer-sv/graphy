@@ -24,16 +24,16 @@ import Kotlin from './assets/image/stacklogo/Kotlin.svg';
 import Kubernetes from './assets/image/stacklogo/Kubernetes.svg';
 import Mongodb from './assets/image/stacklogo/Mongodb.svg';
 import Mysql from './assets/image/stacklogo/Mysql.svg';
+import Nestjs from './assets/image/stacklogo/Nestjs.svg';
 import Nextjs from './assets/image/stacklogo/Nextjs.svg';
 import Nodejs from './assets/image/stacklogo/Nodejs.svg';
-import Nestjs from './assets/image/stacklogo/Nestjs.svg';
 import Php from './assets/image/stacklogo/Php.svg';
 import Python from './assets/image/stacklogo/Python.svg';
 import PyTorch from './assets/image/stacklogo/PyTorch.svg';
 import React from './assets/image/stacklogo/React.svg';
 import React_native from './assets/image/stacklogo/React_native.svg';
-import Redux from './assets/image/stacklogo/Redux.svg';
 import Redis from './assets/image/stacklogo/Redis.svg';
+import Redux from './assets/image/stacklogo/Redux.svg';
 import Rust from './assets/image/stacklogo/Rust.svg';
 import Spring from './assets/image/stacklogo/Spring.svg';
 import Svelte from './assets/image/stacklogo/Svelte.svg';
@@ -45,7 +45,9 @@ import Vue from './assets/image/stacklogo/Vue.svg';
 
 class AllStack {
   name: string;
+
   image: string;
+
   constructor(name: string, image: string) {
     this.name = name;
     this.image = image;

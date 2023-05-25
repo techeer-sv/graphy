@@ -1,9 +1,10 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
+import Lottie from 'lottie-react';
 import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/scss/pagination';
-import Lottie from 'lottie-react';
-import { lottie } from '../assets/lottie';
+
+import lottie from '../assets/lottie';
 
 function Banner() {
   return (
@@ -12,10 +13,11 @@ function Banner() {
         modules={[Pagination]}
         spaceBetween={50}
         slidesPerView={1}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => {}}
+        onSwiper={() => {}}
         pagination={{ clickable: true }}
         className="h-40 bg-subbanner sm:h-56 "
+        data-testid="banner"
       >
         <SwiperSlide className="bg-gradient-to-r from-mainbannerleft to-mainbannerright">
           <div className="mx-auto ml-6 whitespace-nowrap sm:ml-20 ">
@@ -40,6 +42,7 @@ function Banner() {
           <Lottie
             className="mx-auto hidden bg-subbanner pb-20 sm:block sm:h-80 sm:min-h-56 sm:w-80"
             animationData={lottie}
+            data-testid="lottie-animation"
           />
         </SwiperSlide>
       </Swiper>

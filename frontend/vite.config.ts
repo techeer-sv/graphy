@@ -8,9 +8,9 @@ export default () => {
 
   try {
     // .env 파일이 있을 경우에만 로드합니다.
-    if (fs.existsSync('../.env')) {
+    if (fs.existsSync('.env')) {
       env = dotenv.config({
-        path: '../.env',
+        path: '.env',
       }).parsed;
     }
   } catch (err) {
