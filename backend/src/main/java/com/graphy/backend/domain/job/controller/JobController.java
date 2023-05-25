@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "EmploymentController", description = "신규 채용 공고 API")
 @RestController
@@ -20,7 +17,7 @@ public class JobController {
 
     @Operation(summary = "Save JobInfo", description = "신규 공고 저장")
     @Scheduled(cron = "0 0 0 */3 * *")
-    @GetMapping
+    @PostMapping
     public void save(){
         jobService.save();
     }
