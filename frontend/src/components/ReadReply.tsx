@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
-import useDidMountEffect from '../useDidMountEffect';
+import { act } from '@testing-library/react';
+import axios from 'axios';
+import { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
-import nested_reply from '../assets/image/nested_reply.svg';
+import PutReply from './PutReply';
 import ReadReReply from './ReadReReply';
 import WriteReReply from './WriteReReply';
 import delete_reply from '../assets/image/delete.svg';
+import nested_reply from '../assets/image/nested_reply.svg';
 import pencil_square from '../assets/image/pencil-square.svg';
-import axios from 'axios';
-import { useRecoilState } from 'recoil';
 import { refreshState } from '../Recoil';
-import PutReply from './PutReply';
+import useDidMountEffect from '../useDidMountEffect';
 
 function ReadReply(props: any) {
+  const { contents, setSelectedValue } = props;
+
   const [writeVis, setWriteVis] = useState<boolean>(false);
   const [putVis, setPutVis] = useState<boolean>(false);
   const [commentVis, setCommentVis] = useState<boolean>(false);
@@ -21,7 +24,7 @@ function ReadReply(props: any) {
   const [commentRef, setCommentRef] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
-  const date = new Date(props.contents.createdAt);
+  const date = new Date(contents.createdAt);
 
   const formattedDate = `${date.getFullYear()}-${
     date.getMonth() + 1
@@ -30,20 +33,22 @@ function ReadReply(props: any) {
     .toString()
     .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 
-  function changeWriteVis() {
+  const changeWriteVis = () => {
     setWriteVis(false);
-  }
+  };
 
-  function changePutVis() {
+  const changePutVis = () => {
     setPutVis(false);
-  }
+  };
 
   async function getComment() {
-    const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
+    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
       const res = await axios.get(url);
-      console.log(res);
-      setComment(res.data.data);
+      console.log(res.data);
+      act(() => {
+        setComment(res.data.data);
+      });
     } catch (error) {
       console.error(error);
       alert('답글 조회 실패');
@@ -51,10 +56,10 @@ function ReadReply(props: any) {
   }
 
   async function deleteReply() {
-    const url = `http://localhost:8080/api/v1/comments/${props.contents.commentId}`;
+    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
       const res = await axios.delete(url);
-      console.log(res);
+      console.log(res.data);
       setRefresh(!refresh);
     } catch (error) {
       if (!navigator.onLine) {
@@ -67,25 +72,54 @@ function ReadReply(props: any) {
   }
 
   function openComment() {
-    setCommentVis(true);
+    act(() => {
+      setCommentVis(true);
+    });
     getComment();
   }
 
-  function changeCommentRef() {
+  const changeCommentRef = () => {
     setCommentRef(!commentRef);
-  }
+  };
 
   useDidMountEffect(() => {
     getComment();
   }, [commentRef]);
 
+  let buttonContent;
+  if (contents.childCount === 0) {
+    buttonContent = null;
+  } else if (commentVis) {
+    buttonContent = (
+      <button
+        className="mr-2 font-ng"
+        onClick={() => setCommentVis(false)}
+        data-testid="closeReReply"
+        type="button"
+      >
+        ▲ 답글 {contents.childCount}개
+      </button>
+    );
+  } else {
+    buttonContent = (
+      <button
+        className="mr-2 font-ng"
+        onClick={() => openComment()}
+        data-testid="openReReply"
+        type="button"
+      >
+        ▼ 답글 {contents.childCount}개
+      </button>
+    );
+  }
+
   return (
     <>
       <div className="mt-3 h-auto rounded-lg border-2 border-gray-400">
         <div className="flex flex-row whitespace-nowrap border-b border-dashed border-gray-400 py-1 pl-2 font-ng text-xs sm:text-sm">
-          {props.contents.content !== '삭제된 댓글입니다.' ? (
+          {contents.content !== '삭제된 댓글입니다.' ? (
             <>
-              <p className="ml-1 mr-3 font-ng">{`ID ${props.contents.commentId}`}</p>
+              <p className="ml-1 mr-3 font-ng">{`ID ${contents.commentId}`}</p>
               <p className="mr-3 hidden border-l border-dashed border-gray-400 pl-3 pr-3 font-ng-b sm:block">
                 {formattedDate}
               </p>
@@ -93,24 +127,14 @@ function ReadReply(props: any) {
           ) : null}
 
           <div className="mx-auto mr-2 flex flex-row">
-            {props.contents.childCount == 0 ? null : commentVis ? (
-              <button
-                className="mr-2 font-ng"
-                onClick={() => setCommentVis(false)}
-              >
-                ▲ 답글 {props.contents.childCount}개
-              </button>
-            ) : (
-              <button className="mr-2 font-ng" onClick={() => openComment()}>
-                ▼ 답글 {props.contents.childCount}개
-              </button>
-            )}
+            {buttonContent}
 
-            {props.contents.content !== '삭제된 댓글입니다.' ? (
+            {contents.content !== '삭제된 댓글입니다.' ? (
               <>
                 <button
                   className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
                   onClick={() => deleteReply()}
+                  type="button"
                 >
                   <img
                     src={delete_reply}
@@ -122,6 +146,7 @@ function ReadReply(props: any) {
                 <button
                   className="flex items-center border-l border-dashed border-gray-400 pr-3 pl-3"
                   onClick={() => setPutVis(!putVis)}
+                  type="button"
                 >
                   <img
                     src={pencil_square}
@@ -136,6 +161,7 @@ function ReadReply(props: any) {
             <button
               className="mx-auto mr-0 flex items-center border-l border-dashed border-gray-400 pr-2 pl-3"
               onClick={() => setWriteVis(!writeVis)}
+              type="button"
             >
               <img
                 src={nested_reply}
@@ -146,47 +172,47 @@ function ReadReply(props: any) {
             </button>
           </div>
         </div>
-        {props.contents.content !== '삭제된 댓글입니다.' ? (
+        {contents.content !== '삭제된 댓글입니다.' ? (
           <p
             className="my-1 ml-2 break-words font-ng"
             placeholder="댓글 로딩중"
           >
-            {props.contents.content}
+            {contents.content}
           </p>
         ) : (
           <p
             className="my-1 ml-2 break-words font-ng text-gray-400"
             placeholder="댓글 로딩중"
           >
-            {props.contents.content}
+            {contents.content}
           </p>
         )}
       </div>
-      {/*댓글 수정창*/}
+      {/* 댓글 수정창 */}
       {putVis ? (
         <PutReply
-          contents={props.contents}
+          contents={contents}
           changePutVis={changePutVis}
-          setSelectedValue={props.setSelectedValue}
+          setSelectedValue={setSelectedValue}
         />
       ) : null}
-      {/*대댓글 표시*/}
+      {/* 대댓글 표시 */}
       {commentVis
         ? comment.map((x: object, y: number) => (
             <ReadReReply
               contents={x}
               key={comment[y].commentId}
-              setSelectedValue={props.setSelectedValue}
+              setSelectedValue={setSelectedValue}
               changeCommentRef={changeCommentRef}
             />
           ))
         : null}
-      {/*대댓글 입력창*/}
+      {/* 대댓글 입력창 */}
       {writeVis ? (
         <WriteReReply
-          contents={props.contents}
+          contents={contents}
           changeWriteVis={changeWriteVis}
-          setSelectedValue={props.setSelectedValue}
+          setSelectedValue={setSelectedValue}
         />
       ) : null}
     </>

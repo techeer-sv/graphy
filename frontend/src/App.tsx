@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+
 import LoadingSpinner from './components/LoadingSpinner';
 
 // lazy 동적으로 필요할 때 import를 하여 실제로 로드되는 것

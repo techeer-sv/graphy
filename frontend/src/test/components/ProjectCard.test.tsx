@@ -1,35 +1,24 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import ProjectCard from '../../components/ProjectCard';
-import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+
+import ProjectCard from '../../components/ProjectCard';
 import { projectIdState } from '../../Recoil';
 import { onChange, RecoilObserver } from '../jest/RecoilObserver';
 
-describe('ProjectCard', () => {
-  let toReadButton: HTMLElement;
+const mockData = {
+  commentsList: [],
+  content: '<p>test</p>',
+  createdAt: '2000-00-00T00:00:00.000000',
+  description: 'description',
+  id: 1,
+  projectName: 'projectName',
+  techTags: ['React', 'TypeScript'],
+  thumbNail: '',
+};
 
-  beforeEach(() => {
-    const mockData = {
-      commentsList: [],
-      content: '<p>test</p>',
-      createdAt: '2000-00-00T00:00:00.000000',
-      description: 'description',
-      id: 1,
-      projectName: 'projectName',
-      techTags: ['React', 'TypeScript'],
-      thumbNail: '',
-    };
-    render(
-      <RecoilRoot>
-        <BrowserRouter>
-          <RecoilObserver node={projectIdState} onChange={onChange} />
-          <ProjectCard items={mockData} />
-        </BrowserRouter>
-      </RecoilRoot>,
-    );
-    toReadButton = screen.getByRole('button', { name: 'toReadPage' });
-  });
+describe('ProjectCard', () => {
   // 테스트 끝난후 온라인 상태로 다시 변경
   afterEach(() => {
     Object.defineProperty(navigator, 'onLine', {
@@ -40,6 +29,15 @@ describe('ProjectCard', () => {
   });
 
   test('ProjectCard 테스트', () => {
+    render(
+      <RecoilRoot>
+        <BrowserRouter>
+          <RecoilObserver node={projectIdState} onChange={onChange} />
+          <ProjectCard items={mockData} />
+        </BrowserRouter>
+      </RecoilRoot>,
+    );
+    const toReadButton = screen.getByRole('button', { name: 'toReadPage' });
     expect(toReadButton).toBeInTheDocument();
 
     const thumbNail = screen.getByAltText('프로젝트 이미지');
@@ -54,7 +52,18 @@ describe('ProjectCard', () => {
     const techTags = screen.getAllByAltText('stack');
     expect(techTags.length).toBeGreaterThanOrEqual(2);
   });
-  test('오프라인 테스트', async () => {
+  test('Offline 테스트', async () => {
+    render(
+      <RecoilRoot>
+        <BrowserRouter>
+          <RecoilObserver node={projectIdState} onChange={onChange} />
+          <ProjectCard items={mockData} />
+        </BrowserRouter>
+      </RecoilRoot>,
+    );
+    const toReadButton = screen.getByRole('button', { name: 'toReadPage' });
+    expect(toReadButton).toBeInTheDocument();
+
     const mockHandler = jest.fn();
     // mock serviceWorker
     Object.defineProperty(navigator, 'serviceWorker', {
@@ -77,6 +86,7 @@ describe('ProjectCard', () => {
     // mock 메시지 채널
     global.MessageChannel = class {
       port1: any;
+
       port2: any;
 
       constructor() {

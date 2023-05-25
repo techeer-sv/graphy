@@ -1,20 +1,20 @@
-import { useRef, useMemo } from 'react';
-import ReactQuill from 'react-quill';
 import hljs from 'highlight.js';
+import { useRef, useMemo } from 'react';
 import ReactS3Client from 'react-aws-s3-typescript';
-
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/monokai-sublime.css';
-import { contentsState } from '../Recoil';
 import { useRecoilState } from 'recoil';
+
+import { contentsState } from '../Recoil';
 import s3config from '../s3config';
 
-//코드 하이라이트 설정
+// 코드 하이라이트 설정
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
 });
 
-//s3 변수 선언
+// s3 변수 선언
 const s3 = new ReactS3Client(s3config);
 
 function QuillEditor() {
@@ -42,7 +42,7 @@ function QuillEditor() {
           console.log(res);
           const range = QuillRef.current?.getEditor().getSelection()?.index;
           if (range !== null && range !== undefined) {
-            let quill = QuillRef.current?.getEditor();
+            const quill = QuillRef.current?.getEditor();
 
             quill?.setSelection(range, 1);
 
@@ -92,20 +92,18 @@ function QuillEditor() {
   );
 
   return (
-    <>
-      <ReactQuill
-        ref={(element) => {
-          if (element !== null) {
-            QuillRef.current = element;
-          }
-        }}
-        className="font-ng"
-        value={contents}
-        onChange={setContents}
-        modules={modules}
-        theme="snow"
-      />
-    </>
+    <ReactQuill
+      ref={(element) => {
+        if (element !== null) {
+          QuillRef.current = element;
+        }
+      }}
+      className="font-ng"
+      value={contents}
+      onChange={setContents}
+      modules={modules}
+      theme="snow"
+    />
   );
 }
 

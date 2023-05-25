@@ -1,20 +1,47 @@
-# 🌈 Graphy
-#### 개발자로 취업 준비 중인 사용자를 타겟팅한 포트폴리오 기록 사이트
+<div align =center>
+<img width="30%" src="https://github.com/techeer-sv/graphy/assets/97724189/d6d83c8d-13ec-4037-8455-25cd595f2aad">
+<!--   <img width="" src="https://github.com/techeer-sv/graphy/assets/97724189/a53a198d-48ce-4a4b-9dff-3981ab5490ea"> -->
+<!--   <img width="" src="https://github.com/techeer-sv/graphy/assets/97724189/1d26b973-e8e6-4a49-8dae-9a22a2fb9e80"> -->
+  </div>
+
+<div align = "center">
+
+<h3>프로젝트를 기록하다, Graphy</h3>
+
+'Graphy'를 통해 당신의 프로젝트를 공유해 보세요 🔥 <br> <br> <br>
+
+</div>
+
+## 🌈 Introduction
+
+**Graphy는 개발자로 취업 준비 중인 사용자를 타겟팅한 포트폴리오 기록 사이트**로써,<br>
+<br>
+사람들이 보다 좋은 프로젝트를 개발할 수 있도록 도와주는 것을 목표로 하고 있어요!<br>
+<br>
+Graphy는 창의적인 아이디어를 공유하고, 발전 방향을 제시함으로써 개발자의 성장을 지원합니다 🌟
 
 <br>
 
-## 👀 Demo
+##### [웹] 메인 페이지
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/afed8066-3522-4f56-a625-f4105771b8fc.gif"/>
+<br>
 
-<table align="center">
-  <tr>
-    <td align="center">웹 화면</td>
-    <td align="center">모바일 화면</td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/techeer-sv/graphy/assets/97724189/67c1b194-2a95-4cfd-97aa-f8167c824510.gif" alt="웹 화면" width="550px"></td>
-    <td><img src="https://github.com/techeer-sv/graphy/assets/97724189/989504de-f2c2-4de7-aad7-13f3c0cfdc26.gif" alt="모바일 화면" width="200"></td>
-  </tr>
-</table>
+##### [웹] 프로젝트 공유글 작성
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/e20bae81-a7a0-4186-b923-5c8fef07a6c6.gif"/>
+<br>
+
+##### [반응형] 프로젝트 검색
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/966d7818-202a-4d67-9ca3-03836b7f825a.gif"/>
+<br>
+
+##### [반응형] 프로젝트 공유글 수정 & 댓글 작성
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/8659fc1b-37fd-40c6-ad96-222acfa54e43.gif"/>
+
+<br>
+<br>
+
+
+## 🧩 System Architecture
 
 <br>
 <br>
@@ -22,24 +49,18 @@
 
 ## 🔧 Tech Stack
 
-<div align =center>
 
 Area| Tech Stack|
 :--------:|:------------------------------:|
-**Frontend** | <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=black">  <img src="https://img.shields.io/badge/Vite-646CFF.svg?&style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=Tailwind CSS&logoColor=white">
-**Backend** | 
-**etc** | ![Slack](https://img.shields.io/static/v1?style=for-the-badge&message=Slack&color=4A154B&logo=Slack&logoColor=FFFFFF&label=) ![Notion](https://img.shields.io/static/v1?style=for-the-badge&message=Notion&color=000000&logo=Notion&logoColor=FFFFFF&label=) ![Figma](https://img.shields.io/static/v1?style=for-the-badge&message=Figma&color=F24E1E&logo=Figma&logoColor=FFFFFF&label=) ![Postman](https://img.shields.io/static/v1?style=for-the-badge&message=Postman&color=FF6C37&logo=Postman&logoColor=FFFFFF&label=) <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black"> ![GitKraken](https://img.shields.io/static/v1?style=for-the-badge&message=GitKraken&color=179287&logo=GitKraken&logoColor=FFFFFF&label=) ![Visual Studio Code](https://img.shields.io/static/v1?style=for-the-badge&message=Visual+Studio+Code&color=007ACC&logo=Visual+Studio+Code&logoColor=FFFFFF&label=)
-</div>
+**Frontend** | <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=black">  <img src="https://img.shields.io/badge/Vite-646CFF.svg?&style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=Tailwind CSS&logoColor=white"> <img alt="Recoil" src ="https://img.shields.io/badge/Recoil-0075EB.svg?&style=for-the-badge&logo=Revolut&logoColor=white"/> <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"> <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white">
+**Backend** | <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"/> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=Mysql&logoColor=white"/> <img alt="GithubActions" src ="https://img.shields.io/badge/GithubActions-2088FF.svg?&style=for-the-badge&logo=GithubActions&logoColor=white"/> <img src="https://img.shields.io/badge/sonarqube-4E9BCD?style=for-the-badge&logo=sonarqube&logoColor=white"> <img src="https://img.shields.io/badge/ELK-005571?style=for-the-badge&logo=Elastic&logoColor=white"> <img src="https://img.shields.io/badge/jacoco-7B1B0F?style=for-the-badge&logo=jacoco&logoColor=white"> <img src="https://img.shields.io/badge/SpringRestDocs-6DB33F?style=for-the-badge&logo=SpringRestDocs&logoColor=white"/>
+**etc** | ![Slack](https://img.shields.io/static/v1?style=for-the-badge&message=Slack&color=4A154B&logo=Slack&logoColor=FFFFFF&label=) ![Notion](https://img.shields.io/static/v1?style=for-the-badge&message=Notion&color=000000&logo=Notion&logoColor=FFFFFF&label=) ![Figma](https://img.shields.io/static/v1?style=for-the-badge&message=Figma&color=F24E1E&logo=Figma&logoColor=FFFFFF&label=) ![Postman](https://img.shields.io/static/v1?style=for-the-badge&message=Postman&color=FF6C37&logo=Postman&logoColor=FFFFFF&label=) <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black"> ![GitKraken](https://img.shields.io/static/v1?style=for-the-badge&message=GitKraken&color=179287&logo=GitKraken&logoColor=FFFFFF&label=) 
   
 <br>  
 
-## 🧩 ERD
-<img width="700" alt="스크린샷 2023-01-20 오후 10 04 51" src="https://github.com/techeer-sv/graphy/assets/97724189/ab24977a-b455-435c-b6d9-46d94dc8a914">
-
-<br>  
-<br>
 
 ## ✨ API
+<img width="600" src="https://github.com/techeer-sv/graphy/assets/97724189/d58f4bae-1d25-49e9-96ae-b19e27671e43">
 
 <br>
 <br>
