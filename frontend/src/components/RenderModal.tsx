@@ -107,21 +107,23 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
     >
       {/* 이전/다음 */}
       <div className="">
-        <button
-          onClick={onPrev}
-          className="mx-auto mt-5 ml-5 flex items-center font-lef text-gray-400 hover:text-gray-600"
-        >
-          <img className="mr-2" src={arrowLeftIcon} />
-          이전
-        </button>
+        <div className="flex">
+          <button
+            onClick={onPrev}
+            className="mx-auto mt-5 ml-5 flex items-center font-lef text-gray-400 hover:text-gray-600"
+          >
+            <img className="mr-2" src={arrowLeftIcon} />
+            이전
+          </button>
 
-        <button
-          onClick={onNext}
-          className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
-        >
-          <div>다음</div>
-          <img className="ml-2" src={arrowRightIcon} />
-        </button>
+          <button
+            onClick={onNext}
+            className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
+          >
+            <div>다음</div>
+            <img className="ml-2" src={arrowRightIcon} />
+          </button>
+        </div>
 
         {/* 2단계 */}
         <ol className=" ml-16  mt-4 mb-8 flex w-80 items-center justify-center sm:ml-44">
@@ -202,22 +204,23 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
     >
       {/* 이전/다음 */}
       <div className="">
-        <button
-          onClick={onPrev}
-          className="mx-auto mt-5 ml-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
-        >
-          <img className="mr-2" src={arrowLeftIcon} />
-          이전
-        </button>
+        <div className="flex">
+          <button
+            onClick={onPrev}
+            className="mx-auto mt-5 ml-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
+          >
+            <img className="mr-2" src={arrowLeftIcon} />
+            이전
+          </button>
 
-        <button
-          onClick={onNext}
-          className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
-        >
-          <div>다음</div>
-          <img className="ml-2" src={arrowRightIcon} />
-        </button>
-
+          <button
+            onClick={onNext}
+            className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
+          >
+            <div>다음</div>
+            <img className="ml-2" src={arrowRightIcon} />
+          </button>
+        </div>
         {/* 3단계 */}
         <ol className="ml-16  mt-4  mb-8 flex w-80 items-center justify-center sm:ml-44">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
