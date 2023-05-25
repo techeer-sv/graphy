@@ -22,9 +22,9 @@ interface Screen1Props {
 const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 mt-5 box-border 
-        h-660 w-[410px] translate-x-1/2 transform rounded-[30px] 
-        bg-white sm:w-630"
+      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
+      w-[410px] translate-x-1/2  transform rounded-[30px] 
+      bg-white sm:w-630"
     >
       {/* 이전/다음 */}
 
