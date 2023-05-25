@@ -8,3 +8,7 @@ backend/gradle.properties
 
 .idea/**
 *.log!/logs/
+
+*.log
+
+logs/
