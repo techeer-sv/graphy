@@ -42,6 +42,10 @@ Graphy는 창의적인 아이디어를 공유하고, 발전 방향을 제시함�
 
 
 ## 🧩 System Architecture
+<img width="100%" src="https://github.com/techeer-sv/graphy/assets/97724189/f8e38b0b-cf24-41da-9200-71b35715ea3c">
+<br>
+#### CI/CD
+<img width="600" src="https://github.com/techeer-sv/graphy/assets/97724189/d58f4bae-1d25-49e9-96ae-b19e27671e43">
 
 <br>
 <br>
