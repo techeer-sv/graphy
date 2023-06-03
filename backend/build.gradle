@@ -138,6 +138,8 @@ jacocoTestReport {
                     "**/mapper/**",
                     "**/util/**",
                     "**/global/**",
+                    "**/com/graphy/backend/domain/job/domain/**",
+                    "**/com/graphy/backend/domain/job/service/**"
             ])
         }))
     }

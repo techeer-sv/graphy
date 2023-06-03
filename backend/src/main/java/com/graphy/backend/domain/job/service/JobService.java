@@ -72,7 +72,6 @@ public class JobService {
 
             // 공고 ID
             Long jobId = jobObject.getLong("id");
-//            if (jobRepository.findById(jobId) != null) break;
 
             // 회사 이름
             String companyName = jobObject.getJSONObject("company")
