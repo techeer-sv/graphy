@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.job.service;
 
 import com.graphy.backend.domain.job.domain.Job;
+import com.graphy.backend.domain.job.dto.JobDto;
 import com.graphy.backend.domain.job.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import static com.graphy.backend.domain.job.dto.JobDto.CreateJobInfoRequest.*;
 
 @Service
 @Transactional
@@ -94,8 +94,8 @@ public class JobService {
                     Instant.ofEpochSecond(expirationTimestampLong),
                     ZoneId.systemDefault());
 
-            Job job = toJob(jobId, companyName, jobTitle, companyInfoURL, expirationTimestamp);
-            jobRepository.save(job);
+            JobDto.CreateJobInfoRequest dto = new JobDto.CreateJobInfoRequest(jobId, companyName, jobTitle, companyInfoURL, expirationTimestamp);
+            jobRepository.save(dto.toEntity());
         }
     }
 
