@@ -64,10 +64,10 @@ function ReadingPage() {
         ) {
           alert('이미 삭제되거나 존재하지 않는 프로젝트입니다.');
         } else {
-          // alert('프로젝트 상세 조회 실패');
+          alert('프로젝트 상세 조회 실패');
           console.error(error);
         }
-        // navigate('/');
+        navigate('/');
       }
     }
   }
