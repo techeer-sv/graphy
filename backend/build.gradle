@@ -104,17 +104,17 @@ task copyDocument(type: Copy) {
 }
 
 bootJar {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+//    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     dependsOn copyDocument
 }
-
-jar {
-    dependsOn bootJar
-}
-
-bootJarMainClassName {
-    dependsOn copyDocument
-}
+//
+//jar {
+//    dependsOn bootJar
+//}
+//
+//bootJarMainClassName {
+//    dependsOn copyDocument
+//}
 
 
 // ====================================== sonarqube ======================================
@@ -158,14 +158,6 @@ jacocoTestCoverageVerification {
 //                value = 'COVEREDRATIO'
 //                minimum = 0.70
 //            }
-            excludes = [
-                    "**/Q*",
-                    "**/*Dto*",
-                    "**/*Application*",
-                    "**/mapper/**",
-                    "**/util/**",
-                    "**/global/**",
-            ]
         }
     }
 }
