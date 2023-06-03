@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'org.springframework.boot' version '2.7.9'
+    id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 
     // QueryDSL
@@ -40,6 +40,8 @@ dependencies {
     // spring-boot
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.json:json:20210307'
 
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

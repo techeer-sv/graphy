@@ -17,7 +17,7 @@ import java.util.Arrays;
 @Component
 @Slf4j
 public class LoggingAspect {
-    @Pointcut("within(*..*Controller)")
+    @Pointcut("within(*..*Controller) && !within(*..JobController)")
     public void onRequest() {}
 
     @Around("onRequest()")

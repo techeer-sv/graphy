@@ -10,3 +10,7 @@ backend/gradle.properties
 *.log!/logs/
 !/logs/
 logs/
+
+*.log
+
+logs/
