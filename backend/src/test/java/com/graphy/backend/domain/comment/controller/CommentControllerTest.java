@@ -25,12 +25,12 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,6 +49,22 @@ class CommentControllerTest extends MockApiTest {
     @BeforeEach
     public void setup(RestDocumentationContextProvider provider) {
         this.mvc = buildMockMvc(context, provider);
+    }
+
+    @Test
+    @DisplayName("댓글 생성 API 테스트")
+    void createCommentTest() throws Exception {
+        // given
+        CommentDto.CreateCommentRequest dto = new CommentDto.CreateCommentRequest("test", 1L, null);
+
+        // when
+        String body = objectMapper.writeValueAsString(dto);
+        when(commentService.createComment(dto)).thenReturn(any());
+        mvc.perform(post("/api/v1/comments")
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andDo(document("create-comment", preprocessResponse(prettyPrint())));
     }
 
     @Test
