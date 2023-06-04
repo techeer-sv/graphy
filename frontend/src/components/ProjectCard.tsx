@@ -5,10 +5,22 @@ import project from '../assets/image/project.png';
 import { projectIdState } from '../Recoil';
 import AllStacks from '../Stack';
 
-function ProjectCard(props: any) {
+interface PropsObject {
+  items: {
+    id: number;
+    createdAt: string;
+    projectName: string;
+    description: string;
+    techTags: string[];
+    thumbNail: string;
+  };
+}
+
+function ProjectCard(props: PropsObject) {
   const { items } = props;
 
   const [, setProjectId] = useRecoilState(projectIdState);
+  const navigate = useNavigate();
 
   function findImage(tag: string) {
     // AllStacks.map(x => x.name).findIndex(x => x == tag)
@@ -17,7 +29,6 @@ function ProjectCard(props: any) {
       AllStacks.map((x) => x.name).findIndex((x) => x === tag)
     ];
   }
-  const navigate = useNavigate();
 
   function toRead() {
     const urlToCheck = `http://localhost:8080/api/v1/projects/${items.id}`;

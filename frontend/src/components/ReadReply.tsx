@@ -12,15 +12,29 @@ import pencil_square from '../assets/image/pencil-square.svg';
 import { refreshState } from '../Recoil';
 import useDidMountEffect from '../useDidMountEffect';
 
-function ReadReply(props: any) {
+interface ReadReReplyObject {
+  commentId: number;
+  content: string;
+  createdAt: string;
+}
+
+interface PropsObject {
+  contents: {
+    commentId: number;
+    childCount: number;
+    content: string;
+    createdAt: string;
+  };
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function ReadReply(props: PropsObject) {
   const { contents, setSelectedValue } = props;
 
   const [writeVis, setWriteVis] = useState<boolean>(false);
   const [putVis, setPutVis] = useState<boolean>(false);
   const [commentVis, setCommentVis] = useState<boolean>(false);
-  const [comment, setComment] = useState<
-    { commentId: number; content: string; createdAt: string }[]
-  >([]);
+  const [comment, setComment] = useState<ReadReReplyObject[]>([]);
   const [commentRef, setCommentRef] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
@@ -194,11 +208,12 @@ function ReadReply(props: any) {
           contents={contents}
           changePutVis={changePutVis}
           setSelectedValue={setSelectedValue}
+          changeCommentRef={changeCommentRef}
         />
       ) : null}
       {/* 대댓글 표시 */}
       {commentVis
-        ? comment.map((x: object, y: number) => (
+        ? comment.map((x: ReadReReplyObject, y: number) => (
             <ReadReReply
               contents={x}
               key={comment[y].commentId}
