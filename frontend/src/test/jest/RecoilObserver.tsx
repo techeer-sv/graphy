@@ -1,9 +1,17 @@
 import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { RecoilState, useRecoilValue } from 'recoil';
+
+interface RecoilObserverProps<T> {
+  node: RecoilState<T>;
+  onchange: (newValue: T) => void;
+}
 
 export const onChange = jest.fn();
 
-export const RecoilObserver = ({ node, onchange }: any) => {
+export const RecoilObserver = <T,>({
+  node,
+  onchange,
+}: RecoilObserverProps<T>) => {
   const value = useRecoilValue(node);
   useEffect(() => onChange(value), [onchange, value]);
   return null;

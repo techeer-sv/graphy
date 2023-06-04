@@ -20,7 +20,10 @@ beforeEach(() => {
 test('ImageUploader 테스트', async () => {
   render(
     <RecoilRoot>
-      <RecoilObserver node={thumbnailUrlState} onChange={onChange} />
+      <RecoilObserver<string | null>
+        node={thumbnailUrlState}
+        onchange={onChange}
+      />
       <ImageUploader />
     </RecoilRoot>,
   );

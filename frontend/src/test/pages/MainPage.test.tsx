@@ -89,7 +89,7 @@ describe('MainPage', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
-          <RecoilObserver node={searchTextState} onChange={onChange} />
+          <RecoilObserver<string> node={searchTextState} onchange={onChange} />
           <MainPage />
         </BrowserRouter>
       </RecoilRoot>,
@@ -105,7 +105,7 @@ describe('MainPage', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
-          <RecoilObserver node={searchTextState} onChange={onChange} />
+          <RecoilObserver<string> node={searchTextState} onchange={onChange} />
           <MainPage />
         </BrowserRouter>
       </RecoilRoot>,
@@ -120,7 +120,7 @@ describe('MainPage', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
-          <RecoilObserver node={searchTextState} onChange={onChange} />
+          <RecoilObserver<string> node={searchTextState} onchange={onChange} />
           <MainPage />
         </BrowserRouter>
       </RecoilRoot>,
