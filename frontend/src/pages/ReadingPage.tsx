@@ -21,7 +21,7 @@ function ReadingPage() {
   const [tldr, setTldr] = useRecoilState(tldrState);
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [, setContents] = useRecoilState(contentsState);
-  const [readReply, setReadReply] = useState<object>([]);
+  const [readReply, setReadReply] = useState<object[]>([]);
   const refresh = useRecoilValue(refreshState);
   const navigate = useNavigate();
   const params = useParams();
@@ -105,6 +105,7 @@ function ReadingPage() {
       setSelectedStack(selectedStack);
     }
   }, [selectedStack]);
+
   // 렌더링할때 데이터 가져옴
   useEffect(() => {
     getData();
