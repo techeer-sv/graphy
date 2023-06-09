@@ -133,10 +133,9 @@ jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "**/Q*",
-                    "**/*Dto*",
+                    '**/dto/**',
                     "**/*Application*",
                     "**/mapper/**",
-                    "**/util/**",
                     "**/global/**",
                     "**/com/graphy/backend/domain/job/domain/**",
                     "**/com/graphy/backend/domain/job/service/**"

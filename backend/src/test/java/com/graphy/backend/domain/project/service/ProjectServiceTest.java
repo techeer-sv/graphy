@@ -32,6 +32,7 @@ import java.util.Optional;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -57,30 +58,56 @@ public class ProjectServiceTest extends MockTest {
     @InjectMocks
     private ProjectService projectService;
 
-//    @Test
-//    @DisplayName("프로젝트 수정 테스트")
-//    public void updateProject() throws Exception {
-//        //given
-//        List<String> techTags = new ArrayList<>(Arrays.asList("Spring Boot", "Django"));
-//        Tag springBoot = Tag.builder().tech("Spring Boot").build();
-//        Tag django = Tag.builder().tech("django").build();
-//        List<Tag> tagList = new ArrayList<>(Arrays.asList(springBoot, django));
-//        Tags tags = new Tags(tagList);
-//
-//        Project beforeUpdate = Project.builder().projectName("Before Update").build();
-//        UpdateProjectRequest dto = UpdateProjectRequest.builder().projectName("AfterUpdate").techTags(techTags).build();
-//
-//        //when
-//        doNothing().when(projectTagRepository).deleteAllByProjectId(anyLong());
-//        when(tagRepository.findTagByTech("Spring Boot")).thenReturn();
-//        when(projectService.getTagsWithName(techTags)).thenReturn(tags);
-//        when(projectRepository.findById(anyLong())).thenReturn(Optional.of(beforeUpdate));
-//
-//        beforeUpdate.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), tags, dto.getThumbNail());
-//
-//        //then
-//        Assertions.assertEquals(beforeUpdate.getProjectName(), "AfterUpdate");
-//    }
+    @Test
+    @DisplayName("프로젝트 수정 테스트")
+    public void updateProject() throws Exception {
+        //given
+        Project project = Project.builder()
+                .id(1L)
+                .projectTags(new ProjectTags())
+                .projectName("beforeUpdate")
+                .description("des")
+                .thumbNail("thumb")
+                .content("content")
+                .build();
+
+        UpdateProjectRequest request = UpdateProjectRequest.builder()
+                .projectName("afterUpdate")
+                .description("des")
+                .thumbNail("thumb")
+                .content("content")
+                .techTags(new ArrayList<>(Arrays.asList("Spring", "Django")))
+                .build();
+
+        UpdateProjectResponse response = UpdateProjectResponse.builder()
+                .projectName(request.getProjectName())
+                .description(request.getDescription())
+                .thumbNail(request.getThumbNail())
+                .content(request.getContent())
+                .techTags(request.getTechTags())
+                .build();
+
+        Tag tag1 = Tag.builder().tech("Spring").build();
+        Tag tag2 = Tag.builder().tech("Django").build();
+        Tags tags = new Tags(Arrays.asList(tag1, tag2));
+
+        project.updateProject(request.getProjectName(), request.getContent(), request.getDescription(),
+                tags, request.getThumbNail());
+
+        //when
+        when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
+        when(tagRepository.findTagByTech(anyString())).thenReturn(tag1, tag2);
+        when(mapper.toUpdateProjectDto(project)).thenReturn(response);
+
+        UpdateProjectResponse result = projectService.updateProject(project.getId(), request);
+
+        assertAll(
+                () -> assertThat(result.getProjectName()).isEqualTo(project.getProjectName()),
+                () -> assertThat(result.getDescription()).isEqualTo(project.getDescription()),
+                () -> assertThat(result.getThumbNail()).isEqualTo(project.getThumbNail()),
+                () -> assertThat(result.getTechTags()).isEqualTo(new ArrayList<>(Arrays.asList("Spring", "Django")))
+        );
+    }
 
     @Test
     @DisplayName("프로젝트 생성 테스트")
