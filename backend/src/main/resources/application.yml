@@ -9,7 +9,6 @@ spring:
       request-timeout: 60000
   profiles:
     active: test
-    #aaa
 
   jpa:
     database: mysql
