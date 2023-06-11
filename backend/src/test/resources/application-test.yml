@@ -1,0 +1,42 @@
+spring:
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  datasource:
+    url: jdbc:h2:tcp://localhost:1521/testdb;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: test
+    password: test
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        type: trace
+
+  gpt:
+    token: ${GPT_TOKEN}
+
+    job:
+      key: ${JOB_KEY}
+
+springdoc:
+  swagger-ui:
+    version: v1.0
+  packages-to-scan: com.graphy.backend
