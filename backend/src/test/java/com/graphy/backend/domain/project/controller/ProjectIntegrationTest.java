@@ -4,6 +4,7 @@ import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.test.config.TestProfile;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles(TestProfile.TEST)
 @Transactional
 class ProjectIntegrationTest {
     @Autowired private ProjectRepository projectRepository;
