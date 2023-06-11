@@ -7,6 +7,8 @@ spring:
       matching-strategy: ant_path_matcher
     async:
       request-timeout: 60000
+  profiles:
+    active: test
 
   jpa:
     database: mysql
