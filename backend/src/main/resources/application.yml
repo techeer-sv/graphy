@@ -8,8 +8,7 @@ spring:
     async:
       request-timeout: 60000
   profiles:
-    active: test
-    #aaa
+    active: local
 
   jpa:
     database: mysql

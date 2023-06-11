@@ -44,12 +44,16 @@ jobs:
         run: chmod +x backend/gradlew
 
       - name: Test with Gradle
-        env:
-          GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
-          JOB_KEY: ${{ secrets.JOB_KEY }}
         run: |
           cd backend
-          ./gradlew build --info -Dspring.profiles.active=test -Dgpt.token=${{ secrets.GPT_TOKEN }} -Djob.key=${{ secrets.JOB_KEY }}
+          SPRING_PROFILES_ACTIVE=[test] ./gradlew test
+
+#        env:
+#          GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
+#          JOB_KEY: ${{ secrets.JOB_KEY }}
+#        run: |
+#          cd backend
+#          ./gradlew build --info -Dspring.profiles.active=test -Dgpt.token=${{ secrets.GPT_TOKEN }} -Djob.key=${{ secrets.JOB_KEY }}
 
       - name: Backend Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
