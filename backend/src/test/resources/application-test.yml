@@ -1,15 +1,15 @@
-spring:
-  jpa:
-    database: h2
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
-        dialect: org.hibernate.dialect.H2Dialect
-
+#spring:
+#  jpa:
+#    database: h2
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        use_sql_comments: true
+#        dialect: org.hibernate.dialect.H2Dialect
+#
 #  datasource:
 #    # jdbc:h2:mem:testdb;MODE=MySQL
 #    # jdbc:h2:tcp://localhost:1521/testdb;MODE=MySQL
@@ -42,3 +42,10 @@ spring:
 #  swagger-ui:
 #    version: v1.0
 #  packages-to-scan: com.graphy.backend
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: root
+    password:
+    driver-class-name: org.h2.Driver
