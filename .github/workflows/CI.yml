@@ -10,6 +10,20 @@ jobs:
   backend-test:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: oscarfonts/h2
+        env:
+          H2_OPTIONS: -ifNotExists -webAllowOthers -tcpAllowOthers -pgAllowOthers
+        ports:
+          - 1521:1521
+          - 81:81
+        options: >-
+          --health-cmd "curl -f http://localhost:81 || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
 
@@ -32,7 +46,7 @@ jobs:
       - name: Test with Gradle
         run: |
           cd backend
-          ./gradlew build --info
+          ./gradlew build --info -Dspring.profiles.active=test -Dgpt.token=${{ secrets.GPT_TOKEN }} -Djob.key=${{ secrets.JOB_KEY }}
 
       - name: Backend Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1

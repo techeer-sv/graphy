@@ -59,6 +59,7 @@ public class JobService {
         }
 
         saveJobInfo(response.toString());
+        System.out.println(response);
     }
 
     private void saveJobInfo(String response) {

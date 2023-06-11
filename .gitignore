@@ -14,3 +14,5 @@ logs/
 *.log
 
 logs/
+
+backend/src/test/resources/application.yml
