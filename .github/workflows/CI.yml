@@ -32,7 +32,7 @@ jobs:
       - name: Test with Gradle
         run: |
           cd backend
-          ./gradlew build --info
+          ./gradlew test --info
         env:
           GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
           JOB_KEY: ${{ secrets.JOB_KEY }}
