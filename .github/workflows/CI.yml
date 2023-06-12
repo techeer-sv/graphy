@@ -46,7 +46,7 @@ jobs:
       - name: Test with Gradle
         run: |
           cd backend
-          ./gradlew test --info -Dspring.profiles.active=test
+          ./gradlew build --info
 
 #        env:
 #          GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
