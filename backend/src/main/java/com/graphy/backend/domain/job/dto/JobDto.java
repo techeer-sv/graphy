@@ -3,6 +3,7 @@ package com.graphy.backend.domain.job.dto;
 import com.graphy.backend.domain.job.domain.Job;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -20,12 +21,14 @@ public class JobDto {
 
         private LocalDateTime expirationDate;
 
-        public static Job toJob(Long id,
-                                String companyName,
-                                String title,
-                                String url,
-                                LocalDateTime expirationDate) {
-            return new Job(id, companyName, title, url, expirationDate);
+        public Job toEntity() {
+            return Job.builder()
+                    .id(id)
+                    .companyName(companyName)
+                    .title(title)
+                    .url(url)
+                    .expirationDate(expirationDate)
+                    .build();
         }
     }
 }
