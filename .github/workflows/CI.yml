@@ -29,6 +29,13 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x backend/gradlew
 
+      - name: Make properties
+        run: |
+          cd backend/src/main/resources
+          touch ./application-local.properties
+          echo "${{ secrets.TEST_PROPERTIES }}" > ./application-local.properties
+        shell: bash
+
 
       - name: Test with Gradle
         run: |
