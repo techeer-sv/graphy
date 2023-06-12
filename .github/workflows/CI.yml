@@ -48,6 +48,13 @@ jobs:
           cd backend
           ./gradlew build --info
 
+      - name: Make properties
+        run: |
+          cd backend/src/test/resources
+          touch ./application-test.properties
+          echo "${{ secrets.TEST_PROPERTIES }}" > ./application-test.properties
+        shell: bash
+
 #        env:
 #          GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
 #          JOB_KEY: ${{ secrets.JOB_KEY }}

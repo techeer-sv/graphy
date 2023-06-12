@@ -1,51 +1,49 @@
-#spring:
-#  jpa:
-#    database: h2
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-#        use_sql_comments: true
-#        dialect: org.hibernate.dialect.H2Dialect
-#
-#  datasource:
-#    # jdbc:h2:mem:testdb;MODE=MySQL
-#    # jdbc:h2:tcp://localhost:1521/testdb;MODE=MySQL
-#    url: jdbc:h2:tcp://localhost:1521/testdb;MODE=MySQL
-#    driver-class-name: org.h2.Driver
-#    username: test
-#    password: test
-#
-#  mvc:
-#    pathmatch:
-#      matching-strategy: ant_path_matcher
-#  h2:
-#    console:
-#      enabled: true
-#
-#logging:
-#  level:
-#    root: info
-#    org:
-#      hibernate:
-#        type: trace
-#
+spring:
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  datasource:
+    # jdbc:h2:mem:testdb;MODE=MySQL
+    # jdbc:h2:tcp://localhost:1521/testdb;MODE=MySQL
+    url: jdbc:h2:mem:testdb;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username:
+    password:
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        type: trace
+
 #gpt:
 #  token: ${GPT_TOKEN}
 #
 #  job:
 #    key: ${JOB_KEY}
-#
-#springdoc:
-#  swagger-ui:
-#    version: v1.0
-#  packages-to-scan: com.graphy.backend
+gpt:
+  token: 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
 
-spring:
-  datasource:
-    url: jdbc:h2:mem:test
-    username: root
-    password:
-    driver-class-name: org.h2.Driver
+job:
+  key: J3jBnsABM5g3RLaQmLLBOkx0uEhPMIfiAQEcTY0C901onQlPeD6O
+
+springdoc:
+  swagger-ui:
+    version: v1.0
+  packages-to-scan: com.graphy.backend
