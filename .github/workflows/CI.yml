@@ -36,14 +36,10 @@ jobs:
           echo "${{ secrets.TEST_PROPERTIES }}" > ./application-local.yml
         shell: bash
 
-
       - name: Test with Gradle
         run: |
           cd backend
           ./gradlew build --info
-        env:
-          GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
-          JOB_KEY: ${{ secrets.JOB_KEY }}
 
       - name: Backend Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
