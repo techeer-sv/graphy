@@ -43,18 +43,17 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x backend/gradlew
 
-      - name: Make properties
-        run: |
-          cd ./backend/src/test/resources
-          touch ./application-test.properties
-          echo "${{ secrets.TEST_PROPERTIES }}" > ./application-test.properties
-        shell: bash
-
       - name: Test with Gradle
         run: |
           cd backend
-          SPRING_PROFILES_ACTIVE=[test] ./gradlew test
+          ./gradlew --info test
 
+#      - name: Make properties
+#        run: |
+#          cd backend/src/test/resources
+#          touch ./application-test.properties
+#          echo "${{ secrets.TEST_PROPERTIES }}" > ./application-test.properties
+#        shell: bash
 
 #        env:
 #          GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
