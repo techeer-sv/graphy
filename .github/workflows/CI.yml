@@ -45,7 +45,7 @@ jobs:
 
       - name: Make properties
         run: |
-          cd backend/src/test/resources
+          cd ./backend/src/test/resources
           touch ./application-test.properties
           echo "${{ secrets.TEST_PROPERTIES }}" > ./application-test.properties
         shell: bash
