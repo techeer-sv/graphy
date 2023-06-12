@@ -46,7 +46,7 @@ jobs:
       - name: Test with Gradle
         run: |
           cd backend
-          ./gradlew --info test
+          ./gradlew --info -Dgpt.token=${{ secrets.GPT_TOKEN }} -Djob.key=${{ secrets.JOB_KEY }}
 
 #      - name: Make properties
 #        run: |
