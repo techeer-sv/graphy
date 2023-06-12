@@ -46,7 +46,7 @@ jobs:
       - name: Test with Gradle
         run: |
           cd backend
-          ./gradlew build --info
+          ./gradlew --info test
 
       - name: Make properties
         run: |
