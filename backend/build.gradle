@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'org.springframework.boot' version '2.7.9'
+    id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 
     // QueryDSL
@@ -41,6 +41,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    implementation 'org.json:json:20210307'
+
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
@@ -58,6 +60,7 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2'
 
     //rest-docs
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -102,17 +105,17 @@ task copyDocument(type: Copy) {
 }
 
 bootJar {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+//    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     dependsOn copyDocument
 }
-
-jar {
-    dependsOn bootJar
-}
-
-bootJarMainClassName {
-    dependsOn copyDocument
-}
+//
+//jar {
+//    dependsOn bootJar
+//}
+//
+//bootJarMainClassName {
+//    dependsOn copyDocument
+//}
 
 
 // ====================================== sonarqube ======================================
@@ -131,11 +134,12 @@ jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "**/Q*",
-                    "**/*Dto*",
+                    '**/dto/**',
                     "**/*Application*",
                     "**/mapper/**",
-                    "**/util/**",
                     "**/global/**",
+                    "**/com/graphy/backend/domain/job/domain/**",
+                    "**/com/graphy/backend/domain/job/service/**"
             ])
         }))
     }
@@ -156,14 +160,6 @@ jacocoTestCoverageVerification {
 //                value = 'COVEREDRATIO'
 //                minimum = 0.70
 //            }
-            excludes = [
-                    "**/Q*",
-                    "**/*Dto*",
-                    "**/*Application*",
-                    "**/mapper/**",
-                    "**/util/**",
-                    "**/global/**",
-            ]
         }
     }
 }

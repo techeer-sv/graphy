@@ -50,20 +50,20 @@ public class ProjectService {
 
     private final GPTChatRestService gptChatRestService;
 
-    @PostConstruct
-    public void initTag() throws IOException {
-        if (tagRepository.existsById(1L))
-            return;
-        ClassPathResource resource = new ClassPathResource("tag.txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-        String s;
-
-        while ((s = br.readLine()) != null) {
-            Tag tag = Tag.builder().tech(s).build();
-            tagRepository.save(tag);
-        }
-        br.close();
-    }
+//    @PostConstruct
+//    public void initTag() throws IOException {
+//        if (tagRepository.existsById(1L))
+//            return;
+//        ClassPathResource resource = new ClassPathResource("tag.txt");
+//        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+//        String s;
+//
+//        while ((s = br.readLine()) != null) {
+//            Tag tag = Tag.builder().tech(s).build();
+//            tagRepository.save(tag);
+//        }
+//        br.close();
+//    }
 
     public CreateProjectResponse createProject(CreateProjectRequest dto) {
         Project entity = mapper.toEntity(dto);
@@ -96,12 +96,6 @@ public class ProjectService {
         return mapper.toUpdateProjectDto(project);
     }
 
-    public List<GetProjectResponse> getProjects(Pageable pageable) {
-
-        Page<Project> projects = projectRepository.findAll(pageable);
-        return mapper.toDtoList(projects).getContent();
-    }
-
     public GetProjectDetailResponse getProjectById(Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
@@ -112,7 +106,7 @@ public class ProjectService {
     }
 
     public Tags getTagsWithName(List<String> techStacks) {
-        List<Tag> foundTags = techStacks.stream().map(tagRepository::findTagByTech)
+            List<Tag> foundTags = techStacks.stream().map(tagRepository::findTagByTech)
                 .collect(Collectors.toList());
         return new Tags(foundTags);
     }
@@ -124,7 +118,7 @@ public class ProjectService {
 
     @Async
     public CompletableFuture<String> getProjectPlanAsync(String prompt) {
-        GptCompletionRequest dto = new GptCompletionDto.GptCompletionRequest();
+        GptCompletionRequest dto = new GptCompletionRequest();
         CompletableFuture<String> response = new CompletableFuture<>();
 
         dto.setPrompt(prompt);

@@ -2,6 +2,7 @@ package com.graphy.backend.domain.comment.service;
 
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.CommentDto;
+import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
@@ -14,7 +15,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentRequest;
@@ -107,6 +113,77 @@ class CommentServiceTest extends MockTest {
         //then
         assertTrue(comment.isDeleted());
         assertTrue(reComment.isDeleted());
+    }
+
+    @Test
+    @DisplayName("댓글 수정")
+    public void updateComment() throws Exception {
+        //given
+        Comment comment = Comment.builder().id(1L).content("수정 전").build();
+        CommentDto.UpdateCommentRequest commentRequest = new CommentDto.UpdateCommentRequest("수정 후");
+
+        // when
+        comment.updateContent(commentRequest.getContent());
+        when(commentRepository.findById(1L)).thenReturn(Optional.of(comment));
+
+        //then
+        assertTrue(comment.getContent().equals("수정 후"));
+        Long result = commentService.updateComment(1L, commentRequest);
+        assertTrue(result==1L);
+    }
+
+    @Test
+    @DisplayName("답글 조회")
+    public void getReplyList() throws Exception {
+
+        List<ReplyListDto> list = new ArrayList<>();
+        ReplyListDto dto1 = new ReplyListDto() {
+            @Override
+            public String getContent() {
+                return "comment1";
+            }
+
+            @Override
+            public Long getCommentId() {
+                return 1L;
+            }
+
+            @Override
+            public LocalDateTime getCreatedAt() {
+                return null;
+            }
+        };
+
+        ReplyListDto dto2 = new ReplyListDto() {
+            @Override
+            public String getContent() {
+                return "comment2";
+            }
+
+            @Override
+            public Long getCommentId() {
+                return 2L;
+            }
+
+            @Override
+            public LocalDateTime getCreatedAt() {
+                return null;
+            }
+        };
+
+        list.add(dto1);
+        list.add(dto2);
+
+        // when
+        when(commentRepository.findReplyList(1L)).thenReturn(list);
+        List<ReplyListDto> result = commentService.getReplyList(1L);
+
+        //then
+        assertTrue(result.get(0).getContent().equals("comment1"));
+        assertTrue(result.get(1).getContent().equals("comment2"));
+
+        assertTrue(result.get(0).getCommentId() == 1L);
+        assertTrue(result.get(1).getCommentId() == 2L);
     }
 
     @Test
