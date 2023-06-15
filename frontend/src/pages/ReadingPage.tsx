@@ -1,11 +1,13 @@
 import { act } from '@testing-library/react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
+import gptIcon from '../assets/image/gptIcon.svg';
 import NavBar from '../components/NavBar';
 import QuillWrtten from '../components/QuillWritten';
+import RenderModal from '../components/RenderModal';
 import Reply from '../components/Reply';
 import {
   contentsState,
@@ -25,6 +27,13 @@ function ReadingPage() {
   const refresh = useRecoilValue(refreshState);
   const navigate = useNavigate();
   const params = useParams();
+
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+    console.log(isOpenModal);
+  }, [isOpenModal]);
 
   function toWrite() {
     // react-router-dom을 이용한 글 쓰기 페이지로 이동 함수
@@ -122,6 +131,21 @@ function ReadingPage() {
       <NavBar />
       {/** 전체 컨텐츠 영역* */}
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
+        {/* AI 고도화 버튼 */}
+        <button
+          className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full  bg-graphyblue
+          px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md hover:bg-button"
+          onClick={onClickToggleModal}
+          type="button"
+        >
+          <img className="mr-2 h-5 w-5" src={gptIcon} alt="gptIcon" />
+          <span className="shrink-0 font-semibold">AI 고도화 추천</span>
+        </button>
+
+        {isOpenModal ? (
+          <RenderModal onClickToggleModal={onClickToggleModal} />
+        ) : null}
+
         {/** 텍스트 영역* */}
         <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/** 제목* */}

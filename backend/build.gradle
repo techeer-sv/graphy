@@ -60,6 +60,7 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2'
 
     //rest-docs
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -133,11 +134,12 @@ jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "**/Q*",
-                    "**/*Dto*",
+                    '**/dto/**',
                     "**/*Application*",
                     "**/mapper/**",
-                    "**/util/**",
                     "**/global/**",
+                    "**/com/graphy/backend/domain/job/domain/**",
+                    "**/com/graphy/backend/domain/job/service/**"
             ])
         }))
     }

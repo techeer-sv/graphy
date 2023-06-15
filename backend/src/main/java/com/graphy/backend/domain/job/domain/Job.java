@@ -25,6 +25,7 @@ public class Job {
     @Column(nullable = false)
     private LocalDateTime expirationDate;
 
+    @Builder
     public Job(Long id,
                String companyName,
                String title,
