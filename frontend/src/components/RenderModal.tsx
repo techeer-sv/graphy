@@ -1,16 +1,17 @@
 import React, { useState, PropsWithChildren } from 'react';
+
 import arrowLeftIcon from '../assets/image/arrow-left.svg';
 import arrowRightIcon from '../assets/image/arrow-right.svg';
-import monster from '../assets/image/monster.png';
 import desktop from '../assets/image/desktop.png';
-import pick from '../assets/image/pick.png';
 import eyes from '../assets/image/eyes.png';
+import monster from '../assets/image/monster.png';
+import pick from '../assets/image/pick.png';
 import plus from '../assets/image/plus-circle.svg';
 import AllStacks from '../Stack';
 
 function findImage(tag: string) {
   return AllStacks.map((x) => x.image)[
-    AllStacks.map((x) => x.name).findIndex((x) => x == tag)
+    AllStacks.map((x) => x.name).findIndex((x) => x === tag)
   ];
 }
 
@@ -31,31 +32,32 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
       <button
         onClick={onNext}
         className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600 "
+        type="button"
       >
         <div>다음</div>
-        <img className="ml-2" src={arrowRightIcon} />
+        <img className="ml-2" src={arrowRightIcon} alt="arrowRight" />
       </button>
 
       {/* 1단계 */}
       <ol className="ml-16 mt-4 mb-8 flex w-80 items-center justify-center sm:ml-44">
         <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={monster} />
+            <img className="h-[20px] w-[20px] " src={monster} alt="monster" />
           </span>
         </li>
         <li className="flex w-full items-center after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-gray-100 after:content-[''] dark:after:border-gray-700">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={desktop} />
+            <img className="h-[20px] w-[20px] " src={desktop} alt="desktop" />
           </span>
         </li>
         <li className="flex w-full items-center after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-gray-100 after:content-[''] dark:after:border-gray-700">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={pick} />
+            <img className="h-[20px] w-[20px] " src={pick} alt="pick" />
           </span>
         </li>
         <li className="flex w-full items-center">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={eyes} />
+            <img className="h-[20px] w-[20px] " src={eyes} alt="eyes" />
           </span>
         </li>
       </ol>
@@ -63,18 +65,23 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
       {/* screen1 */}
       {/* 질문 */}
       <div className="flex items-center justify-center font-lef-b text-[20px]">
-        <img className="h-[20px] w-[20px] " src={monster} />
+        <img className="h-[20px] w-[20px] " src={monster} alt="monster" />
         &nbsp; 어떤 기술을 사용했나요?
       </div>
       {/* 기술 선택 버튼 */}
       {/* 배열에 요소를 처음부터 하나씩 읽는 게 map, 하나씩 읽을 때 요소를 가리키는 게 x, y는 요소의 인덱스 */}
       <div className="mt-8 flex h-355 w-[400px] flex-wrap justify-center overflow-auto sm:w-630 ">
-        {AllStacks.map((x, y) => (
+        {AllStacks.map((x) => (
           <button
-            key={y}
+            key={x.name}
             className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border-[1.5px] border-zinc-300 py-1.5 pl-3 pr-3 text-gray-500"
+            type="button"
           >
-            <img className="mr-1 h-[20px] w-[20px]" src={findImage(x.name)} />
+            <img
+              className="mr-1 h-[20px] w-[20px]"
+              src={findImage(x.name)}
+              alt="stack"
+            />
             {x.name}
           </button>
         ))}
@@ -86,6 +93,7 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
             rounded-[16px] bg-gptbutton
           px-40 py-1 pt-3 pb-3 font-lef-b text-slate-50 hover:bg-button sm:ml-504 sm:px-60"
         onClick={onNext}
+        type="button"
       >
         다음
       </button>
@@ -111,17 +119,19 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
           <button
             onClick={onPrev}
             className="mx-auto mt-5 ml-5 flex items-center font-lef text-gray-400 hover:text-gray-600"
+            type="button"
           >
-            <img className="mr-2" src={arrowLeftIcon} />
+            <img className="mr-2" src={arrowLeftIcon} alt="arrowLeft" />
             이전
           </button>
 
           <button
             onClick={onNext}
             className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
+            type="button"
           >
             <div>다음</div>
-            <img className="ml-2" src={arrowRightIcon} />
+            <img className="ml-2" src={arrowRightIcon} alt="arrowRight" />
           </button>
         </div>
 
@@ -129,22 +139,22 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
         <ol className=" ml-16  mt-4 mb-8 flex w-80 items-center justify-center sm:ml-44">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={monster} />
+              <img className="h-[20px] w-[20px] " src={monster} alt="monster" />
             </span>
           </li>
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={desktop} />
+              <img className="h-[20px] w-[20px] " src={desktop} alt="desktop" />
             </span>
           </li>
           <li className="flex w-full items-center after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-gray-100 after:content-[''] dark:after:border-gray-700">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={pick} />
+              <img className="h-[20px] w-[20px] " src={pick} alt="pick" />
             </span>
           </li>
           <li className="flex w-full items-center">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={eyes} />
+              <img className="h-[20px] w-[20px] " src={eyes} alt="eyes" />
             </span>
           </li>
         </ol>
@@ -152,7 +162,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
         {/* screen2 */}
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
-          <img className="h-[20px] w-[20px] " src={desktop} />
+          <img className="h-[20px] w-[20px] " src={desktop} alt="desktop" />
           &nbsp; 어떤 프로젝트를 구현했나요?
         </div>
         {/* 프로젝트 설명 입력창 */}
@@ -170,6 +180,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
           className="fixed  mt-80
           ml-7 flex items-center justify-center rounded-[16px]  bg-gptbutton px-40
         py-1 pt-3 pb-3 font-lef-b text-slate-50 hover:bg-button sm:ml-504  sm:px-60"
+          type="button"
         >
           다음
         </button>
@@ -188,12 +199,10 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
   const [Arr, setArr] = useState<number[]>([]);
 
   function Plus() {
-    let Arr2 = [...Arr];
+    const Arr2 = [...Arr];
     if (Arr.length < 4) {
       Arr2.push(0);
       setArr(Arr2);
-    } else {
-      null;
     }
   }
   return (
@@ -208,39 +217,41 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
           <button
             onClick={onPrev}
             className="mx-auto mt-5 ml-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
+            type="button"
           >
-            <img className="mr-2" src={arrowLeftIcon} />
+            <img className="mr-2" src={arrowLeftIcon} alt="arrowLeft" />
             이전
           </button>
 
           <button
             onClick={onNext}
             className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
+            type="button"
           >
             <div>다음</div>
-            <img className="ml-2" src={arrowRightIcon} />
+            <img className="ml-2" src={arrowRightIcon} alt="arrowRight" />
           </button>
         </div>
         {/* 3단계 */}
         <ol className="ml-16  mt-4  mb-8 flex w-80 items-center justify-center sm:ml-44">
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={monster} />
+              <img className="h-[20px] w-[20px] " src={monster} alt="monster" />
             </span>
           </li>
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={desktop} />
+              <img className="h-[20px] w-[20px] " src={desktop} alt="desktop" />
             </span>
           </li>
           <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={pick} />
+              <img className="h-[20px] w-[20px] " src={pick} alt="pick" />
             </span>
           </li>
           <li className="flex w-full items-center">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 lg:h-12 lg:w-12">
-              <img className="h-[20px] w-[20px] " src={eyes} />
+              <img className="h-[20px] w-[20px] " src={eyes} alt="eyes" />
             </span>
           </li>
         </ol>
@@ -248,7 +259,7 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         {/* screen3 */}
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
-          <img className="h-[20px] w-[20px] " src={pick} />
+          <img className="h-[20px] w-[20px] " src={pick} alt="pick" />
           &nbsp; 어떤 기능을 구현했나요?
         </div>
         {/* 기능 구현 입력창 */}
@@ -259,9 +270,9 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
             className="ml-9  mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
             placeholder=" 예시 - 구인글 작성 (최대 5개 작성 가능)"
           />
-          {Arr.map((x, y) => (
+          {Arr.map((x) => (
             <input
-              key={y}
+              key={x}
               type="text"
               maxLength={20}
               className=" ml-9  mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
@@ -272,8 +283,9 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
             <button
               className="ml-48 mt-5 flex items-center justify-center sm:ml-[297px]"
               onClick={() => Plus()}
+              type="button"
             >
-              <img src={plus} />
+              <img src={plus} alt="plus" />
             </button>
           ) : null}
         </div>
@@ -283,6 +295,7 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
           className="fixed z-40 my-auto mb-3
           ml-7 flex items-center justify-center rounded-[16px]  bg-gptbutton px-40
         py-1 pt-3 pb-3 font-lef-b text-slate-50 hover:bg-button sm:ml-504  sm:px-60"
+          type="button"
         >
           다음
         </button>
@@ -300,12 +313,10 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
   const [Arr, setArr] = useState<number[]>([]);
 
   function Plus() {
-    let Arr2 = [...Arr];
+    const Arr2 = [...Arr];
     if (Arr.length < 4) {
       Arr2.push(0);
       setArr(Arr2);
-    } else {
-      null;
     }
   }
   return (
@@ -318,8 +329,9 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
       <button
         onClick={onPrev}
         className="mx-auto mt-5 ml-5 flex  items-center font-lef text-gray-400 hover:text-gray-600 "
+        type="button"
       >
-        <img className="mr-2" src={arrowLeftIcon} />
+        <img className="mr-2" src={arrowLeftIcon} alt="arrowLeft" />
         <div>이전</div>
       </button>
 
@@ -327,22 +339,22 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
       <ol className="ml-16  mt-4 mb-8 flex w-80 items-center justify-center sm:ml-44">
         <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={monster} />
+            <img className="h-[20px] w-[20px] " src={monster} alt="monster" />
           </span>
         </li>
         <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={desktop} />
+            <img className="h-[20px] w-[20px] " src={desktop} alt="desktop" />
           </span>
         </li>
         <li className="flex w-full items-center text-blue-600 after:inline-block after:h-1 after:w-full after:border-4 after:border-b after:border-blue-100 after:content-[''] dark:text-blue-500 dark:after:border-blue-800">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={pick} />
+            <img className="h-[20px] w-[20px] " src={pick} alt="pick" />
           </span>
         </li>
         <li className="flex w-full items-center ">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800 lg:h-12 lg:w-12">
-            <img className="h-[20px] w-[20px] " src={eyes} />
+            <img className="h-[20px] w-[20px] " src={eyes} alt="eyes" />
           </span>
         </li>
       </ol>
@@ -350,7 +362,7 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
       {/* screen4 */}
       {/* 질문 */}
       <div className="flex items-center justify-center font-lef-b text-[20px]">
-        <img className="h-[20px] w-[20px] " src={eyes} />
+        <img className="h-[20px] w-[20px] " src={eyes} alt="eyes" />
         &nbsp; 관심있는 고도화 계획이 있나요?
       </div>
       {/* 고도화 기술 입력창 */}
@@ -361,9 +373,9 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
           className="ml-9 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
           placeholder=" 예시 - 캐싱 (최대 5개 작성 가능)"
         />{' '}
-        {Arr.map((x, y) => (
+        {Arr.map((x) => (
           <input
-            key={y}
+            key={x}
             maxLength={20}
             type="text"
             className="ml-9 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
@@ -374,8 +386,9 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
           <button
             className="ml-48 mt-5 flex h-5 w-5 items-center justify-center sm:ml-[297px]"
             onClick={() => Plus()}
+            type="button"
           >
-            <img src={plus} />
+            <img src={plus} alt="plus" />
           </button>
         ) : null}
         {/* <img
@@ -388,6 +401,7 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
         className="fixed ml-7
           items-center justify-center  rounded-[16px] bg-gptbutton
         px-32 py-1 pt-3 pb-3 font-lef-b text-slate-50 hover:bg-button sm:ml-14  sm:px-52"
+        type="submit"
       >
         AI 고도화 추천
       </button>
@@ -403,7 +417,6 @@ interface ModalDefaultType {
 
 function renderModal({
   onClickToggleModal,
-  children,
 }: PropsWithChildren<ModalDefaultType>) {
   const [currentScreen, setCurrentScreen] = useState<number>(1);
 
@@ -434,7 +447,8 @@ function renderModal({
     <div>
       <div>{renderScreen()}</div>
       {/* 모달 영역 외의 배경을 클릭하면 모달이 닫히게 하는 컨테이너, 이벤트핸들러를 사용하여 클릭 이벤트 발생 시 onClickToggleModal 함수 호출하여 모달 닫음 */}
-      <div
+      <button
+        aria-label="Toggle modal"
         className="fixed top-0 left-0 right-0 bottom-0 z-40 h-full w-screen  bg-black opacity-70"
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
@@ -443,6 +457,7 @@ function renderModal({
             onClickToggleModal();
           }
         }}
+        type="button"
       />
     </div>
   );
