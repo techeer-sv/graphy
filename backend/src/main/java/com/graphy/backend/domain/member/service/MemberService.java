@@ -26,6 +26,10 @@ public class MemberService {
     private final TokenProvider tokenProvider;
 
     public void join(CreateMemberRequest request) {
+        /**
+         * TODO
+         * 이메일 중복 체크
+         */
         String encodedPassword = encoder.encode(request.getPassword());
         Member member = request.toEntity(encodedPassword);
         memberRepository.save(member);
