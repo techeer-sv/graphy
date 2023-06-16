@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.member.service;
 
-import com.graphy.backend.domain.member.entity.Member;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.global.config.jwt.TokenProvider;
 import com.graphy.backend.global.config.jwt.dto.TokenInfo;

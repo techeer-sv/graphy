@@ -1,4 +1,4 @@
-package com.graphy.backend.domain.member.entity;
+package com.graphy.backend.domain.member.domain;
 
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.Builder;

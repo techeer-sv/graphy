@@ -1,7 +1,7 @@
 package com.graphy.backend.domain.member.dto;
 
-import com.graphy.backend.domain.member.entity.Member;
-import com.graphy.backend.domain.member.entity.Role;
+import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.member.domain.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.Getter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 public class MemberDto {
     @Getter

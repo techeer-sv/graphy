@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.member.repository;
 
-import com.graphy.backend.domain.member.entity.Member;
+import com.graphy.backend.domain.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
