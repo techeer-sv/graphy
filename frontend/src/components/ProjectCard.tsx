@@ -23,8 +23,6 @@ function ProjectCard(props: PropsObject) {
   const navigate = useNavigate();
 
   function findImage(tag: string) {
-    // AllStacks.map(x => x.name).findIndex(x => x == tag)
-    // AllStacks.map(x => x.image)[AllStacks.map(x => x.name).findIndex(x => x == tag)]
     return AllStacks.map((x) => x.image)[
       AllStacks.map((x) => x.name).findIndex((x) => x === tag)
     ];

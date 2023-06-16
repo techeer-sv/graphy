@@ -2,7 +2,6 @@ package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
-import com.graphy.backend.domain.project.dto.ProjectDto;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.test.MockApiTest;
@@ -23,14 +22,21 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 import static com.graphy.backend.domain.project.dto.ProjectDto.GetProjectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
@@ -95,21 +101,62 @@ class ProjectControllerTest extends MockApiTest {
     }
 
     @Test
+    @DisplayName("프로젝트 생성 테스트")
+    public void createProject() throws Exception {
+        //given
+        CreateProjectRequest request = CreateProjectRequest.builder()
+                .projectName("projectName")
+                .description("description")
+                .content("content")
+                .build();
+
+        CreateProjectResponse response = CreateProjectResponse.builder().projectId(1L).build();
+
+        //when
+        when(projectService.createProject(request)).thenReturn(response);
+
+        //then
+        mvc.perform(post(baseUrl)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andDo(document("project-create",
+                        preprocessResponse(prettyPrint()))
+                );
+    }
+
+    @Test
+    @DisplayName("프로젝트 삭제 테스트")
+    public void deleteProject() throws Exception {
+        //given
+        Long projectId = 1L;
+
+        doNothing().when(projectService).deleteProject(anyLong());
+
+        mvc.perform(delete(baseUrl + "/{projectId}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("project-delete",
+                        preprocessResponse(prettyPrint()))
+                );
+    }
+
+    @Test
     @DisplayName("프로젝트 이름/내용/전체 검색한다")
     void searchProjectsWithName() throws Exception {
 
         // given
         String projectName = "검색이름";
 
-        ProjectDto.GetProjectsRequest request = ProjectDto.GetProjectsRequest.builder()
+        GetProjectsRequest request = GetProjectsRequest.builder()
                 .projectName(projectName).build();
 
-        com.graphy.backend.global.common.PageRequest pageRequest = new PageRequest();
-        List<ProjectDto.GetProjectResponse> result = new ArrayList<ProjectDto.GetProjectResponse>();
+        PageRequest pageRequest = new PageRequest();
+        List<GetProjectResponse> result = new ArrayList<GetProjectResponse>();
 
         for (int i = 0; i < 5; i++) {
-            ProjectDto.GetProjectResponse response =
-                    ProjectDto.GetProjectResponse.builder().id((long) i).projectName("검색이름" + i)
+            GetProjectResponse response =
+                    GetProjectResponse.builder().id((long) i).projectName("검색이름" + i)
                             .description("프로젝트 설명" + i).createdAt(LocalDateTime.now()).build();
             result.add(response);
         }
@@ -135,7 +182,7 @@ class ProjectControllerTest extends MockApiTest {
         List<String> plans = new ArrayList<>(Arrays.asList("Spring Security", "Docker"));
         String topic = "간단한 게시판";
 
-        ProjectDto.GetPlanRequest request = new ProjectDto.GetPlanRequest(topic, features, techStacks, plans);
+        GetPlanRequest request = new GetPlanRequest(topic, features, techStacks, plans);
 
         String apiResult = "API 결과";
         CompletableFuture<String> result = CompletableFuture.completedFuture(apiResult);
@@ -148,5 +195,27 @@ class ProjectControllerTest extends MockApiTest {
 
         // then
         resultActions.andExpect((status().isOk()));
+    }
+
+    @Test
+    @DisplayName("프로젝트 조회 시 프로젝트가 존재하지 않으면 예외가 발생한다")
+    public void EmptyResultTest() throws Exception {
+
+        // given
+        GetProjectsRequest request = GetProjectsRequest.builder().build();
+        PageRequest pageRequest = new PageRequest();
+        Pageable pageable = pageRequest.of();
+
+        // when
+        when(projectService.getProjects(any(GetProjectsRequest.class), any(Pageable.class)))
+                .thenReturn(Collections.emptyList());
+
+        // then
+        mvc.perform(get(baseUrl + "/search")  // "/project/search" should be replaced with the actual URL
+                        .param("page", String.valueOf(pageable.getPageNumber()))
+                        .param("size", String.valueOf(pageable.getPageSize()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().is4xxClientError());  // adjust based on the actual error code you're using
     }
 }

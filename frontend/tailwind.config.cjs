@@ -3,12 +3,24 @@ module.exports = {
   content: ['./src/**/*.{html,js,ts,tsx}'],
   theme: {
     extend: {
+      spacing: {
+        660: '660px',
+        630: '630px',
+        555: '555px',
+        460: '460px',
+        355: '350px',
+        504: '54px',
+      },
+
       colors: {
         graphybg: '#F9F8F8',
         graphyblue: '#505F9A',
+        graphypink: '#CA92C7',
         mainbannerleft: '#678EF4',
         mainbannerright: '#FF93AE',
         subbanner: '#C1D0EF',
+        gptbutton: '#7082CA',
+        button: '#364A9A',
       },
       width: {
         284: '17.75rem',
@@ -37,7 +49,6 @@ module.exports = {
         lef: ['LeferiBaseRegular', 'sans-serif'],
         'lef-b': ['LeferiBaseBold', 'sans-serif'],
         lato: ['LatoBold', 'sans-serif'],
-
       },
     },
   },

@@ -11,7 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -36,5 +38,4 @@ public class JobServiceTest extends MockTest {
 
         verify(jobRepository, times(1)).deleteAllExpiredSince(any(LocalDateTime.class));
     }
-
 }
