@@ -1,10 +1,4 @@
-const filesToCache = [
-  '/',
-  '/index.html',
-  '/main.js',
-  '/style.css',
-  '/src/assets/image/imginsert.svg',
-];
+const filesToCache = ['/', '/index.html'];
 const CACHE_NAME = 'graphy';
 
 self.addEventListener('install', (event) => {

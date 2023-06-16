@@ -6,15 +6,29 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import reply_icon from '../assets/image/reply_icon.svg';
 import { projectIdState, refreshState } from '../Recoil';
 
-function WriteReReply(props: any) {
+interface PropsObject {
+  contents: {
+    commentId: number;
+    childCount: number;
+    content: string;
+    createdAt: string;
+  };
+  changeWriteVis: () => void;
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function WriteReReply(props: PropsObject) {
+  const {
+    contents: { commentId },
+    changeWriteVis,
+    setSelectedValue,
+  } = props;
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
   const projectId = useRecoilValue(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
-  const {
-    contents: { commentId },
-  } = props;
   const parentId = commentId;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -68,7 +82,6 @@ function WriteReReply(props: any) {
   }
 
   function post() {
-    const { changeWriteVis, setSelectedValue } = props; // 프로퍼티 구조 분해 할당
     postData();
     changeWriteVis();
     setSelectedValue('regist_order');

@@ -10,7 +10,7 @@ describe('QuillWritten', () => {
   test('noContents 테스트', () => {
     render(
       <RecoilRoot>
-        <RecoilObserver node={contentsState} onChange={onChange} />
+        <RecoilObserver<string> node={contentsState} onchange={onChange} />
         <QuillWritten />
       </RecoilRoot>,
     );
@@ -24,7 +24,7 @@ describe('QuillWritten', () => {
           snapshot.set(contentsState, '테스트 데이터');
         }}
       >
-        <RecoilObserver node={contentsState} onChange={onChange} />
+        <RecoilObserver<string> node={contentsState} onchange={onChange} />
         <QuillWritten />
       </RecoilRoot>,
     );

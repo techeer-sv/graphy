@@ -86,7 +86,7 @@ describe('ReadReply', () => {
   test('ReadReply 테스트', async () => {
     render(
       <RecoilRoot>
-        <RecoilObserver node={refreshState} onChange={onChange} />
+        <RecoilObserver<boolean> node={refreshState} onchange={onChange} />
         <ReadReply contents={contents} setSelectedValue={setSelectedValue} />
       </RecoilRoot>,
     );
