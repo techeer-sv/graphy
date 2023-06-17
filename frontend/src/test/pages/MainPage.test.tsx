@@ -93,7 +93,10 @@ describe('MainPage', () => {
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <BrowserRouter>
-            <RecoilObserver node={searchTextState} onChange={onChange} />
+            <RecoilObserver<string>
+              node={searchTextState}
+              onchange={onChange}
+            />
             <MainPage />
           </BrowserRouter>
         </RecoilRoot>
@@ -111,7 +114,10 @@ describe('MainPage', () => {
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <BrowserRouter>
-            <RecoilObserver node={searchTextState} onChange={onChange} />
+            <RecoilObserver<string>
+              node={searchTextState}
+              onchange={onChange}
+            />
             <MainPage />
           </BrowserRouter>
         </RecoilRoot>
@@ -128,7 +134,10 @@ describe('MainPage', () => {
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <BrowserRouter>
-            <RecoilObserver node={searchTextState} onChange={onChange} />
+            <RecoilObserver<string>
+              node={searchTextState}
+              onchange={onChange}
+            />
             <MainPage />
           </BrowserRouter>
         </RecoilRoot>

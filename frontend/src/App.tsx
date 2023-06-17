@@ -29,7 +29,7 @@ function App() {
               <Route path="/read/:id" element={<ReadingPage />} />
               <Route path="/modify" element={<ModifyingPage />} />
               <Route path="/signin" element={<SigninPage />} />
-            <Route path="/signup" element={<SignupPage />} />
+              <Route path="/signup" element={<SignupPage />} />
               <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </Suspense>

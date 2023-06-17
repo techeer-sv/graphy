@@ -49,7 +49,6 @@ function MainPage() {
         lastPage.length < 12 ? undefined : pages.length + 1,
     });
 
-  // Trigger the next page load when the user scrolls to the bottom of the page.
   useEffect(() => {
     if (!isFetchingNextPage) {
       const handleScroll = () => {
@@ -58,7 +57,6 @@ function MainPage() {
             document.documentElement.scrollTop ===
           document.documentElement.clientHeight
         ) {
-          // eslint-disable-next-line consistent-return
           fetchNextPage();
         }
       };
@@ -105,7 +103,7 @@ function MainPage() {
                   className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8"
                   key={group[i]?.id}
                 >
-                  {group.map((item: any) => (
+                  {group.map((item: DataObject) => (
                     <div className="mx-8 mb-10" key={item.id}>
                       <ProjectCard items={item} />
                     </div>
