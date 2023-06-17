@@ -2,8 +2,9 @@ package com.graphy.backend.domain.member.service;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
-import com.graphy.backend.global.config.jwt.TokenProvider;
-import com.graphy.backend.global.config.jwt.dto.TokenInfo;
+import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
+import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.jwt.dto.TokenInfo;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,8 +41,6 @@ public class MemberService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        System.out.println(1);
-
         TokenInfo token = tokenProvider.generateTokenDto(authentication);
 
         /**

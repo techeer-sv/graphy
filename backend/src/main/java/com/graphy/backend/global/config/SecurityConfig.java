@@ -1,13 +1,10 @@
 package com.graphy.backend.global.config;
 
-import com.graphy.backend.domain.member.service.MemberService;
-import com.graphy.backend.global.config.jwt.JwtFilter;
-import com.graphy.backend.global.config.jwt.TokenProvider;
+import com.graphy.backend.global.auth.jwt.JwtFilter;
+import com.graphy.backend.global.auth.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -39,7 +36,7 @@ public class SecurityConfig {
                         "/api/v1/members/login",
                         "/api/v1/projects/search",
                         "/swagger-ui/**").permitAll()
-                .antMatchers("/api/v1/**").authenticated()
+                .antMatchers("/api/v1/**").hasRole("USER")
 
                 .and()
                 .sessionManagement()

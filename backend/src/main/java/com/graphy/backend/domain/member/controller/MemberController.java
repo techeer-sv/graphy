@@ -1,8 +1,7 @@
 package com.graphy.backend.domain.member.controller;
 
-import com.graphy.backend.domain.member.dto.MemberDto;
 import com.graphy.backend.domain.member.service.MemberService;
-import com.graphy.backend.global.config.jwt.dto.TokenInfo;
+import com.graphy.backend.global.auth.jwt.dto.TokenInfo;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import retrofit2.Response;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
 
