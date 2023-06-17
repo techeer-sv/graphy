@@ -10,8 +10,17 @@ import NavBar from '../components/NavBar';
 import ProjectCard from '../components/ProjectCard';
 import { searchTextState } from '../Recoil';
 
+interface DataObject {
+  id: number;
+  createdAt: string;
+  projectName: string;
+  description: string;
+  techTags: string[];
+  thumbNail: string;
+}
+
 function MainPage() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<DataObject[]>([]);
   const [searchText, setSearchText] = useRecoilState(searchTextState);
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
@@ -34,6 +43,7 @@ function MainPage() {
       act(() => {
         setData(res.data.data);
       });
+      console.log(res.data.data);
     } catch (error) {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');

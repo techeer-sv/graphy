@@ -44,7 +44,7 @@ describe('PutReply', () => {
   test('PutReply 테스트', async () => {
     render(
       <RecoilRoot>
-        <RecoilObserver node={refreshState} onChange={onChange} />
+        <RecoilObserver<boolean> node={refreshState} onchange={onChange} />
         <PutReply
           contents={contents}
           changePutVis={changePutVis}

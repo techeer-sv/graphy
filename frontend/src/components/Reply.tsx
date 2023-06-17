@@ -5,7 +5,19 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import ReadReply from './ReadReply';
 import { projectIdState, refreshState } from '../Recoil';
 
-function Reply(props: any) {
+interface ReadReplyObject {
+  commentId: number;
+  childCount: number;
+  content: string;
+  createdAt: string;
+}
+
+interface PropsObject {
+  contents: ReadReplyObject[];
+  setReadReply: React.Dispatch<React.SetStateAction<ReadReplyObject[]>>;
+}
+
+function Reply(props: PropsObject) {
   const { contents, setReadReply } = props;
 
   const [count, SetCount] = useState(0);
@@ -60,37 +72,43 @@ function Reply(props: any) {
     }
   }
 
-  function myFunction(selected: any) {
+  function myFunction(selected: string) {
     switch (selected) {
       case 'newest_order': {
-        const sortedContents = contents.slice().sort((a: any, b: any) => {
-          const aTime = new Date(a.createdAt).getTime();
-          const bTime = new Date(b.createdAt).getTime();
-          return bTime - aTime;
-        });
+        const sortedContents = contents
+          .slice()
+          .sort((a: ReadReplyObject, b: ReadReplyObject) => {
+            const aTime = new Date(a.createdAt).getTime();
+            const bTime = new Date(b.createdAt).getTime();
+            return bTime - aTime;
+          });
         setReadReply(sortedContents);
         break;
       }
       case 'reply_order': {
-        const replyedContents = contents.slice().sort((a: any, b: any) => {
-          return b.childCount - a.childCount;
-        });
+        const replyedContents = contents
+          .slice()
+          .sort((a: ReadReplyObject, b: ReadReplyObject) => {
+            return b.childCount - a.childCount;
+          });
         setReadReply(replyedContents);
         break;
       }
       default: {
-        const regisedContents = contents.slice().sort((a: any, b: any) => {
-          const aTime = new Date(a.createdAt).getTime();
-          const bTime = new Date(b.createdAt).getTime();
-          return aTime - bTime;
-        });
+        const regisedContents = contents
+          .slice()
+          .sort((a: ReadReplyObject, b: ReadReplyObject) => {
+            const aTime = new Date(a.createdAt).getTime();
+            const bTime = new Date(b.createdAt).getTime();
+            return aTime - bTime;
+          });
         setReadReply(regisedContents);
         break;
       }
     }
   }
 
-  function handleselectChange(event: { target: { value: any } }) {
+  function handleselectChange(event: { target: { value: string } }) {
     const selectValue = event.target.value; // 선택된 값 가져오기
     setSelectedValue(selectValue); // 선택된 값 상태 업데이트
     myFunction(selectValue); // 선택된 값 전달하여 실행할 함수 호출
@@ -104,7 +122,7 @@ function Reply(props: any) {
   useEffect(() => {
     SetCount(
       contents.reduce(
-        (acc: number, cur: any) =>
+        (acc: number, cur: ReadReplyObject) =>
           acc + (cur.content !== '삭제된 댓글입니다.' ? 1 : 0),
         0,
       ),
@@ -159,7 +177,7 @@ function Reply(props: any) {
       <div className="my-2 border-graphyblue">
         {visible ? (
           <>
-            {contents.map((x: object, y: number) =>
+            {contents.map((x: ReadReplyObject, y: number) =>
               contents[y].content === '삭제된 댓글입니다.' &&
               contents[y].childCount === 0 ? null : (
                 <ReadReply

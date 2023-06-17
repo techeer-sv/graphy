@@ -4,7 +4,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot, RecoilState, useRecoilValue } from 'recoil';
 
 import ModifyingPage from '../../pages/ModifyingPage';
 import { titleState, tldrState } from '../../Recoil';
@@ -59,12 +59,19 @@ const server = setupServer(
 );
 
 describe('ModifyingPage', () => {
+  interface RecoilObserverProps<T> {
+    node: RecoilState<T>;
+    onchange: (newValue: T) => void;
+  }
+
   const onChange2 = jest.fn();
-  const RecoilObserver2 = ({ node, onchange }: any) => {
+
+  const RecoilObserver2 = <T,>({ node, onchange }: RecoilObserverProps<T>) => {
     const value = useRecoilValue(node);
     useEffect(() => onChange2(value), [onchange, value]);
     return null;
   };
+
   beforeEach(() => {
     window.alert = jest.fn();
   });
@@ -75,8 +82,8 @@ describe('ModifyingPage', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
-          <RecoilObserver node={titleState} onChange={onChange} />
-          <RecoilObserver2 node={tldrState} onChange={onChange2} />
+          <RecoilObserver<string> node={titleState} onchange={onChange} />
+          <RecoilObserver2<string> node={tldrState} onchange={onChange2} />
           <ModifyingPage />
         </BrowserRouter>
       </RecoilRoot>,

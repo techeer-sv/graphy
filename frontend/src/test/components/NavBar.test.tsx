@@ -11,7 +11,7 @@ test('NavBar 테스트', () => {
   render(
     <RecoilRoot>
       <BrowserRouter>
-        <RecoilObserver node={searchTextState} onChange={onChange} />
+        <RecoilObserver<string> node={searchTextState} onchange={onChange} />
         <NavBar />
       </BrowserRouter>
     </RecoilRoot>,

@@ -8,7 +8,18 @@ import pencil_square from '../assets/image/pencil-square.svg';
 import reply_icon from '../assets/image/reply_icon.svg';
 import { refreshState } from '../Recoil';
 
-function ReadReReply(props: any) {
+interface PropsObject {
+  contents: {
+    commentId: number;
+    childCount?: number;
+    content: string;
+    createdAt: string;
+  };
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  changeCommentRef: () => void;
+}
+
+function ReadReReply(props: PropsObject) {
   const { contents, setSelectedValue, changeCommentRef } = props;
 
   const [putVis, setPutVis] = useState<boolean>(false);
