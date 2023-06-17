@@ -32,7 +32,7 @@ describe('ProjectCard', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
-          <RecoilObserver node={projectIdState} onChange={onChange} />
+          <RecoilObserver<number> node={projectIdState} onchange={onChange} />
           <ProjectCard items={mockData} />
         </BrowserRouter>
       </RecoilRoot>,
@@ -56,7 +56,7 @@ describe('ProjectCard', () => {
     render(
       <RecoilRoot>
         <BrowserRouter>
-          <RecoilObserver node={projectIdState} onChange={onChange} />
+          <RecoilObserver<number> node={projectIdState} onchange={onChange} />
           <ProjectCard items={mockData} />
         </BrowserRouter>
       </RecoilRoot>,
@@ -83,11 +83,22 @@ describe('ProjectCard', () => {
       configurable: true,
     });
 
+    interface Port {
+      onmessage: jest.Mock;
+      postMessage: jest.Mock;
+      onmessageerror: () => void;
+      close: () => void;
+      start: () => void;
+      addEventListener: () => void;
+      removeEventListener: () => void;
+      dispatchEvent: () => boolean;
+    }
+
     // mock 메시지 채널
     global.MessageChannel = class {
-      port1: any;
+      port1: Port;
 
-      port2: any;
+      port2: Port;
 
       constructor() {
         this.port1 = {

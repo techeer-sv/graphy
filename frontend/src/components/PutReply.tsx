@@ -4,7 +4,19 @@ import { useRecoilState } from 'recoil';
 
 import { refreshState } from '../Recoil';
 
-function PutReply(props: any) {
+interface PropsObject {
+  contents: {
+    commentId: number;
+    childCount?: number;
+    content: string;
+    createdAt: string;
+  };
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  changeCommentRef: () => void;
+  changePutVis: () => void;
+}
+
+function PutReply(props: PropsObject) {
   const { contents, setSelectedValue, changeCommentRef, changePutVis } = props;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);

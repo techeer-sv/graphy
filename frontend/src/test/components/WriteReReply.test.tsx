@@ -40,7 +40,7 @@ describe('WriteReReply', () => {
   test('WriteReReply 테스트', async () => {
     render(
       <RecoilRoot>
-        <RecoilObserver node={refreshState} onChange={onChange} />
+        <RecoilObserver<boolean> node={refreshState} onchange={onChange} />
         <WriteReReply
           contents={contents}
           changeWriteVis={changeWriteVis}

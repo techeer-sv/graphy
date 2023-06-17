@@ -12,6 +12,8 @@ const WritingPage = lazy(() => import('./pages/WritingPage'));
 const ReadingPage = lazy(() => import('./pages/ReadingPage'));
 const ModifyingPage = lazy(() => import('./pages/ModifyingPage'));
 const ErrorPage = lazy(() => import('./pages/ErrorPage'));
+const SigninPage = lazy(() => import('./pages/SigninPage'));
+const SignupPage = lazy(() => import('./pages/SignupPage'));
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ function App() {
               <Route path="/write" element={<WritingPage />} />
               <Route path="/read/:id" element={<ReadingPage />} />
               <Route path="/modify" element={<ModifyingPage />} />
+              <Route path="/signin" element={<SigninPage />} />
+            <Route path="/signup" element={<SignupPage />} />
               <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </Suspense>

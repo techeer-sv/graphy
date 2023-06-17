@@ -10,6 +10,15 @@ import NavBar from '../components/NavBar';
 import ProjectCard from '../components/ProjectCard';
 import { searchTextState } from '../Recoil';
 
+interface DataObject {
+  id: number;
+  createdAt: string;
+  projectName: string;
+  description: string;
+  techTags: string[];
+  thumbNail: string;
+}
+
 function MainPage() {
   const searchText = useRecoilValue(searchTextState);
 
