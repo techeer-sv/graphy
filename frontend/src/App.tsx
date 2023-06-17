@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -13,23 +15,28 @@ const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 const SigninPage = lazy(() => import('./pages/SigninPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <RecoilRoot>
-      <Router>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/write" element={<WritingPage />} />
-            <Route path="/read/:id" element={<ReadingPage />} />
-            <Route path="/modify" element={<ModifyingPage />} />
-            <Route path="/signin" element={<SigninPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/*" element={<ErrorPage />} />
-          </Routes>
-        </Suspense>
-      </Router>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <Router>
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/write" element={<WritingPage />} />
+              <Route path="/read/:id" element={<ReadingPage />} />
+              <Route path="/modify" element={<ModifyingPage />} />
+              <Route path="/signin" element={<SigninPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/*" element={<ErrorPage />} />
+            </Routes>
+          </Suspense>
+        </Router>
+      </RecoilRoot>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 export default App;
