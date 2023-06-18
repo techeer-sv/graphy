@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import WriteIcon from '../assets/image/pencil-square.svg';
+import ProfileIcon from '../assets/image/person-circle.svg';
 import { searchTextState } from '../Recoil';
-// import ProfileIcon from '../assets/image/person-circle.svg';
 
 function NavBar() {
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
@@ -23,6 +23,11 @@ function NavBar() {
   function toMain() {
     // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
     navigate('/');
+  }
+
+  function toMy() {
+    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
+    navigate('/my');
   }
 
   return (
@@ -65,14 +70,14 @@ function NavBar() {
         <span className="font-semibold">프로젝트 공유</span>
       </button>
 
-      {/* 마이페이지 아이콘
-      <button className="mr-12">
+      {/* 마이페이지 아이콘 */}
+      <button className="mr-12" type="button" onClick={() => toMy()}>
         <img
           className="fixed top-4 right-4 h-8 w-8 appearance-none"
           src={ProfileIcon}
           alt="ProfileIcon"
         />
-      </button> */}
+      </button>
     </div>
   );
 }
