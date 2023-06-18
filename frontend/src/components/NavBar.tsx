@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import WriteIcon from '../assets/image/pencil-square.svg';
-import ProfileIcon from '../assets/image/person-circle.svg';
+import ProfileIcon from '../assets/image/ProfileIcon.svg';
 import { searchTextState } from '../Recoil';
 
 function NavBar() {
@@ -35,14 +35,14 @@ function NavBar() {
       {/* 로고 */}
       <button
         onClick={() => toMain()}
-        className="ml-8 hidden font-lato text-4xl text-graphyblue sm:block"
+        className="ml-8 hidden font-lato-b text-4xl text-graphyblue sm:block"
         type="button"
       >
         Graphy
       </button>
       <button
         onClick={() => toMain()}
-        className="ml-8 font-lato text-4xl text-graphyblue sm:hidden"
+        className="ml-8 font-lato-b text-4xl text-graphyblue sm:hidden"
         type="button"
       >
         G
