@@ -2,7 +2,6 @@ package com.graphy.backend.domain.project.service;
 
 import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
-import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.Tag;
 import com.graphy.backend.domain.project.domain.Tags;
@@ -10,7 +9,6 @@ import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
@@ -46,7 +44,6 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
     private final ProjectTagRepository projectTagRepository;
-    private final CustomUserDetailsService userDetailsService;
 
     private final ProjectMapper mapper;
     private final CommentRepository commentRepository;
@@ -74,6 +71,8 @@ public class ProjectService {
             Tags foundTags = getTagsWithName(dto.getTechTags());
             entity.addTag(foundTags);
         }
+
+
         Project project = projectRepository.save(entity);
         return mapper.toCreateProjectDto(project.getId());
     }

@@ -2,15 +2,14 @@ package com.graphy.backend.global.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 /** {행위}_{목적어}_{성공여부} message 는 동사 명사형으로 마무리 */
 @Getter
 @AllArgsConstructor
 public enum ResultCode {
 
-    // Member
-    MEMBER_CREATE_SUCCESS("M001", "사용자 등록 성공"),
+    // 도메인 별로 나눠서 관리(ex: User 도메인)
+    // user
 
     // project
     PROJECT_CREATE_SUCCESS("P001", "프로젝트 생성 성공"),

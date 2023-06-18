@@ -5,7 +5,6 @@ import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final CustomUserDetailsService userDetailsService;
+
     private final ProjectRepository projectRepository;
 
     public CreateCommentResponse createComment(CreateCommentRequest dto) {
