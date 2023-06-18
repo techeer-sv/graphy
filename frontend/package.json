@@ -16,6 +16,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@hookform/resolvers": "^3.1.1",
     "@tanstack/react-query": "^4.29.14",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.4.14",
@@ -26,6 +27,7 @@
     "react": "^18.2.0",
     "react-aws-s3-typescript": "^1.1.5",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.44.3",
     "react-icons": "^4.8.0",
     "react-quill": "^2.0.0",
     "react-router": "^6.11.2",
@@ -35,7 +37,8 @@
     "recoil-persist": "^4.2.0",
     "sass": "^1.62.0",
     "swiper": "^9.2.4",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.5",
