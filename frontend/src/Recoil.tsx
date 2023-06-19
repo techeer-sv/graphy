@@ -8,34 +8,41 @@ const titleState = atom<string>({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
 const tldrState = atom<string>({
   key: 'tldrState',
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
 const selectedStackState = atom<string[]>({
   key: 'selectedStackState',
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
+
 const contentsState = atom<string>({
   key: 'contentsState',
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
 const thumbnailUrlState = atom<string | null>({
   key: 'thumbnailUrlState',
   default: null,
 });
+
 const projectIdState = atom<number>({
   key: 'projectIdState',
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
+
 const refreshState = atom<boolean>({
   key: 'refreshState',
   default: false,
 });
+
 const searchTextState = atom<string>({
   key: 'searchTextState',
   default: '',

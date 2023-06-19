@@ -10,7 +10,10 @@ describe('TechStackSelection', () => {
   test('TechStackSelection 테스트', () => {
     render(
       <RecoilRoot>
-        <RecoilObserver node={selectedStackState} onChange={onChange} />
+        <RecoilObserver<string[]>
+          node={selectedStackState}
+          onchange={onChange}
+        />
         <TechStackSelection />
       </RecoilRoot>,
     );

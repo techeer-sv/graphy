@@ -60,7 +60,7 @@ describe('Reply', () => {
   test('Reply 테스트', async () => {
     render(
       <RecoilRoot>
-        <RecoilObserver node={refreshState} onChange={onChange} />
+        <RecoilObserver<boolean> node={refreshState} onchange={onChange} />
         <Reply contents={contents} setReadReply={setReadReply} />
       </RecoilRoot>,
     );
