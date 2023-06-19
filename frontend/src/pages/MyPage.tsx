@@ -33,7 +33,7 @@ function MyPage() {
         </button>
 
         <div className="flex flex-col lg:flex-row">
-          <div className="min-w-64 mx-auto mt-36 flex h-[220px] w-auto items-center justify-center rounded-[25px] bg-white px-7 lg:mr-8 lg:h-[320px] lg:flex-col ">
+          <div className="min-w-64 mx-auto mt-28 flex h-[220px] w-auto items-center justify-center rounded-[25px] bg-white px-7 lg:mt-36 lg:mr-8 lg:h-[320px] lg:flex-col ">
             {/* 프로필카드 아이콘 */}
             <img className="mx-3 h-24 " src={myProfile} alt="myProfile" />
             <div>
@@ -64,7 +64,7 @@ function MyPage() {
 
           {/* ----------------------------- */}
           <div className="mx-auto">
-            <div className="mt-14 font-lato text-[24px] font-bold lg:mt-32">
+            <div className="mt-10 font-lato text-[24px] font-bold lg:mt-32">
               나의 작성 포스트
             </div>
 
