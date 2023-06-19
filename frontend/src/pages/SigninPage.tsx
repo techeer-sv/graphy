@@ -1,10 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import * as yup from 'yup';
 
 import Email from '../assets/image/email.svg';
+import { accessTokenState } from '../Recoil';
 
 type DataObject = {
   email: string;
@@ -28,6 +31,8 @@ const schema = yup.object().shape({
 
 function Signin() {
   const navigate = useNavigate();
+  const [, setAccessToken] = useRecoilState(accessTokenState);
+
   const {
     register,
     handleSubmit,
@@ -54,10 +59,15 @@ function Signin() {
         },
       );
       console.log(res);
-    } catch (err) {
+      setAccessToken(res.data.accessToken); // accessToken recoil에 저장
+      Cookies.set('refreshToken', res.data.refreshToken, {
+        httpOnly: true, // httpOnly 쿠키에 refreshToken 저장
+        // secure: true, // https에서만 작동
+      });
+      navigate('/');
+    } catch (err: unknown) {
       console.log(err);
     }
-    navigate('/');
   };
 
   return (
