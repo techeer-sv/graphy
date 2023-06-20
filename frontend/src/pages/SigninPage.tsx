@@ -1,13 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import * as yup from 'yup';
 
 import Email from '../assets/image/email.svg';
-import { accessTokenState } from '../Recoil';
+import { accessTokenState, autoLoginState, persistTokenState } from '../Recoil';
 
 type DataObject = {
   email: string;
@@ -32,6 +31,16 @@ const schema = yup.object().shape({
 function Signin() {
   const navigate = useNavigate();
   const [, setAccessToken] = useRecoilState(accessTokenState);
+  const [, setPersistToken] = useRecoilState(persistTokenState);
+  const [autoLogin, setAutoLogin] = useRecoilState(autoLoginState);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAutoLogin(event.target.checked);
+  };
+
+  const handleButtonClick = () => {
+    setAutoLogin(!autoLogin);
+  };
 
   const {
     register,
@@ -58,12 +67,11 @@ function Signin() {
           password: data.password,
         },
       );
-      console.log(res);
-      setAccessToken(res.data.accessToken); // accessToken recoil에 저장
-      Cookies.set('refreshToken', res.data.refreshToken, {
-        httpOnly: true, // httpOnly 쿠키에 refreshToken 저장
-        // secure: true, // https에서만 작동
-      });
+      if (autoLogin) {
+        setPersistToken(res.data.accessToken);
+      } else {
+        setAccessToken(res.data.accessToken);
+      }
       navigate('/');
     } catch (err: unknown) {
       console.log(err);
@@ -113,14 +121,25 @@ function Signin() {
             </span>
           </button>
         </form>
-        <div className="my-8 mx-auto flex">
+        <div className="my-8 ml-12 flex">
           <div>
-            <input type="checkbox" className="h-4 w-4" />
-            <span className="ml-2 text-xl">로그인 상태 유지</span>
+            <input
+              type="checkbox"
+              className="h-4 w-4"
+              checked={autoLogin}
+              onChange={handleCheckboxChange}
+            />
+            <button
+              className="ml-2 text-xl"
+              type="button"
+              onClick={handleButtonClick}
+            >
+              로그인 상태 유지
+            </button>
           </div>
-          <button className="ml-16 mr-0 text-xl" type="button">
+          {/* <button className="ml-16 mr-0 text-xl" type="button">
             비밀번호 찾기
-          </button>
+          </button> */}
         </div>
         <div className="m-auto mb-0 flex h-20 w-[450px] items-center justify-center border-t">
           <span>아직 회원이 아니세요?</span>

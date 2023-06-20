@@ -53,6 +53,18 @@ const accessTokenState = atom<string>({
   default: '',
 });
 
+const persistTokenState = atom<string>({
+  key: 'persistTokenState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+const autoLoginState = atom<boolean>({
+  key: 'autoLoginState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export {
   titleState,
   tldrState,
@@ -63,4 +75,6 @@ export {
   refreshState,
   searchTextState,
   accessTokenState,
+  persistTokenState,
+  autoLoginState,
 };
