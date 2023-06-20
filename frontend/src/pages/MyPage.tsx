@@ -1,13 +1,31 @@
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Like from '../assets/image/Like.svg';
 import myProfile from '../assets/image/myProfile.png';
 import WriteIcon from '../assets/image/pencil-square.svg';
+import FollowModal from '../components/FollowModal';
 import NavBar from '../components/NavBar';
 
-// import ProjectCard from '../components/ProjectCard';
-
 function MyPage() {
+  const [isOpenModal, setOpenModal] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(true);
+
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+    console.log(isOpenModal);
+  }, [isOpenModal]);
+
+  const onClickFollower = () => {
+    setIsFollowing(false);
+    onClickToggleModal();
+  };
+
+  const onClickFollowing = () => {
+    setIsFollowing(true);
+    onClickToggleModal();
+  };
+
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
   function toWrite() {
@@ -41,21 +59,33 @@ function MyPage() {
                 <div className="mr-3 text-center font-lato text-[23px] font-semibold text-graphyblue lg:mx-auto lg:mt-3">
                   닉네임
                 </div>
+
                 <div className="flex flex-row text-center lg:mt-2">
                   <button
                     className="whitespace-nowrap font-lato text-[18px] font-semibold "
                     type="button"
+                    onClick={onClickFollower}
                   >
-                    팔로우 46
+                    팔로워 46
                   </button>
+
                   <button
                     className="ml-6 mr-3 whitespace-nowrap font-lato text-[18px] font-semibold lg:mr-0"
                     type="button"
+                    onClick={onClickFollowing}
                   >
                     팔로잉 34
                   </button>
+
+                  {isOpenModal ? (
+                    <FollowModal
+                      onClickToggleModal={onClickToggleModal}
+                      isFollowing={isFollowing}
+                    />
+                  ) : null}
                 </div>
               </div>
+
               <div className="mt-4 whitespace-nowrap text-center font-lato text-[15px] text-stone-500">
                 본인을 소개하는 한 마디
               </div>
