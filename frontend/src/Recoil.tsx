@@ -48,11 +48,6 @@ const searchTextState = atom<string>({
   default: '',
 });
 
-const accessTokenState = atom<string>({
-  key: 'accessTokenState',
-  default: '',
-});
-
 const persistTokenState = atom<string>({
   key: 'persistTokenState',
   default: '',
@@ -74,7 +69,6 @@ export {
   projectIdState,
   refreshState,
   searchTextState,
-  accessTokenState,
   persistTokenState,
   autoLoginState,
 };

@@ -1,12 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import * as yup from 'yup';
 
 import Email from '../assets/image/email.svg';
-import { accessTokenState, autoLoginState, persistTokenState } from '../Recoil';
+import { autoLoginState, persistTokenState } from '../Recoil';
 
 type DataObject = {
   email: string;
@@ -30,9 +31,20 @@ const schema = yup.object().shape({
 
 function Signin() {
   const navigate = useNavigate();
-  const [, setAccessToken] = useRecoilState(accessTokenState);
-  const [, setPersistToken] = useRecoilState(persistTokenState);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [persistToken, setPersistToken] = useRecoilState(persistTokenState);
   const [autoLogin, setAutoLogin] = useRecoilState(autoLoginState);
+
+  useEffect(() => {
+    if (!navigator.onLine) {
+      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      navigate(`/`);
+    }
+    if (!(accessToken || persistToken)) {
+      alert('이미 로그인 상태입니다.');
+      navigate('/');
+    }
+  }, []);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAutoLogin(event.target.checked);
@@ -70,7 +82,7 @@ function Signin() {
       if (autoLogin) {
         setPersistToken(res.data.accessToken);
       } else {
-        setAccessToken(res.data.accessToken);
+        sessionStorage.setItem('accessToken', res.data.accessToken);
       }
       navigate('/');
     } catch (err: unknown) {

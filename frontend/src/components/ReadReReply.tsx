@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import PutReply from './PutReply';
 import delete_reply from '../assets/image/delete.svg';
 import pencil_square from '../assets/image/pencil-square.svg';
 import reply_icon from '../assets/image/reply_icon.svg';
-import { refreshState } from '../Recoil';
+import { persistTokenState, refreshState } from '../Recoil';
 
 interface PropsObject {
   contents: {
@@ -23,6 +23,8 @@ function ReadReReply(props: PropsObject) {
   const { contents, setSelectedValue, changeCommentRef } = props;
 
   const [putVis, setPutVis] = useState<boolean>(false);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
   const date = new Date(contents.createdAt);
@@ -41,7 +43,11 @@ function ReadReReply(props: PropsObject) {
   async function deleteReReply() {
     const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      const res = await axios.delete(url);
+      const res = await axios.delete(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(res.data);
       setRefresh(!refresh);
       changeCommentRef();

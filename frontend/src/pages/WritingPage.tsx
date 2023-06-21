@@ -8,7 +8,6 @@ import NavBar from '../components/NavBar';
 import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import {
-  accessTokenState,
   contentsState,
   persistTokenState,
   projectIdState,
@@ -25,11 +24,10 @@ function WritingPage() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const [, setProjectId] = useRecoilState(projectIdState);
-  const accessToken = useRecoilValue(accessTokenState);
+  const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
   const navigate = useNavigate();
 
-  // 글쓰기 페이지 렌더링 시 변수 초기화
   useEffect(() => {
     if (!navigator.onLine) {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
@@ -39,7 +37,7 @@ function WritingPage() {
       alert('로그인시 이용하실 수 있습니다.');
       navigate('/');
     }
-    setTitle('');
+    setTitle(''); // 글쓰기 페이지 렌더링 시 변수 초기화
     setTldr('');
     setContents('');
     setSelectedStack([]);

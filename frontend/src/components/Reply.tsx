@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import ReadReply from './ReadReply';
-import { projectIdState, refreshState } from '../Recoil';
+import { persistTokenState, projectIdState, refreshState } from '../Recoil';
 
 interface ReadReplyObject {
   commentId: number;
@@ -24,6 +24,8 @@ function Reply(props: PropsObject) {
   const [selectedValue, setSelectedValue] = useState<string>('regist_order');
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const projectId = useRecoilValue(projectIdState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
   const [visible, setVisible] = useState(true);
@@ -55,7 +57,11 @@ function Reply(props: PropsObject) {
     };
 
     try {
-      const res = await axios.post(url, data);
+      const res = await axios.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(res.data);
       setRefresh(!refresh);
       setValue('');
@@ -190,25 +196,27 @@ function Reply(props: PropsObject) {
           </>
         ) : null}
         {/* 댓글 입력창 */}
-        <div className="mb-8 mt-3 border-t-2 border-graphyblue py-3">
-          <div className="min-h-24 flex h-auto flex-col rounded-xl border-2 border-gray-400">
-            <textarea
-              className="h-auto w-full resize-none appearance-none rounded-xl bg-graphybg py-2 px-3 font-ng leading-tight text-gray-700 focus:outline-none"
-              id="reply"
-              placeholder="댓글을 입력하세요."
-              ref={textAreaRef}
-              value={value}
-              onChange={handleChange}
-            />
-            <button
-              className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
-              onClick={() => postData()}
-              type="submit"
-            >
-              등록
-            </button>
+        {accessToken || persistToken ? (
+          <div className="mb-8 mt-3 border-t-2 border-graphyblue py-3">
+            <div className="min-h-24 flex h-auto flex-col rounded-xl border-2 border-gray-400">
+              <textarea
+                className="h-auto w-full resize-none appearance-none rounded-xl bg-graphybg py-2 px-3 font-ng leading-tight text-gray-700 focus:outline-none"
+                id="reply"
+                placeholder="댓글을 입력하세요."
+                ref={textAreaRef}
+                value={value}
+                onChange={handleChange}
+              />
+              <button
+                className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
+                onClick={() => postData()}
+                type="submit"
+              >
+                등록
+              </button>
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );
