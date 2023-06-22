@@ -65,7 +65,6 @@ function ReadReply(props: PropsObject) {
           Authorization: `Bearer ${accessToken || persistToken}`,
         },
       });
-      console.log(res.data);
       act(() => {
         setComment(res.data.data);
       });
@@ -78,12 +77,11 @@ function ReadReply(props: PropsObject) {
   async function deleteReply() {
     const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      const res = await axios.delete(url, {
+      await axios.delete(url, {
         headers: {
           Authorization: `Bearer ${accessToken || persistToken}`,
         },
       });
-      console.log(res.data);
       setRefresh(!refresh);
     } catch (error) {
       if (!navigator.onLine) {

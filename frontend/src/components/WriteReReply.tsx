@@ -65,12 +65,11 @@ function WriteReReply(props: PropsObject) {
     };
 
     try {
-      const res = await axios.post(url, data, {
+      await axios.post(url, data, {
         headers: {
           Authorization: `Bearer ${accessToken || persistToken}`,
         },
       });
-      console.log(res.data);
       act(() => {
         setrefresh(!refresh);
         setValue('');

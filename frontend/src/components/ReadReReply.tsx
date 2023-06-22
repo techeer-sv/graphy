@@ -43,12 +43,11 @@ function ReadReReply(props: PropsObject) {
   async function deleteReReply() {
     const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      const res = await axios.delete(url, {
+      await axios.delete(url, {
         headers: {
           Authorization: `Bearer ${accessToken || persistToken}`,
         },
       });
-      console.log(res.data);
       setRefresh(!refresh);
       changeCommentRef();
     } catch (error) {

@@ -39,7 +39,6 @@ function QuillEditor() {
 
         try {
           const res = await s3.uploadFile(file[0]);
-          console.log(res);
           const range = QuillRef.current?.getEditor().getSelection()?.index;
           if (range !== null && range !== undefined) {
             const quill = QuillRef.current?.getEditor();
