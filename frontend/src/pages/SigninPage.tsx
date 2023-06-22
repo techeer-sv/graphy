@@ -40,7 +40,7 @@ function Signin() {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
       navigate(`/`);
     }
-    if (!(accessToken || persistToken)) {
+    if (accessToken || persistToken) {
       alert('이미 로그인 상태입니다.');
       navigate('/');
     }
