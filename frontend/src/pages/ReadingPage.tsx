@@ -81,7 +81,7 @@ function ReadingPage() {
           alert('프로젝트 상세 조회 실패');
           console.error(error);
         }
-        // navigate('/');
+        navigate('/');
       }
     }
   }
