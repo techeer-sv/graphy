@@ -15,6 +15,9 @@ public enum ErrorCode {
   // Member
   MEMBER_NOT_EXIST(HttpStatus.BAD_REQUEST, "M001", "존재하지 않는 사용자"),
 
+  // Follow
+  FOLLOW_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "F001", "이미 존재하는 팔로우"),
+  FOLLOW_NOT_EXIST(HttpStatus.BAD_REQUEST, "M002", "존재하지 않는 팔로우"),
   // Project
   PROJECT_DELETED_OR_NOT_EXIST(HttpStatus.BAD_REQUEST, "P001", "이미 삭제되거나 존재하지 않는 프로젝트"),
 

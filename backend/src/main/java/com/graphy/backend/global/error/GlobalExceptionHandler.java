@@ -1,9 +1,11 @@
 package com.graphy.backend.global.error;
 
+import com.graphy.backend.global.error.exception.AlreadyFollowingException;
 import com.graphy.backend.global.error.exception.BusinessException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(LongRequestException.class)
     protected ResponseEntity<ErrorResponse> handleLongRequestException(LongRequestException e) {
+        final ErrorCode errorCode = e.getErrorCode();
+        final ErrorResponse response = makeErrorResponse(errorCode);
+        log.warn(e.getMessage());
+        return new ResponseEntity<>(response, errorCode.getStatus());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(AlreadyFollowingException e) {
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = makeErrorResponse(errorCode);
         log.warn(e.getMessage());
