@@ -1,4 +1,7 @@
-import React, { useState, PropsWithChildren } from 'react';
+/* eslint-disable react/no-array-index-key */
+import axios from 'axios';
+import React, { useState, PropsWithChildren, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import arrowLeftIcon from '../assets/image/arrow-left.svg';
 import arrowRightIcon from '../assets/image/arrow-right.svg';
@@ -7,6 +10,15 @@ import eyes from '../assets/image/eyes.png';
 import monster from '../assets/image/monster.png';
 import pick from '../assets/image/pick.png';
 import plus from '../assets/image/plus-circle.svg';
+import {
+  featuresState,
+  persistTokenState,
+  plansState,
+  selectedStackState,
+  techStacksState,
+  tldrState,
+  topicState,
+} from '../Recoil';
 import AllStacks from '../Stack';
 
 function findImage(tag: string) {
@@ -21,6 +33,25 @@ interface Screen1Props {
 }
 
 const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
+  const [techStacks, setTechStacks] = useRecoilState(techStacksState);
+  const selectedStack = useRecoilValue(selectedStackState);
+
+  useEffect(() => {
+    setTechStacks(selectedStack);
+  }, []);
+
+  // 기존 선택 기술 스택 삭제 함수
+  const handleDeleteStack = (stack: string) => {
+    setTechStacks(techStacks.filter((s: any) => s !== stack));
+  };
+
+  // 새로운 기술 스택 추가 함수
+  const handleAddStack = (stack: string) => {
+    if (techStacks.length < 6 && !techStacks.includes(stack)) {
+      setTechStacks([...techStacks, stack]);
+    }
+  };
+
   return (
     <div
       className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
@@ -66,25 +97,42 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
       {/* 질문 */}
       <div className="flex items-center justify-center font-lef-b text-[20px]">
         <img className="h-[20px] w-[20px] " src={monster} alt="monster" />
-        &nbsp; 어떤 기술을 사용했나요?
+        어떤 기술을 사용했나요?
       </div>
       {/* 기술 선택 버튼 */}
       {/* 배열에 요소를 처음부터 하나씩 읽는 게 map, 하나씩 읽을 때 요소를 가리키는 게 x, y는 요소의 인덱스 */}
       <div className="mt-8 flex h-355 w-[400px] flex-wrap justify-center overflow-auto sm:w-630 ">
-        {AllStacks.map((x) => (
-          <button
-            key={x.name}
-            className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border-[1.5px] border-zinc-300 py-1.5 pl-3 pr-3 text-gray-500"
-            type="button"
-          >
-            <img
-              className="mr-1 h-[20px] w-[20px]"
-              src={findImage(x.name)}
-              alt="stack"
-            />
-            {x.name}
-          </button>
-        ))}
+        {AllStacks.map((x) =>
+          techStacks.includes(x.name) ? (
+            <button
+              key={x.name}
+              className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border-[1.5px] border-zinc-300 bg-graphyblue py-1.5 pl-3 pr-3 text-white"
+              type="button"
+              onClick={() => handleDeleteStack(x.name)}
+            >
+              <img
+                className="mr-1 h-[20px] w-[20px]"
+                src={findImage(x.name)}
+                alt="stack"
+              />
+              {x.name}
+            </button>
+          ) : (
+            <button
+              key={x.name}
+              className="mr-2 mb-2 flex h-auto shrink-0 flex-row items-center rounded-full border-[1.5px] border-zinc-300 py-1.5 pl-3 pr-3 text-gray-500"
+              type="button"
+              onClick={() => handleAddStack(x.name)}
+            >
+              <img
+                className="mr-1 h-[20px] w-[20px]"
+                src={findImage(x.name)}
+                alt="stack"
+              />
+              {x.name}
+            </button>
+          ),
+        )}
       </div>
 
       {/* 하단 버튼 */}
@@ -107,6 +155,13 @@ interface Screen2Props {
 }
 
 const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
+  const [topic, setTopic] = useRecoilState(topicState);
+  const tldr = useRecoilValue(tldrState);
+
+  useEffect(() => {
+    setTopic(tldr);
+  }, []);
+
   return (
     <div
       className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
@@ -163,7 +218,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
           <img className="h-[20px] w-[20px] " src={desktop} alt="desktop" />
-          &nbsp; 어떤 프로젝트를 구현했나요?
+          어떤 프로젝트를 구현했나요?
         </div>
         {/* 프로젝트 설명 입력창 */}
         <div className="relative mt-8" data-te-input-wrapper-init>
@@ -172,6 +227,8 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
             maxLength={20}
             className="ml-9 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-[60px]"
             placeholder=" 예시 - 팀원 모집 웹 사이트"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
           />
         </div>
         {/* 하단 버튼 */}
@@ -196,13 +253,13 @@ interface Screen3Props {
 }
 
 const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
-  const [Arr, setArr] = useState<number[]>([]);
+  const [features, setFeatures] = useRecoilState(featuresState);
 
   function Plus() {
-    const Arr2 = [...Arr];
-    if (Arr.length < 4) {
-      Arr2.push(0);
-      setArr(Arr2);
+    const features2 = [...features];
+    if (features.length < 5) {
+      features2.push('');
+      setFeatures(features2);
     }
   }
   return (
@@ -260,26 +317,20 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
           <img className="h-[20px] w-[20px] " src={pick} alt="pick" />
-          &nbsp; 어떤 기능을 구현했나요?
+          어떤 기능을 구현했나요?
         </div>
         {/* 기능 구현 입력창 */}
         <div className="relative mt-8 h-355" data-te-input-wrapper-init>
-          <input
-            type="text"
-            maxLength={20}
-            className="ml-9  mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
-            placeholder=" 예시 - 구인글 작성 (최대 5개 작성 가능)"
-          />
-          {Arr.map((x) => (
+          {features.map((x, y) => (
             <input
-              key={x}
+              key={y}
               type="text"
               maxLength={20}
               className=" ml-9  mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
               placeholder="기능을 입력해주세요"
             />
           ))}
-          {Arr.length < 4 ? (
+          {features.length < 5 ? (
             <button
               className="ml-48 mt-5 flex items-center justify-center sm:ml-[297px]"
               onClick={() => Plus()}
@@ -310,15 +361,41 @@ interface Screen4Props {
 }
 
 const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
-  const [Arr, setArr] = useState<number[]>([]);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
+  const [plans, setPlans] = useRecoilState(plansState);
+  const techStacks = useRecoilValue(techStacksState);
+  const topic = useRecoilValue(topicState);
+  const features = useRecoilValue(featuresState);
 
   function Plus() {
-    const Arr2 = [...Arr];
-    if (Arr.length < 4) {
-      Arr2.push(0);
-      setArr(Arr2);
+    const plans2 = [...plans];
+    if (plans.length < 5) {
+      plans2.push('');
+      setPlans(plans2);
     }
   }
+
+  function toSubmit() {
+    const url = 'http://localhost:8080/api/v1/projects/plans';
+    const data = {
+      plans,
+      techStacks,
+      topic,
+      features,
+    };
+    try {
+      const res = axios.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div
       className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
@@ -363,26 +440,20 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
       {/* 질문 */}
       <div className="flex items-center justify-center font-lef-b text-[20px]">
         <img className="h-[20px] w-[20px] " src={eyes} alt="eyes" />
-        &nbsp; 관심있는 고도화 계획이 있나요?
+        관심있는 고도화 계획이 있나요?
       </div>
       {/* 고도화 기술 입력창 */}
       <div className="relative mt-8 h-355" data-te-input-wrapper-init>
-        <input
-          type="text"
-          maxLength={20}
-          className="ml-9 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
-          placeholder=" 예시 - 캐싱 (최대 5개 작성 가능)"
-        />{' '}
-        {Arr.map((x) => (
+        {plans.map((x, y) => (
           <input
-            key={x}
+            key={y}
             maxLength={20}
             type="text"
             className="ml-9 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
             placeholder="고도화 계획을 입력해주세요"
           />
         ))}
-        {Arr.length < 4 ? (
+        {plans.length < 5 ? (
           <button
             className="ml-48 mt-5 flex h-5 w-5 items-center justify-center sm:ml-[297px]"
             onClick={() => Plus()}
@@ -402,6 +473,7 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
           items-center justify-center  rounded-[16px] bg-gptbutton
         px-32 py-1 pt-3 pb-3 font-lef-b text-slate-50 hover:bg-button sm:ml-14  sm:px-52"
         type="submit"
+        onClick={() => toSubmit()}
       >
         AI 고도화 추천
       </button>
@@ -428,7 +500,7 @@ function renderModal({
     setCurrentScreen(currentScreen - 1);
   };
 
-  const renderScreen = () => {
+  function renderScreen() {
     switch (currentScreen) {
       case 1:
         return <Screen1 onNext={handleNext} />;
@@ -441,7 +513,7 @@ function renderModal({
       default:
         return null;
     }
-  };
+  }
 
   return (
     <div>

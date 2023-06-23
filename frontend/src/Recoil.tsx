@@ -60,6 +60,26 @@ const autoLoginState = atom<boolean>({
   effects_UNSTABLE: [persistAtom],
 });
 
+const techStacksState = atom<string[]>({
+  key: 'techStacksState',
+  default: [],
+});
+
+const topicState = atom<string>({
+  key: 'topicState',
+  default: '',
+});
+
+const featuresState = atom<string[]>({
+  key: 'featuresState',
+  default: [''],
+});
+
+const plansState = atom<string[]>({
+  key: 'plansState',
+  default: [''],
+});
+
 export {
   titleState,
   tldrState,
@@ -71,4 +91,8 @@ export {
   searchTextState,
   persistTokenState,
   autoLoginState,
+  techStacksState,
+  topicState,
+  featuresState,
+  plansState,
 };
