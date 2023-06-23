@@ -24,6 +24,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -68,7 +69,7 @@ public class FollowControllerTest extends MockApiTest {
         doNothing().when(followService).unfollow(id);
 
         //then
-        mvc.perform(post(baseUrl + "/{id}", id))
+        mvc.perform(delete(baseUrl + "/{id}", id))
                 .andExpect(status().isOk())
                 .andDo(document("follow-delete",
                         preprocessResponse(prettyPrint()))
