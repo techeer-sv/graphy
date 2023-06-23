@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import WriteIcon from '../assets/image/pencil-square.svg';
-import { persistTokenState, refreshState, searchTextState } from '../Recoil';
 import ProfileIcon from '../assets/image/ProfileIcon.svg';
+import { persistTokenState, refreshState, searchTextState } from '../Recoil';
 
 function NavBar() {
   const [refresh, setRefresh] = useRecoilState(refreshState);
@@ -45,6 +45,7 @@ function NavBar() {
     } else {
       setPersistToken('');
     }
+  }
 
   function toMy() {
     // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
