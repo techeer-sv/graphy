@@ -2,7 +2,6 @@ package com.graphy.backend.domain.member.service;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
 import com.graphy.backend.global.auth.jwt.dto.TokenInfo;
 import lombok.AccessLevel;
@@ -14,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
 
@@ -51,4 +53,10 @@ public class MemberService {
     }
 
 
+    public List<GetMemberResponse> findMember(String nickname) {
+        List<Member> memberList = memberRepository.findMemberByNicknameStartingWith(nickname);
+        return memberList.stream()
+                .map(GetMemberResponse::toDto)
+                .collect(Collectors.toList());
+    }
 }

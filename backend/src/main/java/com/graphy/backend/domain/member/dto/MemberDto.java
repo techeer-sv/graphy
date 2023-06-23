@@ -26,6 +26,21 @@ public class MemberDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetMemberResponse {
+        private String nickname;
+        private String email;
+
+        public static GetMemberResponse toDto(Member member) {
+            return GetMemberResponse.builder()
+                    .nickname(member.getNickname())
+                    .email(member.getEmail())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CreateMemberRequest {
         @Email
         private String email;

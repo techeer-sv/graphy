@@ -10,10 +10,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
 
@@ -35,5 +34,12 @@ public class MemberController {
     public ResponseEntity<ResultResponse> join(@Validated @RequestBody CreateMemberRequest request) {
         memberService.join(request);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_CREATE_SUCCESS));
+    }
+
+    @Operation(summary = "Search", description = "사용자 조회")
+    @GetMapping()
+    public ResponseEntity<ResultResponse> findMember(@RequestParam String nickname) {
+        List<GetMemberResponse> result = memberService.findMember(nickname);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_CREATE_SUCCESS, result));
     }
 }
