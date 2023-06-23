@@ -3,11 +3,11 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import * as yup from 'yup';
 
 import Email from '../assets/image/email.svg';
-import { persistTokenState } from '../Recoil';
+import { autoLoginState, persistTokenState } from '../Recoil';
 
 type DataObject = {
   email: string;
@@ -46,7 +46,8 @@ const schema = yup.object().shape({
 function Signup() {
   const navigate = useNavigate();
   const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
+  const [persistToken, setPersistToken] = useRecoilState(persistTokenState);
+  const [autoLogin] = useRecoilState(autoLoginState);
   const {
     register,
     handleSubmit,
@@ -60,7 +61,7 @@ function Signup() {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
       navigate(`/`);
     }
-    if (!(accessToken || persistToken)) {
+    if (accessToken || persistToken) {
       alert('이미 로그인 상태입니다.');
       navigate('/');
     }
@@ -77,16 +78,25 @@ function Signup() {
   const onSubmit: SubmitHandler<DataObject> = async (data: DataObject) => {
     console.log(data);
     try {
+      await axios.post('http://localhost:8080/api/v1/members/join', {
+        email: data.email,
+        password: data.password,
+        nickname: data.nickname,
+        introduction: data.introduction,
+      });
       const res = await axios.post(
-        'http://localhost:8080/api/v1/members/join',
+        'http://localhost:8080/api/v1/members/login',
         {
           email: data.email,
           password: data.password,
-          nickname: data.nickname,
-          introduction: data.introduction,
         },
       );
-      console.log(res);
+      if (autoLogin) {
+        setPersistToken(res.data.accessToken);
+      } else {
+        sessionStorage.setItem('accessToken', res.data.accessToken);
+      }
+      navigate('/');
     } catch (err) {
       console.log(err);
     }
