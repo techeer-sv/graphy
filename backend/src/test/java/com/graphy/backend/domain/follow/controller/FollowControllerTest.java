@@ -109,7 +109,10 @@ public class FollowControllerTest extends MockApiTest {
                 .andExpect(jsonPath("$.data[0].id").exists())
                 .andExpect(jsonPath("$.data[0].nickname").value("memberA"))
                 .andExpect(jsonPath("$.data[1].id").exists())
-                .andExpect(jsonPath("$.data[1].nickname").value("memberB"));
+                .andExpect(jsonPath("$.data[1].nickname").value("memberB"))
+                .andDo(document("followingList-get",
+                        preprocessResponse(prettyPrint()))
+                );
     }
 
     @Test
@@ -146,6 +149,9 @@ public class FollowControllerTest extends MockApiTest {
                 .andExpect(jsonPath("$.data[0].id").exists())
                 .andExpect(jsonPath("$.data[0].nickname").value("memberA"))
                 .andExpect(jsonPath("$.data[1].id").exists())
-                .andExpect(jsonPath("$.data[1].nickname").value("memberB"));
+                .andExpect(jsonPath("$.data[1].nickname").value("memberB"))
+                .andDo(document("followerList-get",
+                        preprocessResponse(prettyPrint()))
+                );
     }
 }
