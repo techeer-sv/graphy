@@ -29,12 +29,12 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x backend/gradlew
 
-      - name: Make properties
-        run: |
-          cd backend/src/test/resources
-          touch ./application-test.yml
-          echo "${{ secrets.TTEST_PROPERTIES }}" > ./application-test.yml
-        shell: bash
+#      - name: Make properties
+#        run: |
+#          cd backend/src/main/resources
+#          touch ./application-local.yml
+#          echo "${{ secrets.TEST_PROPERTIES }}" > ./application-local.yml
+#        shell: bash
 
       - name: Test with Gradle
         run: |
