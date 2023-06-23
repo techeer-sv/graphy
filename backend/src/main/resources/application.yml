@@ -20,6 +20,10 @@ spring:
         format_sql: true
     defer-datasource-initialization: true
 
+  output:
+    ansi:
+      enabled: always
+
 
 logging:
   config: classpath:logback-spring.xml
