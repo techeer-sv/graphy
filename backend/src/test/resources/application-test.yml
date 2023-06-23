@@ -15,3 +15,12 @@ spring:
     driver-class-name: org.h2.Driver
     username:
     password:
+
+jwt:
+  secret: {JWT_SECRET}
+
+gpt:
+  token: {GPT_TOKEN}
+
+job:
+  key: {JOB_KEY}
