@@ -17,10 +17,10 @@ spring:
     password:
 
 jwt:
-  secret: {JWT_SECRET}
+  secret: ${secret}
 
 gpt:
-  token: {GPT_TOKEN}
+  token: ${token}
 
 job:
-  key: {JOB_KEY}
+  key: ${key}
