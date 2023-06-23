@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import java.time.Duration;
 
 @Configuration
-//@PropertySource("classpath:application-local.yml")
+@PropertySource("classpath:application-local.yml")
 public class ChatGPTConfig {
 
     @Value("${gpt.token}")
