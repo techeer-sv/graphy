@@ -1,7 +1,7 @@
 import { act } from '@testing-library/react';
 import axios from 'axios';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import PutReply from './PutReply';
 import ReadReReply from './ReadReReply';
@@ -9,7 +9,7 @@ import WriteReReply from './WriteReReply';
 import delete_reply from '../assets/image/delete.svg';
 import nested_reply from '../assets/image/nested_reply.svg';
 import pencil_square from '../assets/image/pencil-square.svg';
-import { refreshState } from '../Recoil';
+import { persistTokenState, refreshState } from '../Recoil';
 import useDidMountEffect from '../useDidMountEffect';
 
 interface ReadReReplyObject {
@@ -36,6 +36,8 @@ function ReadReply(props: PropsObject) {
   const [commentVis, setCommentVis] = useState<boolean>(false);
   const [comment, setComment] = useState<ReadReReplyObject[]>([]);
   const [commentRef, setCommentRef] = useState<boolean>(false);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
   const date = new Date(contents.createdAt);
@@ -58,8 +60,11 @@ function ReadReply(props: PropsObject) {
   async function getComment() {
     const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      const res = await axios.get(url);
-      console.log(res.data);
+      const res = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       act(() => {
         setComment(res.data.data);
       });
@@ -72,8 +77,11 @@ function ReadReply(props: PropsObject) {
   async function deleteReply() {
     const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      const res = await axios.delete(url);
-      console.log(res.data);
+      await axios.delete(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       setRefresh(!refresh);
     } catch (error) {
       if (!navigator.onLine) {

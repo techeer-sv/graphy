@@ -73,6 +73,17 @@ const server = setupServer(
 );
 
 describe('ReadingPage', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'sessionStorage', {
+      value: {
+        getItem: jest.fn(() => 'faketoken'),
+        setItem: jest.fn(() => null),
+        removeItem: jest.fn(() => null),
+        clear: jest.fn(() => null),
+      },
+      writable: true,
+    });
+  });
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import reply_icon from '../assets/image/reply_icon.svg';
-import { projectIdState, refreshState } from '../Recoil';
+import { persistTokenState, projectIdState, refreshState } from '../Recoil';
 
 interface PropsObject {
   contents: {
@@ -26,6 +26,8 @@ function WriteReReply(props: PropsObject) {
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const projectId = useRecoilValue(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
@@ -63,8 +65,11 @@ function WriteReReply(props: PropsObject) {
     };
 
     try {
-      const res = await axios.post(url, data);
-      console.log(res.data);
+      await axios.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       act(() => {
         setrefresh(!refresh);
         setValue('');

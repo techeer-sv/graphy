@@ -29,21 +29,23 @@ function Banner() {
             </p>
           </div>
         </SwiperSlide>
-        <SwiperSlide className="flex bg-subbanner">
-          <div className="mx-auto ml-6 sm:ml-20 ">
-            <p className="mt-8 font-lef-b text-xl text-zinc-800 sm:mt-14 lg:text-3xl xl:text-4xl ">
-              프로젝트 공유하러 출발!
-            </p>
-            <p className="sm:text-md mr-10 mt-6 shrink-0 font-lef text-sm text-stone-800 md:text-lg lg:text-xl xl:text-2xl">
-              Graphy에서 누구나 프로젝트를 작성하고 공유할 수 있습니다. 이제
-              출발하세요!
-            </p>
+        <SwiperSlide className="bg-subbanner">
+          <div className="flex">
+            <div className="mx-auto ml-6 sm:ml-20 ">
+              <p className="mt-8 font-lef-b text-xl text-zinc-800 sm:mt-14 lg:text-3xl xl:text-4xl ">
+                프로젝트 공유하러 출발!
+              </p>
+              <p className="sm:text-md mr-10 mt-6 shrink-0 font-lef text-sm text-stone-800 md:text-lg lg:text-xl xl:text-2xl">
+                Graphy에서 누구나 프로젝트를 작성하고 공유할 수 있습니다. 이제
+                출발하세요!
+              </p>
+            </div>
+            <Lottie
+              className="mx-auto hidden bg-subbanner pb-20 sm:block sm:h-80 sm:min-h-56 sm:w-80"
+              animationData={lottie}
+              data-testid="lottie-animation"
+            />
           </div>
-          <Lottie
-            className="mx-auto hidden bg-subbanner pb-20 sm:block sm:h-80 sm:min-h-56 sm:w-80"
-            animationData={lottie}
-            data-testid="lottie-animation"
-          />
         </SwiperSlide>
       </Swiper>
     </div>

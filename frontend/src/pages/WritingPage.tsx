@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import ImageUploader from '../components/ImageUploader';
 import NavBar from '../components/NavBar';
@@ -9,6 +9,7 @@ import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import {
   contentsState,
+  persistTokenState,
   projectIdState,
   selectedStackState,
   thumbnailUrlState,
@@ -23,15 +24,20 @@ function WritingPage() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const [, setProjectId] = useRecoilState(projectIdState);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const navigate = useNavigate();
 
-  // 글쓰기 페이지 렌더링 시 변수 초기화
   useEffect(() => {
     if (!navigator.onLine) {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
       navigate('/');
     }
-    setTitle('');
+    if (!(accessToken || persistToken)) {
+      alert('로그인시 이용하실 수 있습니다.');
+      navigate('/');
+    }
+    setTitle(''); // 글쓰기 페이지 렌더링 시 변수 초기화
     setTldr('');
     setContents('');
     setSelectedStack([]);
@@ -70,7 +76,11 @@ function WritingPage() {
     };
 
     try {
-      const res = await axios.post(url, data);
+      const res = await axios.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(res.data);
       setProjectId(res.data.data.projectId);
       navigate(`/read/${res.data.data.projectId}`);

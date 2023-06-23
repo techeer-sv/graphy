@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { refreshState } from '../Recoil';
+import { persistTokenState, refreshState } from '../Recoil';
 
 interface PropsObject {
   contents: {
@@ -21,6 +21,8 @@ function PutReply(props: PropsObject) {
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState<string>(contents.content);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -53,7 +55,11 @@ function PutReply(props: PropsObject) {
     };
 
     try {
-      const res = await axios.put(url, data);
+      const res = await axios.put(url, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(res.data);
       setrefresh(!refresh);
       if (!('childCount' in contents)) {
