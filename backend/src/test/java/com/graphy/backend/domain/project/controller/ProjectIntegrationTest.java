@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
-
-@SpringBootTest
 @ActiveProfiles(TestProfile.TEST)
+@SpringBootTest
 @Transactional
 class ProjectIntegrationTest {
     @Autowired private ProjectRepository projectRepository;
