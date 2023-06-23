@@ -31,8 +31,6 @@ jobs:
 
       - name: Make properties
         run: |
-#          mkdir -p backend/src/test/resources
-#          cd backend/src/test/resources
           cd backend/src/main/resources
           touch ./application-test.yml
           echo "${{ secrets.TTEST_PROPERTIES }}" > ./application-test.yml
