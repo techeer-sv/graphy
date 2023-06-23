@@ -8,6 +8,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 
 // lazy 동적으로 필요할 때 import를 하여 실제로 로드되는 것
 const MainPage = lazy(() => import('./pages/MainPage'));
+const MyPage = lazy(() => import('./pages/MyPage'));
 const WritingPage = lazy(() => import('./pages/WritingPage'));
 const ReadingPage = lazy(() => import('./pages/ReadingPage'));
 const ModifyingPage = lazy(() => import('./pages/ModifyingPage'));
@@ -25,6 +26,7 @@ function App() {
           <Suspense fallback={<LoadingSpinner />}>
             <Routes>
               <Route path="/" element={<MainPage />} />
+              <Route path="/my" element={<MyPage />} />
               <Route path="/write" element={<WritingPage />} />
               <Route path="/read/:id" element={<ReadingPage />} />
               <Route path="/modify" element={<ModifyingPage />} />

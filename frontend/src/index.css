@@ -33,3 +33,15 @@
   font-family: 'LatoBold';
   src: url('./assets/fonts/LatoBold.ttf');
 }
+@font-face {
+  font-family: 'LatoLight';
+  src: url('./assets/fonts/LatoLight.ttf');
+}
+@font-face {
+  font-family: 'LatoRegular';
+  src: url('./assets/fonts/LatoRegular.ttf');
+}
+@font-face {
+  font-family: 'LatoSemibold';
+  src: url('./assets/fonts/LatoSemibold.ttf');
+}
