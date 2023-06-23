@@ -20,6 +20,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query(value = "select m.id, m.nickname " +
             "from Follow f " +
             "inner join Member m on m.id = f.to_id " +
-            "where f.from_id = :toId", nativeQuery = true)
-    List<FollowListDto> findFollowing(Long toId);
+            "where f.from_id = :fromId", nativeQuery = true)
+    List<FollowListDto> findFollowing(Long fromId);
 }
