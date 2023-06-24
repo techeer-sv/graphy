@@ -11,11 +11,3 @@ spring:
       ddl-auto: create-drop
     show-sql: true
 
-jwt:
-  secret: ${JWT_SECRET}
-
-gpt:
-  token: ${GPT_TOKEN}
-
-job:
-  key: ${JOB_KEY}
