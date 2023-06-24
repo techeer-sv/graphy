@@ -1,7 +1,7 @@
-/* eslint-disable react/no-array-index-key */
 import axios from 'axios';
 import React, { useState, PropsWithChildren, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { v4 as uuidv4 } from 'uuid';
 
 import arrowLeftIcon from '../assets/image/arrow-left.svg';
 import arrowRightIcon from '../assets/image/arrow-right.svg';
@@ -12,6 +12,9 @@ import pick from '../assets/image/pick.png';
 import plus from '../assets/image/plus-circle.svg';
 import {
   featuresState,
+  gptLoadingState,
+  statusOpenState,
+  modalContentState,
   persistTokenState,
   plansState,
   selectedStackState,
@@ -54,8 +57,9 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
 
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
-      w-[410px] translate-x-1/2  transform rounded-[30px] 
+      className=" fixed bottom-1/2 right-1/2 z-50 box-border 
+      h-660  w-[410px] translate-x-1/2 translate-y-1/2
+      transform rounded-[30px] 
       bg-white sm:w-630"
     >
       {/* 이전/다음 */}
@@ -164,9 +168,10 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
 
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
-        w-[410px] translate-x-1/2  transform rounded-[30px] 
-        bg-white sm:w-630"
+      className=" fixed bottom-1/2 right-1/2 z-50 box-border 
+      h-660  w-[410px] translate-x-1/2 translate-y-1/2
+      transform rounded-[30px] 
+      bg-white sm:w-630"
     >
       {/* 이전/다음 */}
       <div className="">
@@ -253,20 +258,43 @@ interface Screen3Props {
 }
 
 const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
-  const [features, setFeatures] = useRecoilState(featuresState);
+  const [featureObject, setFeatureObject] = useState<
+    { id: string; value: string }[]
+  >([]);
+  const [firstFeature, setFirstFeature] = useState('');
+  const [, setFeatures] = useRecoilState(featuresState);
 
   function Plus() {
-    const features2 = [...features];
-    if (features.length < 5) {
-      features2.push('');
-      setFeatures(features2);
+    if (featureObject.length < 4) {
+      setFeatureObject((oldFeatures) => [
+        ...oldFeatures,
+        { id: uuidv4(), value: '' },
+      ]);
     }
   }
+
+  const handleInputChange = (id: string, value: string) => {
+    setFeatureObject((oldFeatures) =>
+      oldFeatures.map((feature) =>
+        feature.id === id ? { ...feature, value } : feature,
+      ),
+    );
+  };
+
+  const handleFirstInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstFeature(e.target.value);
+  };
+
+  useEffect(() => {
+    setFeatures([firstFeature, ...featureObject.map((x) => x.value)]);
+  }, [firstFeature, featureObject]);
+
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
-        w-[410px] translate-x-1/2 transform rounded-[30px] 
-        bg-white sm:w-630"
+      className=" fixed bottom-1/2 right-1/2 z-50 box-border 
+      h-660  w-[410px] translate-x-1/2 translate-y-1/2
+      transform rounded-[30px] 
+      bg-white sm:w-630"
     >
       {/* 이전/다음 */}
       <div className="">
@@ -321,16 +349,26 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
         </div>
         {/* 기능 구현 입력창 */}
         <div className="relative mt-8 h-355" data-te-input-wrapper-init>
-          {features.map((x, y) => (
+          <input
+            type="text"
+            maxLength={20}
+            className=" ml-9  mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
+            placeholder="예시 - 구인글 작성 (최대 5개 작성 가능)"
+            value={firstFeature}
+            onChange={handleFirstInputChange}
+          />
+          {featureObject.map((x) => (
             <input
-              key={y}
+              key={x.id}
               type="text"
               maxLength={20}
               className=" ml-9  mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
               placeholder="기능을 입력해주세요"
+              value={x.value}
+              onChange={(e) => handleInputChange(x.id, e.target.value)}
             />
           ))}
-          {features.length < 5 ? (
+          {featureObject.length < 4 ? (
             <button
               className="ml-48 mt-5 flex items-center justify-center sm:ml-[297px]"
               onClick={() => Plus()}
@@ -358,25 +396,53 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
 
 interface Screen4Props {
   onPrev: () => void;
+  onClickToggleModal: () => void;
 }
 
-const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
+const Screen4: React.FC<Screen4Props> = ({ onPrev, onClickToggleModal }) => {
   const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
+
   const [plans, setPlans] = useRecoilState(plansState);
+  const [, setGptLoading] = useRecoilState(gptLoadingState);
+  const [, setStatusOpen] = useRecoilState(statusOpenState);
+  const [, setModalContent] = useRecoilState(modalContentState);
+
   const techStacks = useRecoilValue(techStacksState);
   const topic = useRecoilValue(topicState);
   const features = useRecoilValue(featuresState);
 
+  const [planObject, setPlanObject] = useState<{ id: string; value: string }[]>(
+    [],
+  );
+  const [firstPlan, setFirstPlans] = useState('');
+
   function Plus() {
-    const plans2 = [...plans];
-    if (plans.length < 5) {
-      plans2.push('');
-      setPlans(plans2);
+    if (planObject.length < 4) {
+      setPlanObject((oldFeatures) => [
+        ...oldFeatures,
+        { id: uuidv4(), value: '' },
+      ]);
     }
   }
 
-  function toSubmit() {
+  const handleInputChange = (id: string, value: string) => {
+    setPlanObject((oldFeatures) =>
+      oldFeatures.map((feature) =>
+        feature.id === id ? { ...feature, value } : feature,
+      ),
+    );
+  };
+
+  const handleFirstInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstPlans(e.target.value);
+  };
+
+  useEffect(() => {
+    setPlans([firstPlan, ...planObject.map((x) => x.value)]);
+  }, [firstPlan, planObject]);
+
+  async function toSubmit() {
     const url = 'http://localhost:8080/api/v1/projects/plans';
     const data = {
       plans,
@@ -385,22 +451,30 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
       features,
     };
     try {
-      const res = axios.post(url, data, {
+      setGptLoading(true);
+      setStatusOpen(true);
+      if (onClickToggleModal) {
+        onClickToggleModal();
+      }
+      const res = await axios.post(url, data, {
         headers: {
           Authorization: `Bearer ${accessToken || persistToken}`,
         },
       });
-      console.log(res);
+      setGptLoading(false);
+      setModalContent(res.data.data);
     } catch (err) {
+      setGptLoading(false);
       console.log(err);
     }
   }
 
   return (
     <div
-      className="-translate-y-1/2-translate-y-1/2 fixed top-20 right-1/2 z-50 box-border h-660
-        w-[410px] translate-x-1/2 transform rounded-[30px] 
-        bg-white sm:w-630"
+      className=" fixed bottom-1/2 right-1/2 z-50 box-border 
+      h-660  w-[410px] translate-x-1/2 translate-y-1/2
+      transform rounded-[30px] 
+      bg-white sm:w-630"
     >
       {/* 이전/다음 */}
       <button
@@ -444,16 +518,26 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev }) => {
       </div>
       {/* 고도화 기술 입력창 */}
       <div className="relative mt-8 h-355" data-te-input-wrapper-init>
-        {plans.map((x, y) => (
+        <input
+          type="text"
+          maxLength={20}
+          className=" ml-9  mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
+          placeholder="예시 - 캐싱 (최대 5개 작성 가능)"
+          value={firstPlan}
+          onChange={handleFirstInputChange}
+        />
+        {planObject.map((x) => (
           <input
-            key={y}
+            key={x.id}
             maxLength={20}
             type="text"
             className="ml-9 mb-7 flex w-10/12 justify-center border-b-2 focus:outline-none sm:ml-12"
             placeholder="고도화 계획을 입력해주세요"
+            value={x.value}
+            onChange={(e) => handleInputChange(x.id, e.target.value)}
           />
         ))}
-        {plans.length < 5 ? (
+        {planObject.length < 4 ? (
           <button
             className="ml-48 mt-5 flex h-5 w-5 items-center justify-center sm:ml-[297px]"
             onClick={() => Plus()}
@@ -509,7 +593,12 @@ function renderModal({
       case 3:
         return <Screen3 onPrev={handlePrev} onNext={handleNext} />;
       case 4:
-        return <Screen4 onPrev={handlePrev} />;
+        return (
+          <Screen4
+            onPrev={handlePrev}
+            onClickToggleModal={onClickToggleModal}
+          />
+        );
       default:
         return null;
     }

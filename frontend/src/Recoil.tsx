@@ -72,12 +72,27 @@ const topicState = atom<string>({
 
 const featuresState = atom<string[]>({
   key: 'featuresState',
-  default: [''],
+  default: [],
 });
 
 const plansState = atom<string[]>({
   key: 'plansState',
-  default: [''],
+  default: [],
+});
+
+const gptLoadingState = atom<boolean>({
+  key: 'gptLoadingState',
+  default: false,
+});
+
+const statusOpenState = atom<boolean>({
+  key: 'statusOpenState',
+  default: false,
+});
+
+const modalContentState = atom<string>({
+  key: 'modalContentState',
+  default: '',
 });
 
 export {
@@ -95,4 +110,7 @@ export {
   topicState,
   featuresState,
   plansState,
+  gptLoadingState,
+  statusOpenState,
+  modalContentState,
 };
