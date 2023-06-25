@@ -2,7 +2,6 @@ package com.graphy.backend.global.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 /** {행위}_{목적어}_{성공여부} message 는 동사 명사형으로 마무리 */
 @Getter
@@ -17,6 +16,10 @@ public enum ResultCode {
     FOLLOWER_GET_SUCCESS("F001", "팔로워 조회 성공"),
     FOLLOWING_CREATE_SUCCESS("F002", "팔로잉 성공"),
     FOLLOW_DELETE_SUCCESS("F003", "언팔로잉 성공"),
+
+
+    // Like
+    LIKE_PROJECT_SUCCESS("L001", "프로젝트 좋아요/좋아요 취소 성공"),
 
     // project
     PROJECT_CREATE_SUCCESS("P001", "프로젝트 생성 성공"),
