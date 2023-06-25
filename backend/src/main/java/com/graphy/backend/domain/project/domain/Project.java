@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.project.domain;
 
 import com.graphy.backend.domain.comment.domain.Comment;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +26,10 @@ public class Project extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Long id;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @Column(nullable = false)
     private String projectName;

@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.project.dto;
 
 import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
+import com.graphy.backend.domain.member.dto.MemberDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -96,6 +97,7 @@ public class ProjectDto {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectResponse {
         private Long id;
+        private MemberDto.GetMemberResponse member;
         private String projectName;
         private String description;
         private String thumbNail;
@@ -116,5 +118,7 @@ public class ProjectDto {
         private List<CommentWithMaskingDto> commentsList;
         private LocalDateTime createdAt;
         private List<String> techTags;
+
+        private MemberDto.GetMemberResponse member;
     }
 }
