@@ -35,6 +35,8 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/members/join",
                         "/api/v1/members/login",
                         "/api/v1/projects/search",
+                        "/api/v1/projects/{projectId}",
+                        "/api/v1/comments/{commentId}",
                         "/swagger-ui/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole("USER")
 
