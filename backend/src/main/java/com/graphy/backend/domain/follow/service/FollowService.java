@@ -1,9 +1,8 @@
 package com.graphy.backend.domain.follow.service;
 
 import com.graphy.backend.domain.follow.domain.Follow;
-import com.graphy.backend.domain.follow.dto.FollowListDto;
+import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
-import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.AlreadyFollowingException;
@@ -38,12 +37,12 @@ public class FollowService {
         followRepository.delete(follow);
     }
 
-    public List<FollowListDto> getFollowers() {
+    public List<MemberListDto> getFollowers() {
         Long id = customUserDetailsService.getLoginUser().getId();
         return followRepository.findFollower(id);
     }
 
-    public List<FollowListDto> getFollowings() {
+    public List<MemberListDto> getFollowings() {
         Long id = customUserDetailsService.getLoginUser().getId();
         return followRepository.findFollowing(id);
     }

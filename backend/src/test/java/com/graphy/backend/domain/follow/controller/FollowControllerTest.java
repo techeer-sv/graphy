@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.follow.controller;
 
-import com.graphy.backend.domain.follow.dto.FollowListDto;
+import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.follow.service.FollowService;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,7 +80,7 @@ public class FollowControllerTest extends MockApiTest {
     @DisplayName("팔로잉 리스트 조회 테스트")
     public void getFollowingListTest() throws Exception {
         // given
-        FollowListDto following1 = new FollowListDto() {
+        MemberListDto following1 = new MemberListDto() {
             public Long getId() {
                 return 1L;
             }
@@ -89,7 +89,7 @@ public class FollowControllerTest extends MockApiTest {
             }
         };
 
-        FollowListDto following2 = new FollowListDto() {
+        MemberListDto following2 = new MemberListDto() {
             public Long getId() {
                 return 2L;
             }
@@ -98,7 +98,7 @@ public class FollowControllerTest extends MockApiTest {
             }
         };
 
-        List<FollowListDto> followingList = Arrays.asList(following1, following2);
+        List<MemberListDto> followingList = Arrays.asList(following1, following2);
 
         // when
         given(followService.getFollowings()).willReturn(followingList);
@@ -120,7 +120,7 @@ public class FollowControllerTest extends MockApiTest {
     @DisplayName("팔로워 리스트 조회 테스트")
     public void getFollowerListTest() throws Exception {
         // given
-        FollowListDto follower1 = new FollowListDto() {
+        MemberListDto follower1 = new MemberListDto() {
             public Long getId() {
                 return 1L;
             }
@@ -129,7 +129,7 @@ public class FollowControllerTest extends MockApiTest {
             }
         };
 
-        FollowListDto follower2 = new FollowListDto() {
+        MemberListDto follower2 = new MemberListDto() {
             public Long getId() {
                 return 2L;
             }
@@ -138,7 +138,7 @@ public class FollowControllerTest extends MockApiTest {
             }
         };
 
-        List<FollowListDto> followerList = Arrays.asList(follower1, follower2);
+        List<MemberListDto> followerList = Arrays.asList(follower1, follower2);
 
         // when
         given(followService.getFollowers()).willReturn(followerList);

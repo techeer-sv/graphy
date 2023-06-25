@@ -1,7 +1,7 @@
 package com.graphy.backend.domain.follow.service;
 
 import com.graphy.backend.domain.follow.domain.Follow;
-import com.graphy.backend.domain.follow.dto.FollowListDto;
+import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
@@ -54,7 +54,7 @@ public class FollowServiceTest extends MockTest {
     public void getFollowingListTest() throws Exception {
         //given
         Member fromMember = Member.builder().id(1L).build();
-        FollowListDto following1 = new FollowListDto() {
+        MemberListDto following1 = new MemberListDto() {
             public Long getId() {
                 return 2L;
             }
@@ -63,7 +63,7 @@ public class FollowServiceTest extends MockTest {
             }
         };
 
-        FollowListDto following2 = new FollowListDto() {
+        MemberListDto following2 = new MemberListDto() {
             public Long getId() {
                 return 3L;
             }
@@ -71,12 +71,12 @@ public class FollowServiceTest extends MockTest {
                 return "memberB";
             }
         };
-        List<FollowListDto> followingList = Arrays.asList(following1, following2);
+        List<MemberListDto> followingList = Arrays.asList(following1, following2);
 
         //when
         when(customUserDetailsService.getLoginUser()).thenReturn(fromMember);
         when(followRepository.findFollowing(fromMember.getId())).thenReturn(followingList);
-        List<FollowListDto> result = followService.getFollowings();
+        List<MemberListDto> result = followService.getFollowings();
 
         //then
         Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
@@ -90,7 +90,7 @@ public class FollowServiceTest extends MockTest {
     public void getFollowerListTest() throws Exception {
         //given
         Member toMember = Member.builder().id(1L).build();
-        FollowListDto follower1 = new FollowListDto() {
+        MemberListDto follower1 = new MemberListDto() {
             public Long getId() {
                 return 2L;
             }
@@ -99,7 +99,7 @@ public class FollowServiceTest extends MockTest {
             }
         };
 
-        FollowListDto follower2 = new FollowListDto() {
+        MemberListDto follower2 = new MemberListDto() {
             public Long getId() {
                 return 3L;
             }
@@ -107,12 +107,12 @@ public class FollowServiceTest extends MockTest {
                 return "memberB";
             }
         };
-        List<FollowListDto> followerList = Arrays.asList(follower1, follower2);
+        List<MemberListDto> followerList = Arrays.asList(follower1, follower2);
 
         //when
         when(customUserDetailsService.getLoginUser()).thenReturn(toMember);
         when(followRepository.findFollower(toMember.getId())).thenReturn(followerList);
-        List<FollowListDto> result = followService.getFollowers();
+        List<MemberListDto> result = followService.getFollowers();
 
         //then
         Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
