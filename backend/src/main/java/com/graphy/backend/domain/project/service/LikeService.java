@@ -1,16 +1,19 @@
 package com.graphy.backend.domain.project.service;
 
+import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.domain.project.domain.Like;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.LikeRepository;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
+import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.graphy.backend.global.error.ErrorCode.MEMBER_NOT_EXIST;
@@ -24,12 +27,13 @@ public class LikeService {
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
 
-    public void findLikedMember(Long projectId) {
-        //TODO
+    private final CustomUserDetailsService customUserDetailsService;
+    public List<MemberListDto> findLikedMember(Long projectId) {
+        return likeRepository.findLikedMembers(projectId);
     }
 
-    public void likeProject(Long projectId, Long memberId) {
-
+    public void likeProject(Long projectId) {
+        Long memberId = customUserDetailsService.getLoginUser().getId();
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new EmptyResultException(MEMBER_NOT_EXIST));
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new EmptyResultException(PROJECT_DELETED_OR_NOT_EXIST));
 
