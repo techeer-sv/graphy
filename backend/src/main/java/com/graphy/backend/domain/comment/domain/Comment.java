@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.comment.domain;
 
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
@@ -29,6 +30,10 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")

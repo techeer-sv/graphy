@@ -3,6 +3,7 @@ package com.graphy.backend.domain.comment.service;
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
@@ -21,13 +22,14 @@ import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
     private final ProjectRepository projectRepository;
 
     public CreateCommentResponse createComment(CreateCommentRequest dto) {
 
         Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
+        Member loginUser = customUserDetailsService.getLoginUser();
 
         Comment parentComment = null;
         if (dto.getParentId() != null) {
@@ -35,8 +37,7 @@ public class CommentService {
                     .orElseThrow(() -> new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST));
         }
 
-        Comment entity = CreateCommentRequest.to(dto, project, parentComment);
-
+        Comment entity = CreateCommentRequest.to(dto, project, parentComment, loginUser);
         return new CreateCommentResponse(commentRepository.save(entity).getId());
     }
 

@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.comment.dto;
 
 import com.graphy.backend.domain.comment.domain.Comment;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import lombok.*;
 
@@ -19,8 +20,9 @@ public class CommentDto {
 
         private Long parentId;
 
-        public static Comment to(CreateCommentRequest createCommentRequest, Project project, Comment parentComment) {
+        public static Comment to(CreateCommentRequest createCommentRequest, Project project, Comment parentComment, Member member) {
             return Comment.builder()
+                    .member(member)
                     .content(createCommentRequest.getContent())
                     .parent(parentComment)
                     .project(project)
@@ -32,7 +34,6 @@ public class CommentDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdateCommentRequest {
-
         @NotBlank
         private String content;
     }
