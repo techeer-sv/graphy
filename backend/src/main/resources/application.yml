@@ -1,24 +1,17 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  profiles:
+    active: local
 
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
     async:
       request-timeout: 60000
-  profiles:
-    active: local
 
-  jpa:
-    database: mysql
-    hibernate:
-      ddl-auto: update
-    generate-ddl: false
-    properties:
-      hibernate:
-        format_sql: true
-    defer-datasource-initialization: true
+  output:
+    ansi:
+      enabled: always
 
 
 logging:

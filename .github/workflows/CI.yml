@@ -40,6 +40,10 @@ jobs:
         run: |
           cd backend
           ./gradlew build --info
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          GPT_TOKEN: ${{ secrets.GPT_TOKEN }}
+          JOB_KEY: ${{ secrets.JOB_KEY }}
 
       - name: Backend Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1

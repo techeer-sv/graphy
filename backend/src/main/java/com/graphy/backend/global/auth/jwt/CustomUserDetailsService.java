@@ -2,6 +2,8 @@ package com.graphy.backend.global.auth.jwt;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
+import com.graphy.backend.global.error.ErrorCode;
+import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return memberRepository.findByEmail(email)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new EmptyResultException(ErrorCode.MEMBER_NOT_EXIST));
     }
 
     private UserDetails createUserDetails(Member member) {
@@ -41,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = ((UserDetails) principal).getUsername();
         return memberRepository.findByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다.")
+                () -> new EmptyResultException(ErrorCode.MEMBER_NOT_EXIST)
         );
     }
 }

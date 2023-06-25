@@ -12,6 +12,11 @@ public enum ResultCode {
     // Member
     MEMBER_CREATE_SUCCESS("M001", "사용자 등록 성공"),
 
+    // Follow
+    FOLLOWER_GET_SUCCESS("F001", "팔로워 조회 성공"),
+    FOLLOWING_CREATE_SUCCESS("F002", "팔로잉 성공"),
+    FOLLOW_DELETE_SUCCESS("F003", "언팔로잉 성공"),
+
     // project
     PROJECT_CREATE_SUCCESS("P001", "프로젝트 생성 성공"),
     PROJECT_GET_SUCCESS("P002", "프로젝트 조회 성공"),
