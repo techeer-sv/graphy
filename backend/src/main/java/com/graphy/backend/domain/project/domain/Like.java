@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "Like")
+@Table(name = "Liked")
 @Entity
 @Builder
 public class Like extends BaseEntity {
