@@ -75,7 +75,6 @@ function ReadingPage() {
       setReadReply(res.data.data.commentsList);
       setNickname(res.data.data.member.nickname);
       setCreatedAt(res.data.data.createdAt);
-      console.log(res.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
@@ -183,8 +182,8 @@ function ReadingPage() {
           <div className="mb-4 flex items-center border-b-2 border-graphyblue pb-2">
             <img className="h-6 w-6" src={ProfileIcon} alt="ProfileIcon" />
             <span className="ml-1 font-ng-b text-lg">{nickname}</span>
-            <span className="text-ml font-ng text-lg">
-              &nbsp; | {createdAt.slice(0, 10)}
+            <span className="text-ml font-ng text-lg text-gray-500">
+              &nbsp; |&nbsp; {createdAt.slice(0, 10)}
             </span>
           </div>
           <div className="mb-2 flex flex-row overflow-hidden hover:overflow-x-auto">

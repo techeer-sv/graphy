@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 
 import WriteIcon from '../assets/image/pencil-square.svg';
 import ProfileIcon from '../assets/image/profileIcon.svg';
+import SearchIcon from '../assets/image/searchIcon.png';
 import { persistTokenState, refreshState, searchTextState } from '../Recoil';
 
 function NavBar() {
@@ -52,6 +53,17 @@ function NavBar() {
     navigate('/my');
   }
 
+  const handleSearch = () => {
+    if (searchText === '' || searchText === '@') {
+      navigate('/');
+    } else if (searchText.charAt(0) === '@') {
+      const username = searchText.substring(1);
+      navigate(`/searchUser/${username}`);
+    } else {
+      navigate(`/searchProject/${searchText}`);
+    }
+  };
+
   return (
     <div className="fixed z-20 mb-5 flex w-screen flex-row content-center overflow-hidden border-b border-zinc-400 bg-white pt-3 pb-3 align-middle font-ng-eb">
       {/* 로고 */}
@@ -71,14 +83,29 @@ function NavBar() {
       </button>
 
       {/* 검색창 */}
-      <input
-        value={searchText}
-        onChange={getSearchData}
-        type="text"
-        alt="search"
-        placeholder="search"
-        className=" mx-4 h-auto w-full appearance-none rounded-xl border pl-2 sm:w-full"
-      />
+      <div className="relative mx-4 flex h-auto w-full items-center rounded-xl border">
+        <input
+          value={searchText}
+          onChange={getSearchData}
+          type="text"
+          alt="search"
+          placeholder="search"
+          className=" h-auto w-full appearance-none pl-2"
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch();
+            }
+          }}
+        />
+        <button
+          className="mr-2"
+          onClick={handleSearch}
+          aria-label="SearchButton"
+          type="button"
+        >
+          <img className="h-6 w-auto" src={SearchIcon} alt="SearchIcon" />
+        </button>
+      </div>
       {accessToken || persistToken ? (
         <button
           className=" mr-4 whitespace-nowrap rounded-full bg-graphyblue px-4 text-white"

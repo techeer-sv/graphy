@@ -15,6 +15,8 @@ const ModifyingPage = lazy(() => import('./pages/ModifyingPage'));
 const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 const SigninPage = lazy(() => import('./pages/SigninPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
+const SearchProjectPage = lazy(() => import('./pages/SearchProjectPage'));
+const SearchUserPage = lazy(() => import('./pages/SearchUserPage'));
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,14 @@ function App() {
               <Route path="/modify" element={<ModifyingPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route
+                path="/searchProject/:projectName"
+                element={<SearchProjectPage />}
+              />
+              <Route
+                path="/searchUser/:userName"
+                element={<SearchUserPage />}
+              />
               <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </Suspense>
