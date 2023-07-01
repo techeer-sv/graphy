@@ -3,6 +3,7 @@ package com.graphy.backend.domain.project.domain;
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -43,6 +44,10 @@ public class Project extends BaseEntity {
 
     private String thumbNail;
 
+    @Column(nullable = true)
+    @ColumnDefault("0")
+    private int likeCount = 0;
+
     public void updateProject(String projectName, String content,
                               String description, Tags tags,
                               String thumbNail) {
@@ -52,6 +57,10 @@ public class Project extends BaseEntity {
         this.thumbNail = thumbNail;
         projectTags.clear();
         addTag(tags);
+    }
+
+    public void updateLikeCount(int amount) {
+        this.likeCount += amount;
     }
 
     public void addTag(Tags tags) {
