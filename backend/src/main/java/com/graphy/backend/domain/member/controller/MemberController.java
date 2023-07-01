@@ -29,17 +29,24 @@ public class MemberController {
         return memberService.login(request);
     }
 
-    @Operation(summary = "Join", description = "회원가입")
+    @Operation(summary = "join", description = "회원가입")
     @PostMapping("/join")
     public ResponseEntity<ResultResponse> join(@Validated @RequestBody CreateMemberRequest request) {
         memberService.join(request);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_CREATE_SUCCESS));
     }
 
-    @Operation(summary = "Search", description = "사용자 조회")
+    @Operation(summary = "get member", description = "사용자 조회")
     @GetMapping()
     public ResponseEntity<ResultResponse> findMember(@RequestParam String nickname) {
         List<GetMemberResponse> result = memberService.findMember(nickname);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_CREATE_SUCCESS, result));
+    }
+
+    @Operation(summary = "myPage", description = "마이페이지")
+    @GetMapping("/myPage")
+    public ResponseEntity<ResultResponse> myPage() {
+        GetMyPage result = memberService.myPage();
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
     }
 }

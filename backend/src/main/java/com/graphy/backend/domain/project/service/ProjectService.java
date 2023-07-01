@@ -112,6 +112,12 @@ public class ProjectService {
         return mapper.toDtoList(projects).getContent();
     }
 
+    public List<ProjectInfo> getProjectInfoList(Long id) {
+        return projectRepository.findByMemberId(id).stream()
+                .map(mapper::toProjectInfoDto)
+                .collect(Collectors.toList());
+    }
+
     @Async
     public CompletableFuture<String> getProjectPlanAsync(String prompt) {
         GptCompletionRequest dto = new GptCompletionRequest();

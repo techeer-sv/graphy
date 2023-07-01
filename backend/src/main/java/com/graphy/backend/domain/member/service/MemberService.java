@@ -2,6 +2,11 @@ package com.graphy.backend.domain.member.service;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
+import com.graphy.backend.domain.project.domain.Project;
+import com.graphy.backend.domain.project.dto.ProjectDto;
+import com.graphy.backend.domain.project.repository.ProjectRepository;
+import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
 import com.graphy.backend.global.auth.jwt.dto.TokenInfo;
 import lombok.AccessLevel;
@@ -18,12 +23,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
+import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final ProjectService projectService;
     private final PasswordEncoder encoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
@@ -58,5 +66,11 @@ public class MemberService {
         return memberList.stream()
                 .map(GetMemberResponse::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public GetMyPage myPage() {
+        Member member = customUserDetailsService.getLoginUser();
+        List<ProjectInfo> projectInfoList = projectService.getProjectInfoList(member.getId());
+        return GetMyPage.from(member, projectInfoList);
     }
 }

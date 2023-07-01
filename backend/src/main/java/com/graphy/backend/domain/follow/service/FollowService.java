@@ -1,8 +1,10 @@
 package com.graphy.backend.domain.follow.service;
 
 import com.graphy.backend.domain.follow.domain.Follow;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
+import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.AlreadyFollowingException;
@@ -20,13 +22,16 @@ import java.util.List;
 @Transactional
 public class FollowService {
     private final FollowRepository followRepository;
+    private final MemberRepository memberRepository;
     private final CustomUserDetailsService customUserDetailsService;
 
     public void follow(Long toId) {
         Long fromId = customUserDetailsService.getLoginUser().getId();
-        Follow follow = Follow.builder().fromId(fromId).toId(toId).build();
         followingCheck(fromId, toId);
+        Follow follow = Follow.builder().fromId(fromId).toId(toId).build();
         followRepository.save(follow);
+        memberRepository.increaseFollowerCount(toId);
+        memberRepository.increaseFollowingCount(fromId);
     }
 
     public void unfollow(Long toId) {
@@ -35,6 +40,8 @@ public class FollowService {
                 () -> new EmptyResultException(ErrorCode.FOLLOW_NOT_EXIST)
         );
         followRepository.delete(follow);
+        memberRepository.decreaseFollowerCount(toId);
+        memberRepository.decreaseFollowingCount(fromId);
     }
 
     public List<MemberListDto> getFollowers() {
