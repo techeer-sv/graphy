@@ -24,15 +24,15 @@ function ResultModal() {
   return (
     <div>
       {statusOpen ? (
-        <div className="fixed right-4 bottom-8 z-10 flex h-auto w-auto items-center rounded bg-white py-4 pl-4 shadow-lg ">
+        <div className="fixed right-4 bottom-8 z-10 flex h-16 w-[450px] items-center rounded bg-white py-4 pl-4 shadow-lg ">
           {gptLoading ? (
-            <p className="mr-4 font-ng-b">
+            <p className="ml-7 font-ng-b">
               AI 고도화 계획을 생성중입니다. 잠시만 기다려주세요.
             </p>
           ) : (
             <>
               <button
-                className="font-ng-b"
+                className=" ml-1 w-96 font-ng-b"
                 type="button"
                 onClick={openResultModal}
               >
