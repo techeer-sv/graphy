@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import WriteIcon from '../assets/image/pencil-square.svg';
-import ProfileIcon from '../assets/image/ProfileIcon.svg';
+import ProfileIcon from '../assets/image/profileIcon.svg';
 import { persistTokenState, refreshState, searchTextState } from '../Recoil';
 
 function NavBar() {

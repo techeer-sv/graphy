@@ -39,7 +39,6 @@ function MainPage() {
         params,
       },
     );
-    console.log(res.data);
     return res.data.data;
   }
 

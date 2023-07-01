@@ -60,6 +60,41 @@ const autoLoginState = atom<boolean>({
   effects_UNSTABLE: [persistAtom],
 });
 
+const techStacksState = atom<string[]>({
+  key: 'techStacksState',
+  default: [],
+});
+
+const topicState = atom<string>({
+  key: 'topicState',
+  default: '',
+});
+
+const featuresState = atom<string[]>({
+  key: 'featuresState',
+  default: [],
+});
+
+const plansState = atom<string[]>({
+  key: 'plansState',
+  default: [],
+});
+
+const gptLoadingState = atom<boolean>({
+  key: 'gptLoadingState',
+  default: false,
+});
+
+const statusOpenState = atom<boolean>({
+  key: 'statusOpenState',
+  default: false,
+});
+
+const modalContentState = atom<string>({
+  key: 'modalContentState',
+  default: '',
+});
+
 export {
   titleState,
   tldrState,
@@ -71,4 +106,11 @@ export {
   searchTextState,
   persistTokenState,
   autoLoginState,
+  techStacksState,
+  topicState,
+  featuresState,
+  plansState,
+  gptLoadingState,
+  statusOpenState,
+  modalContentState,
 };
