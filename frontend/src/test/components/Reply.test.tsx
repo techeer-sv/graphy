@@ -48,6 +48,17 @@ const server = setupServer(
 window.scrollTo = jest.fn();
 
 describe('Reply', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'sessionStorage', {
+      value: {
+        getItem: jest.fn(() => 'faketoken'),
+        setItem: jest.fn(() => null),
+        removeItem: jest.fn(() => null),
+        clear: jest.fn(() => null),
+      },
+      writable: true,
+    });
+  });
   beforeAll(() => {
     server.listen();
   });

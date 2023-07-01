@@ -39,6 +39,7 @@ module.exports = {
     'no-alert': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'func-names': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/function-component-definition': [
       2,
       { namedComponents: ['arrow-function', 'function-declaration'] },

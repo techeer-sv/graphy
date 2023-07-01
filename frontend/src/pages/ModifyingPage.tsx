@@ -9,6 +9,7 @@ import QuillEditor from '../components/QuillEditor';
 import TechStackSelection from '../components/TechStackSelection';
 import {
   contentsState,
+  persistTokenState,
   projectIdState,
   selectedStackState,
   thumbnailUrlState,
@@ -22,6 +23,8 @@ function ModifyingPage() {
   const contents = useRecoilValue(contentsState);
   const selectedStack = useRecoilValue(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const projectId = useRecoilValue(projectIdState);
   const navigate = useNavigate();
 
@@ -29,6 +32,10 @@ function ModifyingPage() {
     if (!navigator.onLine) {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
       navigate(`/read/${projectId}`);
+    }
+    if (!(accessToken || persistToken)) {
+      alert('로그인시 이용하실 수 있습니다.');
+      navigate('/');
     }
   }, []);
 
@@ -64,7 +71,11 @@ function ModifyingPage() {
     };
 
     try {
-      const response = await axios.put(url, data);
+      const response = await axios.put(url, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(response.data);
       navigate(`/read/${projectId}`);
       setThumbnailUrl('');

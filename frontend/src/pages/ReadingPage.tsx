@@ -15,6 +15,7 @@ import {
   titleState,
   tldrState,
   refreshState,
+  persistTokenState,
 } from '../Recoil';
 import AllStacks from '../Stack';
 
@@ -32,6 +33,8 @@ function ReadingPage() {
   const [, setContents] = useRecoilState(contentsState);
   const [readReply, setReadReply] = useState<ReadReplyObject[]>([]);
   const refresh = useRecoilValue(refreshState);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
   const navigate = useNavigate();
   const params = useParams();
 
@@ -56,6 +59,11 @@ function ReadingPage() {
     try {
       const res = await axios.get(
         `http://localhost:8080/api/v1/projects/${params.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken || persistToken}`,
+          },
+        },
       );
       setTitle(res.data.data.projectName);
       setTldr(res.data.data.description);
@@ -85,6 +93,11 @@ function ReadingPage() {
       try {
         await axios.delete(
           `http://localhost:8080/api/v1/projects/${params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken || persistToken}`,
+            },
+          },
         );
         act(() => {
           navigate('/');
@@ -140,20 +153,21 @@ function ReadingPage() {
       {/** 전체 컨텐츠 영역* */}
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/* AI 고도화 버튼 */}
-        <button
-          className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full  bg-graphyblue
+        {accessToken || persistToken ? (
+          <button
+            className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full  bg-graphyblue
           px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md hover:bg-button"
-          onClick={onClickToggleModal}
-          type="button"
-        >
-          <img className="mr-2 h-5 w-5" src={gptIcon} alt="gptIcon" />
-          <span className="shrink-0 font-semibold">AI 고도화 추천</span>
-        </button>
+            onClick={onClickToggleModal}
+            type="button"
+          >
+            <img className="mr-2 h-5 w-5" src={gptIcon} alt="gptIcon" />
+            <span className="shrink-0 font-semibold">AI 고도화 추천</span>
+          </button>
+        ) : null}
 
         {isOpenModal ? (
           <RenderModal onClickToggleModal={onClickToggleModal} />
         ) : null}
-
         {/** 텍스트 영역* */}
         <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/** 제목* */}
@@ -199,30 +213,34 @@ function ReadingPage() {
         {/** 글 영역* */}
         <QuillWrtten />
         {/** 버튼 영역* */}
-        <div className="mt-20 mb-4 flex justify-end pb-4 sm:mt-20 lg:mt-12">
-          <button
-            className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
-            onClick={() => toModify()}
-            type="submit"
-          >
-            수정
-          </button>
-          <button
-            className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
-            onClick={() => deleteData()}
-            type="button"
-          >
-            삭제
-          </button>
-          <button
-            className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-graphyblue font-ng text-white hover:bg-blue-800"
-            onClick={() => toWrite()}
-            type="submit"
-          >
-            글작성
-          </button>
+        {accessToken || persistToken ? (
+          <div className="mt-20 flex justify-end pb-4 sm:mt-20 lg:mt-12">
+            <button
+              className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
+              onClick={() => toModify()}
+              type="submit"
+            >
+              수정
+            </button>
+            <button
+              className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
+              onClick={() => deleteData()}
+              type="button"
+            >
+              삭제
+            </button>
+            <button
+              className="focus:shadow-outline h-12 w-24 appearance-none rounded-sm bg-graphyblue font-ng text-white hover:bg-blue-800"
+              onClick={() => toWrite()}
+              type="submit"
+            >
+              글작성
+            </button>
+          </div>
+        ) : null}
+        <div className="mt-4">
+          <Reply contents={readReply} setReadReply={setReadReply} />
         </div>
-        <Reply contents={readReply} setReadReply={setReadReply} />
       </div>
     </div>
   );
