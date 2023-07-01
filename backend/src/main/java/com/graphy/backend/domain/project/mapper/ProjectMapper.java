@@ -1,6 +1,8 @@
 package com.graphy.backend.domain.project.mapper;
 
 import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
+import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.member.dto.MemberDto;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.ProjectTag;
 import com.graphy.backend.domain.project.domain.ProjectTags;
@@ -34,8 +36,9 @@ public class ProjectMapper {
         return CreateProjectResponse.builder().projectId(id).build();
     }
 
-    public Project toEntity(CreateProjectRequest dto) {
+    public Project toEntity(CreateProjectRequest dto, Member member) {
         return Project.builder()
+                .member(member)
                 .projectName(dto.getProjectName())
                 .content(dto.getContent())
                 .description(dto.getDescription())
@@ -59,6 +62,7 @@ public class ProjectMapper {
                 .createdAt(project.getCreatedAt())
                 .techTags(project.getTagNames())
                 .thumbNail(project.getThumbNail())
+                .member(MemberDto.GetMemberResponse.toDto(project.getMember()))
                 .build();
     }
 
@@ -73,6 +77,7 @@ public class ProjectMapper {
                 .techTags(project.getTagNames())
                 .content(project.getContent())
                 .commentsList(comments)
+                .member(MemberDto.GetMemberResponse.toDto(project.getMember()))
                 .thumbNail(project.getThumbNail())
                 .build();
     }

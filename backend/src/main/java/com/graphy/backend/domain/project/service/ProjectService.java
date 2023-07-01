@@ -11,7 +11,6 @@ import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
-import com.graphy.backend.global.chatgpt.dto.GptCompletionDto;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
@@ -20,7 +19,6 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,10 +26,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -46,7 +40,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
     private final ProjectTagRepository projectTagRepository;
-    private final CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     private final ProjectMapper mapper;
     private final CommentRepository commentRepository;
@@ -69,7 +63,8 @@ public class ProjectService {
 //    }
 
     public CreateProjectResponse createProject(CreateProjectRequest dto) {
-        Project entity = mapper.toEntity(dto);
+        Member loginUser = customUserDetailsService.getLoginUser();
+        Project entity = mapper.toEntity(dto,loginUser);
         if (dto.getTechTags() != null) {
             Tags foundTags = getTagsWithName(dto.getTechTags());
             entity.addTag(foundTags);
