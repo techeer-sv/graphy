@@ -40,13 +40,13 @@ public class MemberController {
     @GetMapping()
     public ResponseEntity<ResultResponse> findMember(@RequestParam String nickname) {
         List<GetMemberResponse> result = memberService.findMember(nickname);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_CREATE_SUCCESS, result));
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_GET_SUCCESS, result));
     }
 
     @Operation(summary = "myPage", description = "마이페이지")
     @GetMapping("/myPage")
     public ResponseEntity<ResultResponse> myPage() {
-        GetMyPage result = memberService.myPage();
+        GetMyPageResponse result = memberService.myPage();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
     }
 }
