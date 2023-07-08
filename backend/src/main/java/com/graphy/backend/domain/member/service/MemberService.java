@@ -70,4 +70,9 @@ public class MemberService {
         List<ProjectInfo> projectInfoList = projectService.getProjectInfoList(member.getId());
         return GetMyPageResponse.from(member, projectInfoList);
     }
+
+    public boolean checkEmailDuplicate(String email) {
+        if (memberRepository.findByEmail(email).isEmpty()) return true;
+        return false;
+    }
 }

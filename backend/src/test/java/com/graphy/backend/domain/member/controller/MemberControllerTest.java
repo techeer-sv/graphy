@@ -62,6 +62,7 @@ public class MemberControllerTest extends MockApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("사용자 등록 성공"))
                 .andDo(document("member-join",
                         preprocessResponse(prettyPrint()))
                 );

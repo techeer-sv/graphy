@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,6 +41,7 @@ class CommentServiceTest extends MockTest {
     private ProjectRepository projectRepository;
 
     @Test
+    @WithMockUser(username = "graphy@gmail.com", password = "1234", roles = "USER")
     @DisplayName("댓글이 생성된다")
     void createCommentTest() {
 
