@@ -1,6 +1,6 @@
 package com.graphy.backend.global.error;
 
-import com.graphy.backend.global.error.exception.AlreadyFollowingException;
+import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.BusinessException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(AlreadyFollowingException e) {
+    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(AlreadyExistException e) {
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = makeErrorResponse(errorCode);
         log.warn(e.getMessage());

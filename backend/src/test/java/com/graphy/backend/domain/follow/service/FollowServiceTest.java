@@ -5,7 +5,7 @@ import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
-import com.graphy.backend.global.error.exception.AlreadyFollowingException;
+import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
 import org.assertj.core.api.Assertions;
@@ -169,7 +169,7 @@ public class FollowServiceTest extends MockTest {
         when(followRepository.existsByFromIdAndToId(3L, 4L)).thenReturn(false);
 
         // then
-        assertThrows(AlreadyFollowingException.class, () -> {
+        assertThrows(AlreadyExistException.class, () -> {
             ReflectionTestUtils.invokeMethod(followService, "followingCheck", 1L, 2L);
         });
 

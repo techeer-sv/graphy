@@ -2,6 +2,7 @@ package com.graphy.backend.global.config;
 
 import com.graphy.backend.global.auth.jwt.JwtFilter;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final TokenProvider tokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,6 +37,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/v1/members/join",
                         "/api/v1/members/login",
+                        "/api/v1/members/logout",
                         "/api/v1/projects/search",
                         "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/projects/{projectId}").permitAll()
@@ -46,7 +49,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
-                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(tokenProvider, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }

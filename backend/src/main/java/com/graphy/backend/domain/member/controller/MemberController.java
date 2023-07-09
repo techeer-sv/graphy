@@ -1,7 +1,7 @@
 package com.graphy.backend.domain.member.controller;
 
 import com.graphy.backend.domain.member.service.MemberService;
-import com.graphy.backend.global.auth.jwt.dto.TokenInfo;
+import com.graphy.backend.global.auth.jwt.dto.TokenDto;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,9 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
+import static com.graphy.backend.global.auth.jwt.dto.TokenDto.*;
 
 @Tag(name = "MemberController", description = "회원 API")
 @RestController
@@ -25,8 +27,9 @@ public class MemberController {
 
     @Operation(summary = "login", description = "로그인")
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody LoginMemberRequest request) {
-        return memberService.login(request);
+    public TokenInfo login(HttpServletRequest request,
+                          @RequestBody LoginMemberRequest dto) {
+        return memberService.login(request, dto);
     }
 
     @Operation(summary = "join", description = "회원가입")
@@ -48,5 +51,18 @@ public class MemberController {
     public ResponseEntity<ResultResponse> myPage() {
         GetMyPageResponse result = memberService.myPage();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
+    }
+
+    @Operation(summary = "reIssue", description = "토큰 재발급")
+    @PostMapping(value = "/reissue")
+    public TokenInfo reissue(HttpServletRequest request) {
+        return memberService.reissue(request);
+    }
+
+    @Operation(summary = "logout", description = "로그아웃")
+    @PostMapping(value = "/logout")
+    public ResponseEntity<ResultResponse> logout(@RequestBody LogoutRequest dto) {
+        memberService.logout(dto);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_LOGOUT_SUCCESS));
     }
 }

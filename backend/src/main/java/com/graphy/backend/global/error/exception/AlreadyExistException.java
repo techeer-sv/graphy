@@ -5,10 +5,10 @@ import lombok.Getter;
 import org.springframework.dao.DataIntegrityViolationException;
 
 @Getter
-public class AlreadyFollowingException extends DataIntegrityViolationException {
+public class AlreadyExistException extends DataIntegrityViolationException {
     private final ErrorCode errorCode;
 
-    public AlreadyFollowingException(ErrorCode errorCode) {
+    public AlreadyExistException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
