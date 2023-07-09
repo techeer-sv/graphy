@@ -115,8 +115,6 @@ public class MemberService {
 
             //3. 저장된 refresh token 찾기
             RefreshToken savedRefreshToken = refreshTokenRepository.findByEmail(member.getEmail());
-            String beforeUpdate = savedRefreshToken.getToken();
-            System.out.println("beforeUpdate = " + beforeUpdate);
             if (savedRefreshToken != null) {
 
                 //4. 최초 로그인한 ip 와 같은지 확인
@@ -136,10 +134,6 @@ public class MemberService {
 
                     refreshTokenRepository.save(newRefreshToken);
                     savedRefreshToken.updateToken(newRefreshToken.getToken());
-                    String afterUpdate = savedRefreshToken.getToken();
-                    System.out.println("afterUpdate = " + afterUpdate);
-                    Optional<RefreshToken> result = refreshTokenRepository.findById(beforeUpdate);
-                    System.out.println(savedRefreshToken.getToken().equals(newRefreshToken.getToken()));
                     return newToken;
                 }
             }
