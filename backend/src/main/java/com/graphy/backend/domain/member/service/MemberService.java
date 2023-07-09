@@ -1,10 +1,8 @@
 package com.graphy.backend.domain.member.service;
 
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.member.dto.MemberInfo;
 import com.graphy.backend.domain.member.repository.MemberRepository;
-import com.graphy.backend.domain.project.domain.Project;
-import com.graphy.backend.domain.project.dto.ProjectDto;
-import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
@@ -18,12 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
+import static com.graphy.backend.domain.project.dto.ProjectDto.ProjectInfo;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
@@ -68,8 +65,8 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public GetMyPage myPage() {
-        Member member = customUserDetailsService.getLoginUser();
+    public GetMyPage myPage(MemberInfo memberInfo) {
+        Member member = memberInfo.getMember();
         List<ProjectInfo> projectInfoList = projectService.getProjectInfoList(member.getId());
         return GetMyPage.from(member, projectInfoList);
     }
