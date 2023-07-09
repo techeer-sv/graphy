@@ -121,4 +121,12 @@ public class ProjectDto {
 
         private MemberDto.GetMemberResponse member;
     }
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ProjectInfo {
+        private Long id;
+        private String projectName;
+        private String description;
+    }
 }

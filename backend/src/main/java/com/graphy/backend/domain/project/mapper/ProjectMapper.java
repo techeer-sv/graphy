@@ -82,6 +82,14 @@ public class ProjectMapper {
                 .build();
     }
 
+    public ProjectInfo toProjectInfoDto(Project project) {
+        return ProjectInfo.builder()
+                .id(project.getId())
+                .projectName(project.getProjectName())
+                .description(project.getDescription())
+                .build();
+    }
+
     public Page<GetProjectResponse> toDtoList(Page<Project> projects) {
         return projects.map(this::toGetProjectDto);
     }
