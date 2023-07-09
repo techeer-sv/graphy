@@ -105,7 +105,6 @@ public class MemberService {
         refreshTokenRepository.save(token);
     }
 
-    @Transactional
     public TokenInfo reissue(HttpServletRequest request) {
         //1. Request Header 에서 JWT Token 추출
         String requestToken = filter.resolveToken(request);
