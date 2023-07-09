@@ -12,6 +12,7 @@ public enum ResultCode {
     MEMBER_CREATE_SUCCESS("M001", "사용자 등록 성공"),
     MEMBER_GET_SUCCESS("M002", "사용자 조회 성공"),
     MYPAGE_GET_SUCCESS("M003", "마이페이지 조회 성공"),
+    MEMBER_LOGOUT_SUCCESS("M004", "로그아웃 성공"),
 
     // Follow
     FOLLOWER_GET_SUCCESS("F001", "팔로워 조회 성공"),

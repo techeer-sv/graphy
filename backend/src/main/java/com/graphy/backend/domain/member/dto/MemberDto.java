@@ -2,8 +2,6 @@ package com.graphy.backend.domain.member.dto;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
-import com.graphy.backend.domain.project.domain.Like;
-import com.graphy.backend.domain.project.dto.ProjectDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -71,15 +69,15 @@ public class MemberDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class GetMyPage {
+    public static class GetMyPageResponse {
         private String nickname;
         private String introduction;
         private int followerCount;
         private int followingCount;
         private List<ProjectInfo> projectInfoList;
 
-        public static GetMyPage from(Member member, List<ProjectInfo> projectInfoList) {
-            return GetMyPage.builder()
+        public static GetMyPageResponse from(Member member, List<ProjectInfo> projectInfoList) {
+            return GetMyPageResponse.builder()
                     .nickname(member.getNickname())
                     .introduction(member.getIntroduction())
                     .followerCount(member.getFollowerCount())

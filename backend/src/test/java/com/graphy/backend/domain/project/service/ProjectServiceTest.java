@@ -2,6 +2,7 @@ package com.graphy.backend.domain.project.service;
 
 import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.*;
 import com.graphy.backend.domain.project.dto.ProjectDto;
 import com.graphy.backend.domain.project.mapper.ProjectMapper;
@@ -134,7 +135,8 @@ public class ProjectServiceTest extends MockTest {
         Tag tag2 = Tag.builder().tech("Django").build();
 
         //when
-        when(mapper.toEntity(any(CreateProjectRequest.class))).thenReturn(project);
+//        when(mapper.toEntity(any(CreateProjectRequest.class), new Member())
+        when(mapper.toEntity(request, any(Member.class))).thenReturn(project);
         when(projectRepository.save(project)).thenReturn(project);
         when(tagRepository.findTagByTech(anyString())).thenReturn(tag1, tag2);
         when(mapper.toCreateProjectDto(project.getId())).thenReturn(response);
