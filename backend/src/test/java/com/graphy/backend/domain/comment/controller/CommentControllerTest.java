@@ -114,6 +114,11 @@ class CommentControllerTest extends MockApiTest {
         //given
         List<ReplyListDto> dtoList = Arrays.asList(new ReplyListDto() {
             @Override
+            public String getNickname() {
+                return null;
+            }
+
+            @Override
             public String getContent() {
                 return "test";
             }

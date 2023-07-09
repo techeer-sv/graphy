@@ -141,6 +141,11 @@ class CommentServiceTest extends MockTest {
         List<ReplyListDto> list = new ArrayList<>();
         ReplyListDto dto1 = new ReplyListDto() {
             @Override
+            public String getNickname() {
+                return null;
+            }
+
+            @Override
             public String getContent() {
                 return "comment1";
             }
@@ -157,6 +162,11 @@ class CommentServiceTest extends MockTest {
         };
 
         ReplyListDto dto2 = new ReplyListDto() {
+            @Override
+            public String getNickname() {
+                return null;
+            }
+
             @Override
             public String getContent() {
                 return "comment2";
