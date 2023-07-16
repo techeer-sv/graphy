@@ -1,7 +1,6 @@
 package com.graphy.backend.domain.member.service;
 
 import com.graphy.backend.domain.member.domain.Member;
-import com.graphy.backend.domain.member.dto.MemberInfo;
 import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
@@ -65,8 +64,7 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public GetMyPage myPage(MemberInfo memberInfo) {
-        Member member = memberInfo.getMember();
+    public GetMyPage myPage(Member member) {
         List<ProjectInfo> projectInfoList = projectService.getProjectInfoList(member.getId());
         return GetMyPage.from(member, projectInfoList);
     }

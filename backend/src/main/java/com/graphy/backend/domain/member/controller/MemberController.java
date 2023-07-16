@@ -1,7 +1,8 @@
 package com.graphy.backend.domain.member.controller;
 
-import com.graphy.backend.domain.member.dto.MemberInfo;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.service.MemberService;
+import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
 import com.graphy.backend.global.auth.jwt.dto.TokenInfo;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -10,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +47,8 @@ public class MemberController {
 
     @Operation(summary = "myPage", description = "마이페이지")
     @GetMapping("/myPage")
-    public ResponseEntity<ResultResponse> myPage(@AuthenticationPrincipal MemberInfo memberInfo) {
-        GetMyPage result = memberService.myPage(memberInfo);
+    public ResponseEntity<ResultResponse> myPage(@CurrentUser Member member) {
+        GetMyPage result = memberService.myPage(member);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
     }
 }
