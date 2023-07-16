@@ -14,6 +14,7 @@ public enum ErrorCode {
 
   // Member
   MEMBER_NOT_EXIST(HttpStatus.BAD_REQUEST, "M001", "존재하지 않는 사용자"),
+  MEMBER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "M002", "이미 존재하는 이메일"),
 
   // Follow
   FOLLOW_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "F001", "이미 존재하는 팔로우"),
