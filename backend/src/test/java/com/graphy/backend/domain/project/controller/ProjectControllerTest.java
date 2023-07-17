@@ -88,6 +88,11 @@ class ProjectControllerTest extends MockApiTest {
             }
 
             @Override
+            public String getNickname() {
+                return null;
+            }
+
+            @Override
             public Long getCommentId() {
                 return null;
             }

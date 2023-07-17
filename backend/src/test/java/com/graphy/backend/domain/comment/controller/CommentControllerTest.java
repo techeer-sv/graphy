@@ -5,6 +5,8 @@ import com.graphy.backend.domain.comment.dto.CommentDto;
 import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +45,10 @@ class CommentControllerTest extends MockApiTest {
     @MockBean
     private CommentService commentService;
     @MockBean
-    private ProjectService projectService;
+    private TokenProvider tokenProvider;
+
+    @MockBean
+    private RefreshTokenRepository refreshTokenRepository;
 
 
     @BeforeEach
@@ -113,6 +118,11 @@ class CommentControllerTest extends MockApiTest {
     public void getReplyList() throws Exception {
         //given
         List<ReplyListDto> dtoList = Arrays.asList(new ReplyListDto() {
+            @Override
+            public String getNickname() {
+                return null;
+            }
+
             @Override
             public String getContent() {
                 return "test";
