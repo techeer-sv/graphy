@@ -1,6 +1,9 @@
 package com.graphy.backend.domain.member.controller;
 
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.service.MemberService;
+import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
+import com.graphy.backend.global.auth.jwt.dto.TokenInfo;
 import com.graphy.backend.global.auth.jwt.dto.TokenDto;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -48,8 +51,8 @@ public class MemberController {
 
     @Operation(summary = "myPage", description = "마이페이지")
     @GetMapping("/myPage")
-    public ResponseEntity<ResultResponse> myPage() {
-        GetMyPageResponse result = memberService.myPage();
+    public ResponseEntity<ResultResponse> myPage(@CurrentUser Member member) {
+        GetMyPageResponse result = memberService.myPage(member);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
     }
 

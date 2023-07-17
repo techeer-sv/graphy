@@ -1,6 +1,8 @@
 package com.graphy.backend.domain.project.controller;
 
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -30,14 +32,14 @@ public class ProjectController {
 
     @Operation(summary = "createProject", description = "프로젝트 생성")
     @PostMapping
-    public ResponseEntity<ResultResponse> createProject(@Validated @RequestBody CreateProjectRequest dto) {
-        CreateProjectResponse response = projectService.createProject(dto);
+    public ResponseEntity<ResultResponse> createProject(@Validated @RequestBody CreateProjectRequest dto, @CurrentUser Member loginUser) {
+        CreateProjectResponse response = projectService.createProject(dto, loginUser);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
     }
 
     @Operation(summary = "deleteProject", description = "프로젝트 삭제(soft delete)")
     @DeleteMapping("/{project_id}")
-    public ResponseEntity<ResultResponse> deleteProject(@PathVariable Long project_id) {
+    public ResponseEntity<ResultResponse> deleteProject(@PathVariable Long project_id, @CurrentUser Member loginUser) {
         projectService.deleteProject(project_id);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_DELETE_SUCCESS));
     }
@@ -46,7 +48,7 @@ public class ProjectController {
     @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
     @PutMapping("/{projectId}")
     public ResponseEntity<ResultResponse> updateProject(@PathVariable Long projectId,
-                                                        @RequestBody @Validated UpdateProjectRequest dto) {
+                                                        @RequestBody @Validated UpdateProjectRequest dto, @CurrentUser Member loginUser) {
         UpdateProjectResponse result = projectService.updateProject(projectId, dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
     }
@@ -75,7 +77,7 @@ public class ProjectController {
 
     @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
     @PostMapping("/plans")
-    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest) throws ExecutionException, InterruptedException {
+    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest, @CurrentUser Member loginUser) throws ExecutionException, InterruptedException {
         String prompt = projectService.getPrompt(getPlanRequest);
         projectService.checkGptRequestToken(prompt);
 
