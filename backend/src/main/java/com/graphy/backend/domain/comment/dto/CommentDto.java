@@ -11,6 +11,7 @@ public class CommentDto {
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class CreateCommentRequest {
 
         @NotBlank
@@ -41,6 +42,7 @@ public class CommentDto {
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class CreateCommentResponse {
         private Long commentId;
     }
