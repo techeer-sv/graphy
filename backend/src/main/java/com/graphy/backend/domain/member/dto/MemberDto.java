@@ -2,10 +2,7 @@ package com.graphy.backend.domain.member.dto;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +14,7 @@ public class MemberDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class LoginMemberRequest {
         @Email
         private String email;
@@ -29,6 +27,7 @@ public class MemberDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class GetMemberResponse {
         private String nickname;
         private String email;
@@ -44,6 +43,7 @@ public class MemberDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class CreateMemberRequest {
         @Email
         private String email;
@@ -69,6 +69,7 @@ public class MemberDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class GetMyPageResponse {
         private String nickname;
         private String introduction;
