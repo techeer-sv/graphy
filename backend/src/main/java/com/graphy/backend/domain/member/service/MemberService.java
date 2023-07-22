@@ -149,7 +149,7 @@ public class MemberService {
     }
 
 
-    public GetMyPage myPage(Member member) {
+    public GetMyPageResponse myPage(Member member) {
         List<ProjectInfo> projectInfoList = projectService.getProjectInfoList(member.getId());
         return GetMyPageResponse.from(member, projectInfoList);
     }
