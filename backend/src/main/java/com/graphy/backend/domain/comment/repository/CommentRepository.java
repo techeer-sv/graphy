@@ -5,6 +5,7 @@ import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "     ON\n" +
             "         parent.member_id = member.id\n" +
             "GROUP BY parent.comment_id;\n", nativeQuery = true)
-    List<CommentWithMaskingDto> findCommentsWithMasking(Long id);
+    List<CommentWithMaskingDto> findCommentsWithMasking(@Param("id") Long id);
 
     @Query(value = "SELECT CASE\n" +
             "           WHEN comment.is_deleted\n" +
@@ -47,6 +48,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
             "         JOIN member ON comment.member_id = member.id\n" +
             "WHERE parent_id = :parentId\n" +
             "ORDER BY comment.created_at ASC", nativeQuery = true)
-    List<ReplyListDto> findReplyList(Long parentId);
+    List<ReplyListDto> findReplyList(@Param("parentId") Long parentId);
 
 }
