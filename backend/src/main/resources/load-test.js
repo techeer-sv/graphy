@@ -16,10 +16,10 @@ export let options = {
     },
 };
 
-const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = 'http://localhost:8080/api/v1/projects';
 
 function getProjects() {
-    var page = Math.random() * 3;
+    var page = Math.floor(Math.random() * 3);
     var size = 4;
     var url = new URL(`${BASE_URL}/search`);
     url.searchParams.append('page', page);
@@ -37,8 +37,8 @@ function getProjects() {
 }
 
 function getProjectDetail(){
-    var projectId = Math.random() * 10 + 1;
-    var url = new URL(`${BASE_URL}/{projectId}`);
+    var projectId = Math.floor(Math.random() * 10 + 1);
+    var url = new URL(`${BASE_URL}/${projectId}`);
 
     let pathResultRes = http.get(url.toString(), {
         tags: {
