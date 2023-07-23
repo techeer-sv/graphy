@@ -4,6 +4,7 @@ import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.config.SecurityConfig;
 import com.graphy.backend.test.MockApiTest;
@@ -20,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -49,6 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ProjectController.class)
 @ExtendWith(RestDocumentationExtension.class)
+@WithMockUser(username = "yukeon@gmail.com")
 @Import(SecurityConfig.class)
 class ProjectControllerTest extends MockApiTest {
 
@@ -63,6 +64,9 @@ class ProjectControllerTest extends MockApiTest {
 
     @MockBean
     CommentService commentService;
+
+    @MockBean
+    private RefreshTokenRepository refreshTokenRepository;
     private static String baseUrl = "/api/v1/projects";
 
     @BeforeEach
@@ -77,7 +81,6 @@ class ProjectControllerTest extends MockApiTest {
 
     @Test
     @DisplayName("프로젝트 조회 시 댓글도 조회된다")
-    @WithMockUser(username = "yukeon@gmail.com")
     void getProjectWithComments() throws Exception {
 
         //given

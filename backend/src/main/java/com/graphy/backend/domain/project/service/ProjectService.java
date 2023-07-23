@@ -112,7 +112,7 @@ public class ProjectService {
         return mapper.toDtoList(projects).getContent();
     }
 
-    public List<ProjectInfo> getProjectInfoList(Long id) {
+    public List<GetProjectInfoResponse> getProjectInfoList(Long id) {
         return projectRepository.findByMemberId(id).stream()
                 .map(mapper::toProjectInfoDto)
                 .collect(Collectors.toList());

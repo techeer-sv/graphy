@@ -22,9 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import java.sql.Ref;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
@@ -151,8 +149,8 @@ public class MemberService {
 
     public GetMyPageResponse myPage() {
         Member member = getLoginMember();
-        List<ProjectInfo> projectInfoList = projectService.getProjectInfoList(member.getId());
-        return GetMyPageResponse.from(member, projectInfoList);
+        List<GetProjectInfoResponse> getProjectInfoResponseList = projectService.getProjectInfoList(member.getId());
+        return GetMyPageResponse.from(member, getProjectInfoResponseList);
     }
 
     private Member getLoginMember() {
