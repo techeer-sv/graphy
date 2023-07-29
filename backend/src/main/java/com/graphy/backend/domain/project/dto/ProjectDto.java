@@ -15,6 +15,7 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class CreateProjectRequest {
 
 
@@ -34,6 +35,7 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class GetProjectsRequest {
 
         private String projectName;
@@ -43,6 +45,7 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class UpdateProjectRequest {
         @NotBlank(message = "project name cannot be blank")
         private String projectName;
@@ -74,6 +77,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CreateProjectResponse {
         private Long projectId;
@@ -81,6 +85,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UpdateProjectResponse {
         private Long projectId;
@@ -94,6 +99,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectResponse {
         private Long id;
@@ -108,6 +114,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectDetailResponse {
         private Long id;
@@ -123,6 +130,7 @@ public class ProjectDto {
     }
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectInfoResponse {
         private Long id;

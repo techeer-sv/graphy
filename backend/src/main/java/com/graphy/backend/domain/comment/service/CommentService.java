@@ -25,11 +25,10 @@ public class CommentService {
     private final CustomUserDetailsService customUserDetailsService;
     private final ProjectRepository projectRepository;
 
-    public CreateCommentResponse createComment(CreateCommentRequest dto) {
+    public CreateCommentResponse createComment(CreateCommentRequest dto, Member loginUser) {
 
         Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
-        Member loginUser = customUserDetailsService.getLoginUser();
 
         Comment parentComment = null;
         if (dto.getParentId() != null) {

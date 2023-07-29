@@ -62,8 +62,7 @@ public class ProjectService {
 //        br.close();
 //    }
 
-    public CreateProjectResponse createProject(CreateProjectRequest dto) {
-        Member loginUser = customUserDetailsService.getLoginUser();
+    public CreateProjectResponse createProject(CreateProjectRequest dto, Member loginUser) {
         Project entity = mapper.toEntity(dto,loginUser);
         if (dto.getTechTags() != null) {
             Tags foundTags = getTagsWithName(dto.getTechTags());
