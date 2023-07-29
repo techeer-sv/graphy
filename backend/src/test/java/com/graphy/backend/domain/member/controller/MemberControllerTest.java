@@ -159,9 +159,9 @@ public class MemberControllerTest extends MockApiTest {
                 .introduction("keon")
                 .followerCount(10)
                 .followingCount(20)
-                .projectInfoList(Arrays.asList(
-                        ProjectInfo.builder().id(1L).projectName("project1").description("description1").build(),
-                        ProjectInfo.builder().id(2L).projectName("project2").description("description2").build()
+                .getProjectInfoResponseList(Arrays.asList(
+                        GetProjectInfoResponse.builder().id(1L).projectName("project1").description("description1").build(),
+                        GetProjectInfoResponse.builder().id(2L).projectName("project2").description("description2").build()
                 ))
                 .build();
 

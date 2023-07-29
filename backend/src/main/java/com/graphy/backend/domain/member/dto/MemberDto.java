@@ -75,15 +75,15 @@ public class MemberDto {
         private String introduction;
         private int followerCount;
         private int followingCount;
-        private List<ProjectInfo> projectInfoList;
+        private List<GetProjectInfoResponse> getProjectInfoResponseList;
 
-        public static GetMyPageResponse from(Member member, List<ProjectInfo> projectInfoList) {
+        public static GetMyPageResponse from(Member member, List<GetProjectInfoResponse> getProjectInfoResponseList) {
             return GetMyPageResponse.builder()
                     .nickname(member.getNickname())
                     .introduction(member.getIntroduction())
                     .followerCount(member.getFollowerCount())
                     .followingCount(member.getFollowingCount())
-                    .projectInfoList(projectInfoList)
+                    .getProjectInfoResponseList(getProjectInfoResponseList)
                     .build();
         }
     }

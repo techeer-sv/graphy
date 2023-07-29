@@ -132,7 +132,7 @@ public class ProjectDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ProjectInfo {
+    public static class GetProjectInfoResponse {
         private Long id;
         private String projectName;
         private String description;

@@ -4,9 +4,7 @@ import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.MemberDto;
 import com.graphy.backend.domain.project.domain.Project;
-import com.graphy.backend.domain.project.domain.ProjectTag;
 import com.graphy.backend.domain.project.domain.ProjectTags;
-import com.graphy.backend.domain.project.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +15,6 @@ import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Component
 public class ProjectMapper {
-
-    public GetProjectResponse toCreateProjectDto(Project project) {
-        return GetProjectResponse.builder().id(project.getId()).projectName(project.getProjectName())
-                .description(project.getDescription()).createdAt(project.getCreatedAt()).build();
-    }
 
     public UpdateProjectResponse toUpdateProjectDto(Project project) {
         return UpdateProjectResponse.builder()
@@ -44,13 +37,6 @@ public class ProjectMapper {
                 .description(dto.getDescription())
                 .thumbNail(dto.getThumbNail())
                 .projectTags(new ProjectTags())
-                .build();
-    }
-
-    public ProjectTag toEntity(Project project, Tag tag) {
-        return ProjectTag.builder()
-                .project(project)
-                .tag(tag)
                 .build();
     }
 
@@ -82,8 +68,8 @@ public class ProjectMapper {
                 .build();
     }
 
-    public ProjectInfo toProjectInfoDto(Project project) {
-        return ProjectInfo.builder()
+    public GetProjectInfoResponse toProjectInfoDto(Project project) {
+        return GetProjectInfoResponse.builder()
                 .id(project.getId())
                 .projectName(project.getProjectName())
                 .description(project.getDescription())
