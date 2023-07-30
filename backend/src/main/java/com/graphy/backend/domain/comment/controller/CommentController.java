@@ -2,6 +2,8 @@ package com.graphy.backend.domain.comment.controller;
 
 import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.service.CommentService;
+import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,8 +28,8 @@ public class CommentController {
 
     @Operation(summary = "createComment", description = "댓글 생성")
     @PostMapping
-    public ResponseEntity<ResultResponse> createComment(@Validated @RequestBody CreateCommentRequest dto) {
-        CreateCommentResponse response = commentService.createComment(dto);
+    public ResponseEntity<ResultResponse> createComment(@Validated @RequestBody CreateCommentRequest dto, @CurrentUser Member loginUser) {
+        CreateCommentResponse response = commentService.createComment(dto, loginUser);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResultResponse.of(ResultCode.COMMENT_CREATE_SUCCESS, response));
@@ -35,7 +37,7 @@ public class CommentController {
 
     @Operation(summary = "updateComment", description = "댓글 수정")
     @PutMapping("/{commentId}")
-    public ResponseEntity<ResultResponse> updateComment(@Validated @RequestBody UpdateCommentRequest dto, @PathVariable Long commentId) {
+    public ResponseEntity<ResultResponse> updateComment(@Validated @RequestBody UpdateCommentRequest dto, @PathVariable Long commentId, @CurrentUser Member loginUser) {
         commentService.updateComment(commentId, dto);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -44,7 +46,7 @@ public class CommentController {
 
     @Operation(summary = "deleteComment", description = "댓글 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResultResponse> deleteComment(@PathVariable Long id) {
+    public ResponseEntity<ResultResponse> deleteComment(@PathVariable Long id, @CurrentUser Member loginUser) {
         commentService.deleteComment(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));

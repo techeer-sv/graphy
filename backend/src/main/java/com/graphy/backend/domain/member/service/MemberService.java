@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-
+import java.sql.Ref;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -147,11 +147,9 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public GetMyPageResponse myPage() {
-        Member member = getLoginMember();
-        List<GetProjectInfoResponse> getProjectInfoResponseList = projectService.getProjectInfoList(member.getId());
-        
-        return GetMyPageResponse.from(member, getProjectInfoResponseList);
+    public GetMyPageResponse myPage(Member member) {
+        List<GetProjectInfoResponse> projectInfoList = projectService.getProjectInfoList(member.getId());
+        return GetMyPageResponse.from(member, projectInfoList);
     }
 
     private Member getLoginMember() {

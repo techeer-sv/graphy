@@ -9,7 +9,7 @@ import NavBar from '../components/NavBar';
 
 function MyPage() {
   const [isOpenModal, setOpenModal] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(0);
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -17,12 +17,17 @@ function MyPage() {
   }, [isOpenModal]);
 
   const onClickFollower = () => {
-    setIsFollowing(false);
+    setIsFollowing(0);
     onClickToggleModal();
   };
 
   const onClickFollowing = () => {
-    setIsFollowing(true);
+    setIsFollowing(1);
+    onClickToggleModal();
+  };
+
+  const onClickLike = () => {
+    setIsFollowing(2);
     onClickToggleModal();
   };
 
@@ -128,10 +133,17 @@ function MyPage() {
               <button
                 className="ml-auto mr-8 mt-3 flex items-center"
                 type="button"
+                onClick={onClickLike}
               >
                 <img src={Like} alt="Like" />
                 14
               </button>
+              {/* {isOpenModal ? (
+                <FollowModal
+                  onClickToggleModal={onClickToggleModal}
+                  isFollowing={isFollowing}
+                />
+              ) : null} */}
             </div>
           </div>
         </div>
