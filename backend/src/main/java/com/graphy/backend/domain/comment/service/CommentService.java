@@ -1,7 +1,6 @@
 package com.graphy.backend.domain.comment.service;
 
 import com.graphy.backend.domain.comment.domain.Comment;
-import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
@@ -57,7 +56,7 @@ public class CommentService {
         comment.delete();
     }
 
-    public List<ReplyListDto> getReplyList(Long commentId) {
+    public List<GetReplyListResponse> getReplyList(Long commentId) {
         return commentRepository.findReplyList(commentId);
     }
 }

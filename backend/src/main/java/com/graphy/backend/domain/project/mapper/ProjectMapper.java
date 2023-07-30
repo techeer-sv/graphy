@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.project.mapper;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.MemberDto;
 import com.graphy.backend.domain.project.domain.Project;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Component
@@ -53,7 +53,7 @@ public class ProjectMapper {
     }
 
     public GetProjectDetailResponse toGetProjectDetailDto(Project project,
-                                                          List<CommentWithMaskingDto> comments) {
+                                                          List<GetCommentWithMaskingResponse> comments) {
 
         return GetProjectDetailResponse.builder()
                 .id(project.getId())
