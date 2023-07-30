@@ -11,3 +11,6 @@ spring:
       ddl-auto: create-drop
     show-sql: true
 
+  redis:
+    host: localhost
+    port: 6379

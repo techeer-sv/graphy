@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.sql.Ref;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
@@ -150,7 +149,7 @@ public class MemberService {
 
 
     public GetMyPageResponse myPage(Member member) {
-        List<ProjectInfo> projectInfoList = projectService.getProjectInfoList(member.getId());
+        List<GetProjectInfoResponse> projectInfoList = projectService.getProjectInfoList(member.getId());
         return GetMyPageResponse.from(member, projectInfoList);
     }
 
