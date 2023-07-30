@@ -150,6 +150,7 @@ public class MemberService {
     public GetMyPageResponse myPage() {
         Member member = getLoginMember();
         List<GetProjectInfoResponse> getProjectInfoResponseList = projectService.getProjectInfoList(member.getId());
+        
         return GetMyPageResponse.from(member, getProjectInfoResponseList);
     }
 
