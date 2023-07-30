@@ -1,6 +1,8 @@
 package com.graphy.backend.domain.member.controller;
 
 import com.graphy.backend.domain.member.service.MemberService;
+import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,6 +38,11 @@ public class MemberControllerTest extends MockApiTest {
     private WebApplicationContext context;
     @MockBean
     MemberService memberService;
+    @MockBean
+    private TokenProvider tokenProvider;
+
+    @MockBean
+    private RefreshTokenRepository refreshTokenRepository;
     private static String baseUrl = "/api/v1/members";
     @BeforeEach
     public void setup(RestDocumentationContextProvider provider) {
@@ -176,13 +183,13 @@ public class MemberControllerTest extends MockApiTest {
                 .andExpect(jsonPath("$.data.introduction").value("keon"))
                 .andExpect(jsonPath("$.data.followerCount").value(10))
                 .andExpect(jsonPath("$.data.followingCount").value(20))
-                .andExpect(jsonPath("$.data.projectInfoList", hasSize(2)))
-                .andExpect(jsonPath("$.data.projectInfoList[0].id").value(1))
-                .andExpect(jsonPath("$.data.projectInfoList[0].projectName").value("project1"))
-                .andExpect(jsonPath("$.data.projectInfoList[0].description").value("description1"))
-                .andExpect(jsonPath("$.data.projectInfoList[1].id").value(2))
-                .andExpect(jsonPath("$.data.projectInfoList[1].projectName").value("project2"))
-                .andExpect(jsonPath("$.data.projectInfoList[1].description").value("description2"))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList", hasSize(2)))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[0].id").value(1))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[0].projectName").value("project1"))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[0].description").value("description1"))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[1].id").value(2))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[1].projectName").value("project2"))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[1].description").value("description2"))
                 .andDo(document("member-myPage",
                         preprocessResponse(prettyPrint()))
                 );
