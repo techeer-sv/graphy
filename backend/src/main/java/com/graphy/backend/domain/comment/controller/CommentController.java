@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.comment.controller;
 
-import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
@@ -55,7 +54,7 @@ public class CommentController {
     @Operation(summary = "getReComment", description = "답글 조회")
     @GetMapping("/{commentId}")
     public ResponseEntity<ResultResponse> getReComment(@PathVariable Long commentId) {
-        List<ReplyListDto> replyList = commentService.getReplyList(commentId);
+        List<GetReplyListResponse> replyList = commentService.getReplyList(commentId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.RECOMMENT_GET_SUCCESS, replyList));
     }
