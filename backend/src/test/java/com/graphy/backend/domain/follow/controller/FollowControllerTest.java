@@ -2,6 +2,8 @@ package com.graphy.backend.domain.follow.controller;
 
 import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.follow.service.FollowService;
+import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +37,11 @@ public class FollowControllerTest extends MockApiTest {
     private WebApplicationContext context;
     @MockBean
     FollowService followService;
+    @MockBean
+    private TokenProvider tokenProvider;
+
+    @MockBean
+    private RefreshTokenRepository refreshTokenRepository;
     @BeforeEach
     public void setup(RestDocumentationContextProvider provider) {
         this.mvc = buildMockMvc(context, provider);

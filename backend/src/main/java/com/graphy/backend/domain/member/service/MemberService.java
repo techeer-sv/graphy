@@ -147,7 +147,6 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-
     public GetMyPageResponse myPage(Member member) {
         List<GetProjectInfoResponse> projectInfoList = projectService.getProjectInfoList(member.getId());
         return GetMyPageResponse.from(member, projectInfoList);

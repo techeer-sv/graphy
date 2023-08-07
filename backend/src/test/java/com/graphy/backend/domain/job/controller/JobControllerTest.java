@@ -2,6 +2,8 @@ package com.graphy.backend.domain.job.controller;
 
 
 import com.graphy.backend.domain.job.service.JobService;
+import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +33,11 @@ public class JobControllerTest extends MockApiTest {
     private WebApplicationContext context;
     @MockBean
     JobService jobService;
+    @MockBean
+    private TokenProvider tokenProvider;
+
+    @MockBean
+    private RefreshTokenRepository refreshTokenRepository;
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider provider) {
