@@ -4,8 +4,9 @@ import com.graphy.backend.domain.follow.domain.Follow;
 import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
-import com.graphy.backend.global.error.exception.AlreadyFollowingException;
+import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
 import org.assertj.core.api.Assertions;
@@ -30,6 +31,8 @@ public class FollowServiceTest extends MockTest {
     FollowRepository followRepository;
     @Mock
     CustomUserDetailsService customUserDetailsService;
+    @Mock
+    MemberRepository memberRepository;
     @InjectMocks
     FollowService followService;
 
@@ -42,6 +45,8 @@ public class FollowServiceTest extends MockTest {
 
         //when
         when(customUserDetailsService.getLoginUser()).thenReturn(fromMember);
+        doNothing().when(memberRepository).increaseFollowingCount(fromMember.getId());
+        doNothing().when(memberRepository).increaseFollowerCount(toId);
         followService.follow(toId);
 
         //then
@@ -131,8 +136,9 @@ public class FollowServiceTest extends MockTest {
 
         //when
         when(customUserDetailsService.getLoginUser()).thenReturn(fromMember);
-        when(followRepository.findByFromIdAndToId(fromMember.getId(), toId))
-                .thenReturn(Optional.ofNullable(follow));
+        when(followRepository.findByFromIdAndToId(fromMember.getId(), toId)).thenReturn(Optional.ofNullable(follow));
+        doNothing().when(memberRepository).decreaseFollowingCount(fromMember.getId());
+        doNothing().when(memberRepository).decreaseFollowerCount(toId);
         followService.unfollow(toId);
 
         //then
@@ -169,13 +175,12 @@ public class FollowServiceTest extends MockTest {
         when(followRepository.existsByFromIdAndToId(3L, 4L)).thenReturn(false);
 
         // then
-        assertThrows(AlreadyFollowingException.class, () -> {
+        assertThrows(AlreadyExistException.class, () -> {
             ReflectionTestUtils.invokeMethod(followService, "followingCheck", 1L, 2L);
         });
 
         assertDoesNotThrow(() -> {
             ReflectionTestUtils.invokeMethod(followService, "followingCheck", 3L, 4L);
         });
-
     }
 }

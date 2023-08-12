@@ -11,6 +11,7 @@ public class JobDto {
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class CreateJobInfoRequest {
         private Long id;
         private String companyName;

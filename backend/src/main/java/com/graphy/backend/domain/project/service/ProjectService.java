@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.project.service;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
@@ -31,6 +30,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 import static com.graphy.backend.global.config.ChatGPTConfig.MAX_REQUEST_TOKEN;
 
@@ -62,8 +62,7 @@ public class ProjectService {
 //        br.close();
 //    }
 
-    public CreateProjectResponse createProject(CreateProjectRequest dto) {
-        Member loginUser = customUserDetailsService.getLoginUser();
+    public CreateProjectResponse createProject(CreateProjectRequest dto, Member loginUser) {
         Project entity = mapper.toEntity(dto,loginUser);
         if (dto.getTechTags() != null) {
             Tags foundTags = getTagsWithName(dto.getTechTags());
@@ -96,7 +95,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
 
-        List<CommentWithMaskingDto> comments = commentRepository.findCommentsWithMasking(projectId);
+        List<GetCommentWithMaskingResponse> comments = commentRepository.findCommentsWithMasking(projectId);
 
         return mapper.toGetProjectDetailDto(project, comments);
     }
@@ -110,6 +109,12 @@ public class ProjectService {
     public List<GetProjectResponse> getProjects(GetProjectsRequest dto, Pageable pageable) {
         Page<Project> projects = projectRepository.searchProjectsWith(pageable, dto.getProjectName(), dto.getContent());
         return mapper.toDtoList(projects).getContent();
+    }
+
+    public List<GetProjectInfoResponse> getProjectInfoList(Long id) {
+        return projectRepository.findByMemberId(id).stream()
+                .map(mapper::toProjectInfoDto)
+                .collect(Collectors.toList());
     }
 
     @Async

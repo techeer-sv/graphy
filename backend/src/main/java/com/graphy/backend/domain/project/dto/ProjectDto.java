@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.project.dto;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.member.dto.MemberDto;
 import lombok.*;
 
@@ -9,12 +8,15 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
+
 
 public class ProjectDto {
 
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class CreateProjectRequest {
 
 
@@ -34,6 +36,7 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class GetProjectsRequest {
 
         private String projectName;
@@ -43,6 +46,7 @@ public class ProjectDto {
     @Getter
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     public static class UpdateProjectRequest {
         @NotBlank(message = "project name cannot be blank")
         private String projectName;
@@ -74,6 +78,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CreateProjectResponse {
         private Long projectId;
@@ -81,6 +86,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UpdateProjectResponse {
         private Long projectId;
@@ -94,6 +100,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectResponse {
         private Long id;
@@ -108,6 +115,7 @@ public class ProjectDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectDetailResponse {
         private Long id;
@@ -115,10 +123,19 @@ public class ProjectDto {
         private String content;
         private String description;
         private String thumbNail;
-        private List<CommentWithMaskingDto> commentsList;
+        private List<GetCommentWithMaskingResponse> commentsList;
         private LocalDateTime createdAt;
         private List<String> techTags;
 
         private MemberDto.GetMemberResponse member;
+    }
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetProjectInfoResponse {
+        private Long id;
+        private String projectName;
+        private String description;
     }
 }

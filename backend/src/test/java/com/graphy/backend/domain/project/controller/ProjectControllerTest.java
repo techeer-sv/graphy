@@ -3,7 +3,10 @@ package com.graphy.backend.domain.project.controller;
 import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.global.auth.jwt.TokenProvider;
+import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.global.config.SecurityConfig;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,11 +15,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
@@ -34,13 +40,17 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
 @ExtendWith(RestDocumentationExtension.class)
+@WithMockUser(username = "yukeon@gmail.com")
+@Import(SecurityConfig.class)
 class ProjectControllerTest extends MockApiTest {
 
 
@@ -50,12 +60,22 @@ class ProjectControllerTest extends MockApiTest {
     ProjectService projectService;
 
     @MockBean
+    TokenProvider tokenProvider;
+
+    @MockBean
     CommentService commentService;
+
+    @MockBean
+    private RefreshTokenRepository refreshTokenRepository;
     private static String baseUrl = "/api/v1/projects";
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider provider) {
-        this.mvc = buildMockMvc(context, provider);
+        this.mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .apply(documentationConfiguration(provider))
+                .build();
     }
 
 
@@ -68,6 +88,11 @@ class ProjectControllerTest extends MockApiTest {
             @Override
             public String getContent() {
                 return "testComment";
+            }
+
+            @Override
+            public String getNickname() {
+                return null;
             }
 
             @Override
@@ -127,6 +152,7 @@ class ProjectControllerTest extends MockApiTest {
 
     @Test
     @DisplayName("프로젝트 삭제 테스트")
+
     public void deleteProject() throws Exception {
         //given
         Long projectId = 1L;
@@ -135,10 +161,7 @@ class ProjectControllerTest extends MockApiTest {
 
         mvc.perform(delete(baseUrl + "/{projectId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(document("project-delete",
-                        preprocessResponse(prettyPrint()))
-                );
+                .andExpect(status().isOk());
     }
 
     @Test

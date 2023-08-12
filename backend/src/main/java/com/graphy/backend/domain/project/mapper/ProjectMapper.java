@@ -1,27 +1,20 @@
 package com.graphy.backend.domain.project.mapper;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.MemberDto;
 import com.graphy.backend.domain.project.domain.Project;
-import com.graphy.backend.domain.project.domain.ProjectTag;
 import com.graphy.backend.domain.project.domain.ProjectTags;
-import com.graphy.backend.domain.project.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 
 import java.util.List;
 
+import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Component
 public class ProjectMapper {
-
-    public GetProjectResponse toCreateProjectDto(Project project) {
-        return GetProjectResponse.builder().id(project.getId()).projectName(project.getProjectName())
-                .description(project.getDescription()).createdAt(project.getCreatedAt()).build();
-    }
 
     public UpdateProjectResponse toUpdateProjectDto(Project project) {
         return UpdateProjectResponse.builder()
@@ -47,13 +40,6 @@ public class ProjectMapper {
                 .build();
     }
 
-    public ProjectTag toEntity(Project project, Tag tag) {
-        return ProjectTag.builder()
-                .project(project)
-                .tag(tag)
-                .build();
-    }
-
     public GetProjectResponse toGetProjectDto(Project project) {
         return GetProjectResponse.builder()
                 .id(project.getId())
@@ -67,7 +53,7 @@ public class ProjectMapper {
     }
 
     public GetProjectDetailResponse toGetProjectDetailDto(Project project,
-                                                          List<CommentWithMaskingDto> comments) {
+                                                          List<GetCommentWithMaskingResponse> comments) {
 
         return GetProjectDetailResponse.builder()
                 .id(project.getId())
@@ -79,6 +65,14 @@ public class ProjectMapper {
                 .commentsList(comments)
                 .member(MemberDto.GetMemberResponse.toDto(project.getMember()))
                 .thumbNail(project.getThumbNail())
+                .build();
+    }
+
+    public GetProjectInfoResponse toProjectInfoDto(Project project) {
+        return GetProjectInfoResponse.builder()
+                .id(project.getId())
+                .projectName(project.getProjectName())
+                .description(project.getDescription())
                 .build();
     }
 

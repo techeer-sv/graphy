@@ -2,12 +2,14 @@ package com.graphy.backend.domain.project.service;
 
 import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.*;
 import com.graphy.backend.domain.project.dto.ProjectDto;
 import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
+import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -46,6 +48,9 @@ public class ProjectServiceTest extends MockTest {
     private ProjectRepository projectRepository;
     @Mock
     private ProjectTagRepository projectTagRepository;
+
+    @Mock
+    private CustomUserDetailsService customUserDetailsService;
 
     @Mock
     private CommentRepository commentRepository;
@@ -113,6 +118,7 @@ public class ProjectServiceTest extends MockTest {
     @DisplayName("프로젝트 생성 테스트")
     public void createProject() throws Exception {
         //given
+        Member member = Member.builder().email("graphy").id(1L).build();
         List<String> techTags = new ArrayList<>(Arrays.asList("Spring", "Django"));
 
         Project project = Project.builder()
@@ -134,11 +140,11 @@ public class ProjectServiceTest extends MockTest {
         Tag tag2 = Tag.builder().tech("Django").build();
 
         //when
-        when(mapper.toEntity(any(CreateProjectRequest.class))).thenReturn(project);
+        when(mapper.toEntity(request, member)).thenReturn(project);
         when(projectRepository.save(project)).thenReturn(project);
         when(tagRepository.findTagByTech(anyString())).thenReturn(tag1, tag2);
         when(mapper.toCreateProjectDto(project.getId())).thenReturn(response);
-
+        when(customUserDetailsService.getLoginUser()).thenReturn(member);
         CreateProjectResponse result = projectService.createProject(request);
 
         //then

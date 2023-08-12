@@ -4,8 +4,10 @@ import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.CommentDto;
 import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
+import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.test.MockTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.InvalidMarkException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +42,8 @@ class CommentServiceTest extends MockTest {
     private CommentRepository commentRepository;
     @Mock
     private ProjectRepository projectRepository;
+    @Mock
+    private CustomUserDetailsService customUserDetailsService;
 
     @Test
     @DisplayName("댓글이 생성된다")
@@ -47,6 +53,7 @@ class CommentServiceTest extends MockTest {
         CreateCommentRequest dto = new CreateCommentRequest("내용", 1L, null);
         Project project = Project.builder().id(1L).content("테스트 프로젝트").description("테스트 프로젝트 한 줄 소개").projectName("테스트").build();
         Comment comment = Comment.builder().id(1L).content("내용").project(project).parent(null).build();
+        Member member = Member.builder().email("youKeon").build();
 
         // mocking
         given(commentRepository.save(any()))
@@ -55,6 +62,8 @@ class CommentServiceTest extends MockTest {
                 .willReturn(Optional.ofNullable(project));
         given(commentRepository.findById(1L))
                 .willReturn(Optional.ofNullable(comment));
+        given(customUserDetailsService.getLoginUser())
+                .willReturn(member);
 
         //when
         CreateCommentResponse response = commentService.createComment(dto);
@@ -139,6 +148,11 @@ class CommentServiceTest extends MockTest {
         List<ReplyListDto> list = new ArrayList<>();
         ReplyListDto dto1 = new ReplyListDto() {
             @Override
+            public String getNickname() {
+                return null;
+            }
+
+            @Override
             public String getContent() {
                 return "comment1";
             }
@@ -155,6 +169,11 @@ class CommentServiceTest extends MockTest {
         };
 
         ReplyListDto dto2 = new ReplyListDto() {
+            @Override
+            public String getNickname() {
+                return null;
+            }
+
             @Override
             public String getContent() {
                 return "comment2";

@@ -45,7 +45,6 @@ function ReadingPage() {
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
-    console.log(isOpenModal);
   }, [isOpenModal]);
 
   function toWrite() {
