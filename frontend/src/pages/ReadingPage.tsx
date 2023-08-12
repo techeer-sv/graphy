@@ -19,12 +19,12 @@ import {
 } from '../Recoil';
 import AllStacks from '../Stack';
 
-interface ReadReplyObject {
+type ReadReplyObject = {
   commentId: number;
   childCount: number;
   content: string;
   createdAt: string;
-}
+};
 
 function ReadingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -46,12 +46,10 @@ function ReadingPage() {
   }, [isOpenModal]);
 
   function toWrite() {
-    // react-router-dom을 이용한 글 쓰기 페이지로 이동 함수
     navigate('/write');
   }
 
   function toModify() {
-    // react-router-dom을 이용한 글 수정 페이지로 이동 함수
     navigate('/modify');
   }
   // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
@@ -116,6 +114,10 @@ function ReadingPage() {
       }
     }
   }
+  // 렌더링할때 데이터 가져옴
+  useEffect(() => {
+    getData();
+  }, [refresh]);
   // 제목 변경시 재 렌더링
   useEffect(() => {
     if (title) {
@@ -134,11 +136,6 @@ function ReadingPage() {
       setSelectedStack(selectedStack);
     }
   }, [selectedStack]);
-
-  // 렌더링할때 데이터 가져옴
-  useEffect(() => {
-    getData();
-  }, [refresh]);
 
   // 이미지 찾는 함수
   function findImage(tag: string) {

@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { persistTokenState, refreshState } from '../Recoil';
 
-interface PropsObject {
+type PutReplyProps = {
   contents: {
     commentId: number;
     childCount?: number;
@@ -14,11 +14,14 @@ interface PropsObject {
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
   changeCommentRef: () => void;
   changePutVis: () => void;
-}
+};
 
-function PutReply(props: PropsObject) {
-  const { contents, setSelectedValue, changeCommentRef, changePutVis } = props;
-
+function PutReply({
+  contents,
+  setSelectedValue,
+  changeCommentRef,
+  changePutVis,
+}: PutReplyProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState<string>(contents.content);
   const accessToken = sessionStorage.getItem('accessToken');
@@ -38,15 +41,6 @@ function PutReply(props: PropsObject) {
     }
     setValue(inputValue);
   };
-
-  useEffect(() => {
-    if (textAreaRef.current) {
-      textAreaRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
-    }
-  }, []);
 
   async function putData() {
     const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
@@ -83,6 +77,15 @@ function PutReply(props: PropsObject) {
     changePutVis();
     setSelectedValue('regist_order');
   }
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, []);
 
   return (
     <div>

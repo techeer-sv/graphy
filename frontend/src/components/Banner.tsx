@@ -24,7 +24,7 @@ function Banner() {
             <p className="text-md mt-10 w-fit border-b pb-3 pr-0 font-lef-b text-white sm:mt-16 sm:border-b-4 sm:text-3xl md:text-4xl ">
               프로젝트 기록과 공유의 공간, Graphy
             </p>
-            <p className=" mt-3 font-lef text-sm text-white sm:text-xl md:text-2xl">
+            <p className="mt-3 font-lef text-sm text-white sm:text-xl md:text-2xl">
               Graphy와 함께 성장해보세요.
             </p>
           </div>

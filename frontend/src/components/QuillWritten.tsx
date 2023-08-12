@@ -7,7 +7,7 @@ import { contentsState } from '../Recoil';
 
 function QuillWrtten() {
   const [contents, setContents] = useRecoilState(contentsState);
-  // 내용 변경시 재 렌더링
+
   useEffect(() => {
     if (contents) {
       setContents(contents);

@@ -48,7 +48,7 @@ const searchTextState = atom<string>({
   default: '',
 });
 
-const persistTokenState = atom<string>({
+const persistTokenState = atom<string | null>({
   key: 'persistTokenState',
   default: '',
   effects_UNSTABLE: [persistAtom],

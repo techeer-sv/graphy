@@ -7,15 +7,29 @@ import ProfileIcon from '../assets/image/ProfileIcon.svg';
 import { persistTokenState, refreshState, searchTextState } from '../Recoil';
 
 function NavBar() {
-  const [refresh, setRefresh] = useRecoilState(refreshState);
   const accessToken = sessionStorage.getItem('accessToken');
+  const [refresh, setRefresh] = useRecoilState(refreshState);
   const [persistToken, setPersistToken] = useRecoilState(persistTokenState);
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
+
+  const navigate = useNavigate();
+
+  function toNavigate(path: string) {
+    navigate(path);
+  }
+
   const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
     SetSearchText(e.target.value);
   };
 
-  const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
+  function signOut() {
+    if (accessToken) {
+      sessionStorage.removeItem('accessToken');
+      setRefresh(!refresh);
+    } else {
+      setPersistToken(null);
+    }
+  }
 
   useEffect(() => {
     if (accessToken) {
@@ -23,47 +37,18 @@ function NavBar() {
     }
   }, []);
 
-  function toWrite() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
-    navigate('/write');
-  }
-
-  function toMain() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
-    navigate('/');
-  }
-
-  function toSign() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
-    navigate('/signin');
-  }
-
-  function signOut() {
-    if (accessToken) {
-      sessionStorage.removeItem('accessToken');
-      setRefresh(!refresh);
-    } else {
-      setPersistToken('');
-    }
-  }
-
-  function toMy() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
-    navigate('/my');
-  }
-
   return (
     <div className="fixed z-20 mb-5 flex w-screen flex-row content-center overflow-hidden border-b border-zinc-400 bg-white pt-3 pb-3 align-middle font-ng-eb">
       {/* 로고 */}
       <button
-        onClick={() => toMain()}
+        onClick={() => toNavigate('/')}
         className="ml-8 hidden font-lato-b text-4xl text-graphyblue sm:block"
         type="button"
       >
         Graphy
       </button>
       <button
-        onClick={() => toMain()}
+        onClick={() => toNavigate('/')}
         className="ml-8 font-lato-b text-4xl text-graphyblue sm:hidden"
         type="button"
       >
@@ -91,7 +76,7 @@ function NavBar() {
         <button
           className=" mr-4 whitespace-nowrap rounded-full bg-graphyblue px-4 text-white"
           type="button"
-          onClick={() => toSign()}
+          onClick={() => toNavigate('/signin')}
         >
           로그인
         </button>
@@ -101,7 +86,7 @@ function NavBar() {
       <button
         className="invisible mx-auto mr-4 flex h-0 w-0 shrink-0 flex-row flex-nowrap items-center rounded-full bg-graphyblue text-white sm:visible sm:mr-5
         sm:h-auto sm:w-auto sm:px-4 sm:py-1"
-        onClick={() => toWrite()}
+        onClick={() => toNavigate('/write')}
         aria-label="toWritePage"
         type="button"
       >
@@ -110,7 +95,7 @@ function NavBar() {
       </button>
 
       {/* 마이페이지 아이콘 */}
-      <button className="mr-12" type="button" onClick={() => toMy()}>
+      <button className="mr-12" type="button" onClick={() => toNavigate('/my')}>
         <img
           className="fixed top-4 right-4 h-8 w-8 appearance-none"
           src={ProfileIcon}

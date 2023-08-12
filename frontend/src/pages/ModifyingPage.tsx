@@ -23,23 +23,13 @@ function ModifyingPage() {
   const contents = useRecoilValue(contentsState);
   const selectedStack = useRecoilValue(selectedStackState);
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
+
   const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
+
   const projectId = useRecoilValue(projectIdState);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!navigator.onLine) {
-      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
-      navigate(`/read/${projectId}`);
-    }
-    if (!(accessToken || persistToken)) {
-      alert('로그인시 이용하실 수 있습니다.');
-      navigate('/');
-    }
-  }, []);
-
-  // 제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (inputValue.length > 255) {
@@ -49,7 +39,7 @@ function ModifyingPage() {
     }
     setTitle(inputValue);
   };
-  // 소개 변경 함수
+
   const handleTldrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (inputValue.length > 255) {
@@ -59,7 +49,7 @@ function ModifyingPage() {
     }
     setTldr(inputValue);
   };
-  // PUT요청 보내서 데이터 수정하는 함수
+
   async function putData() {
     const url = `http://localhost:8080/api/v1/projects/${projectId}`;
     const data = {
@@ -69,7 +59,6 @@ function ModifyingPage() {
       techTags: selectedStack,
       thumbNail: thumbnailUrl,
     };
-
     try {
       const response = await axios.put(url, data, {
         headers: {
@@ -94,10 +83,21 @@ function ModifyingPage() {
       }
     }
   }
-  // 취소 버튼 누를시 원래 글 페이지로 이동
+
   function cancelButton() {
     navigate(`/read/${projectId}`);
   }
+
+  useEffect(() => {
+    if (!navigator.onLine) {
+      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      navigate(`/read/${projectId}`);
+    }
+    if (!(accessToken || persistToken)) {
+      alert('로그인시 이용하실 수 있습니다.');
+      navigate('/');
+    }
+  }, []);
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center bg-[#F9F8F8] pb-10">

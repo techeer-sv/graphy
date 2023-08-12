@@ -14,14 +14,12 @@ hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'java', 'cpp', 'kotlin', 'sql'],
 });
 
-// s3 변수 선언
 const s3 = new ReactS3Client(s3config);
 
 function QuillEditor() {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useRecoilState(contentsState);
 
-  // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
     // 파일을 업로드 하기 위한 input 태그 생성
     const input = document.createElement('input');

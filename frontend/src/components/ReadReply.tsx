@@ -12,13 +12,13 @@ import pencil_square from '../assets/image/pencil-square.svg';
 import { persistTokenState, refreshState } from '../Recoil';
 import useDidMountEffect from '../useDidMountEffect';
 
-interface ReadReReplyObject {
+type ReadReReplyObject = {
   commentId: number;
   content: string;
   createdAt: string;
-}
+};
 
-interface PropsObject {
+type ReadReplyProps = {
   contents: {
     commentId: number;
     childCount: number;
@@ -26,19 +26,21 @@ interface PropsObject {
     createdAt: string;
   };
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
-}
+};
 
-function ReadReply(props: PropsObject) {
-  const { contents, setSelectedValue } = props;
-
+function ReadReply({ contents, setSelectedValue }: ReadReplyProps) {
   const [writeVis, setWriteVis] = useState<boolean>(false);
   const [putVis, setPutVis] = useState<boolean>(false);
-  const [commentVis, setCommentVis] = useState<boolean>(false);
+
   const [comment, setComment] = useState<ReadReReplyObject[]>([]);
+  const [commentVis, setCommentVis] = useState<boolean>(false);
   const [commentRef, setCommentRef] = useState<boolean>(false);
+
   const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
+
+  let buttonContent: JSX.Element | null = null;
 
   const date = new Date(contents.createdAt);
 
@@ -108,7 +110,6 @@ function ReadReply(props: PropsObject) {
     getComment();
   }, [commentRef]);
 
-  let buttonContent;
   if (contents.childCount === 0) {
     buttonContent = null;
   } else if (commentVis) {

@@ -10,10 +10,10 @@ import NavBar from '../components/NavBar';
 function MyPage() {
   const [isOpenModal, setOpenModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(0);
+  const navigate = useNavigate();
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
-    console.log(isOpenModal);
   }, [isOpenModal]);
 
   const onClickFollower = () => {
@@ -31,10 +31,7 @@ function MyPage() {
     onClickToggleModal();
   };
 
-  const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
-
   function toWrite() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
     navigate('/write');
   }
 

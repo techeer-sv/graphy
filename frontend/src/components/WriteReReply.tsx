@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import reply_icon from '../assets/image/reply_icon.svg';
 import { persistTokenState, projectIdState, refreshState } from '../Recoil';
 
-interface PropsObject {
+interface WriteReReplyProps {
   contents: {
     commentId: number;
     childCount: number;
@@ -17,13 +17,11 @@ interface PropsObject {
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function WriteReReply(props: PropsObject) {
-  const {
-    contents: { commentId },
-    changeWriteVis,
-    setSelectedValue,
-  } = props;
-
+function WriteReReply({
+  contents: { commentId },
+  changeWriteVis,
+  setSelectedValue,
+}: WriteReReplyProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
   const accessToken = sessionStorage.getItem('accessToken');
@@ -46,15 +44,6 @@ function WriteReReply(props: PropsObject) {
     }
     setValue(inputValue);
   };
-
-  useEffect(() => {
-    if (textAreaRef.current) {
-      textAreaRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
-    }
-  }, []);
 
   async function postData() {
     const url = 'http://localhost:8080/api/v1/comments';
@@ -91,6 +80,15 @@ function WriteReReply(props: PropsObject) {
     changeWriteVis();
     setSelectedValue('regist_order');
   }
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, []);
 
   return (
     <div>

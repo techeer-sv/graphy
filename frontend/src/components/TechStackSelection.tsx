@@ -6,23 +6,18 @@ import AllStacks from '../Stack';
 
 function TechStackSelection() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
-
-  // 검색어와 검색어 변경 이벤트 처리를 위한 상태 및 함수
   const [searchText, setSearchText] = useState('');
 
-  // 검색 글 변경 함수
   const handleSearchTextChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSearchText(event.target.value);
   };
 
-  // 기존 선택 기술 스택 삭제 함수
   const handleDeleteStack = (stack: string) => {
     setSelectedStack(selectedStack.filter((s) => s !== stack));
   };
 
-  // 새로운 기술 스택 추가 함수
   const handleAddStack = (stack: string) => {
     if (selectedStack.length < 6 && !selectedStack.includes(stack)) {
       setSelectedStack([...selectedStack, stack]);
@@ -31,7 +26,6 @@ function TechStackSelection() {
 
   const allStacks = AllStacks.map((x) => x.name);
 
-  // 검색어에 따른 기술 스택 필터링
   const filteredStacks =
     searchText !== ''
       ? allStacks.filter((stack) =>

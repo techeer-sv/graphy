@@ -3,12 +3,12 @@ import React from 'react';
 // import closeIcon from '../assets/image/closeIcon.svg';
 import likeIcon from '../assets/image/likeIcon.svg';
 
-interface Props {
+type LikeModalProps = {
   onClickLikeToggleModal: () => void;
   isLike: boolean;
-}
+};
 
-function likeModal({ onClickLikeToggleModal, isLike }: Props) {
+function likeModal({ onClickLikeToggleModal, isLike }: LikeModalProps) {
   return (
     <div>
       <div

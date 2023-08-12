@@ -5,21 +5,19 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import ReadReply from './ReadReply';
 import { persistTokenState, projectIdState, refreshState } from '../Recoil';
 
-interface ReadReplyObject {
+type ReadReplyObject = {
   commentId: number;
   childCount: number;
   content: string;
   createdAt: string;
-}
+};
 
-interface PropsObject {
+type ReplyProps = {
   contents: ReadReplyObject[];
   setReadReply: React.Dispatch<React.SetStateAction<ReadReplyObject[]>>;
-}
+};
 
-function Reply(props: PropsObject) {
-  const { contents, setReadReply } = props;
-
+function Reply({ contents, setReadReply }: ReplyProps) {
   const [count, SetCount] = useState(0);
   const [selectedValue, setSelectedValue] = useState<string>('regist_order');
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -45,7 +43,7 @@ function Reply(props: PropsObject) {
   };
 
   function MoveToTop() {
-    // top:0 >> 맨위로  behavior:smooth >> 부드럽게 이동할수 있게 설정하는 속성
+    // top: 0 >> 맨 위로  behavior: 'smooth' >> 부드럽게 이동할 수 있게 설정하는 속성
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -55,7 +53,6 @@ function Reply(props: PropsObject) {
       content: value,
       projectId,
     };
-
     try {
       await axios.post(url, data, {
         headers: {
@@ -132,7 +129,7 @@ function Reply(props: PropsObject) {
         0,
       ),
     );
-  }, [props]);
+  }, [contents, setReadReply]);
 
   return (
     <div>

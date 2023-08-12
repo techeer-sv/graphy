@@ -16,9 +16,9 @@ function findImage(tag: string) {
 }
 
 // 화면 컴포넌트
-interface Screen1Props {
+type Screen1Props = {
   onNext: () => void;
-}
+};
 
 const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
   return (

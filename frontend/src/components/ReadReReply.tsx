@@ -8,7 +8,7 @@ import pencil_square from '../assets/image/pencil-square.svg';
 import reply_icon from '../assets/image/reply_icon.svg';
 import { persistTokenState, refreshState } from '../Recoil';
 
-interface PropsObject {
+type ReadReReplyProps = {
   contents: {
     commentId: number;
     childCount?: number;
@@ -17,12 +17,15 @@ interface PropsObject {
   };
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
   changeCommentRef: () => void;
-}
+};
 
-function ReadReReply(props: PropsObject) {
-  const { contents, setSelectedValue, changeCommentRef } = props;
-
+function ReadReReply({
+  contents,
+  setSelectedValue,
+  changeCommentRef,
+}: ReadReReplyProps) {
   const [putVis, setPutVis] = useState<boolean>(false);
+
   const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setRefresh] = useRecoilState(refreshState);

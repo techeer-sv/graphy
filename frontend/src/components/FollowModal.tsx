@@ -5,12 +5,12 @@ import followerIcon from '../assets/image/followerIcon.svg';
 import followingIcon from '../assets/image/followingIcon.svg';
 import LikeIcon from '../assets/image/likeIcon.svg';
 
-interface Props {
+type FollowModalProps = {
   onClickToggleModal: () => void;
   isFollowing: number;
-}
+};
 
-function followModal({ onClickToggleModal, isFollowing }: Props) {
+function followModal({ onClickToggleModal, isFollowing }: FollowModalProps) {
   function mode(modenumber: number) {
     if (modenumber === 0) {
       return <div>의 팔로워</div>;

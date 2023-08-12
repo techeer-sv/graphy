@@ -7,7 +7,6 @@ import imginsert from '../assets/image/imginsert.svg';
 import { thumbnailUrlState } from '../Recoil';
 import s3config from '../s3config';
 
-// s3 변수 선언
 const s3 = new ReactS3Client(s3config);
 
 function ImageUploader() {
@@ -15,7 +14,6 @@ function ImageUploader() {
   const [, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 이미지 S3로 업로드 하는 함수
   async function uploadImage() {
     if (image) {
       try {
@@ -34,12 +32,6 @@ function ImageUploader() {
     }
   }
 
-  // 이미지 변경마다 uploadImage함수 실행
-  useEffect(() => {
-    if (image) {
-      uploadImage();
-    }
-  }, [image]);
   // 클릭시 파일 리스트에 이미지 넣는 함수
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -47,6 +39,7 @@ function ImageUploader() {
       setImage(fileList[0]);
     }
   };
+
   // 이미지 드롭시 이미지 넣는 함수
   const handleDrop = (e: React.DragEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -56,12 +49,20 @@ function ImageUploader() {
       setImage(fileList[0]);
     }
   };
+
   // div눌러도 input에 이미지 들어가게 해주는 함수
   const handleClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
+
+  // 이미지 변경마다 uploadImage함수 실행
+  useEffect(() => {
+    if (image) {
+      uploadImage();
+    }
+  }, [image]);
 
   return (
     <div className=" w-full bg-[#F9F8F8] sm:w-284">

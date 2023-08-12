@@ -5,7 +5,7 @@ import project from '../assets/image/project.png';
 import { projectIdState } from '../Recoil';
 import AllStacks from '../Stack';
 
-interface PropsObject {
+type ProjectCardProps = {
   items: {
     id: number;
     createdAt: string;
@@ -14,11 +14,9 @@ interface PropsObject {
     techTags: string[];
     thumbNail: string;
   };
-}
+};
 
-function ProjectCard(props: PropsObject) {
-  const { items } = props;
-
+function ProjectCard({ items }: ProjectCardProps) {
   const [, setProjectId] = useRecoilState(projectIdState);
   const navigate = useNavigate();
 
@@ -60,6 +58,7 @@ function ProjectCard(props: PropsObject) {
       setProjectId(items.id);
     }
   }
+
   return (
     <button
       onClick={() => toRead()}

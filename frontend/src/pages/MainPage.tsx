@@ -10,14 +10,14 @@ import NavBar from '../components/NavBar';
 import ProjectCard from '../components/ProjectCard';
 import { searchTextState } from '../Recoil';
 
-interface DataObject {
+type DataObject = {
   id: number;
   createdAt: string;
   projectName: string;
   description: string;
   techTags: string[];
   thumbNail: string;
-}
+};
 
 function MainPage() {
   const searchText = useRecoilValue(searchTextState);
@@ -76,7 +76,6 @@ function MainPage() {
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
       <NavBar />
       <Banner />
-
       <div>
         {/* 프로젝트 공유 버튼 */}
         <button

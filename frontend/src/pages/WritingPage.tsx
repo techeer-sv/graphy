@@ -101,7 +101,7 @@ function WritingPage() {
     }
   }
   // 취소 버튼 누를시 메인페이지 이동
-  function cancelButton() {
+  function toMain() {
     navigate('/');
   }
 
@@ -148,7 +148,7 @@ function WritingPage() {
         <div className="mt-20 mb-4 flex justify-end sm:mt-20 lg:mt-12">
           <button
             className="focus:shadow-outline mr-2 h-12 w-24 appearance-none rounded-sm border bg-gray-500 font-ng text-white hover:bg-gray-700"
-            onClick={() => cancelButton()}
+            onClick={() => toMain()}
             type="button"
           >
             취소
