@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import gptIcon from '../assets/image/gptIcon.svg';
+import ProfileIcon from '../assets/image/profileIcon.svg';
 import NavBar from '../components/NavBar';
 import QuillWrtten from '../components/QuillWritten';
 import RenderModal from '../components/RenderModal';
@@ -39,6 +40,8 @@ function ReadingPage() {
   const params = useParams();
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [nickname, setNickname] = useState<string>('');
+  const [createdAt, setCreatedAt] = useState<string>('');
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -69,6 +72,8 @@ function ReadingPage() {
       setSelectedStack(res.data.data.techTags);
       setContents(res.data.data.content);
       setReadReply(res.data.data.commentsList);
+      setNickname(res.data.data.member.nickname);
+      setCreatedAt(res.data.data.createdAt);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
@@ -172,6 +177,13 @@ function ReadingPage() {
           {/** 제목* */}
           <div className="mt-10 mb-4 text-center font-ng-eb text-4xl">
             {title}
+          </div>
+          <div className="mb-4 flex items-center border-b-2 border-graphyblue pb-2">
+            <img className="h-6 w-6" src={ProfileIcon} alt="ProfileIcon" />
+            <span className="ml-1 font-ng-b text-lg">{nickname}</span>
+            <span className="text-ml font-ng text-lg text-gray-500">
+              &nbsp; |&nbsp; {createdAt.slice(0, 10)}
+            </span>
           </div>
           <div className="mb-2 flex flex-row overflow-hidden hover:overflow-x-auto">
             <div className=" mb-2 mr-3 shrink-0 font-ng-b text-xl text-zinc-500 sm:text-2xl ">

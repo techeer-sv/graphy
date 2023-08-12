@@ -30,9 +30,7 @@ function MainPage() {
   }
 
   async function getData({ pageParam = 1 }) {
-    const params = searchText
-      ? { projectName: searchText }
-      : { page: pageParam, size: 12 };
+    const params = { page: pageParam, size: 12 };
     const res = await axios.get(
       'http://localhost:8080/api/v1/projects/search',
       {
@@ -61,7 +59,7 @@ function MainPage() {
       };
       window.addEventListener('scroll', handleScroll);
     }
-  }, [fetchNextPage, isFetchingNextPage]);
+  }, [fetchNextPage, isFetchingNextPage, searchText]);
 
   if (status === 'loading') {
     return <span>Loading...</span>;
@@ -95,39 +93,19 @@ function MainPage() {
         </div>
 
         <div>
-          {searchText === '' ? (
-            <>
-              {data.pages.map((group, i) => (
-                <div
-                  className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8"
-                  key={group[i]?.id}
-                >
-                  {group.map((item: DataObject) => (
-                    <div className="mx-8 mb-10" key={item.id}>
-                      <ProjectCard items={item} />
-                    </div>
-                  ))}
+          {data.pages.map((group, i) => (
+            <div
+              className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8"
+              key={group[i]?.id}
+            >
+              {group.map((item: DataObject) => (
+                <div className="mx-8 mb-10" key={item.id}>
+                  <ProjectCard items={item} />
                 </div>
               ))}
-              {hasNextPage && isFetchingNextPage && (
-                <span>Loading more...</span>
-              )}
-            </>
-          ) : (
-            <div className="ml-0 flex flex-wrap justify-center min-[680px]:ml-10 min-[680px]:justify-start">
-              {data.pages
-                .flat()
-                .filter((x) => x.projectName.includes(searchText))
-                .map((item) => (
-                  <div
-                    className="mx-3 mt-9 min-[680px]:mx-0 min-[680px]:ml-16"
-                    key={item.id}
-                  >
-                    <ProjectCard items={item} />
-                  </div>
-                ))}
             </div>
-          )}
+          ))}
+          {hasNextPage && isFetchingNextPage && <span>Loading more...</span>}
         </div>
       </div>
     </div>
