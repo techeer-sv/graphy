@@ -6,9 +6,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import gptIcon from '../assets/image/gptIcon.svg';
 import ProfileIcon from '../assets/image/profileIcon.svg';
+import GptModal from '../components/GptModal';
 import NavBar from '../components/NavBar';
 import QuillWrtten from '../components/QuillWritten';
-import RenderModal from '../components/RenderModal';
 import Reply from '../components/Reply';
 import {
   contentsState,
@@ -167,7 +167,7 @@ function ReadingPage() {
         ) : null}
 
         {isOpenModal ? (
-          <RenderModal onClickToggleModal={onClickToggleModal} />
+          <GptModal onClickToggleModal={onClickToggleModal} />
         ) : null}
         {/** 텍스트 영역* */}
         <div className="h-auto border-b-2 border-graphyblue pb-2">

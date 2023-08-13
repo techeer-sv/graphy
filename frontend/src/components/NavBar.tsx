@@ -32,12 +32,6 @@ function NavBar() {
     }
   }
 
-  useEffect(() => {
-    if (accessToken) {
-      setRefresh(!refresh);
-    }
-  }, []);
-
   const handleSearch = () => {
     if (searchText === '' || searchText === '@') {
       navigate('/');
@@ -48,6 +42,12 @@ function NavBar() {
       navigate(`/searchProject/${searchText}`);
     }
   };
+
+  useEffect(() => {
+    if (accessToken) {
+      setRefresh(!refresh);
+    }
+  }, []);
 
   return (
     <div className="fixed z-20 mb-5 flex w-screen flex-row content-center overflow-hidden border-b border-zinc-400 bg-white pt-3 pb-3 align-middle font-ng-eb">

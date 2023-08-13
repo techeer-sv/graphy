@@ -35,13 +35,9 @@ type Screen1Props = {
   onNext: () => void;
 };
 
-const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
+const Screen1 = ({ onNext }: Screen1Props) => {
   const [techStacks, setTechStacks] = useRecoilState(techStacksState);
   const selectedStack = useRecoilValue(selectedStackState);
-
-  useEffect(() => {
-    setTechStacks(selectedStack);
-  }, []);
 
   // 기존 선택 기술 스택 삭제 함수
   const handleDeleteStack = (stack: string) => {
@@ -55,6 +51,10 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
     }
   };
 
+  useEffect(() => {
+    setTechStacks(selectedStack);
+  }, []);
+
   return (
     <div
       className=" fixed bottom-1/2 right-1/2 z-50 box-border 
@@ -63,10 +63,9 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
       bg-white sm:w-630"
     >
       {/* 이전/다음 */}
-
       <button
         onClick={onNext}
-        className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600 "
+        className="mx-auto mt-5 mr-5 flex items-center font-lef text-gray-400 hover:text-gray-600 "
         type="button"
       >
         <div>다음</div>
@@ -96,7 +95,6 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
           </span>
         </li>
       </ol>
-
       {/* screen1 */}
       {/* 질문 */}
       <div className="flex items-center justify-center font-lef-b text-[20px]">
@@ -138,7 +136,6 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
           ),
         )}
       </div>
-
       {/* 하단 버튼 */}
       <button
         className="ml-7 mt-7 flex items-center justify-center
@@ -153,12 +150,12 @@ const Screen1: React.FC<Screen1Props> = ({ onNext }) => {
   );
 };
 
-interface Screen2Props {
+type Screen2Props = {
   onPrev: () => void;
   onNext: () => void;
-}
+};
 
-const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
+const Screen2 = ({ onPrev, onNext }: Screen2Props) => {
   const [topic, setTopic] = useRecoilState(topicState);
   const tldr = useRecoilValue(tldrState);
 
@@ -174,7 +171,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
       bg-white sm:w-630"
     >
       {/* 이전/다음 */}
-      <div className="">
+      <div>
         <div className="flex">
           <button
             onClick={onPrev}
@@ -187,7 +184,7 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
 
           <button
             onClick={onNext}
-            className="mx-auto mt-5 mr-5 flex  items-center font-lef text-gray-400 hover:text-gray-600"
+            className="mx-auto mt-5 mr-5 flex items-center font-lef text-gray-400 hover:text-gray-600"
             type="button"
           >
             <div>다음</div>
@@ -218,7 +215,6 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
             </span>
           </li>
         </ol>
-
         {/* screen2 */}
         {/* 질문 */}
         <div className="flex items-center justify-center font-lef-b text-[20px]">
@@ -247,17 +243,16 @@ const Screen2: React.FC<Screen2Props> = ({ onPrev, onNext }) => {
           다음
         </button>
       </div>
-      {/* {children} */}
     </div>
   );
 };
 
-interface Screen3Props {
+type Screen3Props = {
   onPrev: () => void;
   onNext: () => void;
-}
+};
 
-const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
+const Screen3 = ({ onPrev, onNext }: Screen3Props) => {
   const [featureObject, setFeatureObject] = useState<
     { id: string; value: string }[]
   >([]);
@@ -389,17 +384,16 @@ const Screen3: React.FC<Screen3Props> = ({ onPrev, onNext }) => {
           다음
         </button>
       </div>
-      {/* {children} */}
     </div>
   );
 };
 
-interface Screen4Props {
+type Screen4Props = {
   onPrev: () => void;
   onClickToggleModal: () => void;
-}
+};
 
-const Screen4: React.FC<Screen4Props> = ({ onPrev, onClickToggleModal }) => {
+const Screen4 = ({ onPrev, onClickToggleModal }: Screen4Props) => {
   const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
 
@@ -438,10 +432,6 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev, onClickToggleModal }) => {
     setFirstPlans(e.target.value);
   };
 
-  useEffect(() => {
-    setPlans([firstPlan, ...planObject.map((x) => x.value)]);
-  }, [firstPlan, planObject]);
-
   async function toSubmit() {
     const url = 'http://localhost:8080/api/v1/projects/plans';
     const data = {
@@ -468,6 +458,10 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev, onClickToggleModal }) => {
       console.log(err);
     }
   }
+
+  useEffect(() => {
+    setPlans([firstPlan, ...planObject.map((x) => x.value)]);
+  }, [firstPlan, planObject]);
 
   return (
     <div
@@ -546,10 +540,6 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev, onClickToggleModal }) => {
             <img src={plus} alt="plus" />
           </button>
         ) : null}
-        {/* <img
-            className=" ml-[21rem] mt-5 flex h-5 w-5 items-center justify-center"
-            src={plus}
-          /> */}
       </div>
       {/* 하단버튼 */}
       <button
@@ -561,19 +551,15 @@ const Screen4: React.FC<Screen4Props> = ({ onPrev, onClickToggleModal }) => {
       >
         AI 고도화 추천
       </button>
-
-      {/* {children} */}
     </div>
   );
 };
 
-interface ModalDefaultType {
+type ModalDefaultType = {
   onClickToggleModal: () => void;
-}
+};
 
-function renderModal({
-  onClickToggleModal,
-}: PropsWithChildren<ModalDefaultType>) {
+function GptModal({ onClickToggleModal }: PropsWithChildren<ModalDefaultType>) {
   const [currentScreen, setCurrentScreen] = useState<number>(1);
 
   const handleNext = () => {
@@ -624,4 +610,4 @@ function renderModal({
   );
 }
 
-export default renderModal;
+export default GptModal;

@@ -10,10 +10,10 @@ import Banner from '../components/Banner';
 import NavBar from '../components/NavBar';
 import { persistTokenState } from '../Recoil';
 
-interface DataObject {
+type DataObject = {
   nickname: string;
   email: string;
-}
+};
 
 function SearchUserPage() {
   const [data, setData] = useState<DataObject[]>([]); // 데이터를 담을 state 선언

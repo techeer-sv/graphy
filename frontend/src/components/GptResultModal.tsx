@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { gptLoadingState, statusOpenState, modalContentState } from '../Recoil';
 
-function ResultModal() {
+function GptResultModal() {
   const [resultOpen, setResultOpen] = useState<boolean>(false);
   const [statusOpen, setStatusOpen] = useRecoilState(statusOpenState);
   const gptLoading = useRecoilValue(gptLoadingState);
@@ -78,4 +78,4 @@ function ResultModal() {
   );
 }
 
-export default ResultModal;
+export default GptResultModal;

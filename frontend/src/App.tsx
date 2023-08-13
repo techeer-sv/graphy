@@ -4,8 +4,8 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
+import GptResultModal from './components/GptResultModal';
 import LoadingSpinner from './components/LoadingSpinner';
-import ResultModal from './components/ResultModal';
 
 // lazy 동적으로 필요할 때 import를 하여 실제로 로드되는 것
 const MainPage = lazy(() => import('./pages/MainPage'));
@@ -47,7 +47,7 @@ function App() {
             </Routes>
           </Suspense>
         </Router>
-        <ResultModal />
+        <GptResultModal />
       </RecoilRoot>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

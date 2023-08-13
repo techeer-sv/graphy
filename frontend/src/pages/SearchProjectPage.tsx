@@ -7,14 +7,14 @@ import Banner from '../components/Banner';
 import NavBar from '../components/NavBar';
 import ProjectCard from '../components/ProjectCard';
 
-interface DataObject {
+type DataObject = {
   id: number;
   createdAt: string;
   projectName: string;
   description: string;
   techTags: string[];
   thumbNail: string;
-}
+};
 
 function SearchProjectPage() {
   const [data, setData] = useState<DataObject[]>([]); // 데이터를 담을 state 선언
