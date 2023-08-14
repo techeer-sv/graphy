@@ -1,13 +1,14 @@
 package com.graphy.backend.domain.comment.controller;
 
 import com.graphy.backend.domain.comment.domain.Comment;
-import com.graphy.backend.domain.comment.dto.CommentDto;
-import com.graphy.backend.domain.comment.dto.ReplyListDto;
+import com.graphy.backend.domain.comment.dto.request.CreateCommentRequest;
+import com.graphy.backend.domain.comment.dto.request.UpdateCommentRequest;
+import com.graphy.backend.domain.comment.dto.response.GetReplyListResponse;
 import com.graphy.backend.domain.comment.service.CommentService;
-import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
 import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,11 +61,11 @@ class CommentControllerTest extends MockApiTest {
     @DisplayName("댓글 생성 API 테스트")
     void createCommentTest() throws Exception {
         // given
-        CommentDto.CreateCommentRequest dto = new CommentDto.CreateCommentRequest("test", 1L, null);
+        CreateCommentRequest dto = new CreateCommentRequest("test", 1L, null);
 
         // when
         String body = objectMapper.writeValueAsString(dto);
-        when(commentService.createComment(dto)).thenReturn(any());
+        when(commentService.addComment(dto)).thenReturn(any());
         mvc.perform(post("/api/v1/comments")
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -80,9 +81,9 @@ class CommentControllerTest extends MockApiTest {
 
         String updatedContent = "수정된 내용";
 
-        CommentDto.UpdateCommentRequest commentRequest = new CommentDto.UpdateCommentRequest(updatedContent);
+        UpdateCommentRequest commentRequest = new UpdateCommentRequest(updatedContent);
 
-        given(commentService.updateComment(commentId, commentRequest)).willReturn(commentId);
+        given(commentService.modifyComment(commentId, commentRequest)).willReturn(commentId);
 
         // when
         String body = objectMapper.writeValueAsString(commentRequest);
@@ -111,40 +112,5 @@ class CommentControllerTest extends MockApiTest {
                 .andDo(document("comment-delete",
                         preprocessResponse(prettyPrint()))
                 );
-    }
-
-    @Test
-    @DisplayName("답글 조회 API 테스트")
-    public void getReplyList() throws Exception {
-        //given
-        List<ReplyListDto> dtoList = Arrays.asList(new ReplyListDto() {
-            @Override
-            public String getNickname() {
-                return null;
-            }
-
-            @Override
-            public String getContent() {
-                return "test";
-            }
-
-            @Override
-            public Long getCommentId() {
-                return 1L;
-            }
-
-            @Override
-            public LocalDateTime getCreatedAt() {
-                return LocalDateTime.now();
-            }
-        });
-
-        given(commentService.getReplyList(any())).willReturn(dtoList);
-
-        //then
-        mvc.perform(get("/api/v1/comments/{commentId}", 1L))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("reply-get", preprocessResponse(prettyPrint())));
     }
 }

@@ -16,12 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.test.context.support.WithMockUser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.InvalidMarkException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +61,7 @@ class CommentServiceTest extends MockTest {
                 .willReturn(member);
 
         //when
-        CreateCommentResponse response = commentService.createComment(dto);
+        CreateCommentResponse response = commentService.addComment(dto);
 
         //then
         Comment findComment = commentRepository.findById(response.getCommentId()).get();
@@ -97,7 +92,7 @@ class CommentServiceTest extends MockTest {
 
 
         //when
-        CreateCommentResponse response = commentService.createComment(dto);
+        CreateCommentResponse response = commentService.addComment(dto);
 
         //then
         Comment findComment = commentRepository.findById(response.getCommentId()).get();
@@ -137,7 +132,7 @@ class CommentServiceTest extends MockTest {
 
         //then
         assertTrue(comment.getContent().equals("수정 후"));
-        Long result = commentService.updateComment(1L, commentRequest);
+        Long result = commentService.modifyComment(1L, commentRequest);
         assertTrue(result==1L);
     }
 
@@ -195,7 +190,7 @@ class CommentServiceTest extends MockTest {
 
         // when
         when(commentRepository.findReplyList(1L)).thenReturn(list);
-        List<ReplyListDto> result = commentService.getReplyList(1L);
+        List<ReplyListDto> result = commentService.findCommentList(1L);
 
         //then
         assertTrue(result.get(0).getContent().equals("comment1"));
@@ -223,7 +218,7 @@ class CommentServiceTest extends MockTest {
 
         //then
         assertThrows(EmptyResultDataAccessException.class, () -> {
-            commentService.updateComment(1L, commentRequest);
+            commentService.modifyComment(1L, commentRequest);
         });
     }
 }

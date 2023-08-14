@@ -1,5 +1,9 @@
 package com.graphy.backend.domain.comment.controller;
 
+import com.graphy.backend.domain.comment.dto.request.CreateCommentRequest;
+import com.graphy.backend.domain.comment.dto.request.UpdateCommentRequest;
+import com.graphy.backend.domain.comment.dto.response.CreateCommentResponse;
+import com.graphy.backend.domain.comment.dto.response.GetReplyListResponse;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
@@ -16,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
 @Tag(name = "CommentController", description = "댓글 관련 API")
 @RestController
@@ -27,17 +30,19 @@ public class CommentController {
 
     @Operation(summary = "createComment", description = "댓글 생성")
     @PostMapping
-    public ResponseEntity<ResultResponse> createComment(@Validated @RequestBody CreateCommentRequest dto, @CurrentUser Member loginUser) {
-        CreateCommentResponse response = commentService.createComment(dto, loginUser);
+    public ResponseEntity<ResultResponse> commentAdd(@Validated @RequestBody CreateCommentRequest dto,
+                                                     @CurrentUser Member loginUser) {
+        commentService.addComment(dto, loginUser);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ResultResponse.of(ResultCode.COMMENT_CREATE_SUCCESS, response));
+                .body(ResultResponse.of(ResultCode.COMMENT_CREATE_SUCCESS));
     }
 
     @Operation(summary = "updateComment", description = "댓글 수정")
     @PutMapping("/{commentId}")
-    public ResponseEntity<ResultResponse> updateComment(@Validated @RequestBody UpdateCommentRequest dto, @PathVariable Long commentId, @CurrentUser Member loginUser) {
-        commentService.updateComment(commentId, dto);
+    public ResponseEntity<ResultResponse> commentUpdate(@Validated @RequestBody UpdateCommentRequest dto,
+                                                        @PathVariable Long commentId) {
+        commentService.modifyComment(commentId, dto);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.COMMENT_UPDATE_SUCCESS));
@@ -45,7 +50,7 @@ public class CommentController {
 
     @Operation(summary = "deleteComment", description = "댓글 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResultResponse> deleteComment(@PathVariable Long id, @CurrentUser Member loginUser) {
+    public ResponseEntity<ResultResponse> commentDelete(@PathVariable Long id) {
         commentService.deleteComment(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));
@@ -53,9 +58,9 @@ public class CommentController {
 
     @Operation(summary = "getReComment", description = "답글 조회")
     @GetMapping("/{commentId}")
-    public ResponseEntity<ResultResponse> getReComment(@PathVariable Long commentId) {
-        List<GetReplyListResponse> replyList = commentService.getReplyList(commentId);
+    public ResponseEntity<ResultResponse> commentDetails(@PathVariable Long commentId) {
+        List<GetReplyListResponse> result = commentService.findCommentList(commentId);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResultResponse.of(ResultCode.RECOMMENT_GET_SUCCESS, replyList));
+                .body(ResultResponse.of(ResultCode.RECOMMENT_GET_SUCCESS, result));
     }
 }

@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.project.mapper;
 
+import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.MemberDto;
 import com.graphy.backend.domain.project.domain.Project;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 @Component
