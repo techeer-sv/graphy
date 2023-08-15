@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
@@ -19,6 +20,7 @@ public class CreateCommentRequest {
     @NotBlank
     private String content;
 
+    @NotNull
     private Long projectId;
 
     private Long parentId;
