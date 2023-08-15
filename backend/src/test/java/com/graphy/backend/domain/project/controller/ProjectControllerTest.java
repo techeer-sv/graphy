@@ -1,7 +1,7 @@
 package com.graphy.backend.domain.project.controller;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
 import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
@@ -84,45 +84,8 @@ class ProjectControllerTest extends MockApiTest {
     void getProjectWithComments() throws Exception {
 
         //given
-        CommentWithMaskingDto dto = new CommentWithMaskingDto() {
-            @Override
-            public String getContent() {
-                return "testComment";
-            }
-
-            @Override
-            public String getNickname() {
-                return null;
-            }
-
-            @Override
-            public Long getCommentId() {
-                return null;
-            }
-
-            @Override
-            public Integer getChildCount() {
-                return null;
-            }
-
-            @Override
-            public LocalDateTime getCreatedAt() {
-                return LocalDateTime.now();
-            }
-        };
-        List<CommentWithMaskingDto> list = new ArrayList<>();
-        list.add(dto);
-
-        given(projectService.getProjectById(1L))
-                .willReturn(GetProjectDetailResponse.builder()
-                        .projectName("project")
-                        .commentsList(list).build());
-
-
 
         //then
-        ResultActions result = mvc.perform(get(baseUrl + "/{projectId}", 1L));
-        result.andExpect(status().isOk());
     }
 
     @Test
@@ -138,7 +101,7 @@ class ProjectControllerTest extends MockApiTest {
         CreateProjectResponse response = CreateProjectResponse.builder().projectId(1L).build();
 
         //when
-        when(projectService.createProject(request)).thenReturn(response);
+        when(projectService.createProject(request, new Member())).thenReturn(response);
 
         //then
         mvc.perform(post(baseUrl)

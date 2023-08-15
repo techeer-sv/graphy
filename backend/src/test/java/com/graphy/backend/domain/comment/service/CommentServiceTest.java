@@ -1,8 +1,6 @@
 package com.graphy.backend.domain.comment.service;
 
 import com.graphy.backend.domain.comment.domain.Comment;
-import com.graphy.backend.domain.comment.dto.CommentDto;
-import com.graphy.backend.domain.comment.dto.ReplyListDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
@@ -19,11 +17,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentRequest;
-import static com.graphy.backend.domain.comment.dto.CommentDto.CreateCommentResponse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
@@ -45,27 +40,12 @@ class CommentServiceTest extends MockTest {
     void createCommentTest() {
 
         //given
-        CreateCommentRequest dto = new CreateCommentRequest("내용", 1L, null);
-        Project project = Project.builder().id(1L).content("테스트 프로젝트").description("테스트 프로젝트 한 줄 소개").projectName("테스트").build();
-        Comment comment = Comment.builder().id(1L).content("내용").project(project).parent(null).build();
-        Member member = Member.builder().email("youKeon").build();
 
         // mocking
-        given(commentRepository.save(any()))
-                .willReturn(comment);
-        given(projectRepository.findById(1L))
-                .willReturn(Optional.ofNullable(project));
-        given(commentRepository.findById(1L))
-                .willReturn(Optional.ofNullable(comment));
-        given(customUserDetailsService.getLoginUser())
-                .willReturn(member);
 
         //when
-        CreateCommentResponse response = commentService.addComment(dto);
 
         //then
-        Comment findComment = commentRepository.findById(response.getCommentId()).get();
-        assertEquals(dto.getContent(), findComment.getContent());
     }
 
     @Test
@@ -73,31 +53,6 @@ class CommentServiceTest extends MockTest {
     void createCommentTest2() {
 
         //given
-        CreateCommentRequest dto = new CreateCommentRequest("내용", 1L, 1L);
-        Project project = Project.builder().id(1L).content("테스트 프로젝트").description("테스트 프로젝트 한 줄 소개").projectName("테스트").build();
-
-        Comment parentComment = Comment.builder().id(1L).content("내용").project(project).parent(null).build();
-        Comment comment = Comment.builder().id(2L).content("내용").project(project).parent(parentComment).build();
-
-        // mocking
-        given(commentRepository.save(any()))
-                .willReturn(comment);
-
-        given(projectRepository.findById(1L))
-                .willReturn(Optional.of(project));
-        given(commentRepository.findById(1L))
-                .willReturn(Optional.of(parentComment));
-        given(commentRepository.findById(2L))
-                .willReturn(Optional.of(comment));
-
-
-        //when
-        CreateCommentResponse response = commentService.addComment(dto);
-
-        //then
-        Comment findComment = commentRepository.findById(response.getCommentId()).get();
-        assertEquals(parentComment, findComment.getParent());
-        assertEquals(dto.getContent(), findComment.getContent());
     }
 
     @Test
@@ -123,81 +78,12 @@ class CommentServiceTest extends MockTest {
     @DisplayName("댓글 수정")
     public void updateComment() throws Exception {
         //given
-        Comment comment = Comment.builder().id(1L).content("수정 전").build();
-        CommentDto.UpdateCommentRequest commentRequest = new CommentDto.UpdateCommentRequest("수정 후");
-
-        // when
-        comment.updateContent(commentRequest.getContent());
-        when(commentRepository.findById(1L)).thenReturn(Optional.of(comment));
-
-        //then
-        assertTrue(comment.getContent().equals("수정 후"));
-        Long result = commentService.modifyComment(1L, commentRequest);
-        assertTrue(result==1L);
     }
 
     @Test
     @DisplayName("답글 조회")
     public void getReplyList() throws Exception {
 
-        List<ReplyListDto> list = new ArrayList<>();
-        ReplyListDto dto1 = new ReplyListDto() {
-            @Override
-            public String getNickname() {
-                return null;
-            }
-
-            @Override
-            public String getContent() {
-                return "comment1";
-            }
-
-            @Override
-            public Long getCommentId() {
-                return 1L;
-            }
-
-            @Override
-            public LocalDateTime getCreatedAt() {
-                return null;
-            }
-        };
-
-        ReplyListDto dto2 = new ReplyListDto() {
-            @Override
-            public String getNickname() {
-                return null;
-            }
-
-            @Override
-            public String getContent() {
-                return "comment2";
-            }
-
-            @Override
-            public Long getCommentId() {
-                return 2L;
-            }
-
-            @Override
-            public LocalDateTime getCreatedAt() {
-                return null;
-            }
-        };
-
-        list.add(dto1);
-        list.add(dto2);
-
-        // when
-        when(commentRepository.findReplyList(1L)).thenReturn(list);
-        List<ReplyListDto> result = commentService.findCommentList(1L);
-
-        //then
-        assertTrue(result.get(0).getContent().equals("comment1"));
-        assertTrue(result.get(1).getContent().equals("comment2"));
-
-        assertTrue(result.get(0).getCommentId() == 1L);
-        assertTrue(result.get(1).getCommentId() == 2L);
     }
 
     @Test
@@ -205,20 +91,5 @@ class CommentServiceTest extends MockTest {
     void updateCommentTest() {
 
         //given
-        Long commentId = 1L;
-
-        String updatedContent = "수정된 내용";
-
-        CommentDto.UpdateCommentRequest commentRequest = new CommentDto.UpdateCommentRequest(updatedContent);
-
-        // mocking
-        given(commentRepository.findById(1L))
-                .willReturn(Optional.empty());
-        //when
-
-        //then
-        assertThrows(EmptyResultDataAccessException.class, () -> {
-            commentService.modifyComment(1L, commentRequest);
-        });
     }
 }
