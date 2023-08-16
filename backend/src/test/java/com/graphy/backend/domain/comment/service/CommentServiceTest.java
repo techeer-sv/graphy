@@ -64,7 +64,7 @@ class CommentServiceTest extends MockTest {
 
     @Test
     @DisplayName("댓글이 생성된다")
-    void createCommentTest() {
+    void addCommentTest() {
         //given
         CreateCommentRequest request = new CreateCommentRequest("content", project.getId(), null);
 
@@ -77,7 +77,7 @@ class CommentServiceTest extends MockTest {
 
     @Test
     @DisplayName("댓글 생성 시 프로젝트가 존재하지 않으면 예외가 발생한다")
-    void createCommentNotExistProjectExceptionTest() {
+    void addCommentNotExistProjectExceptionTest() {
         // given
         Long 존재하지_않는_프로젝트_ID = 0L;
         CreateCommentRequest request = new CreateCommentRequest("content", 존재하지_않는_프로젝트_ID, null);
