@@ -173,7 +173,6 @@ public class CommentRepositoryTest {
     @DisplayName("답글 목록 조회 시 답글이 없으면 빈 리스트가 반환된다")
     public void findReCommentListEmptyListTest() throws Exception {
         // given
-        clearRepository();
         Long 답글이_존재하지_않는_댓글_ID = 0L;
 
         // when
