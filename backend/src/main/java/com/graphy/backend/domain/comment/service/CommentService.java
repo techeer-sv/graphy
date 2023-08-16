@@ -49,13 +49,16 @@ public class CommentService {
 
     public void deleteComment(Long id) {
         Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
+                .orElseThrow(() -> new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST));
 
         comment.delete();
     }
 
     public List<GetReplyListResponse> findCommentList(Long commentId) {
         List<Comment> commentList = commentRepository.findReplyList(commentId);
+
+        if (commentList.size() == 0) throw new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST);
+
         return commentList.stream()
                 .map(GetReplyListResponse::from)
                 .collect(Collectors.toList());
