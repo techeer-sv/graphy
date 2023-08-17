@@ -6,6 +6,7 @@ import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.Tag;
 import com.graphy.backend.domain.project.domain.Tags;
+import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
 import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
@@ -19,7 +20,6 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -102,7 +102,7 @@ public class ProjectService {
 
         List<GetCommentWithMaskingResponse> comments = commentRepository.findCommentsWithMasking(projectId);
 
-        return mapper.toGetProjectDetailDto(project, comments);
+        return GetProjectDetailResponse.of(project, comments);
     }
 
     public Tags getTagsWithName(List<String> techStacks) {

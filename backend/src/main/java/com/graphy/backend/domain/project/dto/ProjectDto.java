@@ -117,22 +117,6 @@ public class ProjectDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class GetProjectDetailResponse {
-        private Long id;
-        private String projectName;
-        private String content;
-        private String description;
-        private String thumbNail;
-        private List<GetCommentWithMaskingResponse> commentsList;
-        private LocalDateTime createdAt;
-        private List<String> techTags;
-
-        private MemberDto.GetMemberResponse member;
-    }
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetProjectInfoResponse {
         private Long id;
         private String projectName;

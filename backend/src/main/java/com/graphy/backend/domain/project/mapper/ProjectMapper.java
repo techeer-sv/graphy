@@ -52,21 +52,6 @@ public class ProjectMapper {
                 .build();
     }
 
-    public GetProjectDetailResponse toGetProjectDetailDto(Project project,
-                                                          List<GetCommentWithMaskingResponse> comments) {
-
-        return GetProjectDetailResponse.builder()
-                .id(project.getId())
-                .projectName(project.getProjectName())
-                .description(project.getDescription())
-                .createdAt(project.getCreatedAt())
-                .techTags(project.getTagNames())
-                .content(project.getContent())
-                .commentsList(comments)
-                .member(MemberDto.GetMemberResponse.toDto(project.getMember()))
-                .thumbNail(project.getThumbNail())
-                .build();
-    }
 
     public GetProjectInfoResponse toProjectInfoDto(Project project) {
         return GetProjectInfoResponse.builder()

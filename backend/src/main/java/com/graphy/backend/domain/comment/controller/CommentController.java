@@ -41,7 +41,8 @@ public class CommentController {
     @Operation(summary = "updateComment", description = "댓글 수정")
     @PutMapping("/{commentId}")
     public ResponseEntity<ResultResponse> commentUpdate(@Validated @RequestBody UpdateCommentRequest dto,
-                                                        @PathVariable Long commentId) {
+                                                        @PathVariable Long commentId,
+                                                        @CurrentUser Member loginUser) {
         commentService.modifyComment(commentId, dto);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -50,7 +51,8 @@ public class CommentController {
 
     @Operation(summary = "deleteComment", description = "댓글 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResultResponse> commentDelete(@PathVariable Long id) {
+    public ResponseEntity<ResultResponse> commentDelete(@PathVariable Long id,
+                                                        @CurrentUser Member loginUser) {
         commentService.deleteComment(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));

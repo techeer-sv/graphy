@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
-import static com.graphy.backend.domain.project.dto.ProjectDto.GetProjectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
