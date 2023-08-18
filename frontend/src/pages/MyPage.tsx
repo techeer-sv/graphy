@@ -6,17 +6,21 @@ import myProfile from '../assets/image/myProfile.png';
 import WriteIcon from '../assets/image/pencil-square.svg';
 import FollowModal from '../components/FollowModal';
 import NavBar from '../components/NavBar';
-// import PostModal from '../components/PostModal';
+import PostModal from '../components/PostModal';
 
 function MyPage() {
   const [isOpenModal, setOpenModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(0);
-  // const [isPost, setIsPost] = useState(false);
+  const [isPostOpenModal, setPostOpenModal] = useState<boolean>(() => false);
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
     console.log(isOpenModal);
   }, [isOpenModal]);
+
+  const onClickPostToggleModal = useCallback(() => {
+    setPostOpenModal(!isPostOpenModal);
+  }, [isPostOpenModal]);
 
   const onClickFollower = () => {
     setIsFollowing(0);
@@ -33,10 +37,9 @@ function MyPage() {
     onClickToggleModal();
   };
 
-  // const onClickPost = () => {
-  //   setIsPost(false);
-  //   onClickToggleModal();
-  // };
+  const onClickPost = () => {
+    onClickPostToggleModal();
+  };
 
   const navigate = useNavigate(); // react-router-dom useNavigate 사용 선언
 
@@ -118,7 +121,7 @@ function MyPage() {
               <button
                 className="flex flex-col "
                 type="button"
-                // onClick={onClickPost}
+                onClick={onClickPost}
               >
                 {/* 제목 */}
                 <div className="ml-10 font-lato text-[20px] font-bold text-zinc-700">
@@ -151,16 +154,12 @@ function MyPage() {
                   <img src={Like} alt="Like" />
                   14
                 </button>
-                {/* {isOpenModal ? (
-                <FollowModal
-                  onClickToggleModal={onClickToggleModal}
-                  isFollowing={isFollowing}
-                />
-              ) : null} */}
-                {/* <PostModal isPost={isPost} /> */}
               </button>
             </div>
           </div>
+          {isPostOpenModal ? (
+            <PostModal onClickPostToggleModal={onClickPostToggleModal} />
+          ) : null}
         </div>
       </div>
     </div>

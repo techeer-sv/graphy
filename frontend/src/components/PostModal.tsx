@@ -1,14 +1,13 @@
 import React from 'react';
 
 // import closeIcon from '../assets/image/closeIcon.svg';
-import likeIcon from '../assets/image/likeIcon.svg';
 
 interface Props {
-  onClickLikeToggleModal: () => void;
-  isPost: boolean;
+  onClickPostToggleModal: () => void;
+  // isPost: boolean;
 }
 
-function PostModal({ onClickLikeToggleModal, isPost }: Props) {
+function PostModal({ onClickPostToggleModal }: Props) {
   return (
     <div>
       <div
@@ -16,24 +15,14 @@ function PostModal({ onClickLikeToggleModal, isPost }: Props) {
     w-[410px] translate-x-1/2  transform rounded-[30px] 
     bg-white sm:w-630 sm:py-5"
       >
-        {isPost}
+        {/* {isPost} */}
         <div className="flex justify-center font-lato text-[23px] font-semibold">
-          <div className="text-graphyblue">반응한 사람</div>
+          <div className="text-graphyblue">제목</div>
           {/* <img className="" src={closeIcon} alt="closeIcon" /> */}
         </div>
 
-        {/* 구분선 */}
-        <div className="my-3 w-auto border-b-2 border-b-neutral-200" />
-
         <div className="my-6 flex items-center justify-items-start px-10 font-lato">
-          <img className="mr-4 w-14" src={likeIcon} alt="likeIcon" />
-
-          <div className="mr-2 whitespace-nowrap  text-[21px]  font-semibold text-graphyblue">
-            강민아
-          </div>
-          <div className=" text-left text-[17px] font-normal text-zinc-500">
-            본인을 소개하는 한 마디 두 마디 세 마디
-          </div>
+          sodyd
         </div>
       </div>
 
@@ -44,8 +33,8 @@ function PostModal({ onClickLikeToggleModal, isPost }: Props) {
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
 
-          if (onClickLikeToggleModal) {
-            onClickLikeToggleModal();
+          if (onClickPostToggleModal) {
+            onClickPostToggleModal();
           }
         }}
         type="button"
