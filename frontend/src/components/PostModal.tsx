@@ -21,8 +21,19 @@ function PostModal({ onClickPostToggleModal }: Props) {
           {/* <img className="" src={closeIcon} alt="closeIcon" /> */}
         </div>
 
-        <div className="my-6 flex items-center justify-items-start px-10 font-lato">
-          sodyd
+        <div className="my-6 flex items-center justify-items-start px-10 font-lato text-[18px]">
+          개발자를 준비하다 보면, 좋은 프로젝트에 대한 고민이 많아진다. 하지만
+          처음부터 좋은 프로젝트를 개발하는 것은 어렵기에 대부분 프로젝트
+          레퍼런스를 참고하거나, 주변에 평가를 받아 개선하기도 한다. Graphy는
+          이를 도와줄 수 있는 프로젝트 공유 플랫폼이다. 개발자로 취업 준비 중인
+          사용자를 타겟팅한 포트폴리오 기록 사이트로, 사람들이 보다 좋은
+          프로젝트를 개발할 수 있도록 도와주는 것을 목표로 하고 있다. 개발자를
+          준비하다 보면, 좋은 프로젝트에 대한 고민이 많아진다. 하지만 처음부터
+          좋은 프로젝트를 개발하는 것은 어렵기에 대부분 프로젝트 레퍼런스를
+          참고하거나, 주변에 평가를 받아 개선하기도 한다. Graphy는 이를 도와줄
+          수 있는 프로젝트 공유 플랫폼이다. 개발자로 취업 준비 중인 사용자를
+          타겟팅한 포트폴리오 기록 사이트로, 사람들이 보다 좋은 프로젝트를
+          개발할 수 있도록 도와주는 것을 목표로 하고 있다.
         </div>
       </div>
 
