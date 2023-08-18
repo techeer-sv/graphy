@@ -2,6 +2,7 @@ package com.graphy.backend.domain.member.controller;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.service.MemberService;
+import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
 import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
@@ -21,7 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -142,7 +142,7 @@ public class MemberControllerTest extends MockApiTest {
         List<GetMemberResponse> result = Arrays.asList(member1, member2);
 
         // when
-        when(memberService.findMember(nickname)).thenReturn(result);
+        when(memberService.findMemberByNickname(nickname)).thenReturn(result);
 
         // then
         mvc.perform(get(baseUrl)

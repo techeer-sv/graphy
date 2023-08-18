@@ -2,6 +2,7 @@ package com.graphy.backend.domain.member.service;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
+import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.auth.jwt.JwtFilter;
@@ -11,6 +12,7 @@ import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.global.common.Helper;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.AlreadyExistException;
+import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,13 +23,13 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.sql.Ref;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.domain.member.dto.MemberDto.*;
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
-import static com.graphy.backend.global.auth.jwt.dto.TokenDto.*;
+import static com.graphy.backend.global.auth.jwt.dto.TokenDto.LogoutRequest;
+import static com.graphy.backend.global.auth.jwt.dto.TokenDto.TokenInfo;
+import static com.graphy.backend.global.error.ErrorCode.MEMBER_NOT_EXIST;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
@@ -140,15 +142,20 @@ public class MemberService {
     }
 
 
-    public List<GetMemberResponse> findMember(String nickname) {
+    public List<GetMemberResponse> findMemberByNickname(String nickname) {
         List<Member> memberList = memberRepository.findMemberByNicknameStartingWith(nickname);
         return memberList.stream()
                 .map(GetMemberResponse::toDto)
                 .collect(Collectors.toList());
     }
 
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id).orElseThrow(()
+                -> new EmptyResultException(MEMBER_NOT_EXIST));
+    }
+
     public GetMyPageResponse myPage(Member member) {
-        List<GetProjectInfoResponse> projectInfoList = projectService.getProjectInfoList(member.getId());
+        List<GetProjectInfoResponse> projectInfoList = projectService.findProjectInfoList(member.getId());
         return GetMyPageResponse.from(member, projectInfoList);
     }
 

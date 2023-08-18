@@ -6,12 +6,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Table(name = "Tag")
 @Entity
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tag {
 
     @Id

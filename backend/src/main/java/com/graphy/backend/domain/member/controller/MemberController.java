@@ -43,7 +43,7 @@ public class MemberController {
     @Operation(summary = "get member", description = "사용자 조회")
     @GetMapping()
     public ResponseEntity<ResultResponse> findMember(@RequestParam String nickname) {
-        List<GetMemberResponse> result = memberService.findMember(nickname);
+        List<GetMemberResponse> result = memberService.findMemberByNickname(nickname);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_GET_SUCCESS, result));
     }
 

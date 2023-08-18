@@ -3,12 +3,10 @@ package com.graphy.backend.domain.comment.repository;
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.domain.QComment;
 import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
-import com.graphy.backend.domain.comment.dto.response.GetReplyListResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-
 
 import java.util.List;
 
