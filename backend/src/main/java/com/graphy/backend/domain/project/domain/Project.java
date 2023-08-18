@@ -24,7 +24,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Project extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "project_id")
     private Long id;
 

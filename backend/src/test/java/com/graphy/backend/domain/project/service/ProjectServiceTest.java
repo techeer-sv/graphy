@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.project.service;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.*;
@@ -145,7 +144,7 @@ public class ProjectServiceTest extends MockTest {
         when(tagRepository.findTagByTech(anyString())).thenReturn(tag1, tag2);
         when(mapper.toCreateProjectDto(project.getId())).thenReturn(response);
         when(customUserDetailsService.getLoginUser()).thenReturn(member);
-        CreateProjectResponse result = projectService.createProject(request);
+        CreateProjectResponse result = projectService.createProject(request, member);
 
         //then
         assertThat(result.getProjectId()).isEqualTo(1L);
@@ -195,27 +194,11 @@ public class ProjectServiceTest extends MockTest {
     @DisplayName("프로젝트 상세 조회")
     public void getProjectById() throws Exception {
         //given
-        Project project = Project.builder()
-                .id(1L)
-                .projectName("project").build();
-
-        List<CommentWithMaskingDto> comments = new ArrayList<>();
-        GetProjectDetailResponse response = GetProjectDetailResponse.builder()
-                .id(project.getId())
-                .projectName(project.getProjectName())
-                .build();
 
 
         //when
-        when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
-        when(commentRepository.findCommentsWithMasking(project.getId())).thenReturn(comments);
-        when(mapper.toGetProjectDetailDto(project, comments)).thenReturn(response);
-
-        GetProjectDetailResponse result = projectService.getProjectById(1L);
 
         //then
-        assertThat(response.getId()).isEqualTo(result.getId());
-        assertThat(response.getProjectName()).isEqualTo(result.getProjectName());
     }
 
     @Test

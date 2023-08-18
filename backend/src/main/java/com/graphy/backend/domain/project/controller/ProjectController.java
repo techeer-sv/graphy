@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
 import com.graphy.backend.global.common.PageRequest;

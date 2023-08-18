@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.member.controller;
 
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.global.auth.jwt.TokenProvider;
 import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
@@ -173,7 +174,7 @@ public class MemberControllerTest extends MockApiTest {
                 .build();
 
         // when
-        when(memberService.myPage()).thenReturn(result);
+        when(memberService.myPage(new Member())).thenReturn(result);
 
         // then
         mvc.perform(get(baseUrl + "/myPage"))

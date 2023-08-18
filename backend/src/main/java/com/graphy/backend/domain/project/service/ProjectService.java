@@ -1,10 +1,12 @@
 package com.graphy.backend.domain.project.service;
 
+import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.Tag;
 import com.graphy.backend.domain.project.domain.Tags;
+import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
 import com.graphy.backend.domain.project.mapper.ProjectMapper;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.domain.project.repository.ProjectTagRepository;
@@ -25,12 +27,15 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 import static com.graphy.backend.global.config.ChatGPTConfig.MAX_REQUEST_TOKEN;
 
@@ -97,7 +102,7 @@ public class ProjectService {
 
         List<GetCommentWithMaskingResponse> comments = commentRepository.findCommentsWithMasking(projectId);
 
-        return mapper.toGetProjectDetailDto(project, comments);
+        return GetProjectDetailResponse.of(project, comments);
     }
 
     public Tags getTagsWithName(List<String> techStacks) {

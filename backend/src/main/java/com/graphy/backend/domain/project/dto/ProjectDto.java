@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.project.dto;
 
+import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.member.dto.MemberDto;
 import lombok.*;
 
@@ -8,7 +9,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 
 
 public class ProjectDto {
@@ -113,22 +113,6 @@ public class ProjectDto {
         private List<String> techTags;
     }
 
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class GetProjectDetailResponse {
-        private Long id;
-        private String projectName;
-        private String content;
-        private String description;
-        private String thumbNail;
-        private List<GetCommentWithMaskingResponse> commentsList;
-        private LocalDateTime createdAt;
-        private List<String> techTags;
-
-        private MemberDto.GetMemberResponse member;
-    }
     @Getter
     @Builder
     @NoArgsConstructor
