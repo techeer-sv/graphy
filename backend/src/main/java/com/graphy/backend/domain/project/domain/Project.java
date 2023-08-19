@@ -13,12 +13,11 @@ import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Table(name = "Project")
 @Entity
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @SQLDelete(sql = "UPDATE project SET is_deleted = true WHERE project_id = ?")
 @Where(clause = "is_deleted = false")
 public class Project extends BaseEntity {

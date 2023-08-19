@@ -3,6 +3,7 @@ package com.graphy.backend.domain.comment.service;
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.request.CreateCommentRequest;
 import com.graphy.backend.domain.comment.dto.request.UpdateCommentRequest;
+import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.comment.dto.response.GetReplyListResponse;
 import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
@@ -63,5 +64,9 @@ public class CommentService {
                 .map(GetReplyListResponse::from)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<GetCommentWithMaskingResponse> findCommentListWithMasking(Long projectId) {
+        return commentRepository.findCommentsWithMasking(projectId);
     }
 }

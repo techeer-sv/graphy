@@ -1,41 +1,41 @@
 package com.graphy.backend.domain.project.service;
 
-import com.graphy.backend.domain.member.dto.MemberListDto;
 import com.graphy.backend.domain.member.domain.Member;
-import com.graphy.backend.domain.member.repository.MemberRepository;
+import com.graphy.backend.domain.member.dto.MemberListDto;
+import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.project.domain.Like;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.LikeRepository;
-import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
-import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
-import static com.graphy.backend.global.error.ErrorCode.MEMBER_NOT_EXIST;
-import static com.graphy.backend.global.error.ErrorCode.PROJECT_DELETED_OR_NOT_EXIST;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class LikeService {
 
-    private final ProjectRepository projectRepository;
-    private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
 
+    private final MemberService memberService;
+
+    private final ProjectService projectService;
+
     private final CustomUserDetailsService customUserDetailsService;
-    public List<MemberListDto> findLikedMember(Long projectId) {
+
+    public List<MemberListDto> findLikedMemberList(Long projectId) {
         return likeRepository.findLikedMembers(projectId);
     }
 
+    @Transactional
     public void likeProject(Long projectId) {
         Long memberId = customUserDetailsService.getLoginUser().getId();
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EmptyResultException(MEMBER_NOT_EXIST));
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new EmptyResultException(PROJECT_DELETED_OR_NOT_EXIST));
+        Member member = memberService.findMemberById(memberId);
+        Project project = projectService.getProjectById(projectId);
 
         Optional<Like> liked = likeRepository.findByProjectAndMember(project, member);
 
@@ -50,6 +50,6 @@ public class LikeService {
             likeRepository.save(like);
         });
 
-        projectRepository.save(project);
+        projectService.saveProject(project);
     }
 }

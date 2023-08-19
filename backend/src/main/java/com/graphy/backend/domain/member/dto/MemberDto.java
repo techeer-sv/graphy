@@ -2,13 +2,12 @@ package com.graphy.backend.domain.member.dto;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
+import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
 import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
-
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 
 public class MemberDto {
     @Getter
