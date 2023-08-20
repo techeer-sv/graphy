@@ -40,6 +40,8 @@ function MyPage() {
 
   const [nickname, setNickname] = useState<string>('');
   const [introduction, setIntroduction] = useState<string>('');
+  const [followerCount, setFollowerCount] = useState<number>(0);
+  const [followingCount, setFollowingCount] = useState<number>(0);
 
   const [isOpenModal, setOpenModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(0);
@@ -98,6 +100,8 @@ function MyPage() {
       // setReadReply(res.data.data.commentsList);
       setNickname(res.data.data.nickname);
       setIntroduction(res.data.data.introduction);
+      setFollowerCount(res.data.data.followerCount);
+      setFollowingCount(res.data.data.followingCount);
       // setCreatedAt(res.data.data.createdAt);
     } catch (error) {
       console.error(error);
@@ -141,7 +145,7 @@ function MyPage() {
                     type="button"
                     onClick={onClickFollower}
                   >
-                    팔로워 46
+                    팔로워 {followerCount}
                   </button>
 
                   <button
@@ -149,7 +153,7 @@ function MyPage() {
                     type="button"
                     onClick={onClickFollowing}
                   >
-                    팔로잉 34
+                    팔로잉 {followingCount}
                   </button>
 
                   {isOpenModal ? (
