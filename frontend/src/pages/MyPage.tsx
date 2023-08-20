@@ -1,5 +1,7 @@
-import { useState, useCallback } from 'react';
+import axios from 'axios';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import Like from '../assets/image/Like.svg';
 import myProfile from '../assets/image/myProfile.png';
@@ -7,8 +9,37 @@ import WriteIcon from '../assets/image/pencil-square.svg';
 import FollowModal from '../components/FollowModal';
 import NavBar from '../components/NavBar';
 import PostModal from '../components/PostModal';
+import {
+  // contentsState,
+  // selectedStackState,
+  // titleState,
+  // tldrState,
+  refreshState,
+  persistTokenState,
+  // nicknameState,
+} from '../Recoil';
+
+// interface ReadReplyObject {
+//   commentId: number;
+//   childCount: number;
+//   content: string;
+//   createdAt: string;
+// }
 
 function MyPage() {
+  // const [title, setTitle] = useRecoilState(titleState);
+  // const [tldr, setTldr] = useRecoilState(tldrState);
+  // const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
+  // const [, setContents] = useRecoilState(contentsState);
+  // const [readReply, setReadReply] = useState<ReadReplyObject[]>([]);
+  const refresh = useRecoilValue(refreshState);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
+  // const params = useParams();
+  // const [createdAt, setCreatedAt] = useState<string>('');
+
+  const [nickname, setNickname] = useState<string>('');
+
   const [isOpenModal, setOpenModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(0);
   const [isPostOpenModal, setPostOpenModal] = useState<boolean>(() => false);
@@ -48,6 +79,33 @@ function MyPage() {
     navigate('/write');
   }
 
+  // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
+  async function getMyData() {
+    try {
+      const res = await axios.get(
+        'http://localhost:8080/api/v1/members/myPage',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken || persistToken}`,
+          },
+        },
+      );
+      // setTitle(res.data.data.projectName);
+      // setTldr(res.data.data.description);
+      // setSelectedStack(res.data.data.techTags);
+      // setContents(res.data.data.content);
+      // setReadReply(res.data.data.commentsList);
+      setNickname(res.data.data.nickname);
+      // setCreatedAt(res.data.data.createdAt);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getMyData();
+  }, [refresh]);
+
   return (
     <div className="relative h-auto min-h-screen w-screen bg-graphybg">
       <NavBar />
@@ -72,7 +130,7 @@ function MyPage() {
             <div>
               <div className="flex items-center lg:flex-col">
                 <div className="mr-3 text-center font-lato text-[23px] font-semibold text-graphyblue lg:mx-auto lg:mt-3">
-                  닉네임
+                  {nickname}
                 </div>
 
                 <div className="flex flex-row text-center lg:mt-2">
