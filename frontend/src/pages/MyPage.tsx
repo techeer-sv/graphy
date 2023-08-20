@@ -176,6 +176,7 @@ function MyPage() {
                 {/* 제목 */}
                 <div className="ml-10 font-lato text-[20px] font-bold text-zinc-700">
                   {/* {projectData[0].projectName} */}
+                  Graphy
                 </div>
                 {/* 본문 미리보기 */}
                 <div className="mx-12 mt-3 h-[100px] max-w-[750px] overflow-hidden text-ellipsis font-lato text-[16px] font-normal text-zinc-700 ">
