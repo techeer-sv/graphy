@@ -39,6 +39,7 @@ function MyPage() {
   // const [createdAt, setCreatedAt] = useState<string>('');
 
   const [nickname, setNickname] = useState<string>('');
+  const [introduction, setIntroduction] = useState<string>('');
 
   const [isOpenModal, setOpenModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(0);
@@ -96,6 +97,7 @@ function MyPage() {
       // setContents(res.data.data.content);
       // setReadReply(res.data.data.commentsList);
       setNickname(res.data.data.nickname);
+      setIntroduction(res.data.data.introduction);
       // setCreatedAt(res.data.data.createdAt);
     } catch (error) {
       console.error(error);
@@ -160,7 +162,7 @@ function MyPage() {
               </div>
 
               <div className="mt-4 whitespace-nowrap text-center font-lato text-[15px] text-stone-500">
-                본인을 소개하는 한 마디
+                {introduction}
               </div>
             </div>
           </div>
