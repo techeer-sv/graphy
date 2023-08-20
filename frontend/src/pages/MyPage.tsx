@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import Like from '../assets/image/Like.svg';
 import myProfile from '../assets/image/myProfile.png';
@@ -10,13 +10,10 @@ import FollowModal from '../components/FollowModal';
 import NavBar from '../components/NavBar';
 import PostModal from '../components/PostModal';
 import {
-  // contentsState,
-  // selectedStackState,
-  // titleState,
-  // tldrState,
   refreshState,
   persistTokenState,
-  // nicknameState,
+  nicknameState,
+  // projectDataState,
 } from '../Recoil';
 
 // interface ReadReplyObject {
@@ -27,21 +24,15 @@ import {
 // }
 
 function MyPage() {
-  // const [title, setTitle] = useRecoilState(titleState);
-  // const [tldr, setTldr] = useRecoilState(tldrState);
-  // const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);
-  // const [, setContents] = useRecoilState(contentsState);
-  // const [readReply, setReadReply] = useState<ReadReplyObject[]>([]);
   const refresh = useRecoilValue(refreshState);
   const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
-  // const params = useParams();
-  // const [createdAt, setCreatedAt] = useState<string>('');
 
-  const [nickname, setNickname] = useState<string>('');
+  const [nickname, setNickname] = useRecoilState(nicknameState);
   const [introduction, setIntroduction] = useState<string>('');
   const [followerCount, setFollowerCount] = useState<number>(0);
   const [followingCount, setFollowingCount] = useState<number>(0);
+  // const [projectData, setProjectData] = useRecoilState(projectDataState);
 
   const [isOpenModal, setOpenModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(0);
@@ -93,16 +84,11 @@ function MyPage() {
           },
         },
       );
-      // setTitle(res.data.data.projectName);
-      // setTldr(res.data.data.description);
-      // setSelectedStack(res.data.data.techTags);
-      // setContents(res.data.data.content);
-      // setReadReply(res.data.data.commentsList);
       setNickname(res.data.data.nickname);
       setIntroduction(res.data.data.introduction);
       setFollowerCount(res.data.data.followerCount);
       setFollowingCount(res.data.data.followingCount);
-      // setCreatedAt(res.data.data.createdAt);
+      // setProjectData(res.data.data.getProjectInfoResponseList);
     } catch (error) {
       console.error(error);
     }
@@ -189,7 +175,7 @@ function MyPage() {
               >
                 {/* 제목 */}
                 <div className="ml-10 font-lato text-[20px] font-bold text-zinc-700">
-                  Graphy, 프로젝트를 기록하다
+                  {/* {projectData[0].projectName} */}
                 </div>
                 {/* 본문 미리보기 */}
                 <div className="mx-12 mt-3 h-[100px] max-w-[750px] overflow-hidden text-ellipsis font-lato text-[16px] font-normal text-zinc-700 ">

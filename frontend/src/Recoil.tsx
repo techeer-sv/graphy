@@ -100,6 +100,11 @@ const nicknameState = atom<string>({
   default: '',
 });
 
+const projectDataState = atom<string>({
+  key: 'projectDataState',
+  default: '',
+});
+
 export {
   titleState,
   tldrState,
@@ -119,4 +124,5 @@ export {
   statusOpenState,
   modalContentState,
   nicknameState,
+  projectDataState,
 };

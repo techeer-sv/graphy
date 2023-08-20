@@ -1,9 +1,11 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 
 // import closeIcon from '../assets/image/closeIcon.svg';
 import followerIcon from '../assets/image/followerIcon.svg';
 import followingIcon from '../assets/image/followingIcon.svg';
 import LikeIcon from '../assets/image/likeIcon.svg';
+import { nicknameState } from '../Recoil';
 
 interface Props {
   onClickToggleModal: () => void;
@@ -11,6 +13,8 @@ interface Props {
 }
 
 function followModal({ onClickToggleModal, isFollowing }: Props) {
+  const [nickname] = useRecoilState(nicknameState);
+
   function mode(modenumber: number) {
     if (modenumber === 0) {
       return <div>의 팔로워</div>;
@@ -43,7 +47,7 @@ function followModal({ onClickToggleModal, isFollowing }: Props) {
     bg-white sm:w-630 sm:py-5"
       >
         <div className="flex justify-center font-lato text-[23px] font-semibold">
-          <div className="text-graphyblue">닉네임</div>
+          <div className="text-graphyblue">{nickname}</div>
           {mode(isFollowing)}
           {/* <img className="" src={closeIcon} alt="closeIcon" /> */}
         </div>
