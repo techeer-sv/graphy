@@ -1,5 +1,7 @@
-import { useState, useCallback } from 'react';
+import axios from 'axios';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import Like from '../assets/image/Like.svg';
 import myProfile from '../assets/image/myProfile.png';
@@ -7,8 +9,31 @@ import WriteIcon from '../assets/image/pencil-square.svg';
 import FollowModal from '../components/FollowModal';
 import NavBar from '../components/NavBar';
 import PostModal from '../components/PostModal';
+import {
+  refreshState,
+  persistTokenState,
+  nicknameState,
+  // projectDataState,
+} from '../Recoil';
+
+// interface ReadReplyObject {
+//   commentId: number;
+//   childCount: number;
+//   content: string;
+//   createdAt: string;
+// }
 
 function MyPage() {
+  const refresh = useRecoilValue(refreshState);
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = useRecoilValue(persistTokenState);
+
+  const [nickname, setNickname] = useRecoilState(nicknameState);
+  const [introduction, setIntroduction] = useState<string>('');
+  const [followerCount, setFollowerCount] = useState<number>(0);
+  const [followingCount, setFollowingCount] = useState<number>(0);
+  // const [projectData, setProjectData] = useRecoilState(projectDataState);
+
   const [isOpenModal, setOpenModal] = useState(false);
   const [isFollowing, setIsFollowing] = useState(0);
   const [isPostOpenModal, setPostOpenModal] = useState<boolean>(() => false);
@@ -48,6 +73,31 @@ function MyPage() {
     navigate('/write');
   }
 
+  // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
+  async function getMyData() {
+    try {
+      const res = await axios.get(
+        'http://localhost:8080/api/v1/members/myPage',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken || persistToken}`,
+          },
+        },
+      );
+      setNickname(res.data.data.nickname);
+      setIntroduction(res.data.data.introduction);
+      setFollowerCount(res.data.data.followerCount);
+      setFollowingCount(res.data.data.followingCount);
+      // setProjectData(res.data.data.getProjectInfoResponseList);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getMyData();
+  }, [refresh]);
+
   return (
     <div className="relative h-auto min-h-screen w-screen bg-graphybg">
       <NavBar />
@@ -72,7 +122,7 @@ function MyPage() {
             <div>
               <div className="flex items-center lg:flex-col">
                 <div className="mr-3 text-center font-lato text-[23px] font-semibold text-graphyblue lg:mx-auto lg:mt-3">
-                  닉네임
+                  {nickname}
                 </div>
 
                 <div className="flex flex-row text-center lg:mt-2">
@@ -81,7 +131,7 @@ function MyPage() {
                     type="button"
                     onClick={onClickFollower}
                   >
-                    팔로워 46
+                    팔로워 {followerCount}
                   </button>
 
                   <button
@@ -89,7 +139,7 @@ function MyPage() {
                     type="button"
                     onClick={onClickFollowing}
                   >
-                    팔로잉 34
+                    팔로잉 {followingCount}
                   </button>
 
                   {isOpenModal ? (
@@ -102,7 +152,7 @@ function MyPage() {
               </div>
 
               <div className="mt-4 whitespace-nowrap text-center font-lato text-[15px] text-stone-500">
-                본인을 소개하는 한 마디
+                {introduction}
               </div>
             </div>
           </div>
@@ -125,7 +175,8 @@ function MyPage() {
               >
                 {/* 제목 */}
                 <div className="ml-10 font-lato text-[20px] font-bold text-zinc-700">
-                  Graphy, 프로젝트를 기록하다
+                  {/* {projectData[0].projectName} */}
+                  Graphy
                 </div>
                 {/* 본문 미리보기 */}
                 <div className="mx-12 mt-3 h-[100px] max-w-[750px] overflow-hidden text-ellipsis font-lato text-[16px] font-normal text-zinc-700 ">

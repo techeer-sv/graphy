@@ -95,6 +95,16 @@ const modalContentState = atom<string>({
   default: '',
 });
 
+const nicknameState = atom<string>({
+  key: 'nicknameState',
+  default: '',
+});
+
+const projectDataState = atom<string>({
+  key: 'projectDataState',
+  default: '',
+});
+
 export {
   titleState,
   tldrState,
@@ -113,4 +123,6 @@ export {
   gptLoadingState,
   statusOpenState,
   modalContentState,
+  nicknameState,
+  projectDataState,
 };
