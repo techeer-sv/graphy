@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.member.domain;
 
 import com.graphy.backend.global.common.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,10 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,34 +25,15 @@ public class Member extends BaseEntity {
     private String password;
     @Column(nullable = false)
     private String nickname;
+    @Column
     private String introduction;
-
-    @Column(nullable = true)
+    @Column
     @ColumnDefault("0")
     private int followerCount;
-    @Column(nullable = true)
+    @Column
     @ColumnDefault("0")
     private int followingCount;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @Builder
-    public Member(Long id,
-                  String email,
-                  String password,
-                  String nickname,
-                  String introduction,
-                  int followerCount,
-                  int followingCount,
-                  Role role) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.introduction = introduction;
-        this.followerCount = followerCount;
-        this.followingCount = followingCount;
-        this.role = role;
-    }
 }

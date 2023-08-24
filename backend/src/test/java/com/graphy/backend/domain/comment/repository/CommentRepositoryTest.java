@@ -9,6 +9,7 @@ import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.global.config.JpaAuditingConfig;
 import com.graphy.backend.global.config.QueryDslConfig;
+import com.graphy.backend.test.config.TestProfile;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         JpaAuditingConfig.class,
         QueryDslConfig.class
 })
-@ActiveProfiles("test")
+@ActiveProfiles(TestProfile.TEST)
 public class CommentRepositoryTest {
     @Autowired
     CommentRepository commentRepository;

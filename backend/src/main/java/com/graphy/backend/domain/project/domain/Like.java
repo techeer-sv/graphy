@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "likes")
 public class Like extends BaseEntity {
 
     @Id
