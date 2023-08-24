@@ -1,4 +1,4 @@
-package com.graphy.backend.global.auth.redis.domain;
+package com.graphy.backend.domain.auth.domain;
 
 import lombok.Builder;
 import lombok.Getter;

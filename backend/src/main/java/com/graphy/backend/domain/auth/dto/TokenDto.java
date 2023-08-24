@@ -1,4 +1,4 @@
-package com.graphy.backend.global.auth.jwt.dto;
+package com.graphy.backend.domain.auth.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -2,8 +2,8 @@ package com.graphy.backend.domain.job.controller;
 
 
 import com.graphy.backend.domain.job.service.JobService;
-import com.graphy.backend.global.auth.jwt.TokenProvider;
-import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
+import com.graphy.backend.domain.auth.service.TokenProvider;
+import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 
 @WebMvcTest(JobController.class)

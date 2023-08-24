@@ -1,12 +1,12 @@
 package com.graphy.backend.domain.project.service;
 
 import com.graphy.backend.domain.member.domain.Member;
-import com.graphy.backend.domain.member.dto.MemberListDto;
+import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.project.domain.Like;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.LikeRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
+import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class LikeService {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    public List<MemberListDto> findLikedMemberList(Long projectId) {
+    public List<GetMemberListResponse> findLikedMemberList(Long projectId) {
         return likeRepository.findLikedMembers(projectId);
     }
 

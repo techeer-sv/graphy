@@ -1,6 +1,6 @@
-package com.graphy.backend.global.auth.redis.repository;
+package com.graphy.backend.domain.auth.repository;
 
-import com.graphy.backend.global.auth.redis.domain.RefreshToken;
+import com.graphy.backend.domain.auth.domain.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {

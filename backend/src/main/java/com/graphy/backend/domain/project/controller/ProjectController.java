@@ -10,7 +10,7 @@ import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
 import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
+import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;

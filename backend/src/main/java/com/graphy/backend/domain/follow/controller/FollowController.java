@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.follow.controller;
 
-import com.graphy.backend.domain.member.dto.MemberListDto;
+import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.follow.service.FollowService;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -37,14 +37,14 @@ public class FollowController {
     @Operation(summary = "Get Follower", description = "팔로워 조회")
     @GetMapping("/follower")
     public ResponseEntity<ResultResponse> getFollower() {
-        List<MemberListDto> result = followService.getFollowers();
+        List<GetMemberListResponse> result = followService.getFollowers();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOWER_GET_SUCCESS, result));
     }
 
     @Operation(summary = "Get Following", description = "팔로잉 조회")
     @GetMapping("/following")
     public ResponseEntity<ResultResponse> getFollowing() {
-        List<MemberListDto> result = followService.getFollowings();
+        List<GetMemberListResponse> result = followService.getFollowings();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOWER_GET_SUCCESS, result));
     }
 }

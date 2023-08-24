@@ -1,8 +1,8 @@
 package com.graphy.backend.global.config;
 
-import com.graphy.backend.global.auth.jwt.JwtFilter;
-import com.graphy.backend.global.auth.jwt.TokenProvider;
-import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
+import com.graphy.backend.domain.auth.controller.JwtFilter;
+import com.graphy.backend.domain.auth.service.TokenProvider;
+import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,9 +35,9 @@ public class SecurityConfig {
                 .cors().and()
 
                 .authorizeRequests()
-                .antMatchers("/api/v1/members/join",
-                        "/api/v1/members/login",
-                        "/api/v1/members/logout",
+                .antMatchers("/api/v1/auth/signup",
+                        "/api/v1/auth/signin",
+                        "/api/v1/auth/logout",
                         "/api/v1/projects/search",
                         "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/projects/{projectId}").permitAll()

@@ -2,11 +2,10 @@ package com.graphy.backend.domain.comment.controller;
 
 import com.graphy.backend.domain.comment.dto.request.CreateCommentRequest;
 import com.graphy.backend.domain.comment.dto.request.UpdateCommentRequest;
-import com.graphy.backend.domain.comment.dto.response.CreateCommentResponse;
 import com.graphy.backend.domain.comment.dto.response.GetReplyListResponse;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
-import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
+import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;

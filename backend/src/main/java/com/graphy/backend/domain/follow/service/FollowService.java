@@ -1,10 +1,10 @@
 package com.graphy.backend.domain.follow.service;
 
 import com.graphy.backend.domain.follow.domain.Follow;
-import com.graphy.backend.domain.member.dto.MemberListDto;
+import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.repository.MemberRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
+import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -43,12 +43,12 @@ public class FollowService {
         memberRepository.decreaseFollowingCount(fromId);
     }
 
-    public List<MemberListDto> getFollowers() {
+    public List<GetMemberListResponse> getFollowers() {
         Long id = customUserDetailsService.getLoginUser().getId();
         return followRepository.findFollower(id);
     }
 
-    public List<MemberListDto> getFollowings() {
+    public List<GetMemberListResponse> getFollowings() {
         Long id = customUserDetailsService.getLoginUser().getId();
         return followRepository.findFollowing(id);
     }
