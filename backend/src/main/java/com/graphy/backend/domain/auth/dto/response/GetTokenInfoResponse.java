@@ -1,13 +1,11 @@
 package com.graphy.backend.domain.auth.dto.response;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 public class GetTokenInfoResponse {
     private String grantType;
     private String accessToken;
