@@ -1,4 +1,4 @@
-package com.graphy.backend.domain.auth.dto;
+package com.graphy.backend.domain.auth.util;
 
 import com.graphy.backend.domain.member.domain.Member;
 import lombok.Getter;

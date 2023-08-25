@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class SignInMemberRequest {
-    @Email
+    @Email @NotBlank
     private String email;
 
     @NotBlank(message = "password cannot be blank")

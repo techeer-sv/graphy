@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.auth.service;
 
-import com.graphy.backend.domain.auth.dto.TokenDto;
+import com.graphy.backend.domain.auth.dto.response.GetTokenInfoResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -35,11 +35,11 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto.TokenInfo generateToken(Authentication authentication) {
+    public GetTokenInfoResponse generateToken(Authentication authentication) {
         return generateToken(authentication.getName(), authentication.getAuthorities());
     }
 
-    public TokenDto.TokenInfo generateToken(String name, Collection<? extends GrantedAuthority> inputAuthorities) {
+    public GetTokenInfoResponse generateToken(String name, Collection<? extends GrantedAuthority> inputAuthorities) {
         String authorities = inputAuthorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -60,7 +60,7 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        return TokenDto.TokenInfo.builder()
+        return GetTokenInfoResponse.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

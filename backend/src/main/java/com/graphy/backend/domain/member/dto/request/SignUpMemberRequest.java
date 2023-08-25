@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class SignUpMemberRequest {
-    @Email
+    @Email @NotBlank
     private String email;
 
     @NotBlank(message = "password cannot be blank")

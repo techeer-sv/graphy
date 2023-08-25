@@ -1,7 +1,7 @@
 package com.graphy.backend.domain.auth.service;
 
 import com.graphy.backend.domain.member.domain.Member;
-import com.graphy.backend.domain.auth.dto.MemberInfo;
+import com.graphy.backend.domain.auth.util.MemberInfo;
 import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;

@@ -18,7 +18,6 @@ public class RefreshToken {
     private String token;
     @Indexed
     private String email;
-    private String ip;
     @TimeToLive
     private Long expiration = 14L * 24L * 60L * 60L; // 2주
     private Collection<? extends GrantedAuthority> authorities;
