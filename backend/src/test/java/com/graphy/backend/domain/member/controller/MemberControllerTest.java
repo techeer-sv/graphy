@@ -96,7 +96,7 @@ public class MemberControllerTest extends MockApiTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 
-                .andExpect(jsonPath("$.code").value("M002"))
+                .andExpect(jsonPath("$.code").value("M001"))
                 .andExpect(jsonPath("$.message").value("사용자 조회 성공"))
 
                 .andExpect(jsonPath("$.data[0].nickname").value(member1.getNickname()))
@@ -144,7 +144,7 @@ public class MemberControllerTest extends MockApiTest {
                 .andDo(print())
                 .andExpect(status().isOk())
 
-                .andExpect(jsonPath("$.code").value("M003"))
+                .andExpect(jsonPath("$.code").value("M002"))
                 .andExpect(jsonPath("$.message").value("마이페이지 조회 성공"))
 
                 .andExpect(jsonPath("$.data.nickname").value(member1.getNickname()))

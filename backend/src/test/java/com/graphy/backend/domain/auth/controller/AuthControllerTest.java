@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.auth.controller;
 
+import com.graphy.backend.domain.auth.dto.response.GetTokenInfoResponse;
 import com.graphy.backend.domain.auth.service.AuthService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
@@ -18,7 +19,6 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.web.context.WebApplicationContext;
 
-import static com.graphy.backend.domain.auth.dto.TokenDto.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -253,9 +253,13 @@ public class AuthControllerTest extends MockApiTest {
                                 fieldWithPath("password").description("비밀번호")
                         ),
                         responseFields(
-                                fieldWithPath("refreshToken").description("리프래시 토큰"),
-                                fieldWithPath("accessToken").description("액세스 토큰"),
-                                fieldWithPath("grantType").description("인증 유형")
+                                fieldWithPath("code").description("상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data").description("응답 데이터"),
+
+                                fieldWithPath("data.refreshToken").description("리프래시 토큰"),
+                                fieldWithPath("data.accessToken").description("액세스 토큰"),
+                                fieldWithPath("data.grantType").description("인증 유형")
                         )));
     }
 
