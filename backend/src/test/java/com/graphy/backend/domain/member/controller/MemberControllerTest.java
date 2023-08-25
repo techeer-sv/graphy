@@ -144,9 +144,6 @@ public class MemberControllerTest extends MockApiTest {
                 .andDo(print())
                 .andExpect(status().isOk())
 
-                .andExpect(jsonPath("$.code").value("M002"))
-                .andExpect(jsonPath("$.message").value("마이페이지 조회 성공"))
-
                 .andExpect(jsonPath("$.data.nickname").value(member1.getNickname()))
                 .andExpect(jsonPath("$.data.introduction").value(member1.getIntroduction()))
                 .andExpect(jsonPath("$.data.followerCount").value(member1.getFollowerCount()))

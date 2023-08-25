@@ -26,6 +26,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
@@ -67,6 +68,7 @@ public class AuthControllerTest extends MockApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
+
                 .andDo(print())
                 .andDo(document("auth/signUp/success",
                         requestFields(
@@ -231,21 +233,28 @@ public class AuthControllerTest extends MockApiTest {
                 .password(member.getPassword())
                 .build();
 
-        GetTokenInfoResponse getTokenInfoResponse = GetTokenInfoResponse.builder()
+        GetTokenInfoResponse response = GetTokenInfoResponse.builder()
                 .accessToken("accessToken")
                 .refreshToken("refreshToken")
                 .grantType("Bearer")
                 .build();
 
         // when
-        when(authService.signIn(any(SignInMemberRequest.class))).thenReturn(getTokenInfoResponse);
+        when(authService.signIn(any(SignInMemberRequest.class))).thenReturn(response);
 
         // then
         mvc.perform(post(BASE_URL + "/signin")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
+
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("M002"))
+                .andExpect(jsonPath("$.message").value("사용자 조회 성공"))
+                .andExpect(jsonPath("$.data.accessToken").value(response.getAccessToken()))
+                .andExpect(jsonPath("$.data.refreshToken").value(response.getRefreshToken()))
+                .andExpect(jsonPath("$.data.grantType").value(response.getGrantType()))
+
                 .andDo(print())
                 .andDo(document("auth/signIn/success",
                         requestFields(
