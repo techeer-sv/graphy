@@ -33,26 +33,28 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ResultResponse> signUp(@Validated @RequestBody SignUpMemberRequest request) {
         authService.signUp(request);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_CREATE_SUCCESS));
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.AUTH_SIGNUP_SUCCESS));
     }
     
     @Operation(summary = "signin", description = "로그인")
     @PostMapping("/signin")
-    public GetTokenInfoResponse signIn(@Validated @RequestBody SignInMemberRequest dto) {
-        return authService.signIn(dto);
+    public ResponseEntity<ResultResponse> signIn(@Validated @RequestBody SignInMemberRequest dto) {
+        GetTokenInfoResponse response = authService.signIn(dto);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.AUTH_SIGNIN_SUCCESS, response));
     }
 
     @Operation(summary = "logout", description = "로그아웃")
     @PostMapping(value = "/logout")
     public ResponseEntity<ResultResponse> logout(@RequestBody LogoutRequest dto) {
         authService.logout(dto);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.MEMBER_LOGOUT_SUCCESS));
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.AUTH_LOGOUT_SUCCESS));
     }
     
     @Operation(summary = "reIssue", description = "토큰 재발급")
     @PostMapping(value = "/reissue")
-    public GetTokenInfoResponse reissue(HttpServletRequest request,
+    public ResponseEntity<ResultResponse> reissue(HttpServletRequest request,
                                         @CurrentUser Member member) {
-        return authService.reissue(request, member);
+        GetTokenInfoResponse response = authService.reissue(request, member);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.AUTH_REISSUE_SUCCESS, response));
     }
 }
