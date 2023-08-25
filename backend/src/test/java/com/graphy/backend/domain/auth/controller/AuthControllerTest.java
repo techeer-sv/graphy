@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.auth.controller;
 
+import com.graphy.backend.domain.auth.dto.request.LogoutRequest;
 import com.graphy.backend.domain.auth.dto.response.GetTokenInfoResponse;
 import com.graphy.backend.domain.auth.service.AuthService;
 import com.graphy.backend.domain.member.domain.Member;
@@ -18,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -101,7 +104,7 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("member/signUp/fail/emptyEmail",
+                .andDo(document("auth/signUp/fail/emptyEmail",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -136,7 +139,7 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("member/signUp/fail/invalidEmail",
+                .andDo(document("auth/signUp/fail/invalidEmail",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -171,7 +174,7 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("member/signUp/fail/emptyNickname",
+                .andDo(document("auth/signUp/fail/emptyNickname",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -206,7 +209,7 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("member/signUp/fail/emptyPassword",
+                .andDo(document("auth/signUp/fail/emptyPassword",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -249,8 +252,8 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
 
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value("M002"))
-                .andExpect(jsonPath("$.message").value("사용자 조회 성공"))
+                .andExpect(jsonPath("$.code").value("A002"))
+                .andExpect(jsonPath("$.message").value("로그인 성공"))
                 .andExpect(jsonPath("$.data.accessToken").value(response.getAccessToken()))
                 .andExpect(jsonPath("$.data.refreshToken").value(response.getRefreshToken()))
                 .andExpect(jsonPath("$.data.grantType").value(response.getGrantType()))
@@ -288,7 +291,7 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("member/signIn/fail/emptyEmail",
+                .andDo(document("auth/signIn/fail/emptyEmail",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -320,7 +323,7 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("member/signIn/fail/invalidEmail",
+                .andDo(document("auth/signIn/fail/invalidEmail",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -352,7 +355,7 @@ public class AuthControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("member/signIn/fail/emptyPassword",
+                .andDo(document("auth/signIn/fail/emptyPassword",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -365,6 +368,137 @@ public class AuthControllerTest extends MockApiTest {
                                 fieldWithPath("errors[].field").description("문제가 발생한 필드").optional(),
                                 fieldWithPath("errors[].value").description("해당 필드의 입력 값").optional(),
                                 fieldWithPath("errors[].reason").description("해당 필드에 대한 에러 설명").optional()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그아웃을 한다")
+    public void logoutTest() throws Exception {
+        // given
+        LogoutRequest request = LogoutRequest.builder()
+                .accessToken("accessToken")
+                .refreshToken("refreshToken")
+                .build();
+
+
+        // when, then
+        mvc.perform(post(BASE_URL + "/logout")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+
+                .andExpect(status().isOk())
+
+                .andDo(print())
+                .andDo(document("auth/logout/success",
+                        requestFields(
+                                fieldWithPath("accessToken").description("액세스 토큰"),
+                                fieldWithPath("refreshToken").description("리프래시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data").description("응답 데이터")
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그아웃 시 액세스 토큰이 공백이면 예외가 발생한다")
+    public void logoutEmptyAccessTokenExceptionTest() throws Exception {
+        // given
+        LogoutRequest request = LogoutRequest.builder()
+                .accessToken("")
+                .refreshToken("refreshToken")
+                .build();
+
+
+        // when, then
+        mvc.perform(post(BASE_URL + "/logout")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andDo(document("auth/logout/fail/emptyAccessToken",
+                        requestFields(
+                                fieldWithPath("accessToken").description("액세스 토큰"),
+                                fieldWithPath("refreshToken").description("리프래시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("errors").description("에러 내용"),
+
+                                fieldWithPath("errors[].field").description("문제가 발생한 필드").optional(),
+                                fieldWithPath("errors[].value").description("해당 필드의 입력 값").optional(),
+                                fieldWithPath("errors[].reason").description("해당 필드에 대한 에러 설명").optional()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그아웃 시 리프래시 토큰이 공백이면 예외가 발생한다")
+    public void logoutEmptyRefreshTokenExceptionTest() throws Exception {
+        // given
+        LogoutRequest request = LogoutRequest.builder()
+                .accessToken("accessToken")
+                .refreshToken("")
+                .build();
+
+
+        // when, then
+        mvc.perform(post(BASE_URL + "/logout")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andDo(document("auth/logout/fail/emptyRefreshToken",
+                        requestFields(
+                                fieldWithPath("accessToken").description("액세스 토큰"),
+                                fieldWithPath("refreshToken").description("리프래시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("errors").description("에러 내용"),
+
+                                fieldWithPath("errors[].field").description("문제가 발생한 필드").optional(),
+                                fieldWithPath("errors[].value").description("해당 필드의 입력 값").optional(),
+                                fieldWithPath("errors[].reason").description("해당 필드에 대한 에러 설명").optional()
+                        )));
+    }
+
+    @Test
+    @DisplayName("토큰을 재발급 받는다")
+    public void reIssueTest() throws Exception {
+        // given
+        GetTokenInfoResponse response = GetTokenInfoResponse.builder()
+                .accessToken("accessToken")
+                .refreshToken("refreshToken")
+                .build();
+
+        // when
+        when(authService.reissue(any(HttpServletRequest.class), any())).thenReturn(response);
+
+        // then
+        mvc.perform(post(BASE_URL + "/reissue")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(status().isOk())
+
+                .andDo(print())
+                .andDo(document("auth/reissue/success",
+                        responseFields(
+                                fieldWithPath("code").description("상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data").description("응답 데이터"),
+
+                                fieldWithPath("data.refreshToken").description("리프래시 토큰"),
+                                fieldWithPath("data.accessToken").description("액세스 토큰"),
+                                fieldWithPath("data.grantType").description("인증 유형")
                         )));
     }
 }
