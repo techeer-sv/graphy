@@ -1,7 +1,7 @@
 package com.graphy.backend.global.config;
 
 import com.graphy.backend.domain.auth.controller.JwtFilter;
-import com.graphy.backend.domain.auth.service.TokenProvider;
+import com.graphy.backend.domain.auth.infra.TokenProvider;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

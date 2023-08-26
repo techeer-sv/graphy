@@ -1,6 +1,7 @@
-package com.graphy.backend.domain.auth.service;
+package com.graphy.backend.domain.auth.infra;
 
 import com.graphy.backend.domain.auth.dto.response.GetTokenInfoResponse;
+import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

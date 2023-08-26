@@ -8,7 +8,7 @@ import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
 import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.domain.auth.service.TokenProvider;
+import com.graphy.backend.domain.auth.infra.TokenProvider;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.config.SecurityConfig;

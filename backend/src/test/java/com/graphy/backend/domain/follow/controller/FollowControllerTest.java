@@ -2,7 +2,7 @@ package com.graphy.backend.domain.follow.controller;
 
 import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.follow.service.FollowService;
-import com.graphy.backend.domain.auth.service.TokenProvider;
+import com.graphy.backend.domain.auth.infra.TokenProvider;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;

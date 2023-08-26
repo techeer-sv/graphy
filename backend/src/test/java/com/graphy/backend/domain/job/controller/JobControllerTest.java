@@ -2,7 +2,7 @@ package com.graphy.backend.domain.job.controller;
 
 
 import com.graphy.backend.domain.job.service.JobService;
-import com.graphy.backend.domain.auth.service.TokenProvider;
+import com.graphy.backend.domain.auth.infra.TokenProvider;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;

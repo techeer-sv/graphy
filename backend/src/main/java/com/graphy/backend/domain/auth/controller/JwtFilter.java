@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.auth.controller;
 
-import com.graphy.backend.domain.auth.service.TokenProvider;
+import com.graphy.backend.domain.auth.infra.TokenProvider;
 import com.graphy.backend.domain.auth.domain.RefreshToken;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;

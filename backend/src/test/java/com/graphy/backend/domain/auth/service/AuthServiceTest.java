@@ -4,14 +4,12 @@ import com.graphy.backend.domain.auth.controller.JwtFilter;
 import com.graphy.backend.domain.auth.domain.RefreshToken;
 import com.graphy.backend.domain.auth.dto.request.LogoutRequest;
 import com.graphy.backend.domain.auth.dto.response.GetTokenInfoResponse;
+import com.graphy.backend.domain.auth.infra.TokenProvider;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
-import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
-import com.graphy.backend.domain.member.dto.request.SignInMemberRequest;
 import com.graphy.backend.domain.member.dto.request.SignUpMemberRequest;
 import com.graphy.backend.domain.member.service.MemberService;
-import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,14 +19,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
