@@ -9,6 +9,8 @@ import com.graphy.backend.domain.member.dto.request.SignUpMemberRequest;
 import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.auth.domain.RefreshToken;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
+import com.graphy.backend.global.error.ErrorCode;
+import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +31,6 @@ public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final MemberService memberService;
-
     public void signUp(SignUpMemberRequest request) {
         memberService.checkEmailDuplicate(request.getEmail());
 
@@ -61,9 +62,8 @@ public class AuthService {
 
     public void logout(LogoutRequest request){
         // 로그아웃 하고 싶은 토큰이 유효한 지 먼저 검증하기
-        if (!tokenProvider.validateToken(request.getAccessToken())){
-            throw new IllegalArgumentException("로그아웃 : 유효하지 않은 토큰입니다.");
-        }
+        if (!tokenProvider.validateToken(request.getAccessToken()))
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
 
         // Access Token에서 User email을 가져온다
         String email = tokenProvider.getAuthentication(request.getAccessToken()).getName();
@@ -72,9 +72,7 @@ public class AuthService {
         RefreshToken refreshToken = refreshTokenRepository.findByEmail(email);
 
         // Refresh Token이 존재하는 경우 해당 토큰 삭제
-        if (refreshToken!=null){
-            refreshTokenRepository.delete(refreshToken);
-        }
+        if (refreshToken!=null) refreshTokenRepository.delete(refreshToken);
 
         // Access Token 유효시간을 blackList에 저장
         Long expiration = tokenProvider.getExpiration(request.getAccessToken()) / 1000;
@@ -89,34 +87,29 @@ public class AuthService {
 
     public GetTokenInfoResponse reissue(HttpServletRequest request, Member member) {
         String requestToken = filter.resolveToken(request);
-
-        if (isInvalidToken(requestToken)) return null;
+        tokenProvider.validateToken(requestToken);
 
         RefreshToken savedRefreshToken = refreshTokenRepository.findByEmail(member.getEmail());
-        if (savedRefreshToken == null) return null;
+        if (savedRefreshToken == null) throw new IllegalArgumentException("존재하지 않는 토큰입니다.");
 
-        GetTokenInfoResponse newToken = reissueToken(savedRefreshToken);
-        reissueRefreshToken(member, savedRefreshToken, newToken);
+        GetTokenInfoResponse newToken = tokenProvider.generateToken(savedRefreshToken.getToken(), savedRefreshToken.getAuthorities());
+        updateRefreshToken(member, savedRefreshToken, newToken);
 
         return newToken;
     }
 
-    private boolean isInvalidToken(String token) {
-        return token == null || !tokenProvider.validateToken(token);
-    }
 
-    private GetTokenInfoResponse reissueToken(RefreshToken savedRefreshToken) {
-        return tokenProvider.generateToken(savedRefreshToken.getToken(), savedRefreshToken.getAuthorities());
-    }
+    private void updateRefreshToken(Member member,
+                                    RefreshToken savedRefreshToken,
+                                    GetTokenInfoResponse newToken) {
 
-    private void reissueRefreshToken(Member member, RefreshToken currentRefreshToken, GetTokenInfoResponse newToken) {
         RefreshToken newRefreshToken = RefreshToken.builder()
                 .token(newToken.getRefreshToken())
                 .email(member.getEmail())
-                .authorities(currentRefreshToken.getAuthorities())
+                .authorities(savedRefreshToken.getAuthorities())
                 .build();
 
         refreshTokenRepository.save(newRefreshToken);
-        currentRefreshToken.updateToken(newRefreshToken.getToken());
+        savedRefreshToken.updateToken(newRefreshToken.getToken());
     }
 }

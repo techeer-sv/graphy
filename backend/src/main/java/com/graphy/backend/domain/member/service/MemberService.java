@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.graphy.backend.global.error.ErrorCode.MEMBER_NOT_EXIST;
@@ -51,5 +52,11 @@ public class MemberService {
 
     public void addMember(Member member) {
         memberRepository.save(member);
+    }
+
+    public Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(
+                () -> new EmptyResultException(MEMBER_NOT_EXIST)
+        );
     }
 }
