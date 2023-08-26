@@ -38,10 +38,10 @@ public class AuthService {
         memberService.addMember(member);
     }
 
-    public GetTokenInfoResponse signIn(SignInMemberRequest dto) {
+    public GetTokenInfoResponse signIn(SignInMemberRequest request) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
@@ -50,7 +50,7 @@ public class AuthService {
 
         RefreshToken refreshToken = RefreshToken.builder()
                 .token(token.getRefreshToken())
-                .email(dto.getEmail())
+                .email(request.getEmail())
                 .authorities(authentication.getAuthorities())
                 .build();
 
@@ -88,31 +88,35 @@ public class AuthService {
     }
 
     public GetTokenInfoResponse reissue(HttpServletRequest request, Member member) {
-        // Request Header 에서 JWT Token 추출
         String requestToken = filter.resolveToken(request);
 
-        // validateToken 메서드로 토큰 유효성 검사
-        if (requestToken != null && tokenProvider.validateToken(requestToken)) {
+        if (isInvalidToken(requestToken)) return null;
 
-            // 저장된 refresh token 찾기
-            RefreshToken savedRefreshToken = refreshTokenRepository.findByEmail(member.getEmail());
-            if (savedRefreshToken != null) {
+        RefreshToken savedRefreshToken = refreshTokenRepository.findByEmail(member.getEmail());
+        if (savedRefreshToken == null) return null;
 
-                // Redis 에 저장된 RefreshToken 정보를 기반으로 JWT Token 생성
-                GetTokenInfoResponse newToken = tokenProvider.generateToken(savedRefreshToken.getToken(), savedRefreshToken.getAuthorities());
+        GetTokenInfoResponse newToken = reissueToken(savedRefreshToken);
+        reissueRefreshToken(member, savedRefreshToken, newToken);
 
-                // Redis RefreshToken update
-                RefreshToken newRefreshToken = RefreshToken.builder()
-                        .token(newToken.getRefreshToken())
-                        .email(member.getEmail())
-                        .authorities(savedRefreshToken.getAuthorities())
-                        .build();
+        return newToken;
+    }
 
-                refreshTokenRepository.save(newRefreshToken);
-                savedRefreshToken.updateToken(newRefreshToken.getToken());
-                return newToken;
-            }
-        }
-        return null;
+    private boolean isInvalidToken(String token) {
+        return token == null || !tokenProvider.validateToken(token);
+    }
+
+    private GetTokenInfoResponse reissueToken(RefreshToken savedRefreshToken) {
+        return tokenProvider.generateToken(savedRefreshToken.getToken(), savedRefreshToken.getAuthorities());
+    }
+
+    private void reissueRefreshToken(Member member, RefreshToken currentRefreshToken, GetTokenInfoResponse newToken) {
+        RefreshToken newRefreshToken = RefreshToken.builder()
+                .token(newToken.getRefreshToken())
+                .email(member.getEmail())
+                .authorities(currentRefreshToken.getAuthorities())
+                .build();
+
+        refreshTokenRepository.save(newRefreshToken);
+        currentRefreshToken.updateToken(newRefreshToken.getToken());
     }
 }
