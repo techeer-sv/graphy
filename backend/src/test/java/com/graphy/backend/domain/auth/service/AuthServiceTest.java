@@ -10,6 +10,7 @@ import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
 import com.graphy.backend.domain.member.dto.request.SignUpMemberRequest;
 import com.graphy.backend.domain.member.service.MemberService;
+import com.graphy.backend.global.error.exception.InvalidTokenException;
 import com.graphy.backend.test.MockTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -47,10 +48,6 @@ public class AuthServiceTest extends MockTest {
     private TokenProvider tokenProvider;
     @Mock
     private Authentication authentication;
-    @Mock
-    private AuthenticationManager authenticationManager;
-    @Mock
-    private AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private Member member;
     @BeforeEach
@@ -126,8 +123,8 @@ public class AuthServiceTest extends MockTest {
         // then
         assertThatThrownBy(
                 () -> authService.logout(request))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("유효하지 않은 토큰입니다.");
+                .isInstanceOf(InvalidTokenException.class)
+                .hasMessageContaining("유효하지 않는 토큰");
     }
 
     @Test
@@ -175,7 +172,7 @@ public class AuthServiceTest extends MockTest {
         // then
         assertThatThrownBy(
                 () -> authService.reissue(request, member))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("존재하지 않는 토큰입니다.");
+                .isInstanceOf(InvalidTokenException.class)
+                .hasMessageContaining("존재하지 않는 토큰");
     }
 }

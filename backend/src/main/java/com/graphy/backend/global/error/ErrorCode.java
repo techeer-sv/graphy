@@ -12,6 +12,10 @@ public enum ErrorCode {
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "G001", "서버 오류"),
   INPUT_INVALID_VALUE(HttpStatus.BAD_REQUEST, "G002", "잘못된 입력"),
 
+  // Auth
+  INPUT_INVALID_TOKEN(HttpStatus.BAD_REQUEST, "A001", "유효하지 않는 토큰"),
+  TOKEN_NOT_EXIST(HttpStatus.BAD_REQUEST, "A002", "존재하지 않는 토큰"),
+
   // Member
   MEMBER_NOT_EXIST(HttpStatus.BAD_REQUEST, "M001", "존재하지 않는 사용자"),
   MEMBER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "M002", "이미 존재하는 이메일"),

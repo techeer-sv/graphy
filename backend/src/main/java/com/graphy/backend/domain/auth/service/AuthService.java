@@ -10,6 +10,8 @@ import com.graphy.backend.domain.member.dto.request.SignUpMemberRequest;
 import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.auth.domain.RefreshToken;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
+import com.graphy.backend.global.error.ErrorCode;
+import com.graphy.backend.global.error.exception.InvalidTokenException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 
 @Service
@@ -38,6 +41,7 @@ public class AuthService {
         memberService.addMember(member);
     }
 
+    @Transactional
     public GetTokenInfoResponse signIn(SignInMemberRequest request) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -55,14 +59,14 @@ public class AuthService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
-
         return token;
     }
 
+    @Transactional
     public void logout(LogoutRequest request){
         // 로그아웃 하고 싶은 토큰이 유효한 지 먼저 검증하기
         if (!tokenProvider.validateToken(request.getAccessToken()))
-            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+            throw new InvalidTokenException(ErrorCode.INPUT_INVALID_TOKEN);
 
         // Access Token에서 User email을 가져온다
         String email = tokenProvider.getAuthentication(request.getAccessToken()).getName();
@@ -84,12 +88,13 @@ public class AuthService {
         refreshTokenRepository.save(token);
     }
 
+
     public GetTokenInfoResponse reissue(HttpServletRequest request, Member member) {
         String requestToken = filter.resolveToken(request);
         tokenProvider.validateToken(requestToken);
 
         RefreshToken savedRefreshToken = refreshTokenRepository.findByEmail(member.getEmail());
-        if (savedRefreshToken == null) throw new IllegalArgumentException("존재하지 않는 토큰입니다.");
+        if (savedRefreshToken == null) throw new InvalidTokenException(ErrorCode.TOKEN_NOT_EXIST);
 
         GetTokenInfoResponse newToken = tokenProvider.generateToken(savedRefreshToken.getToken(), savedRefreshToken.getAuthorities());
         updateRefreshToken(member, savedRefreshToken, newToken);
@@ -98,7 +103,8 @@ public class AuthService {
     }
 
 
-    private void updateRefreshToken(Member member,
+    @Transactional
+    public void updateRefreshToken(Member member,
                                     RefreshToken savedRefreshToken,
                                     GetTokenInfoResponse newToken) {
 
