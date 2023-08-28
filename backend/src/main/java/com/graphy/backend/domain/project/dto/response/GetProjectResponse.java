@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.project.dto.response;
 
-import com.graphy.backend.domain.member.dto.MemberDto;
+import com.graphy.backend.domain.member.dto.response.GetMemberResponse;
 import com.graphy.backend.domain.project.domain.Project;
 import lombok.*;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ public class GetProjectResponse {
 
     private Long id;
 
-    private MemberDto.GetMemberResponse member;
+    private GetMemberResponse member;
 
     private String projectName;
 
@@ -35,7 +35,7 @@ public class GetProjectResponse {
                 .description(project.getDescription())
                 .createdAt(project.getCreatedAt())
                 .techTags(project.getTagNames())
-                .member(MemberDto.GetMemberResponse.toDto(project.getMember()))
+                .member(GetMemberResponse.from(project.getMember()))
                 .thumbNail(project.getThumbNail())
                 .build();
     }

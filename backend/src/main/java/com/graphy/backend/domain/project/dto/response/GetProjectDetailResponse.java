@@ -1,14 +1,15 @@
 package com.graphy.backend.domain.project.dto.response;
 
 import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
-import com.graphy.backend.domain.member.dto.MemberDto;
+import com.graphy.backend.domain.member.dto.response.GetMemberResponse;
 import com.graphy.backend.domain.project.domain.Project;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.graphy.backend.domain.member.dto.MemberDto.GetMemberResponse.*;
+import static com.graphy.backend.domain.member.dto.response.GetMemberResponse.*;
+
 
 @Getter
 @Builder
@@ -32,7 +33,7 @@ public class GetProjectDetailResponse {
 
     private List<String> techTags;
 
-    private MemberDto.GetMemberResponse member;
+    private GetMemberResponse member;
 
     public static GetProjectDetailResponse of(Project project,
                                          List<GetCommentWithMaskingResponse> comments) {
@@ -45,7 +46,7 @@ public class GetProjectDetailResponse {
                 .techTags(project.getTagNames())
                 .content(project.getContent())
                 .commentsList(comments)
-                .member(toDto(project.getMember()))
+                .member(from(project.getMember()))
                 .thumbNail(project.getThumbNail())
                 .build();
     }

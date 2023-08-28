@@ -1,4 +1,4 @@
-package com.graphy.backend.global.auth.jwt.annotation;
+package com.graphy.backend.domain.auth.util.annotation;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

@@ -12,6 +12,7 @@ import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
 import com.graphy.backend.domain.project.dto.response.*;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
+import com.graphy.backend.domain.project.repository.TagRepository;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
@@ -20,6 +21,7 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -40,6 +46,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
 
     private final ProjectTagService projectTagService;
+    private final TagRepository tagRepository;
     private final CommentService commentService;
     private final TagService tagService;
 

@@ -7,12 +7,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ResultCode {
+    // Auth
+    AUTH_SIGNUP_SUCCESS("A001", "사용자 등록 성공"),
+    AUTH_SIGNIN_SUCCESS("A002", "로그인 성공"),
+    AUTH_LOGOUT_SUCCESS("A003", "로그아웃 성공"),
+    AUTH_REISSUE_SUCCESS("A004", "토큰 재발급 성공"),
 
     // Member
-    MEMBER_CREATE_SUCCESS("M001", "사용자 등록 성공"),
-    MEMBER_GET_SUCCESS("M002", "사용자 조회 성공"),
-    MYPAGE_GET_SUCCESS("M003", "마이페이지 조회 성공"),
-    MEMBER_LOGOUT_SUCCESS("M004", "로그아웃 성공"),
+    MEMBER_GET_SUCCESS("M001", "사용자 조회 성공"),
+    MYPAGE_GET_SUCCESS("M002", "마이페이지 조회 성공"),
+
 
     // Follow
     FOLLOWER_GET_SUCCESS("F001", "팔로워 조회 성공"),

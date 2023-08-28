@@ -12,7 +12,7 @@ import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
 import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
+import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;

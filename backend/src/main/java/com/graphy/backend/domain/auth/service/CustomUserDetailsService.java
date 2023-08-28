@@ -1,7 +1,7 @@
-package com.graphy.backend.global.auth.jwt;
+package com.graphy.backend.domain.auth.service;
 
 import com.graphy.backend.domain.member.domain.Member;
-import com.graphy.backend.domain.member.dto.MemberInfo;
+import com.graphy.backend.domain.auth.util.MemberInfo;
 import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -29,6 +29,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new MemberInfo(member);
     }
 
+    /**
+     * TODO
+     *  Follow, Like 도메인에 사용되는 메서드입니다.
+     *  해당 도메인을 @CurrentUser로 리팩토링 후에 제거 부탁드립니다.
+     */
     public Member getLoginUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = ((UserDetails) principal).getUsername();
