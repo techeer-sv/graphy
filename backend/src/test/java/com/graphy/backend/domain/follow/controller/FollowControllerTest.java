@@ -56,7 +56,7 @@ public class FollowControllerTest extends MockApiTest {
         Long id = 1L;
 
         //when
-        doNothing().when(followService).follow(id);
+        doNothing().when(followService).addfollow(id);
 
         //then
         mvc.perform(post(baseUrl + "/{id}", id))
@@ -73,7 +73,7 @@ public class FollowControllerTest extends MockApiTest {
         Long id = 1L;
 
         //when
-        doNothing().when(followService).unfollow(id);
+        doNothing().when(followService).removefollow(id);
 
         //then
         mvc.perform(delete(baseUrl + "/{id}", id))
@@ -108,7 +108,7 @@ public class FollowControllerTest extends MockApiTest {
         List<GetMemberListResponse> followingList = Arrays.asList(following1, following2);
 
         // when
-        given(followService.getFollowings()).willReturn(followingList);
+        given(followService.findFollowingList()).willReturn(followingList);
 
         //then
         mvc.perform(get(baseUrl + "/following"))
@@ -125,7 +125,7 @@ public class FollowControllerTest extends MockApiTest {
 
     @Test
     @DisplayName("팔로워 리스트 조회 테스트")
-    public void getFollowerListTest() throws Exception {
+    void getFollowerListTest() throws Exception {
         // given
         GetMemberListResponse follower1 = new GetMemberListResponse() {
             public Long getId() {
@@ -148,7 +148,7 @@ public class FollowControllerTest extends MockApiTest {
         List<GetMemberListResponse> followerList = Arrays.asList(follower1, follower2);
 
         // when
-        given(followService.getFollowers()).willReturn(followerList);
+        given(followService.findFollowerList()).willReturn(followerList);
 
         //then
         mvc.perform(get(baseUrl + "/follower"))
