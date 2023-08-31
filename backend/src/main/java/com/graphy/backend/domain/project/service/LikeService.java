@@ -32,8 +32,8 @@ public class LikeService {
     }
 
     @Transactional
-    public void likeProject(Long projectId) {
-        Long memberId = customUserDetailsService.getLoginUser().getId();
+    public void likeOrUnlikeProject(Long projectId, Member loginUser) {
+        Long memberId = loginUser.getId();
         Member member = memberService.findMemberById(memberId);
         Project project = projectService.getProjectById(projectId);
 
