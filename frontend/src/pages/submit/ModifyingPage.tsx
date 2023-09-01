@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import ImageUploader from '../components/ImageUploader';
-import NavBar from '../components/NavBar';
-import QuillEditor from '../components/QuillEditor';
-import TechStackSelection from '../components/TechStackSelection';
+import NavBar from '../../components/general/NavBar';
+import ImageUploader from '../../components/submit/ImageUploader';
+import QuillEditor from '../../components/submit/QuillEditor';
+import TechStackSelection from '../../components/submit/TechStackSelection';
 import {
   contentsState,
   persistTokenState,
@@ -15,7 +15,7 @@ import {
   thumbnailUrlState,
   titleState,
   tldrState,
-} from '../Recoil';
+} from '../../Recoil';
 
 function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);

@@ -3,25 +3,13 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import Like from '../assets/image/Like.svg';
-import myProfile from '../assets/image/myProfile.png';
-import WriteIcon from '../assets/image/pencil-square.svg';
-import FollowModal from '../components/FollowModal';
-import NavBar from '../components/NavBar';
-import PostModal from '../components/PostModal';
-import {
-  refreshState,
-  persistTokenState,
-  nicknameState,
-  // projectDataState,
-} from '../Recoil';
-
-// interface ReadReplyObject {
-//   commentId: number;
-//   childCount: number;
-//   content: string;
-//   createdAt: string;
-// }
+import Like from '../../assets/image/Like.svg';
+import myProfile from '../../assets/image/myProfile.png';
+import WriteIcon from '../../assets/image/pencil-square.svg';
+import NavBar from '../../components/general/NavBar';
+import FollowModal from '../../components/user/MyPage/FollowModal';
+import PostModal from '../../components/user/MyPage/PostModal';
+import { refreshState, persistTokenState, nicknameState } from '../../Recoil';
 
 function MyPage() {
   const refresh = useRecoilValue(refreshState);
@@ -32,10 +20,9 @@ function MyPage() {
   const [introduction, setIntroduction] = useState<string>('');
   const [followerCount, setFollowerCount] = useState<number>(0);
   const [followingCount, setFollowingCount] = useState<number>(0);
-  // const [projectData, setProjectData] = useRecoilState(projectDataState);
 
   const [isOpenModal, setOpenModal] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(0);
+  const [isFollowing, setIsFollowing] = useState<number>(0);
   const navigate = useNavigate();
   const [isPostOpenModal, setPostOpenModal] = useState<boolean>(() => false);
 
@@ -85,7 +72,6 @@ function MyPage() {
       setIntroduction(res.data.data.introduction);
       setFollowerCount(res.data.data.followerCount);
       setFollowingCount(res.data.data.followingCount);
-      // setProjectData(res.data.data.getProjectInfoResponseList);
     } catch (error) {
       console.error(error);
     }

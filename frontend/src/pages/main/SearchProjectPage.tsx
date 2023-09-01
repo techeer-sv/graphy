@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import WriteIcon from '../assets/image/pencil-square.svg';
-import Banner from '../components/Banner';
-import NavBar from '../components/NavBar';
-import ProjectCard from '../components/ProjectCard';
+import WriteIcon from '../../assets/image/pencil-square.svg';
+import NavBar from '../../components/general/NavBar';
+import Banner from '../../components/main/Banner';
+import ProjectCard from '../../components/main/ProjectCard';
 
 type DataObject = {
   id: number;

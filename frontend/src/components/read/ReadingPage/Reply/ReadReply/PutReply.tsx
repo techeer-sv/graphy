@@ -1,35 +1,32 @@
-import { act } from '@testing-library/react';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import reply_icon from '../assets/image/reply_icon.svg';
-import { persistTokenState, projectIdState, refreshState } from '../Recoil';
+import { persistTokenState, refreshState } from '../../../../../Recoil';
 
-interface WriteReReplyProps {
+type PutReplyProps = {
   contents: {
     commentId: number;
-    childCount: number;
+    childCount?: number;
     content: string;
     createdAt: string;
   };
-  changeWriteVis: () => void;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
-}
+  changeCommentRef: () => void;
+  changePutVis: () => void;
+};
 
-function WriteReReply({
-  contents: { commentId },
-  changeWriteVis,
+function PutReply({
+  contents,
   setSelectedValue,
-}: WriteReReplyProps) {
+  changeCommentRef,
+  changePutVis,
+}: PutReplyProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string>(contents.content);
   const accessToken = sessionStorage.getItem('accessToken');
   const persistToken = useRecoilValue(persistTokenState);
-  const projectId = useRecoilValue(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
-
-  const parentId = commentId;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
@@ -45,39 +42,39 @@ function WriteReReply({
     setValue(inputValue);
   };
 
-  async function postData() {
-    const url = 'http://localhost:8080/api/v1/comments';
+  async function putData() {
+    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     const data = {
       content: value,
-      projectId,
-      parentId,
     };
 
     try {
-      await axios.post(url, data, {
+      const res = await axios.put(url, data, {
         headers: {
           Authorization: `Bearer ${accessToken || persistToken}`,
         },
       });
-      act(() => {
-        setrefresh(!refresh);
-        setValue('');
-      });
+      console.log(res.data);
+      setrefresh(!refresh);
+      if (!('childCount' in contents)) {
+        changeCommentRef();
+      }
+      setValue('');
     } catch (error) {
       if (!navigator.onLine) {
         alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
-      } else if (value.trim().length === 0) {
-        alert('답글을 입력해주세요.');
+      } else if (value.length === 0) {
+        alert('수정할 댓글을 입력해주세요.');
       } else {
-        console.log(error);
-        alert('네트워크 오류');
+        alert('댓글 수정 실패');
+        console.error(error);
       }
     }
   }
 
-  function post() {
-    postData();
-    changeWriteVis();
+  function put() {
+    putData();
+    changePutVis();
     setSelectedValue('regist_order');
   }
 
@@ -94,26 +91,21 @@ function WriteReReply({
     <div>
       {/* 대댓글 입력창 */}
       <div className="relative">
-        <img
-          src={reply_icon}
-          className="absolute ml-2 mt-1 h-5"
-          alt="reply icon"
-        />
-        <div className="mt-3 ml-8 flex h-auto flex-col rounded-xl border-2 border-gray-400">
+        <div className="mt-3 flex h-auto flex-col rounded-xl border-2 border-gray-400">
           <textarea
             className="min-h-24 h-auto w-full resize-none appearance-none rounded-xl bg-graphybg py-2 px-3 font-ng leading-tight text-gray-700 focus:outline-none"
             id="reply"
-            placeholder="답글을 입력하세요."
+            placeholder="수정할 댓글을 입력하세요."
             ref={textAreaRef}
             value={value}
             onChange={handleChange}
           />
           <button
             className="focus:shadow-outline m-auto my-2 mr-2 h-8 w-16 appearance-none place-items-end rounded-lg border-2 border-gray-400 bg-graphybg font-ng hover:bg-gray-200"
-            onClick={() => post()}
+            onClick={() => put()}
             type="submit"
           >
-            등록
+            수정
           </button>
         </div>
       </div>
@@ -121,4 +113,4 @@ function WriteReReply({
   );
 }
 
-export default WriteReReply;
+export default PutReply;

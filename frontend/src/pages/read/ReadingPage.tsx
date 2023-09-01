@@ -4,12 +4,12 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import gptIcon from '../assets/image/gptIcon.svg';
-import ProfileIcon from '../assets/image/profileIcon.svg';
-import GptModal from '../components/GptModal';
-import NavBar from '../components/NavBar';
-import QuillWrtten from '../components/QuillWritten';
-import Reply from '../components/Reply';
+import gptIcon from '../../assets/image/gptIcon.svg';
+import ProfileIcon from '../../assets/image/profileIcon.svg';
+import NavBar from '../../components/general/NavBar';
+import GptModal from '../../components/read/ReadingPage/GptModal';
+import QuillWrtten from '../../components/read/ReadingPage/QuillWritten';
+import Reply from '../../components/read/ReadingPage/Reply';
 import {
   contentsState,
   selectedStackState,
@@ -17,8 +17,8 @@ import {
   tldrState,
   refreshState,
   persistTokenState,
-} from '../Recoil';
-import AllStacks from '../Stack';
+} from '../../Recoil';
+import AllStacks from '../../Stack';
 
 type ReadReplyObject = {
   commentId: number;

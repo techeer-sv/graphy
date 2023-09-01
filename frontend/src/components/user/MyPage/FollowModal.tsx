@@ -1,11 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
-// import closeIcon from '../assets/image/closeIcon.svg';
-import followerIcon from '../assets/image/followerIcon.svg';
-import followingIcon from '../assets/image/followingIcon.svg';
-import LikeIcon from '../assets/image/likeIcon.svg';
-import { nicknameState } from '../Recoil';
+import followerIcon from '../../../assets/image/followerIcon.svg';
+import followingIcon from '../../../assets/image/followingIcon.svg';
+import LikeIcon from '../../../assets/image/likeIcon.svg';
+import { nicknameState } from '../../../Recoil';
 
 type FollowModalProps = {
   onClickToggleModal: () => void;
@@ -13,6 +12,7 @@ type FollowModalProps = {
 };
 
 function followModal({ onClickToggleModal, isFollowing }: FollowModalProps) {
+  const [nickname] = useRecoilState(nicknameState);
   function mode(modenumber: number) {
     if (modenumber === 0) {
       return <div>의 팔로워</div>;

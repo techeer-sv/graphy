@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import project from '../assets/image/project.png';
-import { projectIdState } from '../Recoil';
-import AllStacks from '../Stack';
+import project from '../../assets/image/project.png';
+import { projectIdState } from '../../Recoil';
+import AllStacks from '../../Stack';
 
 type ProjectCardProps = {
   items: {

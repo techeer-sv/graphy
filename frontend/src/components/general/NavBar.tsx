@@ -2,10 +2,10 @@ import { ChangeEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import WriteIcon from '../assets/image/pencil-square.svg';
-import ProfileIcon from '../assets/image/profileIcon.svg';
-import SearchIcon from '../assets/image/searchIcon.png';
-import { persistTokenState, refreshState, searchTextState } from '../Recoil';
+import WriteIcon from '../../assets/image/pencil-square.svg';
+import ProfileIcon from '../../assets/image/profileIcon.svg';
+import SearchIcon from '../../assets/image/searchIcon.png';
+import { persistTokenState, refreshState, searchTextState } from '../../Recoil';
 
 function NavBar() {
   const accessToken = sessionStorage.getItem('accessToken');

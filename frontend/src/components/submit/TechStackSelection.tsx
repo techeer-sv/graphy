@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { selectedStackState } from '../Recoil';
-import AllStacks from '../Stack';
+import { selectedStackState } from '../../Recoil';
+import AllStacks from '../../Stack';
 
 function TechStackSelection() {
   const [selectedStack, setSelectedStack] = useRecoilState(selectedStackState);

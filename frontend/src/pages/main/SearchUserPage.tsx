@@ -4,11 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
-import WriteIcon from '../assets/image/pencil-square.svg';
-import ProfileIcon from '../assets/image/profileIcon.svg';
-import Banner from '../components/Banner';
-import NavBar from '../components/NavBar';
-import { persistTokenState } from '../Recoil';
+import WriteIcon from '../../assets/image/pencil-square.svg';
+import ProfileIcon from '../../assets/image/profileIcon.svg';
+import NavBar from '../../components/general/NavBar';
+import Banner from '../../components/main/Banner';
+import { persistTokenState } from '../../Recoil';
 
 type DataObject = {
   nickname: string;

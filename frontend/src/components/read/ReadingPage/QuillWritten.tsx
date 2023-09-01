@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { useRecoilState } from 'recoil';
 
-import { contentsState } from '../Recoil';
+import { contentsState } from '../../../Recoil';
 
 function QuillWrtten() {
   const [contents, setContents] = useRecoilState(contentsState);

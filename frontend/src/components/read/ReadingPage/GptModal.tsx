@@ -3,13 +3,13 @@ import React, { useState, PropsWithChildren, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
-import arrowLeftIcon from '../assets/image/arrow-left.svg';
-import arrowRightIcon from '../assets/image/arrow-right.svg';
-import desktop from '../assets/image/desktop.png';
-import eyes from '../assets/image/eyes.png';
-import monster from '../assets/image/monster.png';
-import pick from '../assets/image/pick.png';
-import plus from '../assets/image/plus-circle.svg';
+import arrowLeftIcon from '../../../assets/image/arrow-left.svg';
+import arrowRightIcon from '../../../assets/image/arrow-right.svg';
+import desktop from '../../../assets/image/desktop.png';
+import eyes from '../../../assets/image/eyes.png';
+import monster from '../../../assets/image/monster.png';
+import pick from '../../../assets/image/pick.png';
+import plus from '../../../assets/image/plus-circle.svg';
 import {
   featuresState,
   gptLoadingState,
@@ -21,8 +21,8 @@ import {
   techStacksState,
   tldrState,
   topicState,
-} from '../Recoil';
-import AllStacks from '../Stack';
+} from '../../../Recoil';
+import AllStacks from '../../../Stack';
 
 function findImage(tag: string) {
   return AllStacks.map((x) => x.image)[

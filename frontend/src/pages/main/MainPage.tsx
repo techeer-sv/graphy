@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import WriteIcon from '../assets/image/pencil-square.svg';
-import Banner from '../components/Banner';
-import NavBar from '../components/NavBar';
-import ProjectCard from '../components/ProjectCard';
-import { searchTextState } from '../Recoil';
+import WriteIcon from '../../assets/image/pencil-square.svg';
+import NavBar from '../../components/general/NavBar';
+import Banner from '../../components/main/Banner';
+import ProjectCard from '../../components/main/ProjectCard';
+import { searchTextState } from '../../Recoil';
 
 type DataObject = {
   id: number;

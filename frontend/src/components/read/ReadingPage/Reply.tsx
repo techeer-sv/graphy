@@ -2,8 +2,12 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import ReadReply from './ReadReply';
-import { persistTokenState, projectIdState, refreshState } from '../Recoil';
+import ReadReply from './Reply/ReadReply';
+import {
+  persistTokenState,
+  projectIdState,
+  refreshState,
+} from '../../../Recoil';
 
 type ReadReplyObject = {
   commentId: number;

@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import PutReply from './PutReply';
-import delete_reply from '../assets/image/delete.svg';
-import pencil_square from '../assets/image/pencil-square.svg';
-import reply_icon from '../assets/image/reply_icon.svg';
-import { persistTokenState, refreshState } from '../Recoil';
+import delete_reply from '../../../../../assets/image/delete.svg';
+import pencil_square from '../../../../../assets/image/pencil-square.svg';
+import reply_icon from '../../../../../assets/image/reply_icon.svg';
+import { persistTokenState, refreshState } from '../../../../../Recoil';
 
 type ReadReReplyProps = {
   contents: {

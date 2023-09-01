@@ -6,8 +6,8 @@ import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/monokai-sublime.css';
 import { useRecoilState } from 'recoil';
 
-import { contentsState } from '../Recoil';
-import s3config from '../s3config';
+import { contentsState } from '../../Recoil';
+import s3config from '../../s3config';
 
 // 코드 하이라이트 설정
 hljs.configure({

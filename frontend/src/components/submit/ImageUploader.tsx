@@ -3,9 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactS3Client from 'react-aws-s3-typescript';
 import { useRecoilState } from 'recoil';
 
-import imginsert from '../assets/image/imginsert.svg';
-import { thumbnailUrlState } from '../Recoil';
-import s3config from '../s3config';
+import imginsert from '../../assets/image/imginsert.svg';
+import { thumbnailUrlState } from '../../Recoil';
+import s3config from '../../s3config';
 
 const s3 = new ReactS3Client(s3config);
 

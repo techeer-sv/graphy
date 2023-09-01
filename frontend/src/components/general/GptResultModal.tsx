@@ -1,7 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { gptLoadingState, statusOpenState, modalContentState } from '../Recoil';
+import {
+  gptLoadingState,
+  statusOpenState,
+  modalContentState,
+} from '../../Recoil';
 
 function GptResultModal() {
   const [resultOpen, setResultOpen] = useState<boolean>(false);

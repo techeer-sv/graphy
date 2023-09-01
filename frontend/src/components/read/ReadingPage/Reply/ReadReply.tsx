@@ -3,14 +3,14 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import PutReply from './PutReply';
-import ReadReReply from './ReadReReply';
-import WriteReReply from './WriteReReply';
-import delete_reply from '../assets/image/delete.svg';
-import nested_reply from '../assets/image/nested_reply.svg';
-import pencil_square from '../assets/image/pencil-square.svg';
-import { persistTokenState, refreshState } from '../Recoil';
-import useDidMountEffect from '../useDidMountEffect';
+import PutReply from './ReadReply/PutReply';
+import ReadReReply from './ReadReply/ReadReReply';
+import WriteReReply from './ReadReply/WriteReReply';
+import delete_reply from '../../../../assets/image/delete.svg';
+import nested_reply from '../../../../assets/image/nested_reply.svg';
+import pencil_square from '../../../../assets/image/pencil-square.svg';
+import { persistTokenState, refreshState } from '../../../../Recoil';
+import useDidMountEffect from '../../../../useDidMountEffect';
 
 type ReadReReplyObject = {
   commentId: number;

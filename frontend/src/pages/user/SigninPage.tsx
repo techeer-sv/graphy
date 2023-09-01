@@ -6,15 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import * as yup from 'yup';
 
-import Email from '../assets/image/email.svg';
-import { autoLoginState, persistTokenState } from '../Recoil';
+import Email from '../../assets/image/email.svg';
+import { autoLoginState, persistTokenState } from '../../Recoil';
 
 type DataObject = {
   email: string;
   password: string;
-  confirmPassword: string;
-  nickname: string;
-  introduction: string | undefined;
 };
 
 const schema = yup.object().shape({
@@ -30,31 +27,13 @@ const schema = yup.object().shape({
       '1개 이상의 대소문자, 숫자, 특수문자가 포함되어야 합니다.',
     )
     .required('비밀번호가 필요합니다.'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), ''], '비밀번호가 일치하지 않습니다.')
-    .required('비밀번호 확인이 필요합니다.'),
-  nickname: yup
-    .string()
-    .max(10, '닉네임은 최대 10자리까지 가능합니다.')
-    .required('닉네임이 필요합니다.'),
-  introduction: yup
-    .string()
-    .max(20, '한 줄 소개는 최대 20자리까지 가능합니다.'),
 });
 
-function Signup() {
+function Signin() {
   const navigate = useNavigate();
   const accessToken = sessionStorage.getItem('accessToken');
   const [persistToken, setPersistToken] = useRecoilState(persistTokenState);
-  const [autoLogin] = useRecoilState(autoLoginState);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<DataObject>({
-    resolver: yupResolver(schema),
-  });
+  const [autoLogin, setAutoLogin] = useRecoilState(autoLoginState);
 
   useEffect(() => {
     if (!navigator.onLine) {
@@ -67,23 +46,32 @@ function Signup() {
     }
   }, []);
 
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAutoLogin(event.target.checked);
+  };
+
+  const handleButtonClick = () => {
+    setAutoLogin(!autoLogin);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<DataObject>({
+    resolver: yupResolver(schema),
+  });
+
   function toMain() {
     navigate('/');
   }
 
-  function toSignin() {
-    navigate('/signin');
+  function toSignup() {
+    navigate('/signup');
   }
 
   const onSubmit: SubmitHandler<DataObject> = async (data: DataObject) => {
-    console.log(data);
     try {
-      await axios.post('http://localhost:8080/api/v1/members/join', {
-        email: data.email,
-        password: data.password,
-        nickname: data.nickname,
-        introduction: data.introduction,
-      });
       const res = await axios.post(
         'http://localhost:8080/api/v1/members/login',
         {
@@ -97,10 +85,9 @@ function Signup() {
         sessionStorage.setItem('accessToken', res.data.accessToken);
       }
       navigate('/');
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
     }
-    navigate('/');
   };
 
   return (
@@ -114,7 +101,7 @@ function Signup() {
       </button>
       <div className="mx-auto flex h-auto w-[450px] flex-col rounded-xl border bg-white pt-12 ">
         <span className=" ml-8 font-ng-eb text-3xl text-graphyblue">
-          회원가입
+          로그인
         </span>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -123,7 +110,7 @@ function Signup() {
           <input
             {...register('email')}
             type="email"
-            className="mt-8 h-[48px] rounded-3xl border pl-4 text-lg"
+            className="mt-12 h-[60px] rounded-3xl border pl-4 text-lg"
             placeholder="이메일 주소"
             autoComplete="email"
           />
@@ -131,52 +118,49 @@ function Signup() {
           <input
             {...register('password')}
             type="password"
-            className="mt-4 h-[48px] rounded-3xl border pl-4 text-lg"
+            className="mt-10 h-[60px] rounded-3xl border pl-4 text-lg"
             placeholder="비밀번호 (8자리 이상)"
-            autoComplete="new-password"
+            autoComplete="current-password"
           />
           <p className="text-sm">{errors.password?.message}</p>
-          <input
-            {...register('confirmPassword')}
-            type="password"
-            className="mt-4 h-[48px] rounded-3xl border pl-4 text-lg"
-            placeholder="비밀번호 확인"
-            autoComplete="new-password"
-          />
-          <p className="text-sm">{errors.confirmPassword?.message}</p>
-          <input
-            {...register('nickname')}
-            type="text"
-            className="mt-4 h-[48px] rounded-3xl border pl-4 text-lg"
-            placeholder="닉네임"
-            autoComplete="nickname"
-          />
-          <p className="text-sm">{errors.nickname?.message}</p>
-          <input
-            {...register('introduction')}
-            type="text"
-            className="mt-4 h-[48px] rounded-3xl border pl-4 text-lg"
-            placeholder="한 줄 소개"
-          />
-          <p className="text-sm">{errors.introduction?.message}</p>
           <button
-            className=" mt-4 mb-8 flex h-[48px] items-center rounded-3xl border bg-graphyblue"
+            className=" mt-10 flex h-[60px] items-center rounded-3xl border bg-graphyblue"
             type="submit"
           >
             <img src={Email} alt="email" className="ml-4" />
             <span className=" mx-auto pr-7 font-ng-eb text-xl text-white">
-              회원가입
+              로그인
             </span>
           </button>
         </form>
+        <div className="my-8 ml-12 flex">
+          <div>
+            <input
+              type="checkbox"
+              className="h-4 w-4"
+              checked={autoLogin}
+              onChange={handleCheckboxChange}
+            />
+            <button
+              className="ml-2 text-xl"
+              type="button"
+              onClick={handleButtonClick}
+            >
+              로그인 상태 유지
+            </button>
+          </div>
+          {/* <button className="ml-16 mr-0 text-xl" type="button">
+            비밀번호 찾기
+          </button> */}
+        </div>
         <div className="m-auto mb-0 flex h-20 w-[450px] items-center justify-center border-t">
-          <span>이미 회원이세요?</span>
+          <span>아직 회원이 아니세요?</span>
           <button
             className="mx-4 font-ng-eb text-graphyblue"
             type="button"
-            onClick={() => toSignin()}
+            onClick={() => toSignup()}
           >
-            로그인
+            회원가입
           </button>
         </div>
       </div>
@@ -184,4 +168,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Signin;

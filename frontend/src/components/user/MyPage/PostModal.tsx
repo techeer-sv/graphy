@@ -1,13 +1,10 @@
 import React from 'react';
 
-// import closeIcon from '../assets/image/closeIcon.svg';
-
-interface Props {
+type PostModalProps = {
   onClickPostToggleModal: () => void;
-  // isPost: boolean;
-}
+};
 
-function PostModal({ onClickPostToggleModal }: Props) {
+function PostModal({ onClickPostToggleModal }: PostModalProps) {
   return (
     <div>
       <div
