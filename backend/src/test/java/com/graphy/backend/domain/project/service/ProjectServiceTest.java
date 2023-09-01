@@ -1,20 +1,22 @@
 package com.graphy.backend.domain.project.service;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
-import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
-import com.graphy.backend.domain.project.domain.*;
-import com.graphy.backend.domain.project.dto.ProjectDto;
-import com.graphy.backend.domain.project.mapper.ProjectMapper;
+import com.graphy.backend.domain.project.domain.Project;
+import com.graphy.backend.domain.project.domain.ProjectTags;
+import com.graphy.backend.domain.project.domain.Tag;
+import com.graphy.backend.domain.project.domain.Tags;
+import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
+import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
+import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
+import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
+import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.domain.project.repository.ProjectTagRepository;
-import com.graphy.backend.domain.project.repository.TagRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
+import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,18 +28,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 
@@ -46,19 +45,12 @@ public class ProjectServiceTest extends MockTest {
 
     @Mock
     private ProjectRepository projectRepository;
+
     @Mock
-    private ProjectTagRepository projectTagRepository;
+    private ProjectTagService projectTagService;
 
     @Mock
     private CustomUserDetailsService customUserDetailsService;
-
-    @Mock
-    private CommentRepository commentRepository;
-    @Mock
-    private TagRepository tagRepository;
-
-    @Mock
-    private ProjectMapper mapper;
 
     @InjectMocks
     private ProjectService projectService;
@@ -101,10 +93,9 @@ public class ProjectServiceTest extends MockTest {
 
         //when
         when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
-        when(tagRepository.findTagByTech(anyString())).thenReturn(tag1, tag2);
-        when(mapper.toUpdateProjectDto(project)).thenReturn(response);
+        when(UpdateProjectResponse.from(project)).thenReturn(response);
 
-        UpdateProjectResponse result = projectService.updateProject(project.getId(), request);
+        UpdateProjectResponse result = projectService.modifyProject(project.getId(), request);
 
         assertAll(
                 () -> assertThat(result.getProjectName()).isEqualTo(project.getProjectName()),
@@ -140,12 +131,11 @@ public class ProjectServiceTest extends MockTest {
         Tag tag2 = Tag.builder().tech("Django").build();
 
         //when
-        when(mapper.toEntity(request, member)).thenReturn(project);
+        when(request.toEntity(member)).thenReturn(project);
         when(projectRepository.save(project)).thenReturn(project);
-        when(tagRepository.findTagByTech(anyString())).thenReturn(tag1, tag2);
-        when(mapper.toCreateProjectDto(project.getId())).thenReturn(response);
+        when(CreateProjectResponse.from(project.getId())).thenReturn(response);
         when(customUserDetailsService.getLoginUser()).thenReturn(member);
-        CreateProjectResponse result = projectService.createProject(request);
+        CreateProjectResponse result = projectService.addProject(request, member);
 
         //then
         assertThat(result.getProjectId()).isEqualTo(1L);
@@ -180,9 +170,9 @@ public class ProjectServiceTest extends MockTest {
         when(projectRepository.searchProjectsWith(pageable, request.getProjectName(), request.getContent()))
                 .thenReturn(projects);
 
-        when(mapper.toDtoList(projects)).thenReturn(responses);
+        when(GetProjectResponse.listOf(projects)).thenReturn(responses);
 
-        List<GetProjectResponse> result = projectService.getProjects(request, pageable);
+        List<GetProjectResponse> result = projectService.findProjectList(request, pageable);
 
         //then
         assertThat(result.size()).isEqualTo(2);
@@ -190,39 +180,12 @@ public class ProjectServiceTest extends MockTest {
         assertThat(result.get(1).getProjectName()).isEqualTo("test2");
         assertThat(result).isEqualTo(responseList);
     }
-    
-    @Test
-    @DisplayName("프로젝트 상세 조회")
-    public void getProjectById() throws Exception {
-        //given
-        Project project = Project.builder()
-                .id(1L)
-                .projectName("project").build();
-
-        List<CommentWithMaskingDto> comments = new ArrayList<>();
-        GetProjectDetailResponse response = GetProjectDetailResponse.builder()
-                .id(project.getId())
-                .projectName(project.getProjectName())
-                .build();
-
-
-        //when
-        when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
-        when(commentRepository.findCommentsWithMasking(project.getId())).thenReturn(comments);
-        when(mapper.toGetProjectDetailDto(project, comments)).thenReturn(response);
-
-        GetProjectDetailResponse result = projectService.getProjectById(1L);
-
-        //then
-        assertThat(response.getId()).isEqualTo(result.getId());
-        assertThat(response.getProjectName()).isEqualTo(result.getProjectName());
-    }
 
     @Test
     @DisplayName("프로젝트 삭제")
     public void deleteProject() throws Exception {
         //when
-        projectService.deleteProject(1L);
+        projectService.removeProject(1L);
 
         //then
         verify(projectRepository).deleteById(1L);
@@ -239,7 +202,7 @@ public class ProjectServiceTest extends MockTest {
 
         // then
         assertThrows(EmptyResultException.class, () -> {
-            projectService.getProjectById(projectId);
+            projectService.findProjectById(projectId);
         });
     }
 
@@ -251,7 +214,7 @@ public class ProjectServiceTest extends MockTest {
 
         // then
         assertThrows(EmptyResultException.class, () -> {
-            projectService.deleteProject(1L);
+            projectService.removeProject(1L);
         }, ErrorCode.PROJECT_DELETED_OR_NOT_EXIST.getMessage());
     }
 }

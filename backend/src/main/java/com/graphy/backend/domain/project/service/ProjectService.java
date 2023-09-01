@@ -1,15 +1,18 @@
 package com.graphy.backend.domain.project.service;
 
-import com.graphy.backend.domain.comment.repository.CommentRepository;
+import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
+import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.Tag;
 import com.graphy.backend.domain.project.domain.Tags;
-import com.graphy.backend.domain.project.mapper.ProjectMapper;
+import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
+import com.graphy.backend.domain.project.dto.request.GetProjectPlanRequest;
+import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
+import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
+import com.graphy.backend.domain.project.dto.response.*;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.domain.project.repository.ProjectTagRepository;
 import com.graphy.backend.domain.project.repository.TagRepository;
-import com.graphy.backend.global.auth.jwt.CustomUserDetailsService;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
@@ -18,6 +21,7 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,25 +29,26 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static com.graphy.backend.domain.comment.dto.CommentDto.*;
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
 import static com.graphy.backend.global.config.ChatGPTConfig.MAX_REQUEST_TOKEN;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectService {
     private final ProjectRepository projectRepository;
-    private final TagRepository tagRepository;
-    private final ProjectTagRepository projectTagRepository;
-    private final CustomUserDetailsService customUserDetailsService;
 
-    private final ProjectMapper mapper;
-    private final CommentRepository commentRepository;
+    private final ProjectTagService projectTagService;
+    private final TagRepository tagRepository;
+    private final CommentService commentService;
+    private final TagService tagService;
 
     private final GPTChatRestService gptChatRestService;
 
@@ -62,17 +67,19 @@ public class ProjectService {
 //        br.close();
 //    }
 
-    public CreateProjectResponse createProject(CreateProjectRequest dto, Member loginUser) {
-        Project entity = mapper.toEntity(dto,loginUser);
+    @Transactional
+    public CreateProjectResponse addProject(CreateProjectRequest dto, Member loginUser) {
+        Project entity = dto.toEntity(loginUser);
         if (dto.getTechTags() != null) {
-            Tags foundTags = getTagsWithName(dto.getTechTags());
+            Tags foundTags = findTagListByName(dto.getTechTags());
             entity.addTag(foundTags);
         }
         Project project = projectRepository.save(entity);
-        return mapper.toCreateProjectDto(project.getId());
+        return CreateProjectResponse.from(project.getId());
     }
 
-    public void deleteProject(Long projectId) {
+    @Transactional
+    public void removeProject(Long projectId) {
         try {
             projectRepository.deleteById(projectId);
         } catch (EmptyResultDataAccessException e) {
@@ -81,40 +88,48 @@ public class ProjectService {
     }
 
     @Transactional
-    public UpdateProjectResponse updateProject(Long projectId, UpdateProjectRequest dto) {
+    public UpdateProjectResponse modifyProject(Long projectId, UpdateProjectRequest dto) {
         Project project = projectRepository.findById(projectId).get();
-        projectTagRepository.deleteAllByProjectId(project.getId());
-        Tags updatedTags = getTagsWithName(dto.getTechTags());
+        projectTagService.removeProjectTag(project.getId());
+        Tags updatedTags = findTagListByName(dto.getTechTags());
 
         project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags, dto.getThumbNail());
 
-        return mapper.toUpdateProjectDto(project);
+        return UpdateProjectResponse.from(project);
     }
 
-    public GetProjectDetailResponse getProjectById(Long projectId) {
+    public GetProjectDetailResponse findProjectById(Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
 
-        List<GetCommentWithMaskingResponse> comments = commentRepository.findCommentsWithMasking(projectId);
+        List<GetCommentWithMaskingResponse> comments = commentService.findCommentListWithMasking(projectId);
 
-        return mapper.toGetProjectDetailDto(project, comments);
+        return GetProjectDetailResponse.of(project, comments);
     }
 
-    public Tags getTagsWithName(List<String> techStacks) {
-            List<Tag> foundTags = techStacks.stream().map(tagRepository::findTagByTech)
+    public Tags findTagListByName(List<String> techStacks) {
+            List<Tag> foundTags = techStacks.stream().map(tagService::findTagByTech)
                 .collect(Collectors.toList());
         return new Tags(foundTags);
     }
 
-    public List<GetProjectResponse> getProjects(GetProjectsRequest dto, Pageable pageable) {
+    public List<GetProjectResponse> findProjectList(GetProjectsRequest dto, Pageable pageable) {
         Page<Project> projects = projectRepository.searchProjectsWith(pageable, dto.getProjectName(), dto.getContent());
-        return mapper.toDtoList(projects).getContent();
+        return GetProjectResponse.listOf(projects).getContent();
     }
 
-    public List<GetProjectInfoResponse> getProjectInfoList(Long id) {
+    public List<GetProjectInfoResponse> findProjectInfoList(Long id) {
         return projectRepository.findByMemberId(id).stream()
-                .map(mapper::toProjectInfoDto)
+                .map(GetProjectInfoResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    public Project getProjectById(Long id) {
+        return projectRepository.findById(id).orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
+    }
+
+    public void saveProject(Project project) {
+        projectRepository.save(project);
     }
 
     @Async
@@ -142,7 +157,7 @@ public class ProjectService {
            throw new LongRequestException(ErrorCode.REQUEST_TOO_MUCH_TOKENS);
     }
 
-    public String getPrompt(final GetPlanRequest request){
+    public String getPrompt(final GetProjectPlanRequest request){
         String techStacks = String.join(", ", request.getTechStacks());
         String plans = String.join(", ", request.getPlans());
         String features = String.join(", ", request.getFeatures());

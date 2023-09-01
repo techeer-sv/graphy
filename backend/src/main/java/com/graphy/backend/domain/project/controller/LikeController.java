@@ -20,8 +20,8 @@ public class LikeController {
 
     @Operation(summary = "findLikedMember", description = "좋아요 누른 유저 조회")
     @GetMapping("/{projectId}")
-    public ResponseEntity<ResultResponse> findLikedMember(@PathVariable Long projectId) {
-        likeService.findLikedMember(projectId);
+    public ResponseEntity<ResultResponse> likedMemberList(@PathVariable Long projectId) {
+        likeService.findLikedMemberList(projectId);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS));
     }
 

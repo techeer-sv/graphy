@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.project.repository;
 
-import com.graphy.backend.domain.member.dto.MemberListDto;
+import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Like;
 import com.graphy.backend.domain.project.domain.Project;
@@ -20,6 +20,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
             "from Like l " +
             "inner join Member m on m.id = l.member_id " +
             "where l.project_id = :projectId", nativeQuery = true)
-    List<MemberListDto> findLikedMembers(Long projectId);
+    List<GetMemberListResponse> findLikedMembers(Long projectId);
 }
 

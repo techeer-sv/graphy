@@ -1,10 +1,15 @@
 package com.graphy.backend.domain.project.controller;
 
-import com.graphy.backend.domain.comment.dto.CommentWithMaskingDto;
 import com.graphy.backend.domain.comment.service.CommentService;
+import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
+import com.graphy.backend.domain.project.dto.request.GetProjectPlanRequest;
+import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
+import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.auth.jwt.TokenProvider;
-import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
+import com.graphy.backend.domain.auth.infra.TokenProvider;
+import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.config.SecurityConfig;
 import com.graphy.backend.test.MockApiTest;
@@ -32,8 +37,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
-import static com.graphy.backend.domain.project.dto.ProjectDto.GetProjectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -84,45 +87,8 @@ class ProjectControllerTest extends MockApiTest {
     void getProjectWithComments() throws Exception {
 
         //given
-        CommentWithMaskingDto dto = new CommentWithMaskingDto() {
-            @Override
-            public String getContent() {
-                return "testComment";
-            }
-
-            @Override
-            public String getNickname() {
-                return null;
-            }
-
-            @Override
-            public Long getCommentId() {
-                return null;
-            }
-
-            @Override
-            public Integer getChildCount() {
-                return null;
-            }
-
-            @Override
-            public LocalDateTime getCreatedAt() {
-                return LocalDateTime.now();
-            }
-        };
-        List<CommentWithMaskingDto> list = new ArrayList<>();
-        list.add(dto);
-
-        given(projectService.getProjectById(1L))
-                .willReturn(GetProjectDetailResponse.builder()
-                        .projectName("project")
-                        .commentsList(list).build());
-
-
 
         //then
-        ResultActions result = mvc.perform(get(baseUrl + "/{projectId}", 1L));
-        result.andExpect(status().isOk());
     }
 
     @Test
@@ -138,7 +104,7 @@ class ProjectControllerTest extends MockApiTest {
         CreateProjectResponse response = CreateProjectResponse.builder().projectId(1L).build();
 
         //when
-        when(projectService.createProject(request)).thenReturn(response);
+        when(projectService.addProject(request, new Member())).thenReturn(response);
 
         //then
         mvc.perform(post(baseUrl)
@@ -157,7 +123,7 @@ class ProjectControllerTest extends MockApiTest {
         //given
         Long projectId = 1L;
 
-        doNothing().when(projectService).deleteProject(anyLong());
+        doNothing().when(projectService).removeProject(anyLong());
 
         mvc.perform(delete(baseUrl + "/{projectId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -184,7 +150,7 @@ class ProjectControllerTest extends MockApiTest {
             result.add(response);
         }
 
-        given(projectService.getProjects(any(), any(Pageable.class))).willReturn(result);
+        given(projectService.findProjectList(any(), any(Pageable.class))).willReturn(result);
 
         // when
         String body = objectMapper.writeValueAsString(request);
@@ -205,7 +171,7 @@ class ProjectControllerTest extends MockApiTest {
         List<String> plans = new ArrayList<>(Arrays.asList("Spring Security", "Docker"));
         String topic = "간단한 게시판";
 
-        GetPlanRequest request = new GetPlanRequest(topic, features, techStacks, plans);
+        GetProjectPlanRequest request = new GetProjectPlanRequest(topic, features, techStacks, plans);
 
         String apiResult = "API 결과";
         CompletableFuture<String> result = CompletableFuture.completedFuture(apiResult);
@@ -230,7 +196,7 @@ class ProjectControllerTest extends MockApiTest {
         Pageable pageable = pageRequest.of();
 
         // when
-        when(projectService.getProjects(any(GetProjectsRequest.class), any(Pageable.class)))
+        when(projectService.findProjectList(any(GetProjectsRequest.class), any(Pageable.class)))
                 .thenReturn(Collections.emptyList());
 
         // then

@@ -1,8 +1,16 @@
 package com.graphy.backend.domain.project.controller;
 
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
+import com.graphy.backend.domain.project.dto.request.GetProjectPlanRequest;
+import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
+import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
+import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
+import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.auth.jwt.annotation.CurrentUser;
+import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -21,8 +29,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static com.graphy.backend.domain.project.dto.ProjectDto.*;
-
 @Tag(name = "ProjectController", description = "프로젝트 관련 API")
 @RestController
 @RequestMapping("api/v1/projects")
@@ -32,24 +38,24 @@ public class ProjectController {
 
     @Operation(summary = "createProject", description = "프로젝트 생성")
     @PostMapping
-    public ResponseEntity<ResultResponse> createProject(@Validated @RequestBody CreateProjectRequest dto, @CurrentUser Member loginUser) {
-        CreateProjectResponse response = projectService.createProject(dto, loginUser);
+    public ResponseEntity<ResultResponse> projectAdd(@Validated @RequestBody CreateProjectRequest dto, @CurrentUser Member loginUser) {
+        CreateProjectResponse response = projectService.addProject(dto, loginUser);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
     }
 
     @Operation(summary = "deleteProject", description = "프로젝트 삭제(soft delete)")
     @DeleteMapping("/{project_id}")
-    public ResponseEntity<ResultResponse> deleteProject(@PathVariable Long project_id, @CurrentUser Member loginUser) {
-        projectService.deleteProject(project_id);
+    public ResponseEntity<ResultResponse> projectRemove(@PathVariable Long project_id, @CurrentUser Member loginUser) {
+        projectService.removeProject(project_id);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_DELETE_SUCCESS));
     }
 
 
     @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
     @PutMapping("/{projectId}")
-    public ResponseEntity<ResultResponse> updateProject(@PathVariable Long projectId,
+    public ResponseEntity<ResultResponse> projectModify(@PathVariable Long projectId,
                                                         @RequestBody @Validated UpdateProjectRequest dto, @CurrentUser Member loginUser) {
-        UpdateProjectResponse result = projectService.updateProject(projectId, dto);
+        UpdateProjectResponse result = projectService.modifyProject(projectId, dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
     }
 
@@ -60,9 +66,9 @@ public class ProjectController {
             "\t\t3. sort의 default(공백 입력) : createdAt(최신순), 내림차순")
 
     @GetMapping("/search")
-    public ResponseEntity<ResultResponse> getProjects(GetProjectsRequest dto, PageRequest pageRequest) {
+    public ResponseEntity<ResultResponse> projectList(GetProjectsRequest dto, PageRequest pageRequest) {
         Pageable pageable = pageRequest.of();
-        List<GetProjectResponse> result = projectService.getProjects(dto, pageable);
+        List<GetProjectResponse> result = projectService.findProjectList(dto, pageable);
         if (result.size() == 0) throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
 
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
@@ -70,14 +76,14 @@ public class ProjectController {
 
     @Operation(summary = "findProject", description = "프로젝트 상세 조회")
     @GetMapping("/{projectId}")
-    public ResponseEntity<ResultResponse> getProject(@PathVariable Long projectId) {
-        GetProjectDetailResponse result = projectService.getProjectById(projectId);
+    public ResponseEntity<ResultResponse> projectDetails(@PathVariable Long projectId) {
+        GetProjectDetailResponse result = projectService.findProjectById(projectId);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 
     @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
     @PostMapping("/plans")
-    public ResponseEntity<ResultResponse> createPlan(final @RequestBody GetPlanRequest getPlanRequest, @CurrentUser Member loginUser) throws ExecutionException, InterruptedException {
+    public ResponseEntity<ResultResponse> projectPlanDetails(final @RequestBody GetProjectPlanRequest getPlanRequest, @CurrentUser Member loginUser) throws ExecutionException, InterruptedException {
         String prompt = projectService.getPrompt(getPlanRequest);
         projectService.checkGptRequestToken(prompt);
 

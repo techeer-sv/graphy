@@ -1,6 +1,8 @@
 package com.graphy.backend.domain.comment.repository;
 
+import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.domain.QComment;
+import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.graphy.backend.domain.comment.domain.QComment.comment;
-import static com.graphy.backend.domain.comment.dto.CommentDto.*;
 import static com.graphy.backend.domain.member.domain.QMember.member;
 
 @RequiredArgsConstructor
@@ -41,18 +42,10 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
     }
 
     @Override
-    public List<GetReplyListResponse> findReplyList(Long parentId) {
+    public List<Comment> findReplyList(Long parentId) {
         return jpaQueryFactory
-                .select(Projections.constructor(GetReplyListResponse.class,
-                        new CaseBuilder()
-                                .when(comment.isDeleted.isTrue()).then("삭제된 댓글입니다.")
-                                .otherwise(comment.content),
-                        comment.id,
-                        comment.createdAt,
-                        member.nickname
-                ))
-                .from(comment)
-                .join(comment.member, member)
+                .selectFrom(comment)
+                .join(comment.member, member).fetchJoin()
                 .where(comment.parent.id.eq(parentId))
                 .orderBy(comment.createdAt.asc())
                 .fetch();

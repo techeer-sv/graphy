@@ -7,12 +7,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Table(name = "Liked")
 @Entity
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "likes")
 public class Like extends BaseEntity {
 
     @Id

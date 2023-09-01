@@ -5,12 +5,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Table(name = "ProjectImage")
 @Entity
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProjectImage extends BaseEntity {
 
     @Id

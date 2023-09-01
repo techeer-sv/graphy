@@ -1,13 +1,9 @@
 package com.graphy.backend.domain.project.controller;
 
-import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.auth.jwt.TokenProvider;
-import com.graphy.backend.global.auth.redis.repository.RefreshTokenRepository;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.test.config.TestProfile;
 import org.assertj.core.api.Assertions;
@@ -15,12 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
