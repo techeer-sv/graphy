@@ -1,14 +1,10 @@
 import { act } from '@testing-library/react';
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { tokenApi } from '../../../../../api/axios';
 import reply_icon from '../../../../../assets/image/reply_icon.svg';
-import {
-  persistTokenState,
-  projectIdState,
-  refreshState,
-} from '../../../../../Recoil';
+import { projectIdState, refreshState } from '../../../../../Recoil';
 
 interface WriteReReplyProps {
   contents: {
@@ -28,8 +24,6 @@ function WriteReReply({
 }: WriteReReplyProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
-  const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
   const projectId = useRecoilValue(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
@@ -50,7 +44,6 @@ function WriteReReply({
   };
 
   async function postData() {
-    const url = 'http://localhost:8080/api/v1/comments';
     const data = {
       content: value,
       projectId,
@@ -58,11 +51,7 @@ function WriteReReply({
     };
 
     try {
-      await axios.post(url, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      await tokenApi.post('/comments', data);
       act(() => {
         setrefresh(!refresh);
         setValue('');

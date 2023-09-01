@@ -1,15 +1,15 @@
 import { act } from '@testing-library/react';
-import axios from 'axios';
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import PutReply from './ReadReply/PutReply';
 import ReadReReply from './ReadReply/ReadReReply';
 import WriteReReply from './ReadReply/WriteReReply';
+import { tokenApi } from '../../../../api/axios';
 import delete_reply from '../../../../assets/image/delete.svg';
 import nested_reply from '../../../../assets/image/nested_reply.svg';
 import pencil_square from '../../../../assets/image/pencil-square.svg';
-import { persistTokenState, refreshState } from '../../../../Recoil';
+import { refreshState } from '../../../../Recoil';
 import useDidMountEffect from '../../../../useDidMountEffect';
 
 type ReadReReplyObject = {
@@ -36,8 +36,6 @@ function ReadReply({ contents, setSelectedValue }: ReadReplyProps) {
   const [commentVis, setCommentVis] = useState<boolean>(false);
   const [commentRef, setCommentRef] = useState<boolean>(false);
 
-  const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
   let buttonContent: JSX.Element | null = null;
@@ -60,13 +58,8 @@ function ReadReply({ contents, setSelectedValue }: ReadReplyProps) {
   };
 
   async function getComment() {
-    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      const res = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      const res = await tokenApi.get(`/comments/${contents.commentId}`);
       act(() => {
         setComment(res.data.data);
       });
@@ -77,13 +70,8 @@ function ReadReply({ contents, setSelectedValue }: ReadReplyProps) {
   }
 
   async function deleteReply() {
-    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      await axios.delete(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      await tokenApi.delete(`/comments/${contents.commentId}`);
       setRefresh(!refresh);
     } catch (error) {
       if (!navigator.onLine) {

@@ -1,13 +1,9 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import ReadReply from './Reply/ReadReply';
-import {
-  persistTokenState,
-  projectIdState,
-  refreshState,
-} from '../../../Recoil';
+import { tokenApi } from '../../../api/axios';
+import { projectIdState, refreshState } from '../../../Recoil';
 
 type ReadReplyObject = {
   commentId: number;
@@ -27,7 +23,7 @@ function Reply({ contents, setReadReply }: ReplyProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
   const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
+  const persistToken = localStorage.getItem('persistToken');
   const projectId = useRecoilValue(projectIdState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
   const [visible, setVisible] = useState(true);
@@ -52,17 +48,12 @@ function Reply({ contents, setReadReply }: ReplyProps) {
   }
 
   async function postData() {
-    const url = 'http://localhost:8080/api/v1/comments';
     const data = {
       content: value,
       projectId,
     };
     try {
-      await axios.post(url, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      await tokenApi.post('/comments', data);
       setRefresh(!refresh);
       setValue('');
       setSelectedValue('regist_order');

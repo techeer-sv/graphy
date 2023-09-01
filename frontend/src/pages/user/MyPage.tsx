@@ -1,27 +1,25 @@
-import axios from 'axios';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { tokenApi } from '../../api/axios';
 import Like from '../../assets/image/Like.svg';
 import myProfile from '../../assets/image/myProfile.png';
 import WriteIcon from '../../assets/image/pencil-square.svg';
 import NavBar from '../../components/general/NavBar';
 import FollowModal from '../../components/user/MyPage/FollowModal';
 import PostModal from '../../components/user/MyPage/PostModal';
-import { refreshState, persistTokenState, nicknameState } from '../../Recoil';
+import { refreshState, nicknameState } from '../../Recoil';
 
 function MyPage() {
   const refresh = useRecoilValue(refreshState);
-  const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
 
   const [nickname, setNickname] = useRecoilState(nicknameState);
   const [introduction, setIntroduction] = useState<string>('');
   const [followerCount, setFollowerCount] = useState<number>(0);
   const [followingCount, setFollowingCount] = useState<number>(0);
 
-  const [isOpenModal, setOpenModal] = useState(false);
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState<number>(0);
   const navigate = useNavigate();
   const [isPostOpenModal, setPostOpenModal] = useState<boolean>(() => false);
@@ -60,14 +58,7 @@ function MyPage() {
   // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
   async function getMyData() {
     try {
-      const res = await axios.get(
-        'http://localhost:8080/api/v1/members/myPage',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken || persistToken}`,
-          },
-        },
-      );
+      const res = await tokenApi.get('/members/myPage');
       setNickname(res.data.data.nickname);
       setIntroduction(res.data.data.introduction);
       setFollowerCount(res.data.data.followerCount);

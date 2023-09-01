@@ -1,12 +1,12 @@
-import axios from 'axios';
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import PutReply from './PutReply';
+import { tokenApi } from '../../../../../api/axios';
 import delete_reply from '../../../../../assets/image/delete.svg';
 import pencil_square from '../../../../../assets/image/pencil-square.svg';
 import reply_icon from '../../../../../assets/image/reply_icon.svg';
-import { persistTokenState, refreshState } from '../../../../../Recoil';
+import { refreshState } from '../../../../../Recoil';
 
 type ReadReReplyProps = {
   contents: {
@@ -25,9 +25,6 @@ function ReadReReply({
   changeCommentRef,
 }: ReadReReplyProps) {
   const [putVis, setPutVis] = useState<boolean>(false);
-
-  const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
   const date = new Date(contents.createdAt);
@@ -44,13 +41,8 @@ function ReadReReply({
   };
 
   async function deleteReReply() {
-    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     try {
-      await axios.delete(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      await tokenApi.delete(`/comments/${contents.commentId}`);
       setRefresh(!refresh);
       changeCommentRef();
     } catch (error) {

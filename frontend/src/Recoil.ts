@@ -48,12 +48,6 @@ const searchTextState = atom<string>({
   default: '',
 });
 
-const persistTokenState = atom<string | null>({
-  key: 'persistTokenState',
-  default: '',
-  effects_UNSTABLE: [persistAtom],
-});
-
 const autoLoginState = atom<boolean>({
   key: 'autoLoginState',
   default: false,
@@ -114,7 +108,6 @@ export {
   projectIdState,
   refreshState,
   searchTextState,
-  persistTokenState,
   autoLoginState,
   techStacksState,
   topicState,

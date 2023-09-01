@@ -1,14 +1,12 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
+import { tokenApi } from '../../api/axios';
 import WriteIcon from '../../assets/image/pencil-square.svg';
 import ProfileIcon from '../../assets/image/profileIcon.svg';
 import NavBar from '../../components/general/NavBar';
 import Banner from '../../components/main/Banner';
-import { persistTokenState } from '../../Recoil';
 
 type DataObject = {
   nickname: string;
@@ -18,8 +16,6 @@ type DataObject = {
 function SearchUserPage() {
   const [data, setData] = useState<DataObject[]>([]); // 데이터를 담을 state 선언
   const params = useParams(); // react-router-dom useParams 사용 선언
-  const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
   const [hoveredEmail, setHoveredEmail] = useState('');
 
   function handleMouseEnter(email: string) {
@@ -39,11 +35,8 @@ function SearchUserPage() {
 
   async function getData() {
     try {
-      const res = await axios.get('http://localhost:8080/api/v1/members', {
+      const res = await tokenApi.get('/members', {
         params: { nickname: params.userName },
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
       });
       if (res.data.data.length === 0) {
         setData([{ nickname: '검색 결과가 없습니다.', email: '' }]);

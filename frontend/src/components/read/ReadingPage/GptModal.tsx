@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React, { useState, PropsWithChildren, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
+import { tokenApi } from '../../../api/axios';
 import arrowLeftIcon from '../../../assets/image/arrow-left.svg';
 import arrowRightIcon from '../../../assets/image/arrow-right.svg';
 import desktop from '../../../assets/image/desktop.png';
@@ -15,7 +15,6 @@ import {
   gptLoadingState,
   statusOpenState,
   modalContentState,
-  persistTokenState,
   plansState,
   selectedStackState,
   techStacksState,
@@ -394,9 +393,6 @@ type Screen4Props = {
 };
 
 const Screen4 = ({ onPrev, onClickToggleModal }: Screen4Props) => {
-  const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
-
   const [plans, setPlans] = useRecoilState(plansState);
   const [, setGptLoading] = useRecoilState(gptLoadingState);
   const [, setStatusOpen] = useRecoilState(statusOpenState);
@@ -433,7 +429,6 @@ const Screen4 = ({ onPrev, onClickToggleModal }: Screen4Props) => {
   };
 
   async function toSubmit() {
-    const url = 'http://localhost:8080/api/v1/projects/plans';
     const data = {
       plans,
       techStacks,
@@ -446,11 +441,7 @@ const Screen4 = ({ onPrev, onClickToggleModal }: Screen4Props) => {
       if (onClickToggleModal) {
         onClickToggleModal();
       }
-      const res = await axios.post(url, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      const res = await tokenApi.post('/projects/plans', data);
       setGptLoading(false);
       setModalContent(res.data.data);
     } catch (err) {

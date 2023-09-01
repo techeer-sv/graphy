@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -9,6 +8,7 @@ import NavBar from '../../components/general/NavBar';
 import Banner from '../../components/main/Banner';
 import ProjectCard from '../../components/main/ProjectCard';
 import { searchTextState } from '../../Recoil';
+import { generalApi } from '../../api/axios';
 
 type DataObject = {
   id: number;
@@ -31,12 +31,9 @@ function MainPage() {
 
   async function getData({ pageParam = 1 }) {
     const params = { page: pageParam, size: 12 };
-    const res = await axios.get(
-      'http://localhost:8080/api/v1/projects/search',
-      {
-        params,
-      },
-    );
+    const res = await generalApi.get('/projects/search', {
+      params,
+    });
     return res.data.data;
   }
 

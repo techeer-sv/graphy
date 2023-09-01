@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -9,13 +8,13 @@ import QuillEditor from '../../components/submit/QuillEditor';
 import TechStackSelection from '../../components/submit/TechStackSelection';
 import {
   contentsState,
-  persistTokenState,
   projectIdState,
   selectedStackState,
   thumbnailUrlState,
   titleState,
   tldrState,
 } from '../../Recoil';
+import { tokenApi } from '../../api/axios';
 
 function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);
@@ -25,7 +24,7 @@ function ModifyingPage() {
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
 
   const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
+  const persistToken = localStorage.getItem('persistToken');
 
   const projectId = useRecoilValue(projectIdState);
   const navigate = useNavigate();
@@ -51,7 +50,6 @@ function ModifyingPage() {
   };
 
   async function putData() {
-    const url = `http://localhost:8080/api/v1/projects/${projectId}`;
     const data = {
       projectName: title,
       content: contents,
@@ -60,11 +58,7 @@ function ModifyingPage() {
       thumbNail: thumbnailUrl,
     };
     try {
-      const response = await axios.put(url, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      const response = await tokenApi.put(`/projects/${projectId}`, data);
       console.log(response.data);
       navigate(`/read/${projectId}`);
       setThumbnailUrl('');

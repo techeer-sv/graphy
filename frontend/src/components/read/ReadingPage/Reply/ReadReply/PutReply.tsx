@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
-import { persistTokenState, refreshState } from '../../../../../Recoil';
+import { tokenApi } from '../../../../../api/axios';
+import { refreshState } from '../../../../../Recoil';
 
 type PutReplyProps = {
   contents: {
@@ -24,8 +24,6 @@ function PutReply({
 }: PutReplyProps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState<string>(contents.content);
-  const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -43,17 +41,12 @@ function PutReply({
   };
 
   async function putData() {
-    const url = `http://localhost:8080/api/v1/comments/${contents.commentId}`;
     const data = {
       content: value,
     };
 
     try {
-      const res = await axios.put(url, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      const res = await tokenApi.put(`/comments/${contents.commentId}`, data);
       console.log(res.data);
       setrefresh(!refresh);
       if (!('childCount' in contents)) {

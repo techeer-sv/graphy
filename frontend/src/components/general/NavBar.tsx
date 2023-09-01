@@ -5,12 +5,12 @@ import { useRecoilState } from 'recoil';
 import WriteIcon from '../../assets/image/pencil-square.svg';
 import ProfileIcon from '../../assets/image/profileIcon.svg';
 import SearchIcon from '../../assets/image/searchIcon.png';
-import { persistTokenState, refreshState, searchTextState } from '../../Recoil';
+import { refreshState, searchTextState } from '../../Recoil';
 
 function NavBar() {
   const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('persistToken');
   const [refresh, setRefresh] = useRecoilState(refreshState);
-  const [persistToken, setPersistToken] = useRecoilState(persistTokenState);
   const [searchText, SetSearchText] = useRecoilState(searchTextState);
 
   const navigate = useNavigate();
@@ -28,7 +28,8 @@ function NavBar() {
       sessionStorage.removeItem('accessToken');
       setRefresh(!refresh);
     } else {
-      setPersistToken(null);
+      localStorage.removeItem('persistToken');
+      setRefresh(!refresh);
     }
   }
 

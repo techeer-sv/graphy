@@ -1,15 +1,14 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
+import { tokenApi } from '../../api/axios';
 import NavBar from '../../components/general/NavBar';
 import ImageUploader from '../../components/submit/ImageUploader';
 import QuillEditor from '../../components/submit/QuillEditor';
 import TechStackSelection from '../../components/submit/TechStackSelection';
 import {
   contentsState,
-  persistTokenState,
   projectIdState,
   selectedStackState,
   thumbnailUrlState,
@@ -25,7 +24,7 @@ function WritingPage() {
   const [thumbnailUrl, setThumbnailUrl] = useRecoilState(thumbnailUrlState);
   const [, setProjectId] = useRecoilState(projectIdState);
   const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
+  const persistToken = localStorage.getItem('persistToken');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,7 +65,6 @@ function WritingPage() {
   };
   // POST요청 보내서 데이터 전송하는 함수
   async function postData() {
-    const url = 'http://localhost:8080/api/v1/projects';
     const data = {
       projectName: title,
       content: contents,
@@ -76,11 +74,7 @@ function WritingPage() {
     };
 
     try {
-      const res = await axios.post(url, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken || persistToken}`,
-        },
-      });
+      const res = await tokenApi.post('/projects', data);
       console.log(res.data);
       setProjectId(res.data.data.projectId);
       navigate(`/read/${res.data.data.projectId}`);

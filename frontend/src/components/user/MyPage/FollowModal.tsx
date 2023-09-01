@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import followerIcon from '../../../assets/image/followerIcon.svg';
 import followingIcon from '../../../assets/image/followingIcon.svg';
@@ -12,7 +12,7 @@ type FollowModalProps = {
 };
 
 function followModal({ onClickToggleModal, isFollowing }: FollowModalProps) {
-  const [nickname] = useRecoilState(nicknameState);
+  const nickname = useRecoilValue(nicknameState);
   function mode(modenumber: number) {
     if (modenumber === 0) {
       return <div>의 팔로워</div>;
@@ -64,7 +64,7 @@ function followModal({ onClickToggleModal, isFollowing }: FollowModalProps) {
         </div>
       </div>
 
-      {/* 모달 영역 외의 배경을 클릭하면 모달이 닫히게 하는 컨테이너, 이벤트핸들러를 사용하여 클릭 이벤트 발생 시 onClickToggleModal 함수 호출하여 모달 닫음 */}
+      {/* 모달 배경 버튼 */}
       <button
         aria-label="Toggle modal"
         className="fixed top-0 left-0 right-0 bottom-0 z-40 h-full w-screen  bg-black opacity-70"

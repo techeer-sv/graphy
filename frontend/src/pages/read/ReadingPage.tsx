@@ -1,9 +1,10 @@
 import { act } from '@testing-library/react';
-import axios from 'axios';
+import { isAxiosError } from 'axios';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { tokenApi } from '../../api/axios';
 import gptIcon from '../../assets/image/gptIcon.svg';
 import ProfileIcon from '../../assets/image/profileIcon.svg';
 import NavBar from '../../components/general/NavBar';
@@ -16,7 +17,6 @@ import {
   titleState,
   tldrState,
   refreshState,
-  persistTokenState,
 } from '../../Recoil';
 import AllStacks from '../../Stack';
 
@@ -35,7 +35,7 @@ function ReadingPage() {
   const [readReply, setReadReply] = useState<ReadReplyObject[]>([]);
   const refresh = useRecoilValue(refreshState);
   const accessToken = sessionStorage.getItem('accessToken');
-  const persistToken = useRecoilValue(persistTokenState);
+  const persistToken = localStorage.getItem('persistToken');
   const navigate = useNavigate();
   const params = useParams();
 
@@ -57,14 +57,7 @@ function ReadingPage() {
   // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
   async function getData() {
     try {
-      const res = await axios.get(
-        `http://localhost:8080/api/v1/projects/${params.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken || persistToken}`,
-          },
-        },
-      );
+      const res = await tokenApi.get(`/projects/${params.id}`);
       setTitle(res.data.data.projectName);
       setTldr(res.data.data.description);
       setSelectedStack(res.data.data.techTags);
@@ -73,7 +66,7 @@ function ReadingPage() {
       setNickname(res.data.data.member.nickname);
       setCreatedAt(res.data.data.createdAt);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (isAxiosError(error)) {
         if (
           error.response?.data.message ===
           '이미 삭제되거나 존재하지 않는 프로젝트'
@@ -93,19 +86,12 @@ function ReadingPage() {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
     } else {
       try {
-        await axios.delete(
-          `http://localhost:8080/api/v1/projects/${params.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken || persistToken}`,
-            },
-          },
-        );
+        await tokenApi.delete(`/projects/${params.id}`);
         act(() => {
           navigate('/');
         });
       } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
           if (
             error.response?.data.message ===
             '이미 삭제되거나 존재하지 않는 프로젝트'

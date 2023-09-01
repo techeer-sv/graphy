@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import * as yup from 'yup';
 
+import { generalApi } from '../../api/axios';
 import Email from '../../assets/image/email.svg';
-import { autoLoginState, persistTokenState } from '../../Recoil';
+import { autoLoginState } from '../../Recoil';
 
 type DataObject = {
   email: string;
@@ -32,7 +32,7 @@ const schema = yup.object().shape({
 function Signin() {
   const navigate = useNavigate();
   const accessToken = sessionStorage.getItem('accessToken');
-  const [persistToken, setPersistToken] = useRecoilState(persistTokenState);
+  const persistToken = localStorage.getItem('persistToken');
   const [autoLogin, setAutoLogin] = useRecoilState(autoLoginState);
 
   useEffect(() => {
@@ -72,15 +72,12 @@ function Signin() {
 
   const onSubmit: SubmitHandler<DataObject> = async (data: DataObject) => {
     try {
-      const res = await axios.post(
-        'http://localhost:8080/api/v1/members/login',
-        {
-          email: data.email,
-          password: data.password,
-        },
-      );
+      const res = await generalApi.post('/members/login', {
+        email: data.email,
+        password: data.password,
+      });
       if (autoLogin) {
-        setPersistToken(res.data.accessToken);
+        localStorage.setItem('persistToken', res.data.accessToken);
       } else {
         sessionStorage.setItem('accessToken', res.data.accessToken);
       }

@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { generalApi } from '../../api/axios';
 import WriteIcon from '../../assets/image/pencil-square.svg';
 import NavBar from '../../components/general/NavBar';
 import Banner from '../../components/main/Banner';
@@ -29,12 +29,9 @@ function SearchProjectPage() {
 
   async function getData() {
     try {
-      const res = await axios.get(
-        'http://localhost:8080/api/v1/projects/search',
-        {
-          params: { projectName: params.projectName },
-        },
-      );
+      const res = await generalApi.get('/projects/search', {
+        params: { projectName: params.projectName },
+      });
       setData(res.data.data);
     } catch (error) {
       console.log(error);
