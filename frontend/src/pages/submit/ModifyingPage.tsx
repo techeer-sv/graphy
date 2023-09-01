@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { tokenApi } from '../../api/axios';
 import NavBar from '../../components/general/NavBar';
 import ImageUploader from '../../components/submit/ImageUploader';
 import QuillEditor from '../../components/submit/QuillEditor';
@@ -14,7 +15,6 @@ import {
   titleState,
   tldrState,
 } from '../../Recoil';
-import { tokenApi } from '../../api/axios';
 
 function ModifyingPage() {
   const [title, setTitle] = useRecoilState(titleState);

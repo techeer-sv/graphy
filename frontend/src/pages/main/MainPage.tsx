@@ -3,12 +3,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
+import { generalApi } from '../../api/axios';
 import WriteIcon from '../../assets/image/pencil-square.svg';
 import NavBar from '../../components/general/NavBar';
 import Banner from '../../components/main/Banner';
 import ProjectCard from '../../components/main/ProjectCard';
 import { searchTextState } from '../../Recoil';
-import { generalApi } from '../../api/axios';
 
 type DataObject = {
   id: number;
