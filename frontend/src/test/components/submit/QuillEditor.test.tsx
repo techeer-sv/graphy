@@ -3,9 +3,9 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
-import QuillEditor from '../../components/QuillEditor';
-import { contentsState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import QuillEditor from '../../../components/submit/QuillEditor';
+import { contentsState } from '../../../Recoil';
+import { onChange, RecoilObserver } from '../../jest/RecoilObserver';
 
 jest.mock('react-quill', () => ({
   __esModule: true,

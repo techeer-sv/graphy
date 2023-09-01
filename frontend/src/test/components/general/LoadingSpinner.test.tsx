@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../../../components/general/LoadingSpinner';
 
 test('LoadingSpinner 테스트', () => {
   render(<LoadingSpinner />);

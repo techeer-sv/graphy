@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import Banner from '../../components/Banner';
+import Banner from '../../../components/main/Banner';
 
 describe('Banner', () => {
   test('Banner 테스트', () => {

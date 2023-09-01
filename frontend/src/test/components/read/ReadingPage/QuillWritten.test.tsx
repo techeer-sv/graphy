@@ -2,9 +2,9 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import QuillWritten from '../../components/QuillWritten';
-import { contentsState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import QuillWritten from '../../../../components/read/ReadingPage/QuillWritten';
+import { contentsState } from '../../../../Recoil';
+import { onChange, RecoilObserver } from '../../../jest/RecoilObserver';
 
 describe('QuillWritten', () => {
   test('noContents 테스트', () => {

@@ -4,9 +4,9 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { RecoilRoot } from 'recoil';
 
-import PutReply from '../../components/PutReply';
-import { refreshState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import PutReply from '../../../../../../components/read/ReadingPage/Reply/ReadReply/PutReply';
+import { refreshState } from '../../../../../../Recoil';
+import { onChange, RecoilObserver } from '../../../../../jest/RecoilObserver';
 
 const contents = {
   commentId: 0,

@@ -4,9 +4,9 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { RecoilRoot } from 'recoil';
 
-import WriteReReply from '../../components/WriteReReply';
-import { refreshState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import WriteReReply from '../../../../../../components/read/ReadingPage/Reply/ReadReply/WriteReReply';
+import { refreshState } from '../../../../../../Recoil';
+import { onChange, RecoilObserver } from '../../../../../jest/RecoilObserver';
 
 const mockScrollIntoView = jest.fn();
 // HTMLElement의 프로토타입에 scrollIntoView 메서드를 추가합니다.

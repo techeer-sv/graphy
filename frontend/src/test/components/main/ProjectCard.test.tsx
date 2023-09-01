@@ -3,9 +3,9 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import ProjectCard from '../../components/ProjectCard';
-import { projectIdState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import ProjectCard from '../../../components/main/ProjectCard';
+import { projectIdState } from '../../../Recoil';
+import { onChange, RecoilObserver } from '../../jest/RecoilObserver';
 
 const mockData = {
   commentsList: [],

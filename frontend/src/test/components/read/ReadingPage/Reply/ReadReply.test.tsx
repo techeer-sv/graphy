@@ -4,26 +4,26 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { RecoilRoot } from 'recoil';
 
-import ReadReply from '../../components/ReadReply';
-import { refreshState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import ReadReply from '../../../../../components/read/ReadingPage/Reply/ReadReply';
+import { refreshState } from '../../../../../Recoil';
+import { onChange, RecoilObserver } from '../../../../jest/RecoilObserver';
 
 jest.mock(
-  '../../components/PutReply',
+  '../../../../../components/read/ReadingPage/Reply/ReadReply/PutReply',
   () =>
     function () {
       return <div data-testid="PutReply" />;
     },
 );
 jest.mock(
-  '../../components/ReadReReply',
+  '../../../../../components/read/ReadingPage/Reply/ReadReply/ReadReReply',
   () =>
     function () {
       return <div data-testid="ReadReReply" />;
     },
 );
 jest.mock(
-  '../../components/WriteReReply',
+  '../../../../../components/read/ReadingPage/Reply/ReadReply/WriteReReply',
   () =>
     function () {
       return <div data-testid="WriteReReply" />;

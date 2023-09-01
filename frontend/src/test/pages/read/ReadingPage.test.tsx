@@ -5,24 +5,24 @@ import { setupServer } from 'msw/node';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import ReadingPage from '../../pages/ReadingPage';
+import ReadingPage from '../../../pages/read/ReadingPage';
 
 jest.mock(
-  '../../components/NavBar',
+  '../../../components/general/NavBar',
   () =>
     function () {
       return <div data-testid="NavBar" />;
     },
 );
 jest.mock(
-  '../../components/QuillWritten',
+  '../../../components/read/ReadingPage/QuillWritten',
   () =>
     function () {
       return <div data-testid="QuillWritten" />;
     },
 );
 jest.mock(
-  '../../components/Reply',
+  '../../../components/read/ReadingPage/Reply',
   () =>
     function () {
       return <div data-testid="Reply" />;

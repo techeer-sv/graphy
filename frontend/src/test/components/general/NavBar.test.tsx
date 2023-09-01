@@ -3,9 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import NavBar from '../../components/NavBar';
-import { searchTextState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import NavBar from '../../../components/general/NavBar';
+import { searchTextState } from '../../../Recoil';
+import { onChange, RecoilObserver } from '../../jest/RecoilObserver';
 
 test('NavBar 테스트', () => {
   render(

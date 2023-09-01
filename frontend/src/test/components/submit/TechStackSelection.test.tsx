@@ -2,9 +2,9 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 
-import TechStackSelection from '../../components/TechStackSelection';
-import { selectedStackState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import TechStackSelection from '../../../components/submit/TechStackSelection';
+import { selectedStackState } from '../../../Recoil';
+import { onChange, RecoilObserver } from '../../jest/RecoilObserver';
 
 describe('TechStackSelection', () => {
   test('TechStackSelection 테스트', () => {

@@ -6,28 +6,28 @@ import { setupServer } from 'msw/node';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import MainPage from '../../pages/MainPage';
-import { searchTextState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import MainPage from '../../../pages/main/MainPage';
+import { searchTextState } from '../../../Recoil';
+import { onChange, RecoilObserver } from '../../jest/RecoilObserver';
 
 const queryClient = new QueryClient();
 
 jest.mock(
-  '../../components/NavBar',
+  '../../../components/general/NavBar',
   () =>
     function () {
       return <div data-testid="NavBar" />;
     },
 );
 jest.mock(
-  '../../components/Banner',
+  '../../../components/main/Banner',
   () =>
     function () {
       return <div data-testid="Banner" />;
     },
 );
 jest.mock(
-  '../../components/ProjectCard',
+  '../../../components/main/ProjectCard',
   () =>
     function () {
       return <div data-testid="ProjectCard" />;

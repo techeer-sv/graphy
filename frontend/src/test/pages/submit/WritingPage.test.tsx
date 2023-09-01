@@ -6,33 +6,33 @@ import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot, RecoilState, useRecoilValue } from 'recoil';
 
-import WritingPage from '../../pages/WritingPage';
-import { titleState, tldrState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import WritingPage from '../../../pages/submit/WritingPage';
+import { titleState, tldrState } from '../../../Recoil';
+import { onChange, RecoilObserver } from '../../jest/RecoilObserver';
 
 jest.mock(
-  '../../components/NavBar',
+  '../../../components/general/NavBar',
   () =>
     function () {
       return <div data-testid="NavBar" />;
     },
 );
 jest.mock(
-  '../../components/TechStackSelection',
+  '../../../components/submit/TechStackSelection',
   () =>
     function () {
       return <div data-testid="TechStackSelection" />;
     },
 );
 jest.mock(
-  '../../components/ImageUploader',
+  '../../../components/submit/ImageUploader',
   () =>
     function () {
       return <div data-testid="ImageUploader" />;
     },
 );
 jest.mock(
-  '../../components/QuillEditor',
+  '../../../components/submit/QuillEditor',
   () =>
     function () {
       return <div data-testid="QuillEditor" />;

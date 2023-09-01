@@ -2,9 +2,9 @@ import '@testing-library/jest-dom';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 
-import ImageUploader from '../../components/ImageUploader';
-import { thumbnailUrlState } from '../../Recoil';
-import { onChange, RecoilObserver } from '../jest/RecoilObserver';
+import ImageUploader from '../../../components/submit/ImageUploader';
+import { thumbnailUrlState } from '../../../Recoil';
+import { onChange, RecoilObserver } from '../../jest/RecoilObserver';
 
 jest.mock('react-aws-s3-typescript', () => ({
   __esModule: true,
