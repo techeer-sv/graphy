@@ -4,8 +4,8 @@ import lombok.*;
 
 @Getter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
+@AllArgsConstructor
 public class GetMemberListResponse {
     private Long id;
     private String nickname;
