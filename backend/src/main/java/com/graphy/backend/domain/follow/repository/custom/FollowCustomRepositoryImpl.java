@@ -1,5 +1,6 @@
-package com.graphy.backend.domain.follow.repository;
+package com.graphy.backend.domain.follow.repository.custom;
 
+import com.graphy.backend.domain.follow.repository.FollowCustomRepository;
 import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
