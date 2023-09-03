@@ -134,7 +134,6 @@ public class ProjectServiceTest extends MockTest {
         when(request.toEntity(member)).thenReturn(project);
         when(projectRepository.save(project)).thenReturn(project);
         when(CreateProjectResponse.from(project.getId())).thenReturn(response);
-        when(customUserDetailsService.getLoginUser()).thenReturn(member);
         CreateProjectResponse result = projectService.addProject(request, member);
 
         //then

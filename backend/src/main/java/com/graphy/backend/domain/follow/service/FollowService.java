@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.follow.service;
 
 import com.graphy.backend.domain.follow.domain.Follow;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.repository.MemberRepository;
@@ -24,17 +25,17 @@ public class FollowService {
     private final MemberRepository memberRepository;
     private final CustomUserDetailsService customUserDetailsService;
 
-    public void follow(Long toId) {
-        Long fromId = customUserDetailsService.getLoginUser().getId();
-        followingCheck(fromId, toId);
+    public void addFollow(Long toId, Member loginUser) {
+        Long fromId = loginUser.getId();
+        checkFollowingAlready(loginUser.getId(), toId);
         Follow follow = Follow.builder().fromId(fromId).toId(toId).build();
         followRepository.save(follow);
         memberRepository.increaseFollowerCount(toId);
         memberRepository.increaseFollowingCount(fromId);
     }
 
-    public void unfollow(Long toId) {
-        Long fromId = customUserDetailsService.getLoginUser().getId();
+    public void removeFollow(Long toId, Member loginUser) {
+        Long fromId = loginUser.getId();
         Follow follow = followRepository.findByFromIdAndToId(fromId, toId).orElseThrow(
                 () -> new EmptyResultException(ErrorCode.FOLLOW_NOT_EXIST)
         );
@@ -43,17 +44,15 @@ public class FollowService {
         memberRepository.decreaseFollowingCount(fromId);
     }
 
-    public List<GetMemberListResponse> getFollowers() {
-        Long id = customUserDetailsService.getLoginUser().getId();
-        return followRepository.findFollower(id);
+    public List<GetMemberListResponse> findFollowerList(Member loginUser) {
+        return followRepository.findFollowers(loginUser.getId());
     }
 
-    public List<GetMemberListResponse> getFollowings() {
-        Long id = customUserDetailsService.getLoginUser().getId();
-        return followRepository.findFollowing(id);
+    public List<GetMemberListResponse> findFollowingList(Member loginUser) {
+        return followRepository.findFollowings(loginUser.getId());
     }
 
-    private void followingCheck(Long fromId, Long toId) {
+    private void checkFollowingAlready(Long fromId, Long toId) {
         if (followRepository.existsByFromIdAndToId(fromId, toId)) {
             throw new AlreadyExistException(ErrorCode.FOLLOW_ALREADY_EXIST);
         }

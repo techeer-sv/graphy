@@ -1,5 +1,7 @@
 package com.graphy.backend.domain.follow.controller;
 
+import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
+import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.follow.service.FollowService;
 import com.graphy.backend.global.result.ResultCode;
@@ -22,29 +24,29 @@ public class FollowController {
 
     @Operation(summary = "follow", description = "팔로우 걸기")
     @PostMapping("/{id}")
-    public ResponseEntity<ResultResponse> follow(@PathVariable Long id) {
-        followService.follow(id);
+    public ResponseEntity<ResultResponse> followAdd(@PathVariable Long id, @CurrentUser Member loginUser) {
+        followService.addFollow(id, loginUser);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOWING_CREATE_SUCCESS));
     }
 
     @Operation(summary = "unfollow", description = "언팔로우")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResultResponse> unfollow(@PathVariable Long id) {
-        followService.unfollow(id);
+    public ResponseEntity<ResultResponse> followRemove(@PathVariable Long id, @CurrentUser Member loginUser) {
+        followService.removeFollow(id, loginUser);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOW_DELETE_SUCCESS));
     }
 
     @Operation(summary = "Get Follower", description = "팔로워 조회")
     @GetMapping("/follower")
-    public ResponseEntity<ResultResponse> getFollower() {
-        List<GetMemberListResponse> result = followService.getFollowers();
+    public ResponseEntity<ResultResponse> followerList(@CurrentUser Member loginUser) {
+        List<GetMemberListResponse> result = followService.findFollowerList(loginUser);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOWER_GET_SUCCESS, result));
     }
 
     @Operation(summary = "Get Following", description = "팔로잉 조회")
     @GetMapping("/following")
-    public ResponseEntity<ResultResponse> getFollowing() {
-        List<GetMemberListResponse> result = followService.getFollowings();
+    public ResponseEntity<ResultResponse> followingList(@CurrentUser Member loginUser) {
+        List<GetMemberListResponse> result = followService.findFollowingList(loginUser);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOWER_GET_SUCCESS, result));
     }
 }

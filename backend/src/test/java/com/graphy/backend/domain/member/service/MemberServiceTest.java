@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class MemberServiceTest extends MockTest {
+class MemberServiceTest extends MockTest {
     @InjectMocks
     private MemberService memberService;
     @Mock

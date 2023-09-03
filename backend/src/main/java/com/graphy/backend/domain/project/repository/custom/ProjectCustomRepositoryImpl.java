@@ -1,6 +1,7 @@
-package com.graphy.backend.domain.project.repository;
+package com.graphy.backend.domain.project.repository.custom;
 
 import com.graphy.backend.domain.project.domain.Project;
+import com.graphy.backend.domain.project.repository.ProjectCustomRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static com.graphy.backend.domain.project.domain.QProject.project;
 @RequiredArgsConstructor
-public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
+public class ProjectCustomRepositoryImpl implements ProjectCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 

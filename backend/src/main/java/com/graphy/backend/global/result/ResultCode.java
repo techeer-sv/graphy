@@ -26,6 +26,7 @@ public enum ResultCode {
 
     // Like
     LIKE_PROJECT_SUCCESS("L001", "프로젝트 좋아요/좋아요 취소 성공"),
+    LIKED_MEMBER_GET_SUCCESS("L002", "좋아요 누른 유저 조회 성공"),
 
     // project
     PROJECT_CREATE_SUCCESS("P001", "프로젝트 생성 성공"),
@@ -41,9 +42,9 @@ public enum ResultCode {
     COMMENT_UPDATE_SUCCESS("C004", "댓글 수정 성공"),
 
     // plan
-    PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공"),
+    PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공");
 
-    ;
+
 
     private final String code;
     private final String message;
