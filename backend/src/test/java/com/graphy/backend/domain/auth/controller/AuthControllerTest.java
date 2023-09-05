@@ -22,6 +22,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentRequest;
+import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -74,6 +76,8 @@ public class AuthControllerTest extends MockApiTest {
 
                 .andDo(print())
                 .andDo(document("auth/signUp/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -105,6 +109,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/signUp/fail/emptyEmail",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -140,6 +146,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/signUp/fail/invalidEmail",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -175,6 +183,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/signUp/fail/emptyNickname",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -210,6 +220,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/signUp/fail/emptyPassword",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호"),
@@ -260,6 +272,8 @@ public class AuthControllerTest extends MockApiTest {
 
                 .andDo(print())
                 .andDo(document("auth/signIn/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -292,6 +306,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/signIn/fail/emptyEmail",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -324,6 +340,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/signIn/fail/invalidEmail",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -356,6 +374,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/signIn/fail/emptyPassword",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -391,6 +411,8 @@ public class AuthControllerTest extends MockApiTest {
 
                 .andDo(print())
                 .andDo(document("auth/logout/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("accessToken").description("액세스 토큰"),
                                 fieldWithPath("refreshToken").description("리프래시 토큰")
@@ -421,6 +443,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/logout/fail/emptyAccessToken",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("accessToken").description("액세스 토큰"),
                                 fieldWithPath("refreshToken").description("리프래시 토큰")
@@ -455,6 +479,8 @@ public class AuthControllerTest extends MockApiTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print())
                 .andDo(document("auth/logout/fail/emptyRefreshToken",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("accessToken").description("액세스 토큰"),
                                 fieldWithPath("refreshToken").description("리프래시 토큰")
@@ -491,6 +517,8 @@ public class AuthControllerTest extends MockApiTest {
 
                 .andDo(print())
                 .andDo(document("auth/reissue/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         responseFields(
                                 fieldWithPath("code").description("상태 코드"),
                                 fieldWithPath("message").description("응답 메시지"),

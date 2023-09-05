@@ -94,44 +94,52 @@ dependencies {
 }
 
 tasks.named('test') {
-    outputs.dir snippetsDir
     useJUnitPlatform()
     finalizedBy 'jacocoTestReport'
 }
 
 
-// ====================================== rest-docs ======================================
+// =================== rest docs =================== //
 ext {
-    snippetsDir = file('build/generated-snippets')
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
 }
 
 asciidoctor {
     configurations 'asciidoctorExtensions'
     inputs.dir snippetsDir
+
     dependsOn test
 }
 
-task copyDocument(type: Copy) {
+asciidoctor.doFirst {
+    delete file('src/main/resources/static')
+}
+
+task createDocument(type: Copy) {
     dependsOn asciidoctor
+
     from file("build/docs/asciidoc")
-    into file("build/resources/main/static/docs")
+    into file("src/main/resources/static")
 }
 
 bootJar {
-//    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    dependsOn copyDocument
+    dependsOn createDocument
+    from("${asciidoctor.outputDir}") {
+        into "static"
+    }
 }
-//
-//jar {
-//    dependsOn bootJar
-//}
-//
-//bootJarMainClassName {
-//    dependsOn copyDocument
-//}
 
+jar {
+    enabled = false
+}
 
-// ====================================== sonarqube ======================================
+// =================== sonar qube =================== //
 jacoco {
     toolVersion = "0.8.7"
 }
@@ -151,8 +159,7 @@ jacocoTestReport {
                     "**/*Application*",
                     "**/mapper/**",
                     "**/global/**",
-                    "**/com/graphy/backend/domain/job/domain/**",
-                    "**/com/graphy/backend/domain/job/service/**"
+                    "**/job/**",
             ])
         }))
     }
@@ -191,7 +198,7 @@ sonarqube {
 tasks.sonarqube.dependsOn test
 
 
-// ====================================== querydsl ======================================
+// =================== query dsl =================== //
 def querydslDir = "$buildDir/generated/querydsl"
 
 querydsl {

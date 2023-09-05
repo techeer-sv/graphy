@@ -1,0 +1,37 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+= Comment API
+
+== 댓글 저장
+=== 성공
+operation::comment/add/success[snippets='request-fields,http-request,http-response']
+
+=== 실패 : content(내용) 공백 오류
+operation::comment/add/fail/emptyContent[snippets='request-fields,http-request,http-response']
+
+=== 실패 : ProjectId(프로젝트 ID) 공백 오류
+operation::comment/add/fail/emptyProjectId[snippets='request-fields,http-request,http-response']
+
+== 댓글 삭제
+=== 성공
+operation::comment/remove/success[snippets='path-parameters,http-request,http-response']
+
+== 댓글 수정
+=== 성공
+operation::comment/modify/success[snippets='path-parameters,request-fields,http-request,http-response']
+
+=== 실패 : content(내용) 공백 오류
+operation::comment/modify/fail/emptyContent[snippets='request-fields,http-request,http-response']
+
+
+== 답글 조회
+=== 성공
+operation::comment/reComment/findAll/success[snippets='path-parameters,http-request,http-response']
+
