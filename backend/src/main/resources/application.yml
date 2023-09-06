@@ -12,14 +12,19 @@ spring:
   output:
     ansi:
       enabled: always
+  redis:
+    host: redis
+    port: 6379
 
 
 logging:
   config: classpath:logback-spring.xml
-
 
 # swaggerDOC
 springdoc:
   swagger-ui:
     version: v1.0
   packages-to-scan: com.graphy.backend
+
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHaVlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
