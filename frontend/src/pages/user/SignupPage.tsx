@@ -78,20 +78,24 @@ function Signup() {
   const onSubmit: SubmitHandler<DataObject> = async (data: DataObject) => {
     console.log(data);
     try {
-      await generalApi.post('/members/join', {
+      const res1 = await generalApi.post('/auth/signup', {
         email: data.email,
         password: data.password,
         nickname: data.nickname,
         introduction: data.introduction,
       });
-      const res = await generalApi.post('/members/login', {
+      console.log(res1);
+      const res = await generalApi.post('/auth/signin', {
         email: data.email,
         password: data.password,
       });
+      console.log(res);
       if (autoLogin) {
-        localStorage.setItem('persistToken', res.data.accessToken);
+        localStorage.setItem('persistToken', res.data.data.accessToken);
+        console.log(localStorage.getItem('persistToken'));
       } else {
-        sessionStorage.setItem('accessToken', res.data.accessToken);
+        sessionStorage.setItem('accessToken', res.data.data.accessToken);
+        console.log(sessionStorage.getItem('accessToken'));
       }
       navigate('/');
     } catch (err: unknown) {

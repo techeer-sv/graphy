@@ -406,6 +406,9 @@ const Screen4 = ({ onPrev, onClickToggleModal }: Screen4Props) => {
   );
   const [firstPlan, setFirstPlans] = useState('');
 
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('accessToken');
+
   function Plus() {
     if (planObject.length < 4) {
       setPlanObject((oldFeatures) => [
@@ -440,7 +443,11 @@ const Screen4 = ({ onPrev, onClickToggleModal }: Screen4Props) => {
       if (onClickToggleModal) {
         onClickToggleModal();
       }
-      const res = await tokenApi.post('/projects/plans', data);
+      const res = await tokenApi.post('/projects/plans', data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       setGptLoading(false);
       setModalContent(res.data.data);
     } catch (err) {

@@ -18,6 +18,9 @@ function SearchUserPage() {
   const params = useParams(); // react-router-dom useParams 사용 선언
   const [hoveredEmail, setHoveredEmail] = useState('');
 
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('accessToken');
+
   function handleMouseEnter(email: string) {
     setHoveredEmail(email);
   }
@@ -37,6 +40,9 @@ function SearchUserPage() {
     try {
       const res = await tokenApi.get('/members', {
         params: { nickname: params.userName },
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
       });
       if (res.data.data.length === 0) {
         setData([{ nickname: '검색 결과가 없습니다.', email: '' }]);

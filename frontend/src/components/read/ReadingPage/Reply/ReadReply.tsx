@@ -38,6 +38,9 @@ function ReadReply({ contents, setSelectedValue }: ReadReplyProps) {
 
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('accessToken');
+
   let buttonContent: JSX.Element | null = null;
 
   const date = new Date(contents.createdAt);
@@ -71,7 +74,11 @@ function ReadReply({ contents, setSelectedValue }: ReadReplyProps) {
 
   async function deleteReply() {
     try {
-      await tokenApi.delete(`/comments/${contents.commentId}`);
+      await tokenApi.delete(`/comments/${contents.commentId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       setRefresh(!refresh);
     } catch (error) {
       if (!navigator.onLine) {

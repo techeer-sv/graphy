@@ -24,6 +24,9 @@ function MyPage() {
   const navigate = useNavigate();
   const [isPostOpenModal, setPostOpenModal] = useState<boolean>(() => false);
 
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('accessToken');
+
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
@@ -58,7 +61,11 @@ function MyPage() {
   // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
   async function getMyData() {
     try {
-      const res = await tokenApi.get('/members/myPage');
+      const res = await tokenApi.get('/members/myPage', {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       setNickname(res.data.data.nickname);
       setIntroduction(res.data.data.introduction);
       setFollowerCount(res.data.data.followerCount);

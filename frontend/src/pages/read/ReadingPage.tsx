@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { tokenApi } from '../../api/axios';
+import { generalApi, tokenApi } from '../../api/axios';
 import gptIcon from '../../assets/image/gptIcon.svg';
 import ProfileIcon from '../../assets/image/profileIcon.svg';
 import NavBar from '../../components/general/NavBar';
@@ -57,7 +57,7 @@ function ReadingPage() {
   // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
   async function getData() {
     try {
-      const res = await tokenApi.get(`/projects/${params.id}`);
+      const res = await generalApi.get(`/projects/${params.id}`);
       setTitle(res.data.data.projectName);
       setTldr(res.data.data.description);
       setSelectedStack(res.data.data.techTags);
@@ -86,7 +86,11 @@ function ReadingPage() {
       alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
     } else {
       try {
-        await tokenApi.delete(`/projects/${params.id}`);
+        await tokenApi.delete(`/projects/${params.id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken || persistToken}`,
+          },
+        });
         act(() => {
           navigate('/');
         });

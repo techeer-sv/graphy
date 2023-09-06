@@ -58,7 +58,11 @@ function ModifyingPage() {
       thumbNail: thumbnailUrl,
     };
     try {
-      const response = await tokenApi.put(`/projects/${projectId}`, data);
+      const response = await tokenApi.put(`/projects/${projectId}`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(response.data);
       navigate(`/read/${projectId}`);
       setThumbnailUrl('');

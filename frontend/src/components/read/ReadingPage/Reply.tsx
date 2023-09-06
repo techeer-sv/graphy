@@ -53,7 +53,11 @@ function Reply({ contents, setReadReply }: ReplyProps) {
       projectId,
     };
     try {
-      await tokenApi.post('/comments', data);
+      await tokenApi.post('/comments', data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       setRefresh(!refresh);
       setValue('');
       setSelectedValue('regist_order');
@@ -69,7 +73,7 @@ function Reply({ contents, setReadReply }: ReplyProps) {
     }
   }
 
-  function myFunction(selected: string) {
+  function replyOrder(selected: string) {
     switch (selected) {
       case 'newest_order': {
         const sortedContents = contents
@@ -108,7 +112,7 @@ function Reply({ contents, setReadReply }: ReplyProps) {
   function handleselectChange(event: { target: { value: string } }) {
     const selectValue = event.target.value; // 선택된 값 가져오기
     setSelectedValue(selectValue); // 선택된 값 상태 업데이트
-    myFunction(selectValue); // 선택된 값 전달하여 실행할 함수 호출
+    replyOrder(selectValue); // 선택된 값 전달하여 실행할 함수 호출
   }
 
   function handleRefresh() {

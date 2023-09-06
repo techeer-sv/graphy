@@ -27,6 +27,9 @@ function ReadReReply({
   const [putVis, setPutVis] = useState<boolean>(false);
   const [refresh, setRefresh] = useRecoilState(refreshState);
 
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('accessToken');
+
   const date = new Date(contents.createdAt);
 
   const formattedDate = `${date.getFullYear()}-${
@@ -42,7 +45,11 @@ function ReadReReply({
 
   async function deleteReReply() {
     try {
-      await tokenApi.delete(`/comments/${contents.commentId}`);
+      await tokenApi.delete(`/comments/${contents.commentId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       setRefresh(!refresh);
       changeCommentRef();
     } catch (error) {

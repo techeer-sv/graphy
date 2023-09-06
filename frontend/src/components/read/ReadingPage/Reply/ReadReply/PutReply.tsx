@@ -26,6 +26,9 @@ function PutReply({
   const [value, setValue] = useState<string>(contents.content);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('accessToken');
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
     if (textAreaRef.current) {
@@ -46,7 +49,11 @@ function PutReply({
     };
 
     try {
-      const res = await tokenApi.put(`/comments/${contents.commentId}`, data);
+      const res = await tokenApi.put(`/comments/${contents.commentId}`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(res.data);
       setrefresh(!refresh);
       if (!('childCount' in contents)) {

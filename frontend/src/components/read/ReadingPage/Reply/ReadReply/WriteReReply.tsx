@@ -27,6 +27,9 @@ function WriteReReply({
   const projectId = useRecoilValue(projectIdState);
   const [refresh, setrefresh] = useRecoilState(refreshState);
 
+  const accessToken = sessionStorage.getItem('accessToken');
+  const persistToken = localStorage.getItem('accessToken');
+
   const parentId = commentId;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -51,7 +54,11 @@ function WriteReReply({
     };
 
     try {
-      await tokenApi.post('/comments', data);
+      await tokenApi.post('/comments', data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       act(() => {
         setrefresh(!refresh);
         setValue('');

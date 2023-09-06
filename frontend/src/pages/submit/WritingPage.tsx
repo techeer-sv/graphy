@@ -58,7 +58,11 @@ function WritingPage() {
     };
 
     try {
-      const res = await tokenApi.post('/projects', data);
+      const res = await tokenApi.post('/projects', data, {
+        headers: {
+          Authorization: `Bearer ${accessToken || persistToken}`,
+        },
+      });
       console.log(res.data);
       setProjectId(res.data.data.projectId);
       navigate(`/read/${res.data.data.projectId}`);
