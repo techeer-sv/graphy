@@ -29,7 +29,6 @@ function findImage(tag: string) {
   ];
 }
 
-// 화면 컴포넌트
 type Screen1Props = {
   onNext: () => void;
 };
@@ -584,7 +583,6 @@ function GptModal({ onClickToggleModal }: PropsWithChildren<ModalDefaultType>) {
   return (
     <div>
       <div>{renderScreen()}</div>
-      {/* 모달 영역 외의 배경을 클릭하면 모달이 닫히게 하는 컨테이너, 이벤트핸들러를 사용하여 클릭 이벤트 발생 시 onClickToggleModal 함수 호출하여 모달 닫음 */}
       <button
         aria-label="Toggle modal"
         className="fixed top-0 left-0 right-0 bottom-0 z-40 h-full w-screen  bg-black opacity-70"

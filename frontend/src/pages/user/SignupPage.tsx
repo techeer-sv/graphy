@@ -94,7 +94,7 @@ function Signup() {
         sessionStorage.setItem('accessToken', res.data.accessToken);
       }
       navigate('/');
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
     }
     navigate('/');

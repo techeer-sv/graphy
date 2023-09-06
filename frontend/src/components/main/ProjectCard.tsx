@@ -67,8 +67,6 @@ function ProjectCard({ items }: ProjectCardProps) {
       type="button"
     >
       <div className="flex flex-col justify-center rounded-t-lg border-b-2 bg-sky-100 text-center">
-        {/* <div>우리 학교 동창회 서비스</div>
-        <div>moyora</div> */}
         {items.thumbNail === '' ? (
           <img
             className="h-48 rounded-t-lg bg-sky-100 text-center"

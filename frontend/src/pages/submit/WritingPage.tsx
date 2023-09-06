@@ -27,22 +27,6 @@ function WritingPage() {
   const persistToken = localStorage.getItem('persistToken');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!navigator.onLine) {
-      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
-      navigate('/');
-    }
-    if (!(accessToken || persistToken)) {
-      alert('로그인시 이용하실 수 있습니다.');
-      navigate('/');
-    }
-    setTitle(''); // 글쓰기 페이지 렌더링 시 변수 초기화
-    setTldr('');
-    setContents('');
-    setSelectedStack([]);
-    setThumbnailUrl('');
-  }, []);
-
   // 제목 변경 함수
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -98,6 +82,22 @@ function WritingPage() {
   function toMain() {
     navigate('/');
   }
+
+  useEffect(() => {
+    if (!navigator.onLine) {
+      alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+      navigate('/');
+    }
+    if (!(accessToken || persistToken)) {
+      alert('로그인시 이용하실 수 있습니다.');
+      navigate('/');
+    }
+    setTitle(''); // 글쓰기 페이지 렌더링 시 변수 초기화
+    setTldr('');
+    setContents('');
+    setSelectedStack([]);
+    setThumbnailUrl('');
+  }, []);
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center overflow-hidden bg-[#F9F8F8] pb-10">
