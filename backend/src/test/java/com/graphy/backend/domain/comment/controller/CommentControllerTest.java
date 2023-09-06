@@ -26,6 +26,8 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentRequest;
+import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentResponse;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -87,7 +89,9 @@ class CommentControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andDo(print())
-                .andDo(document("comments/add/success",
+                .andDo(document("comment/add/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("content").description("내용"),
                                 fieldWithPath("projectId").description("프로젝트 ID"),
@@ -114,7 +118,9 @@ class CommentControllerTest extends MockApiTest {
                         .principal(new TestingAuthenticationToken(member.getEmail(), member.getPassword())))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("comments/add/fail/emptyContent",
+                .andDo(document("comment/add/fail/emptyContent",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("content").description("내용"),
                                 fieldWithPath("projectId").description("프로젝트 ID"),
@@ -144,7 +150,9 @@ class CommentControllerTest extends MockApiTest {
                         .principal(new TestingAuthenticationToken(member.getEmail(), member.getPassword())))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("comments/add/fail/emptyProjectId",
+                .andDo(document("comment/add/fail/emptyProjectId",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("content").description("내용"),
                                 fieldWithPath("projectId").description("프로젝트 ID"),
@@ -172,7 +180,9 @@ class CommentControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andDo(print())
-                .andDo(document("comments/reComment/add/success",
+                .andDo(document("comment/reComment/add/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("content").description("내용"),
                                 fieldWithPath("projectId").description("프로젝트 ID"),
@@ -210,7 +220,9 @@ class CommentControllerTest extends MockApiTest {
                 .andExpect(jsonPath("$.data[2].content").value(response3.getContent()))
                 .andExpect(jsonPath("$.data[2].commentId").value(response3.getCommentId()))
                 .andDo(print())
-                .andDo(document("comments/findAll/success",
+                .andDo(document("comment/reComment/findAll/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("commentId").description("댓글 ID")
                         ),
@@ -237,7 +249,9 @@ class CommentControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("comments/modify/success",
+                .andDo(document("comment/modify/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("commentId").description("댓글 ID")
                         ),
@@ -263,7 +277,9 @@ class CommentControllerTest extends MockApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andDo(document("comments/modify/fail/emptyContent",
+                .andDo(document("comment/modify/fail/emptyContent",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("commentId").description("댓글 ID")
                         ),
@@ -288,7 +304,9 @@ class CommentControllerTest extends MockApiTest {
         mvc.perform(delete(BASE_URL + "/{commentId}", parentComment.getId()))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("comments/remove/success",
+                .andDo(document("comment/remove/success",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("commentId").description("댓글 ID")
                         ),

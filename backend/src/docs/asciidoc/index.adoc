@@ -1,17 +1,11 @@
-= Graphy API 문서
-:doctype: book
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 1
+= Graphy API Docs
+:nofooter:
 
-= Comment
-
-== 삭제
-=== Request
-include::{snippets}/comment-delete/http-request.adoc[]
-
-=== Response
-include::{snippets}/comment-delete/http-response.adoc[]
-
-
+[width="70%"]
+|===
+|link:member.html[[.big]#Member API#]
+|link:auth.html[[.big]#Auth API#]
+|link:problem.html[[.big]#Project API#]
+|link:comment.html[[.big]#Comment API#]
+|link:follow.html[[.big]#Follow API#]
+|===
