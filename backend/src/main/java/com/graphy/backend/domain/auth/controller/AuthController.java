@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,8 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ResultResponse> signUp(@Validated @RequestBody SignUpMemberRequest request) {
         authService.signUp(request);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.AUTH_SIGNUP_SUCCESS));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResultResponse.of(ResultCode.AUTH_SIGNUP_SUCCESS));
     }
     
     @Operation(summary = "signin", description = "로그인")
@@ -47,7 +49,8 @@ public class AuthController {
     @PostMapping(value = "/logout")
     public ResponseEntity<ResultResponse> logout(@Validated @RequestBody LogoutRequest dto) {
         authService.logout(dto);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.AUTH_LOGOUT_SUCCESS));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ResultResponse.of(ResultCode.AUTH_LOGOUT_SUCCESS));
     }
     
     @Operation(summary = "reIssue", description = "토큰 재발급")

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +27,16 @@ public class FollowController {
     @PostMapping("/{id}")
     public ResponseEntity<ResultResponse> followAdd(@PathVariable Long id, @CurrentUser Member loginUser) {
         followService.addFollow(id, loginUser);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOWING_CREATE_SUCCESS));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResultResponse.of(ResultCode.FOLLOWING_CREATE_SUCCESS));
     }
 
     @Operation(summary = "unfollow", description = "언팔로우")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResultResponse> followRemove(@PathVariable Long id, @CurrentUser Member loginUser) {
         followService.removeFollow(id, loginUser);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.FOLLOW_DELETE_SUCCESS));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ResultResponse.of(ResultCode.FOLLOW_DELETE_SUCCESS));
     }
 
     @Operation(summary = "Get Follower", description = "팔로워 조회")
