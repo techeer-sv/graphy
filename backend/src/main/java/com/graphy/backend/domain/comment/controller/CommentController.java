@@ -32,7 +32,6 @@ public class CommentController {
     public ResponseEntity<ResultResponse> commentAdd(@Validated @RequestBody CreateCommentRequest dto,
                                                      @CurrentUser Member loginUser) {
         commentService.addComment(dto, loginUser);
-
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResultResponse.of(ResultCode.COMMENT_CREATE_SUCCESS));
     }
@@ -43,8 +42,7 @@ public class CommentController {
                                                         @PathVariable Long commentId,
                                                         @CurrentUser Member loginUser) {
         commentService.modifyComment(commentId, dto);
-
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(ResultResponse.of(ResultCode.COMMENT_UPDATE_SUCCESS));
     }
 
@@ -53,7 +51,7 @@ public class CommentController {
     public ResponseEntity<ResultResponse> commentDelete(@PathVariable Long id,
                                                         @CurrentUser Member loginUser) {
         commentService.deleteComment(id);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(ResultResponse.of(ResultCode.COMMENT_DELETE_SUCCESS));
     }
 

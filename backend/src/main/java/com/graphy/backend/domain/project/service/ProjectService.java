@@ -21,6 +21,7 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,7 @@ import java.util.stream.Collectors;
 
 import static com.graphy.backend.global.config.ChatGPTConfig.MAX_REQUEST_TOKEN;
 
-@Service
+@Service @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectService {
     private final ProjectRepository projectRepository;
@@ -143,9 +144,9 @@ public class ProjectService {
     }
 
     private void GptApiCall(GptCompletionRequest request, Consumer<String> callback) {
-        System.out.println("비동기 작업 시작");
+        log.info("비동기 작업 시작");
         GptCompletionResponse result = gptChatRestService.completion(request);
-        System.out.println("비동기 작업 완료");
+        log.info("비동기 작업 완료");
         String response = result.getMessages().get(0).getText()
                 .replace("\n", " ").replace("\n\n", " ");
         callback.accept(response);

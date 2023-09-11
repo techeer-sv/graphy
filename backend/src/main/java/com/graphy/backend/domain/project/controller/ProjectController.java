@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,36 +41,35 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<ResultResponse> projectAdd(@Validated @RequestBody CreateProjectRequest dto, @CurrentUser Member loginUser) {
         CreateProjectResponse response = projectService.addProject(dto, loginUser);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResultResponse.of(ResultCode.PROJECT_CREATE_SUCCESS, response));
     }
 
     @Operation(summary = "deleteProject", description = "프로젝트 삭제(soft delete)")
-    @DeleteMapping("/{project_id}")
-    public ResponseEntity<ResultResponse> projectRemove(@PathVariable Long project_id, @CurrentUser Member loginUser) {
-        projectService.removeProject(project_id);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_DELETE_SUCCESS));
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<ResultResponse> projectRemove(@PathVariable Long projectId, @CurrentUser Member loginUser) {
+        projectService.removeProject(projectId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ResultResponse.of(ResultCode.PROJECT_DELETE_SUCCESS));
     }
 
 
-    @Operation(summary = "updateProject", description = "프로젝트 수정(변경감지)")
+    @Operation(summary = "updateProject", description = "프로젝트 수정")
     @PutMapping("/{projectId}")
     public ResponseEntity<ResultResponse> projectModify(@PathVariable Long projectId,
                                                         @RequestBody @Validated UpdateProjectRequest dto, @CurrentUser Member loginUser) {
         UpdateProjectResponse result = projectService.modifyProject(projectId, dto);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ResultResponse.of(ResultCode.PROJECT_UPDATE_SUCCESS, result));
     }
 
 
-    @Operation(summary = "findProjects", description = "프로젝트 조회 \n\n" + "\t⚠️ sort 주의사항 ⚠️\n\n" +
-            "\t\t1. sort는 공백(\"\"), id, createdAt, updatedAt, content, description, projectName 중 하나 입력\n\n" +
-            "\t\t2. 오름차순이 기본입니다. 내림차순을 원하실 경우 {정렬기준},desc (ex. \"id,desc\")를 입력해주세요 (콤마 사이 띄어쓰기 X)\n\n" +
-            "\t\t3. sort의 default(공백 입력) : createdAt(최신순), 내림차순")
-
-    @GetMapping("/search")
+    @Operation(summary = "findProjectList", description = "프로젝트 조회")
+    @GetMapping
     public ResponseEntity<ResultResponse> projectList(GetProjectsRequest dto, PageRequest pageRequest) {
         Pageable pageable = pageRequest.of();
         List<GetProjectResponse> result = projectService.findProjectList(dto, pageable);
-        if (result.size() == 0) throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
+        if (result.isEmpty()) throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
 
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
     }

@@ -72,7 +72,7 @@ public class AuthControllerTest extends MockApiTest {
         mvc.perform(post(BASE_URL + "/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
 
                 .andDo(print())
                 .andDo(document("auth/signUp/success",
@@ -407,7 +407,7 @@ public class AuthControllerTest extends MockApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
 
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
 
                 .andDo(print())
                 .andDo(document("auth/logout/success",

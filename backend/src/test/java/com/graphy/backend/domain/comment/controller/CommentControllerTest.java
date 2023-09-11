@@ -247,7 +247,7 @@ class CommentControllerTest extends MockApiTest {
         mvc.perform(put(BASE_URL + "/{commentId}", parentComment.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(print())
                 .andDo(document("comment/modify/success",
                         getDocumentRequest(),
@@ -302,7 +302,7 @@ class CommentControllerTest extends MockApiTest {
 
         // given, when, then
         mvc.perform(delete(BASE_URL + "/{commentId}", parentComment.getId()))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(print())
                 .andDo(document("comment/remove/success",
                         getDocumentRequest(),
