@@ -30,7 +30,7 @@ public class CreateProjectRequest {
 
     private String thumbNail;
 
-    public Project toEntity( Member member) {
+    public Project toEntity(Member member) {
         return Project.builder()
                 .member(member)
                 .projectName(projectName)

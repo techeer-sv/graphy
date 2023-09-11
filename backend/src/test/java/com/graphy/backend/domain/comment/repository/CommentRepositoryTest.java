@@ -2,6 +2,7 @@ package com.graphy.backend.domain.comment.repository;
 
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
+import com.graphy.backend.domain.comment.dto.response.GetReplyListResponse;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
 import com.graphy.backend.domain.member.repository.MemberRepository;
@@ -149,25 +150,22 @@ public class CommentRepositoryTest {
     @DisplayName("댓글 ID를 입력 받아 답글 목록을 조회한다")
     public void findReCommentListTest() throws Exception {
         // when
-        List<Comment> actual = commentRepository.findReplyList(parentComment.getId());
+        List<GetReplyListResponse> actual = commentRepository.findReplyList(parentComment.getId());
 
         // then
         assertThat(actual.size()).isEqualTo(3);
 
-        assertThat(actual.get(0).getId()).isEqualTo(comment1.getId());
+        assertThat(actual.get(0).getNickname()).isEqualTo(member.getNickname());
         assertThat(actual.get(0).getContent()).isEqualTo(comment1.getContent());
-        assertThat(actual.get(0).getParent()).isEqualTo(comment1.getParent());
-        assertThat(actual.get(0).getProject()).isEqualTo(comment1.getProject());
+        assertThat(actual.get(0).getCommentId()).isEqualTo(comment1.getId());
 
-        assertThat(actual.get(1).getId()).isEqualTo(comment2.getId());
+        assertThat(actual.get(1).getNickname()).isEqualTo(member.getNickname());
         assertThat(actual.get(1).getContent()).isEqualTo(comment2.getContent());
-        assertThat(actual.get(1).getParent()).isEqualTo(comment2.getParent());
-        assertThat(actual.get(1).getProject()).isEqualTo(comment2.getProject());
+        assertThat(actual.get(1).getCommentId()).isEqualTo(comment2.getId());
 
-        assertThat(actual.get(2).getId()).isEqualTo(comment3.getId());
+        assertThat(actual.get(2).getNickname()).isEqualTo(member.getNickname());
         assertThat(actual.get(2).getContent()).isEqualTo(comment3.getContent());
-        assertThat(actual.get(2).getParent()).isEqualTo(comment3.getParent());
-        assertThat(actual.get(2).getProject()).isEqualTo(comment3.getProject());
+        assertThat(actual.get(2).getCommentId()).isEqualTo(comment3.getId());
     }
 
     @Test
@@ -177,7 +175,7 @@ public class CommentRepositoryTest {
         Long 답글이_존재하지_않는_댓글_ID = 0L;
 
         // when
-        List<Comment> actual = commentRepository.findReplyList(답글이_존재하지_않는_댓글_ID);
+        List<GetReplyListResponse> actual = commentRepository.findReplyList(답글이_존재하지_않는_댓글_ID);
 
         // then
         assertThat(actual.size()).isEqualTo(0);

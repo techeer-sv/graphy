@@ -56,13 +56,11 @@ public class CommentService {
     }
 
     public List<GetReplyListResponse> findCommentList(Long commentId) {
-        List<Comment> commentList = commentRepository.findReplyList(commentId);
+        List<GetReplyListResponse> commentList = commentRepository.findReplyList(commentId);
 
-        if (commentList.size() == 0) throw new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST);
+        if (commentList.isEmpty()) throw new EmptyResultException(ErrorCode.COMMENT_DELETED_OR_NOT_EXIST);
 
-        return commentList.stream()
-                .map(GetReplyListResponse::from)
-                .collect(Collectors.toList());
+        return commentList;
 
     }
 
