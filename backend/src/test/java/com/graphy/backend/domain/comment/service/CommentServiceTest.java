@@ -176,43 +176,18 @@ class CommentServiceTest extends MockTest {
     @DisplayName("답글 목록을 조회한다")
     void findReCommentListTest() {
         //given
-        Comment reComment1 = Comment.builder()
-                .id(2L)
-                .content("reComment1")
-                .parent(parentComment)
-                .member(member)
-                .build();
-
-        Comment reComment2 = Comment.builder()
-                .id(3L)
-                .content("reComment2")
-                .parent(parentComment).member(member)
-                .build();
-
-        Comment reComment3 = Comment.builder()
-                .id(4L)
-                .content("reComment3")
-                .parent(parentComment)
-                .member(member)
-                .build();
-
-        List<Comment> commentList = new LinkedList<>(List.of(reComment1, reComment2, reComment3));
+        List<GetReplyListResponse> reCommentList = new LinkedList<>(Arrays.asList(
+                GetReplyListResponse.builder().nickname(member.getNickname()).content("reComment1").build(),
+                GetReplyListResponse.builder().nickname(member.getNickname()).content("reComment2").build(),
+                GetReplyListResponse.builder().nickname(member.getNickname()).content("reComment3").build()
+        ));
 
         //when
-        when(commentRepository.findReplyList(parentComment.getId())).thenReturn(commentList);
+        when(commentRepository.findReplyList(parentComment.getId())).thenReturn(reCommentList);
         List<GetReplyListResponse> actual = commentService.findCommentList(parentComment.getId());
 
         //then
-        assertThat(actual.size()).isEqualTo(commentList.size());
-
-        assertThat(actual.get(0).getCommentId()).isEqualTo(reComment1.getId());
-        assertThat(actual.get(0).getContent()).isEqualTo(reComment1.getContent());
-
-        assertThat(actual.get(1).getCommentId()).isEqualTo(reComment2.getId());
-        assertThat(actual.get(1).getContent()).isEqualTo(reComment2.getContent());
-
-        assertThat(actual.get(2).getCommentId()).isEqualTo(reComment3.getId());
-        assertThat(actual.get(2).getContent()).isEqualTo(reComment3.getContent());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(reCommentList);
     }
 
     @Test
