@@ -2,8 +2,6 @@ package com.graphy.backend.domain.job.controller;
 
 
 import com.graphy.backend.domain.job.service.JobService;
-import com.graphy.backend.domain.auth.infra.TokenProvider;
-import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,25 +16,19 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(JobController.class)
 @ExtendWith(RestDocumentationExtension.class)
-public class JobControllerTest extends MockApiTest {
+class JobControllerTest extends MockApiTest {
     @Autowired
     private WebApplicationContext context;
     @MockBean
     JobService jobService;
-    @MockBean
-    private TokenProvider tokenProvider;
-
-    @MockBean
-    private RefreshTokenRepository refreshTokenRepository;
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider provider) {
@@ -46,7 +38,7 @@ public class JobControllerTest extends MockApiTest {
 
     @Test
     @DisplayName("공고를 저장한다.")
-    public void saveJobInfo() throws Exception {
+    void saveJobInfo() throws Exception {
         doNothing().when(jobService).save();
         mvc.perform(post("/api/v1/jobs"))
                 .andExpect(status().isOk())
