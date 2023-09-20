@@ -1,8 +1,0 @@
-node_modules
-coverage
-package-lock.json
-src/test
-babel.config.js
-jest.config.cjs
-.eslintrc.js
-.prettierrc
