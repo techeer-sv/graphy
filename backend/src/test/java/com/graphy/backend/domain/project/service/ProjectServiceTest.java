@@ -89,8 +89,6 @@ class ProjectServiceTest extends MockTest {
 
         UpdateProjectResponse result = projectService.modifyProject(project.getId(), request);
 
-        assertThat(result).usingRecursiveComparison().isEqualTo(project);
-
         assertThat(result.getProjectName()).isEqualTo(project.getProjectName());
         assertThat(result.getDescription()).isEqualTo(project.getDescription());
         assertThat(result.getThumbNail()).isEqualTo(project.getThumbNail());

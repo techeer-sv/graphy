@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -21,10 +22,10 @@ import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentRequest;
 import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @WebMvcTest(FollowController.class)
 @ExtendWith(RestDocumentationExtension.class)
@@ -72,7 +73,7 @@ class FollowControllerTest extends MockApiTest {
         Long id = 1L;
 
         //then
-        mvc.perform(delete(baseUrl + "/{id}", id).principal(new TestingAuthenticationToken("testEmail", "testPassword")))
+        mvc.perform(RestDocumentationRequestBuilders.delete(baseUrl + "/{id}", id).principal(new TestingAuthenticationToken("testEmail", "testPassword")))
                 .andExpect(status().isNoContent())
                 .andDo(document("follow/remove/success",
                         getDocumentRequest(),
