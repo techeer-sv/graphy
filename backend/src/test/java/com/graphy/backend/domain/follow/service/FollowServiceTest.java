@@ -1,11 +1,11 @@
 package com.graphy.backend.domain.follow.service;
 
-import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.domain.follow.domain.Follow;
 import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.member.repository.MemberRepository;
+import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
 import org.assertj.core.api.Assertions;
@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -28,8 +29,6 @@ import static org.mockito.Mockito.*;
 class FollowServiceTest extends MockTest {
     @Mock
     FollowRepository followRepository;
-    @Mock
-    CustomUserDetailsService customUserDetailsService;
     @Mock
     MemberRepository memberRepository;
     @InjectMocks
@@ -160,23 +159,21 @@ class FollowServiceTest extends MockTest {
         assertTrue(exceptionMessage.equals("존재하지 않는 팔로우"));
     }
 
-//    @Test
-//    @DisplayName("팔로우 여부 체크 테스트")
-//    void followingCheckTest() throws Exception {
-//        //when
-//        when(followRepository.existsByFromIdAndToId(1L, 2L)).thenReturn(true);
-//        when(followRepository.existsByFromIdAndToId(3L, 4L)).thenReturn(false);
-//
-//        // then    assertThatThrownBy(() -> DoSomething.func())
-//        //            .isInstanceOf(RuntimeException.class);
-//
-//        assertThatThrownBy
-//        assertThrows(AlreadyExistException.class, () -> {
-//            ReflectionTestUtils.invokeMethod(followService, "followingCheck", 1L, 2L);
-//        });
-//
-//        assertDoesNotThrow(() -> {
-//            ReflectionTestUtils.invokeMethod(followService, "followingCheck", 3L, 4L);
-//        });
-//    }
+    @Test
+    @DisplayName("팔로우 여부 체크 테스트")
+    void followingCheckTest() throws Exception {
+        // given
+        when(followRepository.existsByFromIdAndToId(1L, 2L)).thenReturn(true);
+        when(followRepository.existsByFromIdAndToId(3L, 4L)).thenReturn(false);
+
+        // when & then
+        Member loginUser = new Member();
+        assertThatThrownBy(
+                        () -> followService.checkFollowingAlready(1L, 2L))
+                .isInstanceOf(AlreadyExistException.class)
+                .hasMessageContaining("이미 존재하는 팔로우");
+
+        Assertions.assertThatCode(() -> followService.checkFollowingAlready(3L, 4L))
+                .doesNotThrowAnyException();
+    }
 }

@@ -1,10 +1,11 @@
 package com.graphy.backend.domain.project.service;
 
+import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.member.domain.Role;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.ProjectTags;
 import com.graphy.backend.domain.project.domain.Tag;
-import com.graphy.backend.domain.project.domain.Tags;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
@@ -12,7 +13,6 @@ import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
 import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -34,20 +34,22 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class ProjectServiceTest extends MockTest {
+class ProjectServiceTest extends MockTest {
 
     @Mock
     private ProjectRepository projectRepository;
 
     @Mock
     private ProjectTagService projectTagService;
+
+    @Mock
+    private TagService tagService;
 
     @Mock
     private CustomUserDetailsService customUserDetailsService;
@@ -57,7 +59,7 @@ public class ProjectServiceTest extends MockTest {
 
     @Test
     @DisplayName("프로젝트 수정 테스트")
-    public void updateProject() throws Exception {
+    void updateProject() throws Exception {
         //given
         Project project = Project.builder()
                 .id(1L)
@@ -76,38 +78,26 @@ public class ProjectServiceTest extends MockTest {
                 .techTags(new ArrayList<>(Arrays.asList("Spring", "Django")))
                 .build();
 
-        UpdateProjectResponse response = UpdateProjectResponse.builder()
-                .projectName(request.getProjectName())
-                .description(request.getDescription())
-                .thumbNail(request.getThumbNail())
-                .content(request.getContent())
-                .techTags(request.getTechTags())
-                .build();
-
         Tag tag1 = Tag.builder().tech("Spring").build();
         Tag tag2 = Tag.builder().tech("Django").build();
-        Tags tags = new Tags(Arrays.asList(tag1, tag2));
 
-        project.updateProject(request.getProjectName(), request.getContent(), request.getDescription(),
-                tags, request.getThumbNail());
 
         //when
         when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
-        when(UpdateProjectResponse.from(project)).thenReturn(response);
+        when(tagService.findTagByTech("Spring")).thenReturn(tag1);
+        when(tagService.findTagByTech("Django")).thenReturn(tag2);
 
         UpdateProjectResponse result = projectService.modifyProject(project.getId(), request);
 
-        assertAll(
-                () -> assertThat(result.getProjectName()).isEqualTo(project.getProjectName()),
-                () -> assertThat(result.getDescription()).isEqualTo(project.getDescription()),
-                () -> assertThat(result.getThumbNail()).isEqualTo(project.getThumbNail()),
-                () -> assertThat(result.getTechTags()).isEqualTo(new ArrayList<>(Arrays.asList("Spring", "Django")))
-        );
+        assertThat(result.getProjectName()).isEqualTo(project.getProjectName());
+        assertThat(result.getDescription()).isEqualTo(project.getDescription());
+        assertThat(result.getThumbNail()).isEqualTo(project.getThumbNail());
+        assertThat(result.getTechTags()).isEqualTo(new ArrayList<>(Arrays.asList("Spring", "Django")));
     }
 
     @Test
     @DisplayName("프로젝트 생성 테스트")
-    public void createProject() throws Exception {
+    void createProject() throws Exception {
         //given
         Member member = Member.builder().email("graphy").id(1L).build();
         List<String> techTags = new ArrayList<>(Arrays.asList("Spring", "Django"));
@@ -123,17 +113,8 @@ public class ProjectServiceTest extends MockTest {
                 .techTags(techTags).
                 build();
 
-        CreateProjectResponse response = CreateProjectResponse.builder()
-                .projectId(project.getId())
-                .build();
-
-        Tag tag1 = Tag.builder().tech("Spring").build();
-        Tag tag2 = Tag.builder().tech("Django").build();
-
         //when
-        when(request.toEntity(member)).thenReturn(project);
-        when(projectRepository.save(project)).thenReturn(project);
-        when(CreateProjectResponse.from(project.getId())).thenReturn(response);
+        when(projectRepository.save(any(Project.class))).thenReturn(project);
         CreateProjectResponse result = projectService.addProject(request, member);
 
         //then
@@ -143,12 +124,19 @@ public class ProjectServiceTest extends MockTest {
 
     @Test
     @DisplayName("프로젝트 리스트 조회")
-    public void getProjects() throws Exception {
+    void getProjects() throws Exception {
         //given
         GetProjectsRequest request = GetProjectsRequest.builder().projectName("name").build();
 
-        Project project1 = Project.builder().projectName("test1").build();
-        Project project2 = Project.builder().projectName("test2").build();
+        Member member = Member.builder()
+                .id(1L)
+                .email("graphy@gmail.com")
+                .nickname("name")
+                .role(Role.ROLE_USER)
+                .build();
+
+        Project project1 = Project.builder().projectName("test1").member(member).projectTags(new ProjectTags()).build();
+        Project project2 = Project.builder().projectName("test2").member(member).projectTags(new ProjectTags()).build();
 
         GetProjectResponse response1 = GetProjectResponse.builder().projectName(project1.getProjectName()).build();
         GetProjectResponse response2 = GetProjectResponse.builder().projectName(project2.getProjectName()).build();
@@ -169,20 +157,17 @@ public class ProjectServiceTest extends MockTest {
         when(projectRepository.searchProjectsWith(pageable, request.getProjectName(), request.getContent()))
                 .thenReturn(projects);
 
-        when(GetProjectResponse.listOf(projects)).thenReturn(responses);
-
         List<GetProjectResponse> result = projectService.findProjectList(request, pageable);
 
         //then
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).hasSize(2);
         assertThat(result.get(0).getProjectName()).isEqualTo("test1");
         assertThat(result.get(1).getProjectName()).isEqualTo("test2");
-        assertThat(result).isEqualTo(responseList);
     }
 
     @Test
     @DisplayName("프로젝트 삭제")
-    public void deleteProject() throws Exception {
+    void deleteProject() throws Exception {
         //when
         projectService.removeProject(1L);
 

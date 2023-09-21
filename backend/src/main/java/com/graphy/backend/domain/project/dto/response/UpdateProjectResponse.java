@@ -29,6 +29,8 @@ public class UpdateProjectResponse {
                 .projectName(project.getProjectName())
                 .content(project.getContent())
                 .thumbNail(project.getThumbNail())
-                .description(project.getDescription()).build();
+                .description(project.getDescription())
+                .techTags(project.getTagNames())
+                .build();
     }
 }

@@ -1,11 +1,10 @@
 package com.graphy.backend.domain.follow.service;
 
 import com.graphy.backend.domain.follow.domain.Follow;
+import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
-import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.repository.MemberRepository;
-import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -23,7 +22,6 @@ import java.util.List;
 public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
-    private final CustomUserDetailsService customUserDetailsService;
 
     public void addFollow(Long toId, Member loginUser) {
         Long fromId = loginUser.getId();
@@ -52,7 +50,7 @@ public class FollowService {
         return followRepository.findFollowings(loginUser.getId());
     }
 
-    private void checkFollowingAlready(Long fromId, Long toId) {
+    public void checkFollowingAlready(Long fromId, Long toId) {
         if (followRepository.existsByFromIdAndToId(fromId, toId)) {
             throw new AlreadyExistException(ErrorCode.FOLLOW_ALREADY_EXIST);
         }

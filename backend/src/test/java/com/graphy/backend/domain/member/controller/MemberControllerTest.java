@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(MemberController.class)
 @ExtendWith(RestDocumentationExtension.class)
-public class MemberControllerTest extends MockApiTest {
+class MemberControllerTest extends MockApiTest {
     @Autowired
     private WebApplicationContext context;
     @MockBean
