@@ -4,7 +4,6 @@ import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.config.SecurityConfig;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +36,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
@@ -114,7 +114,6 @@ class ProjectControllerTest extends MockApiTest {
         GetProjectsRequest request = GetProjectsRequest.builder()
                 .projectName(projectName).build();
 
-        PageRequest pageRequest = new PageRequest();
         List<GetProjectResponse> result = new ArrayList<GetProjectResponse>();
 
         for (int i = 0; i < 5; i++) {
@@ -131,7 +130,6 @@ class ProjectControllerTest extends MockApiTest {
         info.add("size", "5");
 
         // when & then
-        String body = objectMapper.writeValueAsString(request);
         mvc.perform(get(baseUrl).params(info))
                 .andExpect(status().isOk())
                 .andDo(document("project/list/success",

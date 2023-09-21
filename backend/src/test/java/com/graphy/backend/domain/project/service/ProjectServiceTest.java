@@ -6,7 +6,6 @@ import com.graphy.backend.domain.member.domain.Role;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.ProjectTags;
 import com.graphy.backend.domain.project.domain.Tag;
-import com.graphy.backend.domain.project.domain.Tags;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
@@ -79,17 +78,9 @@ class ProjectServiceTest extends MockTest {
                 .techTags(new ArrayList<>(Arrays.asList("Spring", "Django")))
                 .build();
 
-        UpdateProjectResponse response = UpdateProjectResponse.builder()
-                .projectName(request.getProjectName())
-                .description(request.getDescription())
-                .thumbNail(request.getThumbNail())
-                .content(request.getContent())
-                .techTags(request.getTechTags())
-                .build();
-
         Tag tag1 = Tag.builder().tech("Spring").build();
         Tag tag2 = Tag.builder().tech("Django").build();
-        Tags tags = new Tags(Arrays.asList(tag1, tag2));
+
 
         //when
         when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
@@ -97,6 +88,8 @@ class ProjectServiceTest extends MockTest {
         when(tagService.findTagByTech("Django")).thenReturn(tag2);
 
         UpdateProjectResponse result = projectService.modifyProject(project.getId(), request);
+
+        assertThat(result).usingRecursiveComparison().isEqualTo(project);
 
         assertThat(result.getProjectName()).isEqualTo(project.getProjectName());
         assertThat(result.getDescription()).isEqualTo(project.getDescription());
@@ -121,13 +114,6 @@ class ProjectServiceTest extends MockTest {
                 .projectName("testProject")
                 .techTags(techTags).
                 build();
-
-        CreateProjectResponse response = CreateProjectResponse.builder()
-                .projectId(project.getId())
-                .build();
-
-        Tag tag1 = Tag.builder().tech("Spring").build();
-        Tag tag2 = Tag.builder().tech("Django").build();
 
         //when
         when(projectRepository.save(any(Project.class))).thenReturn(project);
