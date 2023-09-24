@@ -67,7 +67,7 @@ while True:
     try:
         companies = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplCo')))
         contents = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplTit strong a.link')))
-        date_elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span.date.dotum')))
+        dates = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span.date.dotum')))
         urls = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplTit strong a.link')))
     except:
         break
@@ -78,7 +78,7 @@ while True:
         company_name = companies[i].text.strip()
         content = contents[i].get_attribute("title").strip()
 
-        date_text = date_elements[i].text.strip()
+        date_text = dates[i].text.strip()
         date_match = re.search(r"~(\d{2}/\d{2})\((\w+)\)", date_text)
 
         if date_match:
