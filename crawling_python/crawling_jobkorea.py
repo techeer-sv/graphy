@@ -76,7 +76,10 @@ while True:
 
     for i in range(len(companies)):
         company_name = companies[i].text.strip()
-        content = contents[i].get_attribute("title").strip()
+        content = contents[i].get_attribute("title")
+
+        if not content:
+            content = contents[i].text.strip()
 
         date_text = dates[i].text.strip()
         date_match = re.search(r"~(\d{2}/\d{2})\((\w+)\)", date_text)
@@ -105,14 +108,6 @@ while True:
         url = urls[i].get_attribute("href")
 
         data_list.append((company_name, content, expiration_date, url))
-
-    # 데이터 출력
-    for data in data_list:
-        print("회사:", data[0])
-        print("제목:", data[1])
-        print("만료일:", data[2])
-        print("URL:", data[3])
-        print()
 
     insert_query = "INSERT INTO job (company_name, title, expiration_date, url) VALUES (%s, %s, %s, %s)"
     cursor.executemany(insert_query, data_list)
