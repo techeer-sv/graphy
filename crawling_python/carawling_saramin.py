@@ -32,26 +32,23 @@ while True:
     wait = WebDriverWait(driver, 10)
 
     try:
-        companies = wait.until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_item .col.company_nm a.str_tit, .list_item .col.company_nm span.str_tit')))
+        companies = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_item .col.company_nm a.str_tit, .list_item .col.company_nm span.str_tit')))
+        contents = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_body .col.notification_info .job_tit .str_tit')))
+        urls = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_body .col.notification_info .job_tit a.str_tit')))
+        dates = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_body .col.support_info .support_detail .date')))
     except:
         break
-
-    companies = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_item .col.company_nm a.str_tit, .list_item .col.company_nm span.str_tit')))
-    titles = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_body .col.notification_info .job_tit .str_tit')))
-    links = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_body .col.notification_info .job_tit a.str_tit')))
-    elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_body .col.support_info .support_detail .date')))
 
     data_list = []
 
     for i in range(len(companies)):
         company = companies[i].text
-        title = titles[i].text
-        link = links[i].get_attribute('href')
-        date_text = elements[i].text
+        content = contents[i].text
+        url = urls[i].get_attribute('href')
+        date_text = dates[i].text
 
         match_d = re.search(r"D-(\d+)", date_text)
-        # "~MM.dd(요일)" 형식인 경우
+
         match_date = re.search(r"~(\d+\.\d+)\((\w+)\)", date_text)
 
         if match_d:
@@ -65,7 +62,7 @@ while True:
             date_text = f"{current_year}-{month_day}"
             date = datetime.strptime(date_text, "%Y-%m.%d").strftime("%Y-%m-%d %H:%M:%S.%f")
 
-        data_list.append((company, title, link, date))
+        data_list.append((company, content, url, date))
 
     insert_query = "INSERT INTO job (company_name, title, url, expiration_date) VALUES (%s, %s, %s, %s)"
     cursor.executemany(insert_query, data_list)
