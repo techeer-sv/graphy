@@ -33,7 +33,7 @@ while True:
 
     try:
         companies = wait.until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_item .col.company_nm a.str_tit')))
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.list_item .col.company_nm a.str_tit, .list_item .col.company_nm span.str_tit')))
     except:
         break
 
