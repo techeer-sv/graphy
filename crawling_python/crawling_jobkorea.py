@@ -34,60 +34,45 @@ while True:
     driver.get(url)
 
     if page_number == 1:
-        # 직무 클릭
+
         duty_btn = driver.find_element(By.CSS_SELECTOR, 'p.btn_tit')
         duty_btn.click()
 
-        # 개발·데이터 클릭
         dev_data_label = driver.find_element(By.CSS_SELECTOR, 'label[for="duty_step1_10031"]')
         dev_data_label.click()
 
-        # 백엔드개발자 클릭
         backend_dev = driver.find_element(By.XPATH, '//span[contains(text(), "백엔드개발자")]')
         backend_dev.click()
 
-        # 프론트엔드개발자 클릭
         frontend_dev = driver.find_element(By.XPATH, '//span[contains(text(), "프론트엔드개발자")]')
         frontend_dev.click()
 
-        # 웹개발자 클릭
         web_dev = driver.find_element(By.XPATH, '//span[contains(text(), "웹개발자")]')
         web_dev.click()
 
-        # 앱개발자 클릭
         app_dev = driver.find_element(By.XPATH, '//span[contains(text(), "앱개발자")]')
         app_dev.click()
 
-        # 경력 클릭
         career_btn = driver.find_element(By.XPATH, '//p[contains(text(), "경력")]')
         career_btn.click()
 
-        # 신입 클릭
         newbie_label = driver.find_element(By.XPATH, '//label[contains(@for, "career1") and .//span[text()="신입"]]')
         newbie_label.click()
 
-        time.sleep(2)
-
-        # 선택된 조건 검색하기 클릭
         search_button = driver.find_element(By.ID, 'dev-btn-search')
         search_button.click()
 
-    time.sleep(4)
+        time.sleep(4)
 
     try:
         companies = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplCo')))
+        contents = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplTit strong a.link')))
+        date_elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span.date.dotum')))
+        urls = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplTit strong a.link')))
     except:
         break
 
-    companies = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplCo')))
-    contents = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplTit strong a.link.normalLog')))
-    date_elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span.date.dotum')))
-    urls = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplTit strong a.link.normalLog')))
-
-    if not companies:
-        break
-
-    data_list = []  # 데이터 저장을 위한 빈 리스트 생성
+    data_list = []
 
     for i in range(len(companies)):
         company_name = companies[i].text.strip()
@@ -129,12 +114,10 @@ while True:
         print("URL:", data[3])
         print()
 
-    # 데이터베이스에 데이터 추가
     insert_query = "INSERT INTO job (company_name, title, expiration_date, url) VALUES (%s, %s, %s, %s)"
     cursor.executemany(insert_query, data_list)
     db.commit()
 
     page_number += 1
 
-# 브라우저 종료
 driver.quit()
