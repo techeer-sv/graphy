@@ -3,7 +3,10 @@ package com.graphy.backend.domain.project.domain;
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.global.common.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,6 +21,10 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+/*
+ * TODO
+ * Hard Delete 하기 위해서 제거해야 될 거 같아요
+ */
 @SQLDelete(sql = "UPDATE project SET is_deleted = true WHERE project_id = ?")
 @Where(clause = "is_deleted = false")
 public class Project extends BaseEntity {
