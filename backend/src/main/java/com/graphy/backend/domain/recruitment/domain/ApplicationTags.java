@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Embeddable
 @AllArgsConstructor
 public class ApplicationTags {
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
     private List<ApplicationTag> value;
 
     public ApplicationTags() {
