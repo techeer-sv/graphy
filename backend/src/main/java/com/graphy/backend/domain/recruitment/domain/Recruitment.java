@@ -38,4 +38,7 @@ public class Recruitment extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime period;
+
+    @Embedded
+    private RecruitmentTags recruitmentTags;
 }

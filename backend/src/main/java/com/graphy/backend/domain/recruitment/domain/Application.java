@@ -31,4 +31,7 @@ public class Application {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Embedded
+    private ApplicationTags applicationTags;
 }

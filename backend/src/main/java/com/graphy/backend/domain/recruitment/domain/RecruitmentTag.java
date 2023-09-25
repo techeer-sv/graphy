@@ -25,4 +25,9 @@ public class RecruitmentTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
+    public RecruitmentTag(Recruitment recruitment, Tag tag) {
+        this.recruitment = recruitment;
+        this.tag = tag;
+    }
 }
