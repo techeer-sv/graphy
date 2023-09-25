@@ -3,6 +3,8 @@ package com.graphy.backend.domain.project.service;
 import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
+import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.Tag;
 import com.graphy.backend.domain.project.domain.Tags;
@@ -12,7 +14,6 @@ import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
 import com.graphy.backend.domain.project.dto.response.*;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.domain.project.repository.TagRepository;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
@@ -22,7 +23,6 @@ import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,10 +30,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -46,11 +42,10 @@ import static com.graphy.backend.global.config.ChatGPTConfig.MAX_REQUEST_TOKEN;
 public class ProjectService {
     private final ProjectRepository projectRepository;
 
+    private final MemberService memberService;
     private final ProjectTagService projectTagService;
-    private final TagRepository tagRepository;
     private final CommentService commentService;
     private final TagService tagService;
-
     private final GPTChatRestService gptChatRestService;
 
 //    @PostConstruct
@@ -119,11 +114,23 @@ public class ProjectService {
         return GetProjectResponse.listOf(projects).getContent();
     }
 
+    public List<GetProjectResponse> findFollowingProjectList(Member loginUser, Pageable pageable) {
+        Member member = memberService.findMemberById(loginUser.getId());
+        Page<Project> projects = projectRepository.findFollowingProjects(pageable, member.getId());
+        return GetProjectResponse.listOf(projects).getContent();
+    }
+
     public List<GetProjectInfoResponse> findProjectInfoList(Long id) {
         return projectRepository.findByMemberId(id).stream()
                 .map(GetProjectInfoResponse::from)
                 .collect(Collectors.toList());
     }
+
+    public GetMyPageResponse myPage(Member member) {
+        List<GetProjectInfoResponse> projectInfoList = this.findProjectInfoList(member.getId());
+        return GetMyPageResponse.of(member, projectInfoList);
+    }
+
 
     public Project getProjectById(Long id) {
         return projectRepository.findById(id).orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
