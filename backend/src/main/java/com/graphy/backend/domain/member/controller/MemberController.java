@@ -5,6 +5,7 @@ import com.graphy.backend.domain.member.dto.response.GetMemberResponse;
 import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
 import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
+import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberController {
     private final MemberService memberService;
+    private final ProjectService projectService;
 
     @Operation(summary = "get member", description = "사용자 조회")
     @GetMapping()
@@ -34,7 +36,7 @@ public class MemberController {
     @Operation(summary = "myPage", description = "마이페이지")
     @GetMapping("/mypage")
     public ResponseEntity<ResultResponse> myPage(@CurrentUser Member member) {
-        GetMyPageResponse result = memberService.myPage(member);
+        GetMyPageResponse result = projectService.myPage(member);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
     }
 }
