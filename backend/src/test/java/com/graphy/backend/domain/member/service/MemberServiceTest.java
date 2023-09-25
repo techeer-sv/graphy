@@ -62,7 +62,7 @@ class MemberServiceTest extends MockTest {
 
     @Test
     @DisplayName("닉네임으로 사용자 목록을 조회한다")
-    public void findMemberListTest() throws Exception {
+    void findMemberListTest() {
         // given
         List<Member> memberList = Arrays.asList(member1, member2);
         
@@ -78,7 +78,7 @@ class MemberServiceTest extends MockTest {
 
     @Test
     @DisplayName("닉네임으로 사용자 목록을 조회 시 일치하는 사용자가 없으면 빈 목록이 반환된다")
-    public void findMemberListEmptyListTest() throws Exception {
+    void findMemberListEmptyListTest() {
         // given
         String 존재하지_않는_닉네임 = "emptyListNickname";
 
@@ -94,7 +94,7 @@ class MemberServiceTest extends MockTest {
 
     @Test
     @DisplayName("사용자 ID로 사용자를 조회한다")
-    public void findMemberByIdTest() throws Exception {
+    void findMemberByIdTest() {
         // when
         when(memberRepository.findById(member1.getId())).thenReturn(Optional.ofNullable(member1));
         Member actual = memberService.findMemberById(member1.getId());
@@ -105,7 +105,7 @@ class MemberServiceTest extends MockTest {
 
     @Test
     @DisplayName("사용자 ID로 사용자를 조회 시 사용자가 존재하지 않으면 예외가 발생한다")
-    public void findMemberByIdNotExistMemberExceptionTest() throws Exception {
+    void findMemberByIdNotExistMemberExceptionTest() {
         // given
         Long 존재하지_않는_사용자_ID = 0L;
 
@@ -118,7 +118,7 @@ class MemberServiceTest extends MockTest {
 
     @Test
     @DisplayName("현재 로그인한 사용자를 상세 조회한다")
-    public void myPageTest() throws Exception {
+    void myPageTest() {
         // given
         GetProjectInfoResponse response1 = GetProjectInfoResponse.builder()
                 .id(1L)
@@ -136,7 +136,7 @@ class MemberServiceTest extends MockTest {
 
         // when
         when(projectService.findProjectInfoList(member1.getId())).thenReturn(responseList);
-        GetMyPageResponse actual = memberService.myPage(member1);
+        GetMyPageResponse actual = projectService.myPage(member1);
 
         // then
         assertThat(actual.getNickname()).isEqualTo(member1.getNickname());
@@ -151,7 +151,7 @@ class MemberServiceTest extends MockTest {
 
     @Test
     @DisplayName("이메일이 중복된 경우 예외가 발생한다")
-    public void checkEmailDuplicateTest() throws Exception {
+    void checkEmailDuplicateTest() {
         // given
         String 중복된_이메일 = member1.getEmail();
 
@@ -167,7 +167,7 @@ class MemberServiceTest extends MockTest {
 
     @Test
     @DisplayName("사용자를 저장한다")
-    public void addMemberTest() throws Exception {
+    void addMemberTest() {
         // when, then
         assertDoesNotThrow(() -> memberService.addMember(member1));
     }

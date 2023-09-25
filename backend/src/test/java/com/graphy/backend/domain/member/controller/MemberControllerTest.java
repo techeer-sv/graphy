@@ -6,6 +6,7 @@ import com.graphy.backend.domain.member.dto.response.GetMemberResponse;
 import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
 import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
+import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.test.MockApiTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,10 @@ class MemberControllerTest extends MockApiTest {
     private WebApplicationContext context;
     @MockBean
     MemberService memberService;
-    private static String BASE_URL = "/api/v1/members";
+    @MockBean
+    ProjectService projectService;
+
+    private static final String BASE_URL = "/api/v1/members";
 
     private Member member1;
     private Member member2;
@@ -135,7 +139,7 @@ class MemberControllerTest extends MockApiTest {
                 .build();
 
         // when
-        when(memberService.myPage(any())).thenReturn(result);
+        when(projectService.myPage(any())).thenReturn(result);
 
 
         // then
