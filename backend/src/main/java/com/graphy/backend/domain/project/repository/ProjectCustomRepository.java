@@ -6,4 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProjectCustomRepository {
     Page<Project> searchProjectsWith(Pageable pageable, String projectName, String content);
+
+    Page<Project> findFollowingProjects(Pageable pageable, Long fromId);
 }
