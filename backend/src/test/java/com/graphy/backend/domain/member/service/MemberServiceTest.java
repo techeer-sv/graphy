@@ -3,10 +3,7 @@ package com.graphy.backend.domain.member.service;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
 import com.graphy.backend.domain.member.dto.response.GetMemberResponse;
-import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
 import com.graphy.backend.domain.member.repository.MemberRepository;
-import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
-import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
@@ -18,7 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -32,8 +32,6 @@ class MemberServiceTest extends MockTest {
     private MemberService memberService;
     @Mock
     private MemberRepository memberRepository;
-    @Mock
-    private ProjectService projectService;
 
     private Member member1;
     private Member member2;
@@ -114,39 +112,6 @@ class MemberServiceTest extends MockTest {
                 () -> memberService.findMemberById(존재하지_않는_사용자_ID))
                 .isInstanceOf(EmptyResultException.class)
                 .hasMessageContaining("존재하지 않는 사용자");
-    }
-
-    @Test
-    @DisplayName("현재 로그인한 사용자를 상세 조회한다")
-    void myPageTest() {
-        // given
-        GetProjectInfoResponse response1 = GetProjectInfoResponse.builder()
-                .id(1L)
-                .projectName("project1")
-                .description("description1")
-                .build();
-
-        GetProjectInfoResponse response2 = GetProjectInfoResponse.builder()
-                .id(2L)
-                .projectName("project2")
-                .description("description2")
-                .build();
-
-        List<GetProjectInfoResponse> responseList = Arrays.asList(response1, response2);
-
-        // when
-        when(projectService.findProjectInfoList(member1.getId())).thenReturn(responseList);
-        GetMyPageResponse actual = projectService.myPage(member1);
-
-        // then
-        assertThat(actual.getNickname()).isEqualTo(member1.getNickname());
-        assertThat(actual.getIntroduction()).isEqualTo(member1.getIntroduction());
-        assertThat(actual.getFollowerCount()).isEqualTo(member1.getFollowerCount());
-        assertThat(actual.getFollowingCount()).isEqualTo(member1.getFollowingCount());
-
-        assertThat(actual.getGetProjectInfoResponseList())
-                .usingRecursiveComparison()
-                .isEqualTo(responseList);
     }
 
     @Test

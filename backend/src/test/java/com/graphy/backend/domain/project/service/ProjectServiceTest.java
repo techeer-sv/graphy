@@ -3,6 +3,7 @@ package com.graphy.backend.domain.project.service;
 import com.graphy.backend.domain.auth.service.CustomUserDetailsService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.domain.Role;
+import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.ProjectTags;
 import com.graphy.backend.domain.project.domain.Tag;
@@ -10,6 +11,7 @@ import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
 import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
 import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
@@ -69,6 +71,7 @@ class ProjectServiceTest extends MockTest {
                 .thumbNail("thumb")
                 .content("content")
                 .build();
+
 
         UpdateProjectRequest request = UpdateProjectRequest.builder()
                 .projectName("afterUpdate")
@@ -174,10 +177,70 @@ class ProjectServiceTest extends MockTest {
         //then
         verify(projectRepository).deleteById(1L);
     }
+    @Test
+    @DisplayName("현재 로그인한 사용자를 상세 조회한다")
+    void myPageTest() {
+        // given
+        Member member1 = Member.builder()
+                .id(1L)
+                .email("email1@gmail.com")
+                .nickname("name1")
+                .introduction("introduction1")
+                .followingCount(10)
+                .followerCount(11)
+                .role(Role.ROLE_USER)
+                .build();
+
+        Project project = Project.builder()
+                .id(1L)
+                .projectTags(new ProjectTags())
+                .projectName("project1")
+                .description("description1")
+                .thumbNail("thumb")
+                .content("content")
+                .build();
+
+        Project project2 = Project.builder()
+                .id(2L)
+                .projectTags(new ProjectTags())
+                .projectName("project2")
+                .description("description2")
+                .thumbNail("thumb")
+                .content("content")
+                .build();
+
+        GetProjectInfoResponse response1 = GetProjectInfoResponse.builder()
+                .id(1L)
+                .projectName("project1")
+                .description("description1")
+                .build();
+
+        GetProjectInfoResponse response2 = GetProjectInfoResponse.builder()
+                .id(2L)
+                .projectName("project2")
+                .description("description2")
+                .build();
+
+        List<GetProjectInfoResponse> responseList = Arrays.asList(response1, response2);
+
+        // when
+        when(projectRepository.findByMemberId(member1.getId())).thenReturn(List.of(project, project2));
+        GetMyPageResponse actual = projectService.myPage(member1);
+
+        // then
+        assertThat(actual.getNickname()).isEqualTo(member1.getNickname());
+        assertThat(actual.getIntroduction()).isEqualTo(member1.getIntroduction());
+        assertThat(actual.getFollowerCount()).isEqualTo(member1.getFollowerCount());
+        assertThat(actual.getFollowingCount()).isEqualTo(member1.getFollowingCount());
+
+        assertThat(actual.getGetProjectInfoResponseList())
+                .usingRecursiveComparison()
+                .isEqualTo(responseList);
+    }
 
     @Test
     @DisplayName("프로젝트 조회 시 존재하지 않는 프로젝트 예외 처리")
-    public void ProjectNotExistError() {
+    void ProjectNotExistError() {
         // given
         Long projectId = 1L;
 
@@ -192,7 +255,7 @@ class ProjectServiceTest extends MockTest {
 
     @Test
     @DisplayName("프로젝트 삭제 시 존재하지 않는 프로젝트 예외 처리")
-    public void EmptyResultDataAccessException() throws Exception {
+    void EmptyResultDataAccessException() throws Exception {
         // given
         doThrow(EmptyResultDataAccessException.class).when(projectRepository).deleteById(anyLong());
 
