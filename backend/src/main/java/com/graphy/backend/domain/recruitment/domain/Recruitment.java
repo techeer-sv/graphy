@@ -39,6 +39,7 @@ public class Recruitment extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime period;
 
-    @Embedded
-    private RecruitmentTags recruitmentTags;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Position position;
 }

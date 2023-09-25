@@ -32,6 +32,6 @@ public class Application {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Embedded
-    private ApplicationTags applicationTags;
+    @Enumerated(EnumType.STRING)
+    private Position position;
 }
