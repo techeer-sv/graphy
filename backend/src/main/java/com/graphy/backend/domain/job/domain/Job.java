@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Job {
     @Id
     @Column(name = "job_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
