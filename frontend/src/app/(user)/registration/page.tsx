@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useRecoilValue } from 'recoil'
@@ -54,6 +54,7 @@ export default function Registration() {
   const persistToken =
     typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
   const autoLogin = useRecoilValue(autoLoginState)
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const {
     register,
     handleSubmit,
@@ -90,8 +91,11 @@ export default function Registration() {
     const res1Data = await res1.json()
 
     if (!res1.ok) {
+      setErrorMessage(res1Data.message)
       throw new Error(res1Data.message)
     }
+
+    setErrorMessage('')
 
     const res2 = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signin`,
@@ -188,6 +192,7 @@ export default function Registration() {
             placeholder="한 줄 소개"
           />
           <p className="text-sm">{errors.introduction?.message}</p>
+          {errorMessage ? <p className="text-sm">{errorMessage}</p> : null}
           <button
             className=" mt-4 mb-8 flex h-[48px] items-center rounded-3xl border bg-graphyblue"
             type="submit"
