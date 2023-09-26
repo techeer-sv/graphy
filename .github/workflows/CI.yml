@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["feature"]
+    branches: ["feature", "FE/#207"]
   pull_request:
-    branches: ["feature"]
+    branches: ["feature", "FE/#207"]
 
 jobs:
   backend-test:
