@@ -100,7 +100,7 @@ export default function Login() {
       alert('이미 로그인 상태입니다.')
       router.push('/')
     }
-  }, [accessToken, persistToken, router])
+  }, [])
 
   return (
     <div className=" h-auto min-h-screen w-screen bg-zinc-200 pt-10 pb-10">
