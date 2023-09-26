@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import * as yup from 'yup'
 
 import Image from 'next/image'
@@ -53,7 +53,7 @@ export default function Registration() {
     typeof window !== 'undefined' ? sessionStorage.getItem('accessToken') : null
   const persistToken =
     typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
-  const [autoLogin] = useRecoilState(autoLoginState)
+  const autoLogin = useRecoilValue(autoLoginState)
   const {
     register,
     handleSubmit,
