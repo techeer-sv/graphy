@@ -2,31 +2,13 @@ import re
 import time
 from datetime import datetime, timedelta
 
-from selenium import webdriver
+from global_utils import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-import mysql.connector
-import os
 from dotenv import load_dotenv
 from selenium.webdriver.support.wait import WebDriverWait
 
 load_dotenv()
-
-def get_database_connect():
-    return mysql.connector.connect(
-        host="localhost",
-        port=3307,
-        user=os.getenv('DB_USERNAME'),
-        password=os.getenv('DB_USER_PASSWORD'),
-        database=os.getenv('DB_DATABASE')
-    )
-
-def get_driver():
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    driver = webdriver.Chrome(options=options)
-
-    return driver
 
 def crawling_job_data(driver, page_number):
     url = f'https://www.jobkorea.co.kr/Recruit/Joblist?menucode=local&localorder=1#anchorGICnt_{page_number}'
