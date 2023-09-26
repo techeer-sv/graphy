@@ -61,7 +61,7 @@ export default function Login() {
     router.push('/')
   }
 
-  function toSignup() {
+  function toRegistration() {
     router.push('/registration')
   }
 
@@ -170,7 +170,7 @@ export default function Login() {
           <button
             className="mx-4 font-ng-eb text-graphyblue"
             type="button"
-            onClick={() => toSignup()}
+            onClick={() => toRegistration()}
           >
             회원가입
           </button>
