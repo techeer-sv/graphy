@@ -9,4 +9,9 @@ const autoLoginState = atom({
   effects_UNSTABLE: [persistAtom],
 })
 
-export { autoLoginState }
+const exampleState = atom({
+  key: 'exampleState',
+  default: 'example',
+})
+
+export { autoLoginState, exampleState }
