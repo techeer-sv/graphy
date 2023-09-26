@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
@@ -40,6 +40,7 @@ export default function Login() {
   const persistToken =
     typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
   const [autoLogin, setAutoLogin] = useRecoilState(autoLoginState)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAutoLogin(event.target.checked)
@@ -61,7 +62,7 @@ export default function Login() {
     router.push('/')
   }
 
-  function toSignup() {
+  function toRegistration() {
     router.push('/registration')
   }
 
@@ -77,11 +78,14 @@ export default function Login() {
       }),
     })
 
+    const resData = await res.json()
+
     if (!res.ok) {
-      throw new Error('로그인에 실패했습니다.')
+      setErrorMessage('아이디 비밀번호를 확인해주세요.')
+      throw new Error(resData.message)
     }
 
-    const resData = await res.json()
+    setErrorMessage('')
 
     if (autoLogin) {
       localStorage.setItem('persistToken', resData.data.accessToken)
@@ -100,7 +104,7 @@ export default function Login() {
       alert('이미 로그인 상태입니다.')
       router.push('/')
     }
-  }, [accessToken, persistToken, router])
+  }, [])
 
   return (
     <div className=" h-auto min-h-screen w-screen bg-zinc-200 pt-10 pb-10">
@@ -135,6 +139,7 @@ export default function Login() {
             autoComplete="current-password"
           />
           <p className="text-sm">{errors.password?.message}</p>
+          {errorMessage ? <p className="text-sm">{errorMessage}</p> : null}
           <button
             className=" mt-10 flex h-[60px] items-center rounded-3xl border bg-graphyblue"
             type="submit"
@@ -161,16 +166,13 @@ export default function Login() {
               로그인 상태 유지
             </button>
           </div>
-          {/* <button className="ml-16 mr-0 text-xl" type="button">
-            비밀번호 찾기
-          </button> */}
         </div>
         <div className="m-auto mb-0 flex h-20 w-[450px] items-center justify-center border-t">
           <span>아직 회원이 아니세요?</span>
           <button
             className="mx-4 font-ng-eb text-graphyblue"
             type="button"
-            onClick={() => toSignup()}
+            onClick={() => toRegistration()}
           >
             회원가입
           </button>

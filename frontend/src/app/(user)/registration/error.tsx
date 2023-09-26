@@ -1,6 +1,6 @@
 'use client'
 
-export default function LoginError({
+export default function RegistrationError({
   error,
   reset,
 }: {
