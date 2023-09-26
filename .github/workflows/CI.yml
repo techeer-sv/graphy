@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["feature"]
+    branches: ["feature", "FE/#207"]
   pull_request:
-    branches: ["feature"]
+    branches: ["feature", "FE/#207"]
 
 jobs:
   backend-test:
@@ -70,15 +70,15 @@ jobs:
 
       - name: Install packages
         working-directory: frontend
-        run: npm ci
+        run: yarn install --immutable --immutable-cache --check-cache
 
       - name: Prettier
         working-directory: frontend
-        run: npm run format
+        run: yarn format
 
       - name: ESLint
         working-directory: frontend
-        run: npm run lint
+        run: yarn lint
 
       # - name: Frontend Test
       #   working-directory: frontend
