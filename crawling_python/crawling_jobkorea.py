@@ -96,7 +96,7 @@ while True:
         elif "모레마감" in date_text:
             expiration_date = datetime.now() + timedelta(days=2)
         elif "상시채용" in date_text:
-            expiration_date = datetime.now() + timedelta(days=365)
+            expiration_date = datetime.max
         else:
             expiration_date = None
 
