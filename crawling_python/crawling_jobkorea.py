@@ -12,29 +12,28 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 load_dotenv()
 
-db = mysql.connector.connect(
-    host="localhost",
-    port=3307,
-    user=os.getenv('DB_USERNAME'),
-    password=os.getenv('DB_USER_PASSWORD'),
-    database=os.getenv('DB_DATABASE')
-)
+def get_database_connect():
+    return mysql.connector.connect(
+        host="localhost",
+        port=3307,
+        user=os.getenv('DB_USERNAME'),
+        password=os.getenv('DB_USER_PASSWORD'),
+        database=os.getenv('DB_DATABASE')
+    )
 
-cursor = db.cursor()
+def get_driver():
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(options=options)
 
-driver = webdriver.Chrome()
+    return driver
 
-wait = WebDriverWait(driver, 10)
-
-page_number = 1
-
-while True:
-
+def crawling_job_data(driver, page_number):
     url = f'https://www.jobkorea.co.kr/Recruit/Joblist?menucode=local&localorder=1#anchorGICnt_{page_number}'
     driver.get(url)
+    wait = WebDriverWait(driver, 10)
 
     if page_number == 1:
-
         duty_btn = driver.find_element(By.CSS_SELECTOR, 'p.btn_tit')
         duty_btn.click()
 
@@ -70,7 +69,7 @@ while True:
         dates = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span.date.dotum')))
         urls = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'td.tplTit strong a.link')))
     except:
-        break
+        return None
 
     data_list = []
 
@@ -109,10 +108,28 @@ while True:
 
         data_list.append((company_name, content, expiration_date, url))
 
-    insert_query = "INSERT INTO job (company_name, title, expiration_date, url) VALUES (%s, %s, %s, %s)"
-    cursor.executemany(insert_query, data_list)
-    db.commit()
+    return data_list
 
-    page_number += 1
+def main():
+    driver = get_driver()
+    page_nuber = 1
 
-driver.quit()
+    while True:
+        job_data = crawling_job_data(driver, page_nuber)
+        if job_data is None:
+            break;
+
+        db = get_database_connect()
+        cursor = db.cursor()
+        insert_query = "INSERT INTO job (company_name, title, expiration_date, url) VALUES (%s, %s, %s, %s)"
+        cursor.executemany(insert_query, job_data)
+        db.commit()
+        cursor.close()
+        db.close()
+
+        page_nuber += 1
+
+    driver.quit()
+
+if __name__ == "__main__":
+    main()
