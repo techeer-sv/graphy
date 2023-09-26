@@ -60,7 +60,7 @@ while True:
             month_day, day_of_week = match_date.groups()
             current_year = datetime.now().year
             date_text = f"{current_year}-{month_day}"
-            date = datetime.strptime(date_text, "%Y-%m.%d").strftime("%Y-%m-%d %H:%M:%S.%f")
+            date = datetime.strptime(date_text, "%Y-%m.%d").strftime("%Y-%m-%d")
 
         data_list.append((company, content, url, date))
 

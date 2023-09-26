@@ -101,7 +101,7 @@ while True:
             expiration_date = None
 
         if expiration_date:
-            expiration_date = expiration_date.strftime("%Y-%m-%d %H:%M:%S.%f")
+            expiration_date = expiration_date.strftime("%Y-%m-%d")
         else:
             expiration_date = ""
 
