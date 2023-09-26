@@ -7,7 +7,7 @@ import 'swiper/css'
 import 'swiper/scss/pagination'
 import lotties from '../../utils/lotties'
 
-function Banner() {
+export default function Banner() {
   return (
     <div className="pt-16 pb-9">
       <Swiper
@@ -52,5 +52,3 @@ function Banner() {
     </div>
   )
 }
-
-export default Banner

@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import RecoilRootProvider from '../utils/recoilRootProvider'
+import QueryProvider from '../utils/queryProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RecoilRootProvider>{children}</RecoilRootProvider>
+        <QueryProvider>
+          <RecoilRootProvider>{children}</RecoilRootProvider>
+        </QueryProvider>
       </body>
     </html>
   )
