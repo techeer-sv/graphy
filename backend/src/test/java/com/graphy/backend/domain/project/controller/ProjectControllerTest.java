@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.project.controller;
 
-import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectPlanRequest;
@@ -57,10 +56,6 @@ class ProjectControllerTest extends MockApiTest {
     private WebApplicationContext context;
     @MockBean
     ProjectService projectService;
-
-    @MockBean
-    CommentService commentService;
-
     private static final String BASE_URL = "/api/v1/projects";
 
     @BeforeEach
