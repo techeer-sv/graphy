@@ -10,7 +10,7 @@ load_dotenv()
 
 
 def crawling_job_data(driver, page_number):
-    url = f'https://www.saramin.co.kr/zf_user/jobs/public/list?page={page_number}&isAjaxRequest=y&cat_kewd=84%2C92%2C87%2C86&company_cd=0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C9%2C10&panel_type=domestic&search_optional_item=n&search_done=y&panel_count=y&preview=y'
+    url = f'https://www.saramin.co.kr/zf_user/jobs/public/list?exp_cd=1&company_cd=0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C9%2C10&cat_kewd=84%2C86%2C87%2C92&panel_type=domestic&search_optional_item=y&search_done=y&panel_count=y&preview=y&page={page_number}&isAjaxRequest=y'
     driver.get(url)
 
     wait = WebDriverWait(driver, 10)
