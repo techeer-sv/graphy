@@ -16,6 +16,11 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @AllArgsConstructor
 @Builder
+
+/*
+ * TODO
+ * Hard Delete 하기 위해서 제거해야 될 거 같아요
+ */
 @SQLDelete(sql = "UPDATE comment SET is_deleted = true WHERE comment_id = ?")
 public class Comment extends BaseEntity {
 

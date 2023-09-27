@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.follow.domain;
 
-import com.graphy.backend.domain.member.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
