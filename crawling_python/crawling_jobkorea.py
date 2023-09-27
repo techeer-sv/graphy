@@ -10,7 +10,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 load_dotenv()
 
-def crawling_job_data(driver, page_number):
+def crawling_job_data(driver, page_number, existing_contents):
     url = f'https://www.jobkorea.co.kr/Recruit/Joblist?menucode=local&localorder=1#anchorGICnt_{page_number}'
     driver.get(url)
     wait = WebDriverWait(driver, 10)
@@ -88,7 +88,8 @@ def crawling_job_data(driver, page_number):
 
         url = urls[i].get_attribute("href")
 
-        data_list.append((company_name, content, expiration_date, url))
+        if content not in existing_contents:
+            data_list.append((company_name, content, expiration_date, url))
 
     return data_list
 
@@ -96,10 +97,17 @@ def main():
     driver = get_driver()
     page_nuber = 1
 
+    db = get_database_connect()
+    cursor = db.cursor()
+    cursor.execute("SELECT DISTINCT title FROM job")
+    existing_contents = {row[0] for row in cursor.fetchall()}
+    cursor.close()
+    db.close()
+
     while True:
-        job_data = crawling_job_data(driver, page_nuber)
+        job_data = crawling_job_data(driver, page_nuber, existing_contents)
         if job_data is None:
-            break;
+            break
 
         db = get_database_connect()
         cursor = db.cursor()
