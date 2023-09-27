@@ -14,5 +14,6 @@ logs/
 logs/
 
 backend/src/main/resources/application-local.yml
+backend/src/test/resources/application-test.yml
 
 backend/src/main/resources/static/docs/
