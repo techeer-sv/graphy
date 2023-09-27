@@ -33,7 +33,9 @@ jobs:
         run: |
           cd backend/src/main/resources
           touch ./application-local.yml
+          touch ./application-docker.yml
           echo "${{ secrets.TEST_PROPERTIES }}" > ./application-local.yml
+          echo "${{ secrets.DOCKER_TEST_PROPERTIES }}" > ./application-docker.yml
           cd ../../test/resources
           touch ./application-test.yml
           echo "${{ secrets.INTEGRATION_TEST_PROPERTIES }}" > ./application-test.yml
