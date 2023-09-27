@@ -31,8 +31,8 @@ import static org.assertj.core.api.Assertions.assertThat;
         JpaAuditingConfig.class,
         QueryDslConfig.class
 })
-@ActiveProfiles(TestProfile.TEST)
-public class CommentRepositoryTest {
+@ActiveProfiles(TestProfile.UNIT)
+class CommentRepositoryTest {
     @Autowired
     CommentRepository commentRepository;
 
@@ -107,7 +107,7 @@ public class CommentRepositoryTest {
 
     @Test
     @DisplayName("프로젝트 ID를 입력 받으면 마스킹을 적용한 댓글 목록을 조회한다")
-    public void findCommentWithMakingTest() throws Exception {
+    void findCommentWithMakingTest() throws Exception {
         // given
         Comment parentComment2 = commentRepository.save(Comment.builder()
                 .content("comment1")
@@ -135,7 +135,7 @@ public class CommentRepositoryTest {
 
     @Test
     @DisplayName("댓글 목록 조회 시 댓글이 없으면 빈 리스트가 반환된다")
-    public void findCommentWithMakingEmptyListTest() throws Exception {
+    void findCommentWithMakingEmptyListTest() throws Exception {
         // given
         clearRepository();
 
@@ -148,7 +148,7 @@ public class CommentRepositoryTest {
 
     @Test
     @DisplayName("댓글 ID를 입력 받아 답글 목록을 조회한다")
-    public void findReCommentListTest() throws Exception {
+    void findReCommentListTest() throws Exception {
         // when
         List<GetReplyListResponse> actual = commentRepository.findReplyList(parentComment.getId());
 
@@ -170,7 +170,7 @@ public class CommentRepositoryTest {
 
     @Test
     @DisplayName("답글 목록 조회 시 답글이 없으면 빈 리스트가 반환된다")
-    public void findReCommentListEmptyListTest() throws Exception {
+    void findReCommentListEmptyListTest() throws Exception {
         // given
         Long 답글이_존재하지_않는_댓글_ID = 0L;
 
