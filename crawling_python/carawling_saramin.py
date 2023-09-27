@@ -9,7 +9,7 @@ import re
 load_dotenv()
 
 
-def crawling_job_data(driver, page_number):
+def crawling_job_data(driver, page_number, existing_contents):
     url = f'https://www.saramin.co.kr/zf_user/jobs/public/list?exp_cd=1&company_cd=0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C9%2C10&cat_kewd=84%2C86%2C87%2C92&panel_type=domestic&search_optional_item=y&search_done=y&panel_count=y&preview=y&page={page_number}&isAjaxRequest=y'
     driver.get(url)
 
@@ -30,7 +30,7 @@ def crawling_job_data(driver, page_number):
     data_list = []
 
     for i in range(len(companies)):
-        company = companies[i].text
+        company_name = companies[i].text
         content = contents[i].text
         url = urls[i].get_attribute('href')
         date_text = dates[i].text
@@ -43,14 +43,15 @@ def crawling_job_data(driver, page_number):
             days_to_add = int(match_d.group(1))
             current_date = datetime.now()
             calculated_date = current_date + timedelta(days=days_to_add)
-            date = calculated_date.strftime("%Y-%m-%d")
+            expiration_date = calculated_date.strftime("%Y-%m-%d")
         elif match_date:
             month_day, day_of_week = match_date.groups()
             current_year = datetime.now().year
             date_text = f"{current_year}-{month_day}"
-            date = datetime.strptime(date_text, "%Y-%m.%d").strftime("%Y-%m-%d")
+            expiration_date = datetime.strptime(date_text, "%Y-%m.%d").strftime("%Y-%m-%d")
 
-        data_list.append((company, content, url, date))
+        if content not in existing_contents:
+            data_list.append((company_name, content, url, expiration_date))
 
     return data_list
 
@@ -59,8 +60,15 @@ def main():
     driver = get_driver()
     page_number = 1
 
+    db = get_database_connect()
+    cursor = db.cursor()
+    cursor.execute("SELECT DISTINCT title FROM job")
+    existing_contents = {row[0] for row in cursor.fetchall()}
+    cursor.close()
+    db.close()
+
     while True:
-        job_data = crawling_job_data(driver, page_number)
+        job_data = crawling_job_data(driver, page_number, existing_contents)
         if job_data is None:
             break
 
