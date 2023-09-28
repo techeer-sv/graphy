@@ -11,7 +11,12 @@ const autoLoginState = atom({
 
 const selectedStackState = atom<string[]>({
   key: 'selectedStackState',
-  default: []
+  default: [],
 })
 
-export { autoLoginState, selectedStackState }
+const thumbnailUrlState = atom<string | null>({
+  key: 'thumbnailUrlState',
+  default: null,
+})
+
+export { autoLoginState, selectedStackState, thumbnailUrlState }
