@@ -19,4 +19,9 @@ const thumbnailUrlState = atom<string | null>({
   default: null,
 })
 
-export { autoLoginState, selectedStackState, thumbnailUrlState }
+const contentsState = atom<string>({
+  key: 'contentsState',
+  default: '',
+})
+
+export { autoLoginState, selectedStackState, thumbnailUrlState, contentsState }
