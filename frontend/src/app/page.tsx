@@ -4,37 +4,46 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useRecoilValue } from 'recoil'
+import Image from 'next/image'
 
 import WriteIcon from '../../public/images/svg/pencil-square.svg'
 // TODO: import NavBar from '../components/general/NavBar'
 import Banner from '../components/main/Banner'
-// TODO: import ProjectCard from '../components/main/ProjectCard'
-import searchTextState from '../utils/atoms'
+import ProjectCard from '../components/main/ProjectCard'
+import { searchTextState } from '../utils/atoms'
 
-// TODO: type DataObject
+type DataObject = {
+  id: number
+  createdAt: string
+  projectName: string
+  description: string
+  techTags: string[]
+  thumbNail: string
+}
 
 export default function Main() {
   const searchText = useRecoilValue(searchTextState)
 
-  const router = useRouter() // react-router-dom useNavigate 사용 선언
+  const router = useRouter()
 
   function toWrite() {
-    // react-router-dom을 이용한 글쓰기 페이지로 이동 함수
     router.push('/write')
   }
 
   async function getData({ pageParam = 1 }) {
-    const params = { page: pageParam, size: 12 }
+    const params = new URLSearchParams()
+    params.set('page', String(pageParam))
+    params.set('size', '12')
+
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/projects/search`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/projects?${params.toString()}`,
       {
-        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(params),
       },
     )
+
     if (!res.ok) {
       throw new Error('프로젝트 검색에 실패했습니다.')
     }
@@ -87,7 +96,12 @@ export default function Main() {
           aria-label="toWritePage"
           type="button"
         >
-          <img className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
+          <Image
+            className="mr-2 h-5 w-5"
+            src={WriteIcon}
+            alt="WriteIcon"
+            quality={50}
+          />
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
 
@@ -96,7 +110,18 @@ export default function Main() {
         </div>
 
         <div>
-          {/* TODO: ProjectCard */}
+          {data.pages.map((group, i) => (
+            <div
+              className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8"
+              key={group[i]?.id}
+            >
+              {group.map((item: DataObject) => (
+                <div className="mx-8 mb-10" key={item.id}>
+                  <ProjectCard items={item} index={i} />
+                </div>
+              ))}
+            </div>
+          ))}
           {hasNextPage && isFetchingNextPage && <span>Loading more...</span>}
         </div>
       </div>

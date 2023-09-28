@@ -1,8 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import RecoilRootProvider from '../utils/recoilRootProvider'
-import QueryProvider from '../utils/queryProvider'
+import RecoilRootProvider from '../components/general/recoilRootProvider'
+import QueryProvider from '../components/general/queryProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
