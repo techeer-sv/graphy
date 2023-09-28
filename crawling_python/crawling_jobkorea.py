@@ -99,13 +99,13 @@ def main():
 
     db = get_database_connect()
     cursor = db.cursor()
-    cursor.execute("SELECT DISTINCT title FROM job")
-    existing_contents = {row[0] for row in cursor.fetchall()}
+    cursor.execute("SELECT title, expiration_date FROM job")
+    existing_contents = {row[0]: row[1] for row in cursor.fetchall()}
     cursor.close()
     db.close()
 
     while True:
-        job_data = crawling_job_data(driver, page_nuber, existing_contents)
+        job_data = crawling_job_data(driver, page_nuber, existing_contents.keys())
         if job_data is None:
             break
 
@@ -114,6 +114,12 @@ def main():
         insert_query = "INSERT INTO job (company_name, title, expiration_date, url) VALUES (%s, %s, %s, %s)"
         cursor.executemany(insert_query, job_data)
         db.commit()
+
+        for title, expiration_date in existing_contents.items():
+            if expiration_date == "9999-12-31 00:00:00.000000" and title not in [content[1] for content in job_data]:
+                cursor.execute("DELETE FROM job WHERE title = %s", (title,))
+                db.commit()
+
         cursor.close()
         db.close()
 
