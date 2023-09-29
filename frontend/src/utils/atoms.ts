@@ -14,4 +14,10 @@ const searchTextState = atom<string>({
   default: '',
 })
 
-export { projectIdState, searchTextState }
+const autoLoginState = atom({
+  key: 'autoLoginState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+})
+
+export { projectIdState, searchTextState, autoLoginState }
