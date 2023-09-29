@@ -103,6 +103,11 @@ public class ProjectService {
         return GetProjectDetailResponse.of(project, comments);
     }
 
+    /**
+     * findTagListByName() 메서드 TagService로 옮기는 게 어떨까요?!
+     * RecruitmentService에서 이 메서드를 사용해야 되는데
+     * Tag 찾는 기능을 위해 ProjectService와 의존관계를 맺는 건 아닌 거 같아서요!
+     */
     public Tags findTagListByName(List<String> techStacks) {
             List<Tag> foundTags = techStacks.stream().map(tagService::findTagByTech)
                 .collect(Collectors.toList());

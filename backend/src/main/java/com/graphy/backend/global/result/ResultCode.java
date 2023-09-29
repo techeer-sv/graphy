@@ -41,8 +41,16 @@ public enum ResultCode {
     COMMENT_DELETE_SUCCESS("C003", "댓글 삭제 성공"),
     COMMENT_UPDATE_SUCCESS("C004", "댓글 수정 성공"),
 
-    // plan
+    // Recruitment
+    RECRUITMENT_CREATE_SUCCESS("R001", "구인 게시글 생성 성공"),
+    RECRUITMENT_GET_SUCCESS("R002", "구인 게시글 조회 성공"),
+    RECRUITMENT_DELETE_SUCCESS("R003", "구인 게시글 삭제 성공"),
+    RECRUITMENT_UPDATE_SUCCESS("R004", "구인 게시글 수정 성공"),
+    RECRUITMENT_PAGING_GET_SUCCESS("R005", "구인 게시글 페이징 조회 성공"),
+
+    // plan,
     PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공");
+
 
 
 

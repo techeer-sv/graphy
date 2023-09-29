@@ -37,7 +37,6 @@ public class RecruitmentTags {
                 .forEach(tag -> value.add(new RecruitmentTag(recruitment, tag)));
     }
 
-
     public List<Long> getTagIds() {
         return value.stream()
                 .map(recruitmentTag -> recruitmentTag.getTag().getId())

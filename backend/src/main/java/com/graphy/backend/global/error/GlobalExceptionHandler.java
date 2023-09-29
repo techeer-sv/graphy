@@ -1,9 +1,6 @@
 package com.graphy.backend.global.error;
 
-import com.graphy.backend.global.error.exception.AlreadyExistException;
-import com.graphy.backend.global.error.exception.BusinessException;
-import com.graphy.backend.global.error.exception.EmptyResultException;
-import com.graphy.backend.global.error.exception.LongRequestException;
+import com.graphy.backend.global.error.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +24,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({
+            InvalidMemberException.class,
+    })
     protected ResponseEntity<ErrorResponse> handleRuntimeException(BusinessException e) {
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = makeErrorResponse(errorCode);
