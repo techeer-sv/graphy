@@ -19,11 +19,11 @@ type DataObject = {
 
 type ParamsType = {
   params: {
-    projectName: string
+    postName: string
   }
 }
 
-function SearchProjectPage({ params }: ParamsType) {
+export default function SearchProjectPage({ params }: ParamsType) {
   const [data, setData] = useState<DataObject[]>([]) // 데이터를 담을 state 선언
   const router = useRouter() // react-router-dom useNavigate 사용 선언
 
@@ -33,7 +33,7 @@ function SearchProjectPage({ params }: ParamsType) {
 
   async function getData() {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/projects?${params.projectName}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/projects?${params.postName}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -93,5 +93,3 @@ function SearchProjectPage({ params }: ParamsType) {
     </div>
   )
 }
-
-export default SearchProjectPage
