@@ -1,5 +1,8 @@
+import pytz
 import schedule
 import subprocess
+
+kst = pytz.timezone('Asia/Seoul')
 
 
 def crawl_jobkorea():
@@ -10,8 +13,9 @@ def crawl_saramin():
     subprocess.run(["python", "crawling_saramin.py"])
 
 
-schedule.every().day.at("21:40").do(crawl_jobkorea)
-schedule.every().day.at("21:40").do(crawl_saramin)
+schedule.every().monday.at("06:00").do(crawl_saramin)
+schedule.every().monday.at("06:00").do(crawl_jobkorea)
 
-while True:
-    schedule.run_pending()
+if __name__ == "__main__":
+    while True:
+        schedule.run_pending()
