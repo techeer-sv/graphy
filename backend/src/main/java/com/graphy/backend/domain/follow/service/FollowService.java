@@ -50,9 +50,12 @@ public class FollowService {
         return followRepository.findFollowings(loginUser.getId());
     }
 
-    public void checkFollowingAlready(Long fromId, Long toId) {
+    public void checkFollowAvailable(Long fromId, Long toId) {
         if (followRepository.existsByFromIdAndToId(fromId, toId)) {
             throw new AlreadyExistException(ErrorCode.FOLLOW_ALREADY_EXIST);
+        }
+        if (fromId.equals(toId)) {
+            throw new AlreadyExistException(ErrorCode.FOLLOW_SELF);
         }
     }
 }

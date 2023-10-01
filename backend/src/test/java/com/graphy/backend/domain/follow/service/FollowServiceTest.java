@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +35,7 @@ class FollowServiceTest extends MockTest {
 
     @Test
     @DisplayName("팔로우 신청 테스트")
-    void followTest() throws Exception {
+    void followTest() {
         //given
         Member fromMember = Member.builder().id(1L).build();
         Long toId = 2L;
@@ -52,7 +51,7 @@ class FollowServiceTest extends MockTest {
 
     @Test
     @DisplayName("팔로잉 리스트 조회 테스트")
-    void getFollowingListTest() throws Exception {
+    void getFollowingListTest() {
         //given
         Member fromMember = Member.builder().id(1L).build();
         GetMemberListResponse following1 = new GetMemberListResponse() {
@@ -87,7 +86,7 @@ class FollowServiceTest extends MockTest {
 
     @Test
     @DisplayName("팔로워 리스트 조회 테스트")
-    void getFollowerListTest() throws Exception {
+    void getFollowerListTest() {
         //given
         Member toMember = Member.builder().id(1L).build();
         GetMemberListResponse follower1 = new GetMemberListResponse() {
@@ -122,7 +121,7 @@ class FollowServiceTest extends MockTest {
 
     @Test
     @DisplayName("언팔로우 테스트")
-    void unfollowTest() throws Exception {
+    void unfollowTest() {
         //given
         Long toId = 1L;
         Member fromMember = Member.builder().id(2L).build();
@@ -149,31 +148,28 @@ class FollowServiceTest extends MockTest {
                 .thenReturn(Optional.empty());
 
         // when
-        Exception exception = assertThrows(EmptyResultException.class, () -> {
-            followService.removeFollow(toId, fromMember);
-        });
+        Exception exception = assertThrows(EmptyResultException.class, () -> followService.removeFollow(toId, fromMember));
 
         // then
         String exceptionMessage = exception.getMessage();
 
-        assertTrue(exceptionMessage.equals("존재하지 않는 팔로우"));
+        assertEquals("존재하지 않는 팔로우", exceptionMessage);
     }
 
     @Test
     @DisplayName("팔로우 여부 체크 테스트")
-    void followingCheckTest() throws Exception {
+    void followingCheckTest() {
         // given
         when(followRepository.existsByFromIdAndToId(1L, 2L)).thenReturn(true);
         when(followRepository.existsByFromIdAndToId(3L, 4L)).thenReturn(false);
 
         // when & then
-        Member loginUser = new Member();
         assertThatThrownBy(
-                        () -> followService.checkFollowingAlready(1L, 2L))
+                        () -> followService.checkFollowAvailable(1L, 2L))
                 .isInstanceOf(AlreadyExistException.class)
                 .hasMessageContaining("이미 존재하는 팔로우");
 
-        Assertions.assertThatCode(() -> followService.checkFollowingAlready(3L, 4L))
+        Assertions.assertThatCode(() -> followService.checkFollowAvailable(3L, 4L))
                 .doesNotThrowAnyException();
     }
 }
