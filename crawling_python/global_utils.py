@@ -18,11 +18,11 @@ def get_driver():
     path = '/usr/bin/chromedriver'
 
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")  # GUI 없이 실행
-    chrome_options.add_argument("--no-sandbox")  # Docker 환경에서 필요한 설정
-    chrome_options.add_argument("--disable-dev-shm-usage")  # 공유 메모리 사용 제한을 해제
-    chrome_options.add_argument("--remote-debugging-port=9222")  # 디버깅 포트 설정
-    chrome_options.add_argument("--disable-gpu")  # GPU 사용 비활성화 (가상 서버 등에서 필요)
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--remote-debugging-port=9222")
+    chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--log-level=DEBUG")
     chrome_options.add_argument(
