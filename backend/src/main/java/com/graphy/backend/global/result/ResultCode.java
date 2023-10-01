@@ -51,7 +51,10 @@ public enum ResultCode {
     PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공"),
 
     // Recruitment
-    APPLICATION_CREATE_SUCCESS("AP001", "프로젝트 참가 신청 성공");
+    APPLICATION_CREATE_SUCCESS("AP001", "프로젝트 참가 신청 성공"),
+
+    // Message
+    MESSAGE_CREATE_SUCCESS("MSG001", "쪽지 전송 성공");
 
 
 
