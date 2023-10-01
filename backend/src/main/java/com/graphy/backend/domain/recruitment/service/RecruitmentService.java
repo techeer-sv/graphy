@@ -81,4 +81,8 @@ public class RecruitmentService {
 
         recruitment.delete();
     }
+
+    public Recruitment getRecruitmentById(Long id) {
+        return recruitmentRepository.findById(id).orElseThrow(() -> new EmptyResultException(ErrorCode.RECRUITMENT_NOT_EXIST));
+    }
 }

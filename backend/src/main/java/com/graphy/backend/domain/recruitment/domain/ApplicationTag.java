@@ -28,8 +28,9 @@ public class ApplicationTag {
 
     private Integer level;
 
-    public ApplicationTag(Application application, Tag tag) {
+    public ApplicationTag(Application application, Tag tag, Integer level) {
         this.application = application;
         this.tag = tag;
+        this.level = level;
     }
 }
