@@ -3,6 +3,7 @@ package com.graphy.backend.domain.recruitment.controller;
 import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.recruitment.dto.request.CreateApplicationRequest;
+import com.graphy.backend.domain.recruitment.dto.response.GetApplicationDetailResponse;
 import com.graphy.backend.domain.recruitment.service.ApplicationService;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -13,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "ApplicationController", description = "프로젝트 구인 게시글 신청 관련 API")
 @RestController
@@ -34,4 +32,10 @@ public class ApplicationController {
                 .body(ResultResponse.of(ResultCode.APPLICATION_CREATE_SUCCESS));
     }
 
+    @Operation(summary = "findApplication", description = "프로젝트 참가 신청서 상세 조회")
+    @GetMapping("/{applicationId}")
+    public ResponseEntity<ResultResponse> applicationDetails(@PathVariable Long applicationId) {
+        GetApplicationDetailResponse result = applicationService.findApplicationById(applicationId);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.APPLICATION_GET_SUCCESS, result));
+    }
 }

@@ -5,6 +5,7 @@ import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.dto.request.CreateRecruitmentRequest;
 import com.graphy.backend.domain.recruitment.dto.request.UpdateRecruitmentRequest;
+import com.graphy.backend.domain.recruitment.dto.response.GetApplicationResponse;
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentDetailResponse;
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentResponse;
 import com.graphy.backend.domain.recruitment.service.RecruitmentService;
@@ -55,6 +56,15 @@ public class RecruitmentController {
         Pageable pageable = pageRequest.of();
         List<GetRecruitmentResponse> result = recruitmentService.findRecruitmentList(positions, tags, keyword, pageable);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.RECRUITMENT_PAGING_GET_SUCCESS, result));
+    }
+
+    @Operation(summary = "findApplicationList", description = "프로젝트 참가 신청서 목록 조회")
+    @GetMapping("{recruitmentId}/applications")
+    public ResponseEntity<ResultResponse> applicationList(@PathVariable Long recruitmentId,
+                                                          PageRequest pageRequest) {
+        Pageable pageable = pageRequest.of();
+        List<GetApplicationResponse> result = recruitmentService.findApplicationList(recruitmentId, pageable);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.APPLICATION_PAGING_GET_SUCCESS, result));
     }
 
     @Operation(summary = "updateRecruitment", description = "구인 게시글 수정")

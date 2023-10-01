@@ -25,4 +25,8 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     private Member receiver;
+
+    @Lob
+    @Column(nullable = false)
+    private String content;
 }
