@@ -9,9 +9,16 @@ import com.graphy.backend.domain.project.service.TagService;
 import com.graphy.backend.domain.recruitment.domain.Application;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
 import com.graphy.backend.domain.recruitment.dto.request.CreateApplicationRequest;
+import com.graphy.backend.domain.recruitment.dto.request.TechLevelDto;
+import com.graphy.backend.domain.recruitment.dto.response.GetApplicationDetailResponse;
 import com.graphy.backend.domain.recruitment.repository.ApplicationRepository;
+import com.graphy.backend.global.error.ErrorCode;
+import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +49,20 @@ public class ApplicationService {
                 .build();
 
         notificationService.addNotification(notificationDto, recruitment.getMember().getId());
+    }
+
+    public GetApplicationDetailResponse findApplicationById(Long applicationId) {
+        Application application = applicationRepository.findApplicationWithFetch(applicationId)
+                .orElseThrow(
+                () -> new EmptyResultException(ErrorCode.APPLICATION_NOT_EXIST)
+        );
+        List<TechLevelDto> techLevels = application.getApplicationTags().getValue().stream()
+                .map(applicationTag -> TechLevelDto.builder()
+                        .tech(applicationTag.getTag().getTech())
+                        .level(applicationTag.getLevel())
+                        .build())
+                .collect(Collectors.toList());
+
+        return GetApplicationDetailResponse.of(application, techLevels);
     }
 }
