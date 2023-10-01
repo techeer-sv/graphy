@@ -6,7 +6,6 @@ import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.domain.ProcessType;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
 import com.graphy.backend.domain.recruitment.dto.request.CreateRecruitmentRequest;
-import com.graphy.backend.domain.recruitment.dto.response.CreateRecruitmentResponse;
 import com.graphy.backend.domain.recruitment.service.RecruitmentService;
 import com.graphy.backend.global.config.SecurityConfig;
 import com.graphy.backend.test.MockApiTest;
@@ -30,8 +29,6 @@ import java.util.List;
 
 import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentRequest;
 import static com.graphy.backend.test.config.ApiDocumentUtil.getDocumentResponse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -93,10 +90,8 @@ public class RecruitmentControllerTest extends MockApiTest {
                 .techTags(List.of("Spring", "Vue", "Docker"))
                 .build();
 
-        CreateRecruitmentResponse response = CreateRecruitmentResponse.builder().recruitmentId(1L).build();
 
         // when
-        when(recruitmentService.addRecruitment(any(), any())).thenReturn(response);
 
         // then
         mvc.perform(post(BASE_URL)

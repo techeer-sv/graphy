@@ -5,10 +5,8 @@ import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.dto.request.CreateRecruitmentRequest;
 import com.graphy.backend.domain.recruitment.dto.request.UpdateRecruitmentRequest;
-import com.graphy.backend.domain.recruitment.dto.response.CreateRecruitmentResponse;
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentDetailResponse;
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentResponse;
-import com.graphy.backend.domain.recruitment.dto.response.UpdateRecruitmentResponse;
 import com.graphy.backend.domain.recruitment.service.RecruitmentService;
 import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.result.ResultCode;
@@ -36,9 +34,9 @@ public class RecruitmentController {
     @PostMapping
     public ResponseEntity<ResultResponse> recruitmentAdd(@Validated @RequestBody CreateRecruitmentRequest request,
                                                          @CurrentUser Member loginUser) {
-        CreateRecruitmentResponse response = recruitmentService.addRecruitment(request, loginUser);
+        recruitmentService.addRecruitment(request, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ResultResponse.of(ResultCode.RECRUITMENT_CREATE_SUCCESS, response));
+                .body(ResultResponse.of(ResultCode.RECRUITMENT_CREATE_SUCCESS));
     }
 
     @Operation(summary = "findRecruitment", description = "구인 게시글 상세 조회")
@@ -64,9 +62,9 @@ public class RecruitmentController {
     public ResponseEntity<ResultResponse> RecruitmentModify(@PathVariable Long recruitmentId,
                                                             @RequestBody @Validated UpdateRecruitmentRequest request,
                                                             @CurrentUser Member loginUser) {
-        UpdateRecruitmentResponse result = recruitmentService.modifyRecruitment(recruitmentId, request, loginUser);
+        recruitmentService.modifyRecruitment(recruitmentId, request, loginUser);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .body(ResultResponse.of(ResultCode.RECRUITMENT_UPDATE_SUCCESS, result));
+                .body(ResultResponse.of(ResultCode.RECRUITMENT_UPDATE_SUCCESS));
     }
 
     @Operation(summary = "deleteRecruitment", description = "구인 게시글 삭제(soft delete)")

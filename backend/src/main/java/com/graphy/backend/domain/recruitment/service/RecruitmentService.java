@@ -2,15 +2,13 @@ package com.graphy.backend.domain.recruitment.service;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Tags;
-import com.graphy.backend.domain.project.service.ProjectService;
+import com.graphy.backend.domain.project.service.TagService;
 import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
 import com.graphy.backend.domain.recruitment.dto.request.CreateRecruitmentRequest;
 import com.graphy.backend.domain.recruitment.dto.request.UpdateRecruitmentRequest;
-import com.graphy.backend.domain.recruitment.dto.response.CreateRecruitmentResponse;
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentDetailResponse;
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentResponse;
-import com.graphy.backend.domain.recruitment.dto.response.UpdateRecruitmentResponse;
 import com.graphy.backend.domain.recruitment.repository.RecruitmentRepository;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
@@ -26,19 +24,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecruitmentService {
     private final RecruitmentRepository recruitmentRepository;
-    private final ProjectService projectService;
+    private final TagService tagService;
     private final RecruitmentTagService recruitmentTagService;
 
     @Transactional
-    public CreateRecruitmentResponse addRecruitment(CreateRecruitmentRequest request, Member loginUser) {
+    public void addRecruitment(CreateRecruitmentRequest request, Member loginUser) {
         Recruitment recruitment = request.toEntity(loginUser);
-
         if (request.getTechTags() != null) {
-            Tags foundTags = projectService.findTagListByName(request.getTechTags());
+            Tags foundTags = tagService.findTagListByName(request.getTechTags());
             recruitment.addTag(foundTags);
         }
-        Recruitment entity = recruitmentRepository.save(recruitment);
-        return CreateRecruitmentResponse.from(entity.getId());
+        recruitmentRepository.save(recruitment);
     }
 
     @Transactional(readOnly = true)
@@ -61,7 +57,7 @@ public class RecruitmentService {
     }
 
     @Transactional
-    public UpdateRecruitmentResponse modifyRecruitment(Long recruitmentId, UpdateRecruitmentRequest request, Member loginUser) {
+    public void modifyRecruitment(Long recruitmentId, UpdateRecruitmentRequest request, Member loginUser) {
         Recruitment recruitment = recruitmentRepository.findRecruitmentWithMember(recruitmentId).orElseThrow(
                 () -> new EmptyResultException(ErrorCode.RECRUITMENT_NOT_EXIST)
         );
@@ -70,10 +66,8 @@ public class RecruitmentService {
             throw new InvalidMemberException(ErrorCode.INVALID_MEMBER);
 
         recruitmentTagService.removeProjectTag(recruitment.getId());
-        Tags tags = projectService.findTagListByName(request.getTechTags());
+        Tags tags = tagService.findTagListByName(request.getTechTags());
         recruitment.updateRecruitment(request, tags);
-
-        return UpdateRecruitmentResponse.from(recruitment);
     }
 
     @Transactional
