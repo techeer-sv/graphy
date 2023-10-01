@@ -23,19 +23,18 @@ public enum ResultCode {
     FOLLOWING_CREATE_SUCCESS("F002", "팔로잉 성공"),
     FOLLOW_DELETE_SUCCESS("F003", "언팔로잉 성공"),
 
-
     // Like
     LIKE_PROJECT_SUCCESS("L001", "프로젝트 좋아요/좋아요 취소 성공"),
     LIKED_MEMBER_GET_SUCCESS("L002", "좋아요 누른 유저 조회 성공"),
 
-    // project
+    // Project
     PROJECT_CREATE_SUCCESS("P001", "프로젝트 생성 성공"),
     PROJECT_GET_SUCCESS("P002", "프로젝트 조회 성공"),
     PROJECT_DELETE_SUCCESS("P003", "프로젝트 삭제 성공"),
     PROJECT_UPDATE_SUCCESS("P004", "프로젝트 수정 성공"),
     PROJECT_PAGING_GET_SUCCESS("P005", "프로젝트 페이징 조회 성공"),
 
-    // comment
+    // Comment
     RECOMMENT_GET_SUCCESS("C001", "답글 조회 성공"),
     COMMENT_CREATE_SUCCESS("C002", "댓글 생성 성공"),
     COMMENT_DELETE_SUCCESS("C003", "댓글 삭제 성공"),
@@ -48,8 +47,11 @@ public enum ResultCode {
     RECRUITMENT_UPDATE_SUCCESS("R004", "구인 게시글 수정 성공"),
     RECRUITMENT_PAGING_GET_SUCCESS("R005", "구인 게시글 페이징 조회 성공"),
 
-    // plan,
-    PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공");
+    // Plan,
+    PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공"),
+
+    // Recruitment
+    APPLICATION_CREATE_SUCCESS("AP001", "프로젝트 참가 신청 성공");
 
 
 

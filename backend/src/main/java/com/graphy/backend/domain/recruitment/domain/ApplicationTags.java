@@ -1,6 +1,6 @@
 package com.graphy.backend.domain.recruitment.domain;
 
-import com.graphy.backend.domain.project.domain.Tags;
+import com.graphy.backend.domain.project.domain.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -32,9 +32,8 @@ public class ApplicationTags {
                 .collect(Collectors.toList());
     }
 
-    public void add(Application application, Tags tags) {
-        tags.getTags()
-                .forEach(tag -> value.add(new ApplicationTag(application, tag)));
+    public void add(Application application, Tag tag, Integer level) {
+        value.add(new ApplicationTag(application, tag, level));
     }
 
 
