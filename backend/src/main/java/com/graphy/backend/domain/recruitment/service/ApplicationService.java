@@ -14,6 +14,7 @@ import com.graphy.backend.domain.recruitment.dto.response.GetApplicationDetailRe
 import com.graphy.backend.domain.recruitment.repository.ApplicationRepository;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
+import com.graphy.backend.global.error.exception.InvalidMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class ApplicationService {
 
     public void addApplication(CreateApplicationRequest request, Member loginUser) {
         Recruitment recruitment = recruitmentService.getRecruitmentById(request.getRecruitmentId());
+
+        if (applicationRepository.existsByMemberIdAndRecruitmentId(loginUser.getId(), recruitment.getId()))
+            throw new InvalidMemberException(ErrorCode.APPLICATION_ALREADY_EXIST);
 
         Application application = request.toEntity(recruitment, loginUser);
 
