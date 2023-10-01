@@ -17,7 +17,7 @@ type DataObject = {
 
 type ParamsType = {
   params: {
-    nickname: string
+    userName: string
   }
 }
 
@@ -44,7 +44,7 @@ export default function SearchUserPage({ params }: ParamsType) {
 
   async function getData() {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/members?nickname=${params.nickname}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/members?nickname=${params.userName}`,
       {
         headers: {
           'Content-Type': 'application/json',
