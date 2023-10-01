@@ -91,13 +91,10 @@ public class RecruitmentControllerTest extends MockApiTest {
                 .build();
 
 
-        // when
-
-        // then
+        // when, then
         mvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-//                .andExpect(jsonPath("$.data[0].recruitmentId").value(response.getRecruitmentId()))
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andDo(document("recruitment/add/success",
@@ -116,8 +113,7 @@ public class RecruitmentControllerTest extends MockApiTest {
                         responseFields(
                                 fieldWithPath("code").description("상태 코드"),
                                 fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data").description("응답 데이터"),
-                                fieldWithPath("data.recruitmentId").description("구인 게시글 ID")
+                                fieldWithPath("data").description("응답 데이터")
                         )));
     }
 }
