@@ -3,13 +3,23 @@
 import hljs from 'highlight.js'
 import { useRef, useMemo } from 'react'
 import ReactS3Client from 'react-aws-s3-typescript'
-import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import 'highlight.js/styles/monokai-sublime.css'
 import { useRecoilState } from 'recoil'
+import dynamic from 'next/dynamic'
 
 import { contentsState } from '../../utils/atoms'
 import s3config from '../../utils/s3config'
+
+const ReactQuill = dynamic(
+  async () => {
+    const { default: RQ } = await import('react-quill')
+    return function comp({ forwardedRef, ...props }) {
+      return <RQ ref={forwardedRef} />
+    }
+  },
+  { ssr: false },
+)
 
 // 코드 하이라이트 설정
 hljs.configure({
@@ -19,7 +29,7 @@ hljs.configure({
 const s3 = new ReactS3Client(s3config)
 
 function QuillEditor() {
-  const QuillRef = useRef<ReactQuill>()
+  const quillRef = useRef()
   const [contents, setContents] = useRecoilState(contentsState)
 
   const imageHandler = () => {
@@ -39,9 +49,9 @@ function QuillEditor() {
 
         try {
           const res = await s3.uploadFile(file[0])
-          const range = QuillRef.current?.getEditor().getSelection()?.index
+          const range = quillRef.current?.getEditor().getSelection()?.index
           if (range !== null && range !== undefined) {
-            const quill = QuillRef.current?.getEditor()
+            const quill = quillRef.current?.getEditor()
 
             quill?.setSelection(range, 1)
 
@@ -95,11 +105,7 @@ function QuillEditor() {
 
   return (
     <ReactQuill
-      ref={(element) => {
-        if (element !== null) {
-          QuillRef.current = element
-        }
-      }}
+      forwardedRef={quillRef}
       className="font-ng"
       value={contents}
       onChange={setContents}

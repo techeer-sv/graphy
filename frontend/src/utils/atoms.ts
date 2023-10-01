@@ -3,15 +3,16 @@ import { recoilPersist } from 'recoil-persist'
 
 const { persistAtom } = recoilPersist()
 
-const autoLoginState = atom({
-  key: 'autoLoginState',
-  default: false,
+const titleState = atom<string>({
+  key: 'titleState',
+  default: '',
   effects_UNSTABLE: [persistAtom],
 })
 
-const selectedStackState = atom<string[]>({
-  key: 'selectedStackState',
-  default: [],
+const tldrState = atom<string>({
+  key: 'tldrState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
 })
 
 const thumbnailUrlState = atom<string | null>({
@@ -19,9 +20,34 @@ const thumbnailUrlState = atom<string | null>({
   default: null,
 })
 
+const selectedStackState = atom<string[]>({
+  key: 'selectedStackState',
+  default: [],
+})
+
 const contentsState = atom<string>({
   key: 'contentsState',
   default: '',
 })
 
-export { autoLoginState, selectedStackState, thumbnailUrlState, contentsState }
+const autoLoginState = atom({
+  key: 'autoLoginState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+})
+
+const projectIdState = atom<number>({
+  key: 'projectIdState',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+})
+
+export {
+  titleState,
+  tldrState,
+  thumbnailUrlState,
+  selectedStackState,
+  contentsState,
+  autoLoginState,
+  projectIdState,
+}
