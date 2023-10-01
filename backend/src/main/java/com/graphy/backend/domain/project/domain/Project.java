@@ -21,10 +21,6 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-/*
- * TODO
- * Hard Delete 하기 위해서 제거해야 될 거 같아요
- */
 @SQLDelete(sql = "UPDATE project SET is_deleted = true WHERE project_id = ?")
 @Where(clause = "is_deleted = false")
 public class Project extends BaseEntity {

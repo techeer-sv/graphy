@@ -23,9 +23,6 @@ public class ProjectTag {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    /**
-     * tag는 FetchType.LAZY 필요 없나요??
-     */
     @ManyToOne
     @JoinColumn(name = "tag_id")
     private Tag tag;

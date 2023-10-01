@@ -1,7 +1,11 @@
 package com.graphy.backend.domain.project.domain;
 
 
-import lombok.*;
+import com.graphy.backend.domain.recruitment.domain.RecruitmentTag;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -23,4 +27,6 @@ public class Tag {
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     private Set<ProjectTag> projects;
 
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
+    private Set<RecruitmentTag> recruitments;
 }

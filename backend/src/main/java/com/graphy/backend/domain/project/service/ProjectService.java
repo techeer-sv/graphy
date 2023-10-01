@@ -6,7 +6,6 @@ import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
 import com.graphy.backend.domain.member.service.MemberService;
 import com.graphy.backend.domain.project.domain.Project;
-import com.graphy.backend.domain.project.domain.Tag;
 import com.graphy.backend.domain.project.domain.Tags;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectPlanRequest;
@@ -67,7 +66,7 @@ public class ProjectService {
     public CreateProjectResponse addProject(CreateProjectRequest dto, Member loginUser) {
         Project entity = dto.toEntity(loginUser);
         if (dto.getTechTags() != null) {
-            Tags foundTags = findTagListByName(dto.getTechTags());
+            Tags foundTags = tagService.findTagListByName(dto.getTechTags());
             entity.addTag(foundTags);
         }
         Project project = projectRepository.save(entity);
@@ -87,7 +86,7 @@ public class ProjectService {
     public UpdateProjectResponse modifyProject(Long projectId, UpdateProjectRequest dto) {
         Project project = projectRepository.findById(projectId).get();
         projectTagService.removeProjectTag(project.getId());
-        Tags updatedTags = findTagListByName(dto.getTechTags());
+        Tags updatedTags = tagService.findTagListByName(dto.getTechTags());
 
         project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags, dto.getThumbNail());
 
@@ -101,12 +100,6 @@ public class ProjectService {
         List<GetCommentWithMaskingResponse> comments = commentService.findCommentListWithMasking(projectId);
 
         return GetProjectDetailResponse.of(project, comments);
-    }
-
-    public Tags findTagListByName(List<String> techStacks) {
-            List<Tag> foundTags = techStacks.stream().map(tagService::findTagByTech)
-                .collect(Collectors.toList());
-        return new Tags(foundTags);
     }
 
     public List<GetProjectResponse> findProjectList(GetProjectsRequest dto, Pageable pageable) {

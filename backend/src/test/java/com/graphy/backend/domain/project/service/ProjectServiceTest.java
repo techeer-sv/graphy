@@ -7,6 +7,7 @@ import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.domain.ProjectTags;
 import com.graphy.backend.domain.project.domain.Tag;
+import com.graphy.backend.domain.project.domain.Tags;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
@@ -72,30 +73,30 @@ class ProjectServiceTest extends MockTest {
                 .content("content")
                 .build();
 
+        List<String> techTags = new ArrayList<>(Arrays.asList("Spring", "Django"));
 
         UpdateProjectRequest request = UpdateProjectRequest.builder()
                 .projectName("afterUpdate")
                 .description("des")
                 .thumbNail("thumb")
                 .content("content")
-                .techTags(new ArrayList<>(Arrays.asList("Spring", "Django")))
+                .techTags(techTags)
                 .build();
 
-        Tag tag1 = Tag.builder().tech("Spring").build();
-        Tag tag2 = Tag.builder().tech("Django").build();
+        Tag tag1 = Tag.builder().tech("Vue").build();
+        Tag tag2 = Tag.builder().tech("Java").build();
 
 
         //when
         when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
-        when(tagService.findTagByTech("Spring")).thenReturn(tag1);
-        when(tagService.findTagByTech("Django")).thenReturn(tag2);
+        when(tagService.findTagListByName(techTags)).thenReturn(new Tags(List.of(tag1, tag2)));
 
         UpdateProjectResponse result = projectService.modifyProject(project.getId(), request);
 
         assertThat(result.getProjectName()).isEqualTo(project.getProjectName());
         assertThat(result.getDescription()).isEqualTo(project.getDescription());
         assertThat(result.getThumbNail()).isEqualTo(project.getThumbNail());
-        assertThat(result.getTechTags()).isEqualTo(new ArrayList<>(Arrays.asList("Spring", "Django")));
+        assertThat(result.getTechTags()).isEqualTo(new ArrayList<>(Arrays.asList("Vue", "Java")));
     }
 
     @Test
@@ -118,6 +119,10 @@ class ProjectServiceTest extends MockTest {
 
         //when
         when(projectRepository.save(any(Project.class))).thenReturn(project);
+        when(tagService.findTagListByName(techTags)).thenReturn(new Tags(List.of(
+                Tag.builder().tech("Spring").build(),
+                Tag.builder().tech("Django").build()
+                )));
         CreateProjectResponse result = projectService.addProject(request, member);
 
         //then
