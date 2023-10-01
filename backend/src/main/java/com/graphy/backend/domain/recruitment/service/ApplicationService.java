@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final RecruitmentService recruitmentService;
@@ -53,7 +54,7 @@ public class ApplicationService {
         notificationService.addNotification(notificationDto, recruitment.getMember().getId());
     }
 
-    @Transactional(readOnly = true)
+
     public GetApplicationDetailResponse findApplicationById(Long applicationId) {
         Application application = applicationRepository.findApplicationWithFetch(applicationId)
                 .orElseThrow(
