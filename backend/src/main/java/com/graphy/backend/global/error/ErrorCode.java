@@ -22,7 +22,9 @@ public enum ErrorCode {
 
   // Follow
   FOLLOW_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "F001", "이미 존재하는 팔로우"),
-  FOLLOW_NOT_EXIST(HttpStatus.NOT_FOUND, "M002", "존재하지 않는 팔로우"),
+  FOLLOW_NOT_EXIST(HttpStatus.NOT_FOUND, "F002", "존재하지 않는 팔로우"),
+  FOLLOW_SELF(HttpStatus.CONFLICT, "F003", "자기 자신을 팔로우 할 수 없음"),
+
   // Project
   PROJECT_DELETED_OR_NOT_EXIST(HttpStatus.NOT_FOUND, "P001", "이미 삭제되거나 존재하지 않는 프로젝트"),
 
