@@ -56,10 +56,8 @@ public enum ResultCode {
     APPLICATION_PAGING_GET_SUCCESS("AP003", "프로젝트 참가 신청서 페이징 조회 성공"),
 
     // Message
-    MESSAGE_CREATE_SUCCESS("MSG001", "쪽지 전송 성공");
-
-
-
+    MESSAGE_CREATE_SUCCESS("MSG001", "쪽지 전송 성공"),
+    MESSAGE_GET_SUCCESS("MSG002", "쪽지 단건 조회 성공");
 
     private final String code;
     private final String message;

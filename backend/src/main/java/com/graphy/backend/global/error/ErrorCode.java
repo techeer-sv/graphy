@@ -39,7 +39,10 @@ public enum ErrorCode {
   APPLICATION_NOT_EXIST(HttpStatus.NOT_FOUND, "AP001", "존재하지 않는 프로젝트 참가 신청서"),
 
   // ChatGPT,
-  REQUEST_TOO_MUCH_TOKENS(HttpStatus.BAD_REQUEST, "AI001", "GPT에 보내야 할 요청 길이 제한 초과");
+  REQUEST_TOO_MUCH_TOKENS(HttpStatus.BAD_REQUEST, "AI001", "GPT에 보내야 할 요청 길이 제한 초과"),
+
+  // Message
+  MESSAGE_NOT_EXIST(HttpStatus.NOT_FOUND, "MSG001", "존재하지 않는 메세지");
 
 
   private final HttpStatus status;

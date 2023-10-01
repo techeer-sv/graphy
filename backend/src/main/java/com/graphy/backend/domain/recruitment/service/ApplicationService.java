@@ -28,6 +28,11 @@ public class ApplicationService {
     private final NotificationService notificationService;
     private final TagService tagService;
 
+    /**
+     *TODO
+     * @Transactional 적용
+     * 중복 지원 방지 로직 추가
+     */
     public void addApplication(CreateApplicationRequest request, Member loginUser) {
         Recruitment recruitment = recruitmentService.getRecruitmentById(request.getRecruitmentId());
 

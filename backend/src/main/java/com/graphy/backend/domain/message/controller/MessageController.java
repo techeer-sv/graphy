@@ -3,6 +3,7 @@ package com.graphy.backend.domain.message.controller;
 import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.message.dto.request.CreateMessageRequest;
+import com.graphy.backend.domain.message.dto.response.GetMessageDetailResponse;
 import com.graphy.backend.domain.message.service.MessageService;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -13,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "MessageController", description = "쪽지 관련 API")
 @RestController
@@ -33,4 +31,10 @@ public class MessageController {
                 .body(ResultResponse.of(ResultCode.MESSAGE_CREATE_SUCCESS));
     }
 
+    @Operation(summary = "findMessage", description = "쪽지 상세 조회")
+    @GetMapping("/{messageId}")
+    public ResponseEntity<ResultResponse> messageDetails(@PathVariable Long messageId) {
+        GetMessageDetailResponse result = messageService.findMessageById(messageId);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.MESSAGE_GET_SUCCESS, result));
+    }
 }

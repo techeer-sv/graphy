@@ -1,6 +1,7 @@
 package com.graphy.backend.domain.message.domain;
 
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.global.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
+public class Message extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
