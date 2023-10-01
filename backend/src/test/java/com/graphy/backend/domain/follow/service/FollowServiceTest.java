@@ -5,6 +5,8 @@ import com.graphy.backend.domain.follow.repository.FollowRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.response.GetMemberListResponse;
 import com.graphy.backend.domain.member.repository.MemberRepository;
+import com.graphy.backend.domain.member.service.MemberService;
+import com.graphy.backend.domain.notification.service.NotificationService;
 import com.graphy.backend.global.error.exception.AlreadyExistException;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
@@ -30,6 +32,12 @@ class FollowServiceTest extends MockTest {
     FollowRepository followRepository;
     @Mock
     MemberRepository memberRepository;
+
+    @Mock
+    NotificationService notificationService;
+    @Mock
+    MemberService memberService;
+
     @InjectMocks
     FollowService followService;
 
@@ -43,6 +51,9 @@ class FollowServiceTest extends MockTest {
         //when
         doNothing().when(memberRepository).increaseFollowingCount(fromMember.getId());
         doNothing().when(memberRepository).increaseFollowerCount(toId);
+        doNothing().when(notificationService).addNotification(any(), any());
+        when(memberService.findMemberById(fromMember.getId())).thenReturn(fromMember);
+
         followService.addFollow(toId, fromMember);
 
         //then
