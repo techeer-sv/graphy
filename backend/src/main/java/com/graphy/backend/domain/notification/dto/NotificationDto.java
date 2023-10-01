@@ -6,7 +6,6 @@ import com.graphy.backend.domain.notification.domain.NotificationType;
 import lombok.*;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,6 +15,10 @@ public class NotificationDto {
     private String content;
     private boolean isRead = false;
     private boolean isEmailSent = false;
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
     public Notification toEntity() {
         return Notification.builder()
