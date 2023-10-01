@@ -2,6 +2,7 @@ package com.graphy.backend.domain.recruitment.domain;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.domain.Tag;
+import com.graphy.backend.global.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Application {
+public class Application extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
