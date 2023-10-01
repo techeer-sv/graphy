@@ -16,6 +16,7 @@ import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +29,7 @@ public class ApplicationService {
     private final NotificationService notificationService;
     private final TagService tagService;
 
-    /**
-     *TODO
-     * @Transactional 적용
-     * 중복 지원 방지 로직 추가
-     */
+    @Transactional
     public void addApplication(CreateApplicationRequest request, Member loginUser) {
         Recruitment recruitment = recruitmentService.getRecruitmentById(request.getRecruitmentId());
 
@@ -56,6 +53,7 @@ public class ApplicationService {
         notificationService.addNotification(notificationDto, recruitment.getMember().getId());
     }
 
+    @Transactional(readOnly = true)
     public GetApplicationDetailResponse findApplicationById(Long applicationId) {
         Application application = applicationRepository.findApplicationWithFetch(applicationId)
                 .orElseThrow(

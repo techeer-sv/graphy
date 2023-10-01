@@ -88,10 +88,12 @@ public class RecruitmentService {
         recruitment.delete();
     }
 
+    @Transactional(readOnly = true)
     public Recruitment getRecruitmentById(Long id) {
         return recruitmentRepository.findById(id).orElseThrow(() -> new EmptyResultException(ErrorCode.RECRUITMENT_NOT_EXIST));
     }
 
+    @Transactional(readOnly = true)
     public List<GetApplicationResponse> findApplicationList(Long recruitmentId, Pageable pageable) {
         Page<Application> applicationList = applicationRepository.findAllByRecruitmentId(recruitmentId, pageable);
         return applicationList.stream()
