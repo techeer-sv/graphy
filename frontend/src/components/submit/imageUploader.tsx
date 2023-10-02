@@ -1,15 +1,11 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import ReactS3Client from 'react-aws-s3-typescript'
 import { useRecoilState } from 'recoil'
 
 import Image from 'next/image'
 import imginsert from '../../../public/images/svg/imginsert.svg'
 import { thumbnailUrlState } from '../../utils/atoms'
-import s3config from '../../utils/s3config'
-
-const s3 = new ReactS3Client(s3config)
 
 function ImageUploader() {
   const [image, setImage] = useState<File | null>()
@@ -17,20 +13,20 @@ function ImageUploader() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   async function uploadImage() {
-    if (image) {
-      try {
-        const res = await s3.uploadFile(image)
-        setThumbnailUrl(res.location)
-      } catch (error: unknown) {
-        if (!navigator.onLine) {
-          throw new Error('오프라인 상태입니다. 네트워크 연결을 확인해주세요.')
-        } else {
-          // eslint-disable-next-line no-console
-          console.log(error)
-          throw new Error('이미지 업로드 실패')
-        }
-      }
+    const formData = new FormData()
+    formData.append('image', image as Blob)
+    const res = await fetch('/api/v1/s3', {
+      method: 'POST',
+      body: formData,
+    })
+
+    const resData = await res.json()
+
+    if (!res.ok) {
+      throw new Error(resData.message)
     }
+
+    setThumbnailUrl(resData.data.location)
   }
 
   // 클릭시 파일 리스트에 이미지 넣는 함수
@@ -86,6 +82,7 @@ function ImageUploader() {
           {image ? (
             <Image
               className="h-full"
+              fill
               src={URL.createObjectURL(image)}
               alt="이미지"
             />
@@ -94,6 +91,7 @@ function ImageUploader() {
               <Image
                 className="ml-9 font-ng"
                 src={imginsert}
+                priority
                 alt="이미지 삽입"
               />
               프로젝트 메인 이미지
