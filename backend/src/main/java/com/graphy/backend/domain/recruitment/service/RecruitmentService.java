@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RecruitmentService {
     private final RecruitmentRepository recruitmentRepository;
     private final RecruitmentTagService recruitmentTagService;
@@ -43,7 +44,6 @@ public class RecruitmentService {
         recruitmentRepository.save(recruitment);
     }
 
-    @Transactional(readOnly = true)
     public GetRecruitmentDetailResponse findRecruitmentById(Long recruitmentId) {
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId).orElseThrow(
                 () -> new EmptyResultException(ErrorCode.RECRUITMENT_NOT_EXIST)
@@ -51,7 +51,6 @@ public class RecruitmentService {
         return GetRecruitmentDetailResponse.from(recruitment);
     }
 
-    @Transactional(readOnly = true)
     public List<GetRecruitmentResponse> findRecruitmentList(List<Position> positions,
                                                             List<String> tags,
                                                             String keyword,

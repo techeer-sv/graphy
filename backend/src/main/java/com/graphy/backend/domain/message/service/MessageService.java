@@ -13,6 +13,7 @@ import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class MessageService {
     private final MemberService memberService;
     private final NotificationService notificationService;
 
+    @Transactional
     public void addMessage(CreateMessageRequest request, Member loginUser) {
         Member receiver = memberService.findMemberById(request.getToMemberId());
         messageRepository.save(request.toEntity(loginUser, receiver));
@@ -35,6 +37,7 @@ public class MessageService {
         notificationService.addNotification(notificationDto, receiver.getId());
     }
 
+    @Transactional(readOnly = true)
     public GetMessageDetailResponse findMessageById(Long messageId) {
         Message message = messageRepository.findById(messageId).orElseThrow(
                 () -> new EmptyResultException(ErrorCode.MESSAGE_NOT_EXIST)
