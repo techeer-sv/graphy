@@ -4,17 +4,22 @@ import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.message.dto.request.CreateMessageRequest;
 import com.graphy.backend.domain.message.dto.response.GetMessageDetailResponse;
+import com.graphy.backend.domain.message.dto.response.GetMessageResponse;
 import com.graphy.backend.domain.message.service.MessageService;
+import com.graphy.backend.global.common.PageRequest;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "MessageController", description = "쪽지 관련 API")
 @RestController
@@ -36,5 +41,14 @@ public class MessageController {
     public ResponseEntity<ResultResponse> messageDetails(@PathVariable Long messageId) {
         GetMessageDetailResponse result = messageService.findMessageById(messageId);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MESSAGE_GET_SUCCESS, result));
+    }
+
+    @Operation(summary = "findMessageList", description = "쪽지 목록 조회")
+    @GetMapping
+    public ResponseEntity<ResultResponse> messageList(@CurrentUser Member loginUser,
+                                                      PageRequest pageRequest) {
+        Pageable pageable = pageRequest.of();
+        List<GetMessageResponse> result = messageService.findMessageList(loginUser, pageable);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.MESSAGE_PAGING_GET_SUCCESS, result));
     }
 }
