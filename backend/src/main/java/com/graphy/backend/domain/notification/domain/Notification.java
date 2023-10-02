@@ -36,7 +36,4 @@ public class Notification extends BaseEntity {
 
     @Column(nullable = false)
     private boolean isRead;
-
-    @Column(nullable = false)
-    private boolean isEmailSent;
 }

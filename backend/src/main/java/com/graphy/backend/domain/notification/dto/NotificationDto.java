@@ -14,7 +14,6 @@ public class NotificationDto {
     private Member member;
     private String content;
     private boolean isRead = false;
-    private boolean isEmailSent = false;
 
     public void setMember(Member member) {
         this.member = member;
@@ -26,7 +25,6 @@ public class NotificationDto {
                 .member(member)
                 .content(content)
                 .isRead(this.isRead)
-                .isEmailSent(this.isEmailSent)
                 .build();
     }
 }
