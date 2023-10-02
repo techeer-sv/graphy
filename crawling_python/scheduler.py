@@ -13,8 +13,8 @@ def crawl_saramin():
     subprocess.run(["python", "crawling_saramin.py"])
 
 
-schedule.every().monday.at("06:00").do(crawl_saramin)
-schedule.every().monday.at("06:00").do(crawl_jobkorea)
+schedule.every(3).days.at("06:00").do(crawl_saramin)
+schedule.every(3).days.at("06:03").do(crawl_jobkorea)
 
 if __name__ == "__main__":
     while True:
