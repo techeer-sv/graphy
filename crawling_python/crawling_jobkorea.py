@@ -125,6 +125,8 @@ def main():
 
         page_nuber += 1
 
+    delete_expired_data(datetime.now())
+
     driver.quit()
 
 if __name__ == "__main__":

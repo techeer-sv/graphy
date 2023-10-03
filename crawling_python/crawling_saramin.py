@@ -82,6 +82,8 @@ def main():
 
         page_number += 1
 
+    delete_expired_data(datetime.now())
+
     driver.quit()
 
 
