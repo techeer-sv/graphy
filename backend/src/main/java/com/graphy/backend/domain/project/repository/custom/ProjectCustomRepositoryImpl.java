@@ -58,10 +58,10 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository {
     }
 
     private BooleanExpression projectNameLike(String projectName) {
-        return projectName != null ? project.projectName.eq(projectName) : null;
+        return projectName != null ? project.projectName.contains(projectName) : null;
     }
 
     private BooleanExpression contentLike(String content) {
-        return content != null ? project.content.eq(content) : null;
+        return content != null ? project.content.contains(content) : null;
     }
 }
