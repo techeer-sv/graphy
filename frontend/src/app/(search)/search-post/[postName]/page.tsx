@@ -17,7 +17,7 @@ type DataObject = {
   thumbNail: string
 }
 
-type ParamsType = {
+export type ParamsType = {
   params: {
     postName: string
   }
@@ -41,13 +41,14 @@ export default function SearchProjectPage({ params }: ParamsType) {
       },
     )
 
-    const resData = await res.json()
-
     if (!res.ok) {
       alert('검색 결과가 없습니다.')
       router.push('/')
       throw new Error('프로젝트 검색에 실패했습니다.')
     }
+
+    const resData = await res.json()
+
     setData(resData.data)
   }
 
