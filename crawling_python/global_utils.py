@@ -32,14 +32,3 @@ def get_driver():
     driver = webdriver.Chrome(options=chrome_options, service=service)
 
     return driver
-
-def delete_expired_data(today):
-    connect = get_database_connect()
-    cursor = connect.cursor()
-
-    query = "DELETE FROM job WHERE expiration_date < %s"
-    cursor.execute(query, (today,))
-
-    connect.commit()
-    cursor.close()
-    connect.close()
