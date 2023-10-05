@@ -73,7 +73,7 @@ class MemberControllerTest extends MockApiTest {
 
     @Test
     @DisplayName("닉네임으로 사용자를 조회한다")
-    public void findMemberTest() throws Exception {
+    void findMemberTest() throws Exception {
         // given
         GetMemberResponse response1 = GetMemberResponse.builder()
                 .nickname(member1.getNickname())
@@ -122,7 +122,7 @@ class MemberControllerTest extends MockApiTest {
 
     @Test
     @DisplayName("현재 로그인한 사용자의 정보로 마이페이지를 조회한다")
-    public void getMyPageTest() throws Exception {
+    void getMyPageTest() throws Exception {
         GetMyPageResponse result = GetMyPageResponse.builder()
                 .nickname(member1.getNickname())
                 .introduction(member1.getIntroduction())
