@@ -18,7 +18,7 @@ type ReplyProps = {
   setReadReply: React.Dispatch<React.SetStateAction<ReadReplyObject[]>>
 }
 
-function Reply({ contents, setReadReply }: ReplyProps) {
+export default function Reply({ contents, setReadReply }: ReplyProps) {
   const [count, SetCount] = useState(0)
   const [selectedValue, setSelectedValue] = useState<string>('regist_order')
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -224,5 +224,3 @@ function Reply({ contents, setReadReply }: ReplyProps) {
     </div>
   )
 }
-
-export default Reply

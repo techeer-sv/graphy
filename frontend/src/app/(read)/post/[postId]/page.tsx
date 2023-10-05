@@ -10,7 +10,8 @@ import ProfileIcon from '../../../../../public/images/svg/profileIcon.svg'
 // TODO: import NavBar from '../../components/general/NavBar'
 import GptModal from '../../../../components/read/GptModal'
 import QuillWrtten from '../../../../components/read/QuillWritten'
-// TODO: import Reply from '../../../../components/read/Reply'
+import Reply from '../../../../components/read/Reply'
+
 import {
   contentsState,
   selectedStackState,
@@ -257,7 +258,7 @@ export default function ReadingPage({ params }: ParamsType) {
           </div>
         ) : null}
         <div className="mt-4">
-          {/* TODO: <Reply contents={readReply} setReadReply={setReadReply} /> */}
+          <Reply contents={readReply} setReadReply={setReadReply} />
         </div>
       </div>
     </div>
