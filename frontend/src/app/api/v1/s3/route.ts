@@ -22,7 +22,7 @@ const uuid = short.generate()
 async function uploadFile(blob: Blob) {
   const arrayBuffer = await blob.arrayBuffer()
   const buffer = Buffer.from(arrayBuffer)
-  const key = `${uuid}.${blob.type.split('/')[1]}}`
+  const key = `${uuid}.${blob.type.split('/')[1]}`
   const command = new PutObjectCommand({
     Bucket: awsS3Bucket,
     Key: key,
