@@ -3,10 +3,11 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
+import dynamic from 'next/dynamic'
 
+// TODO: NavBar 만들어야 함
 // import NavBar from '../../components/general/NavBar'
 import ImageUploader from '../../../components/submit/imageUploader'
-import QuillEditor from '../../../components/submit/quillEditor'
 import TechStackSelection from '../../../components/submit/techStackSelection'
 import {
   contentsState,
@@ -16,6 +17,11 @@ import {
   titleState,
   tldrState,
 } from '../../../utils/atoms'
+
+const ToastUIEditor = dynamic(
+  () => import('../../../components/submit/toastUIEditor'),
+  { ssr: false },
+)
 
 export default function NewPost() {
   const [title, setTitle] = useRecoilState(titleState)
@@ -63,6 +69,7 @@ export default function NewPost() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken || persistToken}`,
       },
       body: JSON.stringify(data),
     })
@@ -147,7 +154,7 @@ export default function NewPost() {
         </div>
         {/* 글쓰기 구역 */}
         <div className="relative z-0 mt-60 sm:mt-2">
-          <QuillEditor />
+          <ToastUIEditor />
         </div>
         {/* 버튼 구역 */}
         <div className="mt-20 mb-4 flex justify-end sm:mt-20 lg:mt-12">
