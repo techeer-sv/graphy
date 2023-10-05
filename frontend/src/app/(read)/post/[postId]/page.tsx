@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import gptIcon from '../../../../../public/images/svg/gptIcon.svg'
 import ProfileIcon from '../../../../../public/images/svg/profileIcon.svg'
 // TODO: import NavBar from '../../components/general/NavBar'
-// TODO: import GptModal from '../../components/read/ReadingPage/GptModal'
+import GptModal from '../../../../components/read/GptModal'
 import QuillWrtten from '../../../../components/read/QuillWritten'
 // TODO: import Reply from '../../../../components/read/Reply'
 import {
@@ -176,9 +176,9 @@ export default function ReadingPage({ params }: ParamsType) {
           </button>
         ) : null}
 
-        {/* TODO: {isOpenModal ? (
+        {isOpenModal ? (
           <GptModal onClickToggleModal={onClickToggleModal} />
-        ) : null} */}
+        ) : null}
         {/** 텍스트 영역* */}
         <div className="h-auto border-b-2 border-graphyblue pb-2">
           {/** 제목* */}

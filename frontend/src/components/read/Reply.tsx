@@ -55,7 +55,7 @@ function Reply({ contents, setReadReply }: ReplyProps) {
       content: value,
       projectId,
     }
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
