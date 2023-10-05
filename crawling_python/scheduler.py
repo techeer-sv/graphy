@@ -26,8 +26,8 @@ def crawl_saramin():
     subprocess.run(["python", "crawling_saramin.py"])
 
 
-schedule.every().day.at("00:00").do(crawl_saramin)
-schedule.every().day.at("00:03").do(crawl_jobkorea)
+schedule.every(3).days.at("00:00").do(crawl_saramin)
+schedule.every(3).days.at("00:03").do(crawl_jobkorea)
 schedule.every().day.at("00:05").do(delete_expired_data)
 
 if __name__ == "__main__":
