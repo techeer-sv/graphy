@@ -30,7 +30,7 @@ const contentsState = atom<string>({
   default: '',
 })
 
-const autoLoginState = atom({
+const autoLoginState = atom<boolean>({
   key: 'autoLoginState',
   default: false,
   effects_UNSTABLE: [persistAtom],
@@ -42,6 +42,11 @@ const projectIdState = atom<number>({
   effects_UNSTABLE: [persistAtom],
 })
 
+const searchTextState = atom<string>({
+  key: 'searchTextState',
+  default: '',
+})
+
 export {
   titleState,
   tldrState,
@@ -50,4 +55,5 @@ export {
   contentsState,
   autoLoginState,
   projectIdState,
+  searchTextState,
 }
