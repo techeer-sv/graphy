@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil'
 
 import { contentsState } from '../../utils/atoms'
 
-function QuillWrtten() {
+export default function QuillWrtten() {
   const [contents, setContents] = useRecoilState(contentsState)
 
   useEffect(() => {
@@ -30,5 +30,3 @@ function QuillWrtten() {
     </div>
   )
 }
-
-export default QuillWrtten
