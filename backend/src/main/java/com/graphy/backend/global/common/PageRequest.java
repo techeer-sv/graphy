@@ -32,4 +32,11 @@ public class PageRequest {
         }
         return org.springframework.data.domain.PageRequest.of(page - 1, size, direction, "createdAt");
     }
+
+    public org.springframework.data.domain.PageRequest jobOf() {
+        if (size <= 0) {
+            throw new BusinessException(INPUT_INVALID_VALUE);
+        }
+        return org.springframework.data.domain.PageRequest.of(page - 1, size, direction, "expirationDate");
+    }
 }
