@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-// TODO: import ReadReply from './ReadReply'
+import ReadReply from './ReadReply'
 import { projectIdState, refreshState } from '../../utils/atoms'
 
 type ReadReplyObject = {
@@ -184,7 +184,7 @@ export default function Reply({ contents, setReadReply }: ReplyProps) {
       </div>
       {/* 댓글 표시 */}
       <div className="my-2 border-graphyblue">
-        {/* TODO: {visible ? (
+        {visible ? (
           <>
             {contents.map((x: ReadReplyObject, y: number) =>
               contents[y].content === '삭제된 댓글입니다.' &&
@@ -197,7 +197,7 @@ export default function Reply({ contents, setReadReply }: ReplyProps) {
               ),
             )}
           </>
-        ) : null} */}
+        ) : null}
         {/* 댓글 입력창 */}
         {accessToken || persistToken ? (
           <div className="mb-8 mt-3 border-t-2 border-graphyblue py-3">
