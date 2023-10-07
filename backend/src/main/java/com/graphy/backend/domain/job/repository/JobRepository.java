@@ -1,6 +1,8 @@
 package com.graphy.backend.domain.job.repository;
 
 import com.graphy.backend.domain.job.domain.Job;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,4 +13,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     @Modifying
     @Query("DELETE FROM Job j WHERE j.expirationDate < :today")
     void deleteAllExpiredSince(LocalDateTime today);
+
+    @Override
+    Page<Job> findAll(Pageable pageable);
 }

@@ -46,8 +46,10 @@ public enum ErrorCode {
   MESSAGE_NOT_EXIST(HttpStatus.NOT_FOUND, "MSG001", "존재하지 않는 메세지"),
 
   // Notification
-  SEND_EMAIL_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "EM001", "이메일 전송 실패");
+  SEND_EMAIL_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "EM001", "이메일 전송 실패"),
 
+  // Job
+  JOB_DELETED_OR_NOT_EXIST(HttpStatus.NOT_FOUND, "J001", "이미 삭제되거나 존재하지 않는 채용공고");
   private final HttpStatus status;
   private final String errorCode;
   private final String message;
