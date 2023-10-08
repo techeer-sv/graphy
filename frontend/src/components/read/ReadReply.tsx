@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 import PutReply from './PutReply'
 // TODO: import ReadReReply from './ReadReReply'
-// TODO: import WriteReReply from './WriteReReply'
+import WriteReReply from './WriteReReply'
 import delete_reply from '../../../public/images/svg/delete.svg'
 import nested_reply from '../../../public/images/svg/nested_reply.svg'
 import pencil_square from '../../../public/images/svg/pencil-square.svg'
@@ -251,13 +251,13 @@ export default function ReadReply({
           ))
         : null} */}
       {/* 대댓글 입력창 */}
-      {/* TODO: {writeVis ? (
+      {writeVis ? (
         <WriteReReply
           contents={contents}
           changeWriteVis={changeWriteVis}
           setSelectedValue={setSelectedValue}
         />
-      ) : null} */}
+      ) : null}
     </>
   )
 }
