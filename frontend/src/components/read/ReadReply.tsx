@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Image from 'next/image'
 
-// TODO: import PutReply from './PutReply'
+import PutReply from './PutReply'
 // TODO: import ReadReReply from './ReadReReply'
 // TODO: import WriteReReply from './WriteReReply'
 import delete_reply from '../../../public/images/svg/delete.svg'
@@ -231,14 +231,14 @@ export default function ReadReply({
         )}
       </div>
       {/* 댓글 수정창 */}
-      {/* TODO: {putVis ? (
+      {putVis ? (
         <PutReply
           contents={contents}
           changePutVis={changePutVis}
           setSelectedValue={setSelectedValue}
           changeCommentRef={changeCommentRef}
         />
-      ) : null} */}
+      ) : null}
       {/* 대댓글 표시 */}
       {/* TODO: {commentVis
         ? comment.map((x: ReadReReplyObject, y: number) => (
