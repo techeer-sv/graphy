@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil'
 import Image from 'next/image'
 
 import PutReply from './PutReply'
-// TODO: import ReadReReply from './ReadReReply'
+import ReadReReply from './ReadReReply'
 import WriteReReply from './WriteReReply'
 import delete_reply from '../../../public/images/svg/delete.svg'
 import nested_reply from '../../../public/images/svg/nested_reply.svg'
@@ -240,7 +240,7 @@ export default function ReadReply({
         />
       ) : null}
       {/* 대댓글 표시 */}
-      {/* TODO: {commentVis
+      {commentVis
         ? comment.map((x: ReadReReplyObject, y: number) => (
             <ReadReReply
               contents={x}
@@ -249,7 +249,7 @@ export default function ReadReply({
               changeCommentRef={changeCommentRef}
             />
           ))
-        : null} */}
+        : null}
       {/* 대댓글 입력창 */}
       {writeVis ? (
         <WriteReReply
