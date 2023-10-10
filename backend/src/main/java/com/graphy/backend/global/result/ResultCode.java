@@ -61,7 +61,10 @@ public enum ResultCode {
     MESSAGE_PAGING_GET_SUCCESS("MSG003", "쪽지 페이징 조회 성공"),
 
     // Notification
-    NOTIFICATION_PAGING_GET_SUCCESS("N001", "알림 페이징 조회 성공");
+    NOTIFICATION_PAGING_GET_SUCCESS("N001", "알림 페이징 조회 성공"),
+
+    // Job
+    JOB_PAGING_GET_SUCCESS("J001", "채용공고 페이징 조회 성공");
 
     private final String code;
     private final String message;
