@@ -17,6 +17,22 @@ spring:
 logging:
   config: classpath:logback-spring.xml
 
+# Prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    prometheus:
+      enabled: true
+  info:
+    git:
+      mode: full
 
 # swaggerDOC
 springdoc:
