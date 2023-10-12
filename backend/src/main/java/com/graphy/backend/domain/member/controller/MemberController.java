@@ -1,10 +1,10 @@
 package com.graphy.backend.domain.member.controller;
 
+import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.response.GetMemberResponse;
 import com.graphy.backend.domain.member.dto.response.GetMyPageResponse;
 import com.graphy.backend.domain.member.service.MemberService;
-import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
@@ -37,6 +37,13 @@ public class MemberController {
     @GetMapping("/mypage")
     public ResponseEntity<ResultResponse> myPage(@CurrentUser Member member) {
         GetMyPageResponse result = projectService.myPage(member);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
+    }
+
+    @Operation(summary = "get myPage by nickname", description = "사용자 닉네임으로 마이페이지 조회")
+    @GetMapping("/mypage/{nickname}")
+    public ResponseEntity<ResultResponse> mypageByNickname(@PathVariable String nickname) {
+        GetMyPageResponse result = projectService.myPageByNickname(nickname);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.MYPAGE_GET_SUCCESS, result));
     }
 }

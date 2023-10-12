@@ -13,6 +13,7 @@ import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
 import com.graphy.backend.domain.project.dto.response.*;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
+import com.graphy.backend.domain.project.repository.TagRepository;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
@@ -46,6 +47,7 @@ public class ProjectService {
     private final CommentService commentService;
     private final TagService tagService;
     private final GPTChatRestService gptChatRestService;
+    private final TagRepository tagRepository;
 
 //    @PostConstruct
 //    public void initTag() throws IOException {
@@ -120,6 +122,12 @@ public class ProjectService {
     }
 
     public GetMyPageResponse myPage(Member member) {
+        List<GetProjectInfoResponse> projectInfoList = this.findProjectInfoList(member.getId());
+        return GetMyPageResponse.of(member, projectInfoList);
+    }
+
+    public GetMyPageResponse myPageByNickname(String nickname) {
+        Member member = memberService.findMemberByNickname(nickname);
         List<GetProjectInfoResponse> projectInfoList = this.findProjectInfoList(member.getId());
         return GetMyPageResponse.of(member, projectInfoList);
     }
