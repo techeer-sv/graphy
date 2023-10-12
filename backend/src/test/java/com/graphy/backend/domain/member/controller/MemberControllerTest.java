@@ -24,10 +24,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -133,8 +134,8 @@ class MemberControllerTest extends MockApiTest {
                 .followerCount(member1.getFollowerCount())
                 .followingCount(member1.getFollowingCount())
                 .getProjectInfoResponseList(Arrays.asList(
-                        GetProjectInfoResponse.builder().id(1L).projectName("project1").description("description1").build(),
-                        GetProjectInfoResponse.builder().id(2L).projectName("project2").description("description2").build()
+                        GetProjectInfoResponse.builder().id(1L).projectName("project1").content("content1").build(),
+                        GetProjectInfoResponse.builder().id(2L).projectName("project2").content("content2").build()
                 ))
                 .build();
 

@@ -202,7 +202,7 @@ class ProjectServiceTest extends MockTest {
                 .projectName("project1")
                 .description("description1")
                 .thumbNail("thumb")
-                .content("content")
+                .content("content1")
                 .build();
 
         Project project2 = Project.builder()
@@ -211,19 +211,19 @@ class ProjectServiceTest extends MockTest {
                 .projectName("project2")
                 .description("description2")
                 .thumbNail("thumb")
-                .content("content")
+                .content("content2")
                 .build();
 
         GetProjectInfoResponse response1 = GetProjectInfoResponse.builder()
                 .id(1L)
                 .projectName("project1")
-                .description("description1")
+                .content("content1")
                 .build();
 
         GetProjectInfoResponse response2 = GetProjectInfoResponse.builder()
                 .id(2L)
                 .projectName("project2")
-                .description("description2")
+                .content("content2")
                 .build();
 
         List<GetProjectInfoResponse> responseList = Arrays.asList(response1, response2);
