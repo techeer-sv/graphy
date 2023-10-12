@@ -7,7 +7,6 @@ import { useRecoilValue } from 'recoil'
 import Image from 'next/image'
 
 import WriteIcon from '../../public/images/svg/pencil-square.svg'
-// TODO: import NavBar from '../components/general/NavBar'
 import Banner from '../components/main/Banner'
 import ProjectCard from '../components/main/ProjectCard'
 import { searchTextState } from '../utils/atoms'

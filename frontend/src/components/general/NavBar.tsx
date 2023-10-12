@@ -132,7 +132,7 @@ export default function NavBar({ children }: { children: React.ReactNode }) {
         <button
           className="mr-12"
           type="button"
-          onClick={() => router.push('/my')}
+          onClick={() => router.push('/profile/1')}
         >
           <Image
             className="fixed top-4 right-4 h-8 w-8 appearance-none"
