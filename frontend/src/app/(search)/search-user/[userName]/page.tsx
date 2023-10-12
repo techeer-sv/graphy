@@ -43,8 +43,11 @@ export default function SearchUserPage({ params }: ParamsType) {
   }
 
   async function getData() {
+    const queryString = new URLSearchParams({
+      nickname: params.userName,
+    }).toString()
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/members?nickname=${params.userName}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/members?${queryString}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -55,16 +58,16 @@ export default function SearchUserPage({ params }: ParamsType) {
 
     const resData = await res.json()
 
-    if (resData.data.length === 0) {
-      setData([{ nickname: '검색 결과가 없습니다.', email: '' }])
-    } else {
-      setData(resData.data)
-    }
-
     if (!res.ok) {
       alert('검색 결과가 없습니다.')
       router.push('/')
       throw new Error('검색 결과가 없습니다.')
+    }
+
+    if (resData.data.length === 0) {
+      setData([{ nickname: '검색 결과가 없습니다.', email: '' }])
+    } else {
+      setData(resData.data)
     }
   }
 
