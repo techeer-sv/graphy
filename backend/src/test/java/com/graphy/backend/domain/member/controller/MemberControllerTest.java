@@ -157,11 +157,11 @@ class MemberControllerTest extends MockApiTest {
 
                 .andExpect(jsonPath("$.data.getProjectInfoResponseList[0].id").value(1))
                 .andExpect(jsonPath("$.data.getProjectInfoResponseList[0].projectName").value("project1"))
-                .andExpect(jsonPath("$.data.getProjectInfoResponseList[0].description").value("description1"))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[0].content").value("content1"))
 
                 .andExpect(jsonPath("$.data.getProjectInfoResponseList[1].id").value(2))
                 .andExpect(jsonPath("$.data.getProjectInfoResponseList[1].projectName").value("project2"))
-                .andExpect(jsonPath("$.data.getProjectInfoResponseList[1].description").value("description2"))
+                .andExpect(jsonPath("$.data.getProjectInfoResponseList[1].content").value("content2"))
 
                 .andDo(document("members/myPage/find/success",
                         responseFields(
@@ -177,7 +177,7 @@ class MemberControllerTest extends MockApiTest {
 
                                 fieldWithPath("data.getProjectInfoResponseList[].id").description("프로젝트 ID"),
                                 fieldWithPath("data.getProjectInfoResponseList[].projectName").description("프로젝트 이름"),
-                                fieldWithPath("data.getProjectInfoResponseList[].description").description("프로젝트 설명")
+                                fieldWithPath("data.getProjectInfoResponseList[].content").description("프로젝트 소개")
                         )));
     }
 }
