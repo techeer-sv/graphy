@@ -9,7 +9,7 @@ import gptIcon from '../../../../../public/images/svg/gptIcon.svg'
 import ProfileIcon from '../../../../../public/images/svg/profileIcon.svg'
 // TODO: import NavBar from '../../components/general/NavBar'
 import GptModal from '../../../../components/read/GptModal'
-import QuillWrtten from '../../../../components/read/QuillWritten'
+import ToastViewer from '../../../../components/read/ToastViewer'
 import Reply from '../../../../components/read/Reply'
 
 import {
@@ -129,6 +129,14 @@ export default function ReadingPage({ params }: ParamsType) {
       }
     }
   }
+
+  // 이미지 찾는 함수
+  function findImage(tag: string) {
+    return AllStacks.map((x) => x.image)[
+      AllStacks.map((x) => x.name).findIndex((x) => x === tag)
+    ]
+  }
+
   // 렌더링할때 데이터 가져옴
   useEffect(() => {
     getData()
@@ -151,13 +159,6 @@ export default function ReadingPage({ params }: ParamsType) {
       setSelectedStack(selectedStack)
     }
   }, [selectedStack])
-
-  // 이미지 찾는 함수
-  function findImage(tag: string) {
-    return AllStacks.map((x) => x.image)[
-      AllStacks.map((x) => x.name).findIndex((x) => x === tag)
-    ]
-  }
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center bg-graphybg pb-10">
@@ -230,7 +231,7 @@ export default function ReadingPage({ params }: ParamsType) {
           )}
         </div>
         {/** 글 영역* */}
-        <QuillWrtten />
+        <ToastViewer />
         {/** 버튼 영역* */}
         {accessToken || persistToken ? (
           <div className="mt-20 flex justify-end pb-4 sm:mt-20 lg:mt-12">
