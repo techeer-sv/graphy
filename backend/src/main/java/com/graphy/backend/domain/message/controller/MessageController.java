@@ -6,7 +6,7 @@ import com.graphy.backend.domain.message.dto.request.CreateMessageRequest;
 import com.graphy.backend.domain.message.dto.response.GetMessageDetailResponse;
 import com.graphy.backend.domain.message.dto.response.GetMessageResponse;
 import com.graphy.backend.domain.message.service.MessageService;
-import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;

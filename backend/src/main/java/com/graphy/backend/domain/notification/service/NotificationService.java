@@ -6,7 +6,7 @@ import com.graphy.backend.domain.notification.domain.Notification;
 import com.graphy.backend.domain.notification.dto.NotificationDto;
 import com.graphy.backend.domain.notification.dto.response.GetNotificationResponse;
 import com.graphy.backend.domain.notification.repository.NotificationRepository;
-import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
