@@ -1,6 +1,5 @@
 'use client'
 
-import { act } from '@testing-library/react'
 import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Image from 'next/image'
@@ -12,7 +11,7 @@ import delete_reply from '../../../public/images/svg/delete.svg'
 import nested_reply from '../../../public/images/svg/nested_reply.svg'
 import pencil_square from '../../../public/images/svg/pencil-square.svg'
 import { refreshState } from '../../utils/atoms'
-// TODO: import useDidMountEffect from '../../../../useDidMountEffect'
+import useDidMountEffect from '../../hooks/useDidMountEffect'
 
 type ReadReReplyObject = {
   commentId: number
@@ -79,10 +78,7 @@ export default function ReadReply({
     )
 
     const resData = await res.json()
-
-    act(() => {
-      setComment(resData.data)
-    })
+    setComment(resData.data)
 
     if (!res.ok) {
       alert('답글 조회 실패')
@@ -115,9 +111,7 @@ export default function ReadReply({
   }
 
   function openComment() {
-    act(() => {
-      setCommentVis(true)
-    })
+    setCommentVis(true)
     getComment()
   }
 
@@ -125,9 +119,9 @@ export default function ReadReply({
     setCommentRef(!commentRef)
   }
 
-  // TODO: useDidMountEffect(() => {
-  //   getComment()
-  // }, [commentRef])
+  useDidMountEffect(() => {
+    getComment()
+  }, [commentRef])
 
   if (contents.childCount === 0) {
     buttonContent = null

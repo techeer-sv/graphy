@@ -1,6 +1,5 @@
 'use client'
 
-import { act } from '@testing-library/react'
 import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import Image from 'next/image'
@@ -66,10 +65,8 @@ export default function WriteReReply({
       body: JSON.stringify(data),
     })
 
-    act(() => {
-      setrefresh(!refresh)
-      setValue('')
-    })
+    setrefresh(!refresh)
+    setValue('')
 
     if (!res.ok) {
       if (!navigator.onLine) {

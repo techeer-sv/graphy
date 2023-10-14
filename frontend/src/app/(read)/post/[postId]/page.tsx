@@ -1,13 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { act } from '@testing-library/react'
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import gptIcon from '../../../../../public/images/svg/gptIcon.svg'
 import ProfileIcon from '../../../../../public/images/svg/profileIcon.svg'
-// TODO: import NavBar from '../../components/general/NavBar'
 import GptModal from '../../../../components/read/GptModal'
 import ToastViewer from '../../../../components/read/ToastViewer'
 import Reply from '../../../../components/read/Reply'
@@ -109,9 +107,8 @@ export default function ReadingPage({ params }: ParamsType) {
           },
         },
       )
-      act(() => {
-        router.push('/')
-      })
+
+      router.push('/')
 
       if (!res.ok) {
         const error = await res.json()
@@ -162,7 +159,6 @@ export default function ReadingPage({ params }: ParamsType) {
 
   return (
     <div className="mt-0 flex h-auto w-screen justify-center bg-graphybg pb-10">
-      {/* TODO: <NavBar /> */}
       {/** 전체 컨텐츠 영역* */}
       <div className="mt-16 w-11/12 max-w-1100 px-2 sm:flex sm:h-5/6 sm:flex-col">
         {/* AI 고도화 버튼 */}

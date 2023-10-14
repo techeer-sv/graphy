@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import WriteIcon from '../../../../../public/images/svg/pencil-square.svg'
-// TODO: import NavBar from '../../../components/general/NavBar'
 import Banner from '../../../../components/main/Banner'
 import ProjectCard from '../../../../components/main/ProjectCard'
 
@@ -17,7 +16,7 @@ type DataObject = {
   thumbNail: string
 }
 
-export type ParamsType = {
+type ParamsType = {
   params: {
     postName: string
   }
@@ -58,7 +57,6 @@ export default function SearchProjectPage({ params }: ParamsType) {
 
   return (
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
-      {/* TODO: <NavBar /> */}
       <Banner />
 
       <div>
