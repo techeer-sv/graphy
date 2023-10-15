@@ -42,7 +42,7 @@ export default function ProjectCard({ items, index }: ProjectCardProps) {
 
       messageChannel.port1.onmessage = (event) => {
         if (event.data.hasMatch) {
-          router.push(`/read/${items.id}`)
+          router.push(`/post/${items.id}`)
           setProjectId(items.id)
         } else {
           alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.')
@@ -58,7 +58,7 @@ export default function ProjectCard({ items, index }: ProjectCardProps) {
         }
       })
     } else {
-      router.push(`/read/${items.id}`)
+      router.push(`/post/${items.id}`)
       setProjectId(items.id)
     }
   }
