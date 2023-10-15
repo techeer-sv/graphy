@@ -45,6 +45,27 @@ const refreshState = atom<boolean>({
 
 const searchTextState = atom<string>({
   key: 'searchTextState',
+  effects_UNSTABLE: [persistAtom],
+})
+
+const tldrState = atom<string>({
+  key: 'tldrState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+})
+
+const thumbnailUrlState = atom<string | null>({
+  key: 'thumbnailUrlState',
+  default: null,
+})
+
+const selectedStackState = atom<string[]>({
+  key: 'selectedStackState',
+  default: [],
+})
+
+const contentsState = atom<string>({
+  key: 'contentsState',
   default: '',
 })
 
@@ -94,21 +115,21 @@ const nicknameState = atom<string>({
   default: '',
 })
 
-const projectDataState = atom<string>({
-  key: 'projectDataState',
+const projectIdState = atom<number>({
+  key: 'projectIdState',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+})
+
+const searchTextState = atom<string>({
+  key: 'searchTextState',
   default: '',
 })
 
 export {
   titleState,
   tldrState,
-  selectedStackState,
-  contentsState,
-  thumbnailUrlState,
-  projectIdState,
   refreshState,
-  searchTextState,
-  autoLoginState,
   techStacksState,
   topicState,
   featuresState,
@@ -118,4 +139,10 @@ export {
   modalContentState,
   nicknameState,
   projectDataState,
+  thumbnailUrlState,
+  selectedStackState,
+  contentsState,
+  autoLoginState,
+  projectIdState,
+  searchTextState,
 }
