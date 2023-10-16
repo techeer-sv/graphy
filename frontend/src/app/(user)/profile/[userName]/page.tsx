@@ -144,16 +144,16 @@ export default function ProfilePage({
                   >
                     팔로잉 {followingCount}
                   </button>
-
                   {isOpenModal ? (
-                    <ModeModal
+                    <FollowListModal
                       onClickToggleModal={onClickToggleModal}
-                      isFollowing={isFollowing}
+                      modeNumber={modeNumber}
+                      userName={params.userName}
+                      projectId={projectId}
                     />
                   ) : null}
                 </div>
               </div>
-
               <div className="mt-4 whitespace-nowrap text-center font-lato text-[15px] text-stone-500">
                 {introduction}
               </div>
