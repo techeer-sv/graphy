@@ -23,28 +23,48 @@ public enum ResultCode {
     FOLLOWING_CREATE_SUCCESS("F002", "팔로잉 성공"),
     FOLLOW_DELETE_SUCCESS("F003", "언팔로잉 성공"),
 
-
     // Like
     LIKE_PROJECT_SUCCESS("L001", "프로젝트 좋아요/좋아요 취소 성공"),
     LIKED_MEMBER_GET_SUCCESS("L002", "좋아요 누른 유저 조회 성공"),
 
-    // project
+    // Project
     PROJECT_CREATE_SUCCESS("P001", "프로젝트 생성 성공"),
     PROJECT_GET_SUCCESS("P002", "프로젝트 조회 성공"),
     PROJECT_DELETE_SUCCESS("P003", "프로젝트 삭제 성공"),
     PROJECT_UPDATE_SUCCESS("P004", "프로젝트 수정 성공"),
     PROJECT_PAGING_GET_SUCCESS("P005", "프로젝트 페이징 조회 성공"),
 
-    // comment
+    // Comment
     RECOMMENT_GET_SUCCESS("C001", "답글 조회 성공"),
     COMMENT_CREATE_SUCCESS("C002", "댓글 생성 성공"),
     COMMENT_DELETE_SUCCESS("C003", "댓글 삭제 성공"),
     COMMENT_UPDATE_SUCCESS("C004", "댓글 수정 성공"),
 
-    // plan
-    PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공");
+    // Recruitment
+    RECRUITMENT_CREATE_SUCCESS("R001", "구인 게시글 생성 성공"),
+    RECRUITMENT_GET_SUCCESS("R002", "구인 게시글 조회 성공"),
+    RECRUITMENT_DELETE_SUCCESS("R003", "구인 게시글 삭제 성공"),
+    RECRUITMENT_UPDATE_SUCCESS("R004", "구인 게시글 수정 성공"),
+    RECRUITMENT_PAGING_GET_SUCCESS("R005", "구인 게시글 페이징 조회 성공"),
 
+    // Plan,
+    PLAN_CREATE_SUCCESS("PL001", "고도화 계획 생성 성공"),
 
+    // Application
+    APPLICATION_CREATE_SUCCESS("AP001", "프로젝트 참가 신청 성공"),
+    APPLICATION_GET_SUCCESS("AP002", "프로젝트 참가 신청서 단건 조회 성공"),
+    APPLICATION_PAGING_GET_SUCCESS("AP003", "프로젝트 참가 신청서 페이징 조회 성공"),
+
+    // Message
+    MESSAGE_CREATE_SUCCESS("MSG001", "쪽지 전송 성공"),
+    MESSAGE_GET_SUCCESS("MSG002", "쪽지 단건 조회 성공"),
+    MESSAGE_PAGING_GET_SUCCESS("MSG003", "쪽지 페이징 조회 성공"),
+
+    // Notification
+    NOTIFICATION_PAGING_GET_SUCCESS("N001", "알림 페이징 조회 성공"),
+
+    // Job
+    JOB_PAGING_GET_SUCCESS("J001", "채용공고 페이징 조회 성공");
 
     private final String code;
     private final String message;

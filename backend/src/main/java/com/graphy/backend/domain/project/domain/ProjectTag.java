@@ -1,6 +1,9 @@
 package com.graphy.backend.domain.project.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -19,7 +22,6 @@ public class ProjectTag {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "project_id")
     private Project project;
-
 
     @ManyToOne
     @JoinColumn(name = "tag_id")

@@ -24,8 +24,6 @@ public abstract class BaseEntity {
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
-
-
     @LastModifiedDate
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;

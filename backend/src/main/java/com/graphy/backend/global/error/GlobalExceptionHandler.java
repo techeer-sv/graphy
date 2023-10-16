@@ -27,7 +27,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({
+            BusinessException.class,
+    })
     protected ResponseEntity<ErrorResponse> handleRuntimeException(BusinessException e) {
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = makeErrorResponse(errorCode);
@@ -59,31 +61,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, errorCode.getStatus());
     }
 
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.warn(e.getMessage());
-        return handleExceptionInternal(e, ErrorCode.INPUT_INVALID_VALUE, e.getBindingResult(),request);
-    }
-
-
-    private ResponseEntity<Object> handleExceptionInternal(
-            Exception e, ErrorCode errorCode, WebRequest request) {
-        log.error(e.getMessage(), e);
-        return super.handleExceptionInternal(e, ErrorResponse.of(errorCode), HttpHeaders.EMPTY, errorCode.getStatus(), request);
+        return handleExceptionInternal(e, e.getBindingResult(),request);
     }
 
     private ResponseEntity<Object> handleExceptionInternal(
-            Exception e, ErrorCode errorCode, BindingResult bindingResult, WebRequest request) {
+            Exception e, BindingResult bindingResult, WebRequest request) {
         log.error(e.getMessage(), e);
-        ErrorResponse errorResponse = makeErrorResponse(errorCode,bindingResult);
-        return super.handleExceptionInternal(e, errorResponse, HttpHeaders.EMPTY, errorCode.getStatus(), request);
+        ErrorResponse errorResponse = makeErrorResponse(bindingResult);
+        return super.handleExceptionInternal(e, errorResponse, HttpHeaders.EMPTY, ErrorCode.INPUT_INVALID_VALUE.getStatus(), request);
     }
 
 
-    private ErrorResponse makeErrorResponse(ErrorCode errorCode, BindingResult bindingResult) {
+    private ErrorResponse makeErrorResponse(BindingResult bindingResult) {
         return ErrorResponse.builder()
-                        .message(errorCode.getMessage())
-                        .code(errorCode.getErrorCode())
+                        .message(ErrorCode.INPUT_INVALID_VALUE.getMessage())
+                        .code(ErrorCode.INPUT_INVALID_VALUE.getErrorCode())
                         .errors(ErrorResponse.FieldError.of(bindingResult))
                         .build();
     }
