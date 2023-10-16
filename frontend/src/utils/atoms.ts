@@ -47,8 +47,8 @@ const searchTextState = atom<string>({
   default: '',
 })
 
-const nicknameState = atom<string>({
-  key: 'nicknameState',
+const usernameState = atom<string>({
+  key: 'usernameState',
   default: '',
 })
 
@@ -61,5 +61,5 @@ export {
   autoLoginState,
   projectIdState,
   searchTextState,
-  nicknameState,
+  usernameState,
 }

@@ -8,7 +8,7 @@ import Image from 'next/image'
 import WriteIcon from '../../../public/images/svg/pencil-square.svg'
 import ProfileIcon from '../../../public/images/svg/profileIcon.svg'
 import SearchIcon from '../../../public/images/png/searchIcon.png'
-import { searchTextState } from '../../utils/atoms'
+import { searchTextState, usernameState } from '../../utils/atoms'
 
 export default function NavBar({ children }: { children: React.ReactNode }) {
   const accessToken =
@@ -16,6 +16,7 @@ export default function NavBar({ children }: { children: React.ReactNode }) {
   const persistToken =
     typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
   const [searchText, SetSearchText] = useRecoilState(searchTextState)
+  const [username, setUsername] = useRecoilState(usernameState)
   const [btnText, setBtnText] = useState<string>('로그인')
 
   const router = useRouter()
@@ -26,6 +27,7 @@ export default function NavBar({ children }: { children: React.ReactNode }) {
   }
 
   function signOut() {
+    setUsername('')
     if (accessToken) {
       sessionStorage.removeItem('accessToken')
     } else {
@@ -37,8 +39,8 @@ export default function NavBar({ children }: { children: React.ReactNode }) {
     if (searchText === '' || searchText === '@') {
       router.push('/')
     } else if (searchText.charAt(0) === '@') {
-      const username = searchText.substring(1)
-      router.push(`/search-user/${username}`)
+      const searchUserName = searchText.substring(1)
+      router.push(`/search-user/${searchUserName}`)
     } else {
       router.push(`/search-post/${searchText}`)
     }
@@ -127,12 +129,12 @@ export default function NavBar({ children }: { children: React.ReactNode }) {
           <Image className="mr-2 h-5 w-5" src={WriteIcon} alt="WriteIcon" />
           <span className="font-semibold">프로젝트 공유</span>
         </button>
-
         {/* 마이페이지 아이콘 */}
         <button
           className="mr-12"
+          style={{ display: btnText === '로그인' ? 'none' : 'block' }}
           type="button"
-          onClick={() => router.push('/profile/1')}
+          onClick={() => router.push(`/profile/${username}`)}
         >
           <Image
             className="fixed top-4 right-4 h-8 w-8 appearance-none"

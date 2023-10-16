@@ -6,12 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import * as yup from 'yup'
 
 import Image from 'next/image'
 import Email from '../../../../public/images/svg/email.svg'
-import { autoLoginState } from '../../../utils/atoms'
+import { autoLoginState, usernameState } from '../../../utils/atoms'
 
 type DataObject = {
   email: string
@@ -54,6 +54,7 @@ export default function Registration() {
   const persistToken =
     typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
   const autoLogin = useRecoilValue(autoLoginState)
+  const [, setUsername] = useRecoilState(usernameState)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const {
     register,
@@ -72,7 +73,7 @@ export default function Registration() {
   }
 
   const onSubmit: SubmitHandler<DataObject> = async (data: DataObject) => {
-    const res1 = await fetch(
+    const registeration = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`,
       {
         method: 'POST',
@@ -88,16 +89,16 @@ export default function Registration() {
       },
     )
 
-    const res1Data = await res1.json()
+    const registerData = await registeration.json()
 
-    if (!res1.ok) {
-      setErrorMessage(res1Data.message)
-      throw new Error(res1Data.message)
+    if (!registeration.ok) {
+      setErrorMessage(registerData.message)
+      throw new Error(registerData.message)
     }
 
     setErrorMessage('')
 
-    const res2 = await fetch(
+    const login = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signin`,
       {
         method: 'POST',
@@ -111,17 +112,36 @@ export default function Registration() {
       },
     )
 
-    if (!res2.ok) {
+    if (!login.ok) {
       throw new Error('회원가입 시 자동 로그인 실패')
     }
 
-    const res2Data = await res2.json()
+    const loginData = await login.json()
 
     if (autoLogin) {
-      localStorage.setItem('persistToken', res2Data.data.accessToken)
+      localStorage.setItem('persistToken', loginData.data.accessToken)
     } else {
-      sessionStorage.setItem('accessToken', res2Data.data.accessToken)
+      sessionStorage.setItem('accessToken', loginData.data.accessToken)
     }
+
+    const myInfo = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/members/mypage`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${loginData.data.accessToken}`,
+        },
+      },
+    )
+
+    const myInfoData = await myInfo.json()
+
+    if (!myInfo.ok) {
+      throw new Error(myInfoData.message)
+    }
+
+    setUsername(myInfoData.data.nickname)
+
     router.push('/')
   }
 

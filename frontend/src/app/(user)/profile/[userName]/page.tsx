@@ -2,18 +2,16 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { useRecoilState } from 'recoil'
 import Image from 'next/image'
 
 import WritedPost from '../../../../components/user/WritedPost'
 import myProfile from '../../../../../public/images/png/myProfile.png'
 import WriteIcon from '../../../../../public/images/svg/pencil-square.svg'
-import ModeModal from '../../../../components/user/ModeModal'
-import { nicknameState } from '../../../../utils/atoms'
+import FollowListModal from '../../../../components/user/FollowListModal'
 
 type GetProjectInfoResponse = {
   id: number
-  description: string
+  content: string
   projectName: string
 }
 
@@ -31,8 +29,11 @@ type Response = {
   code: string
 }
 
-export default function MyPage() {
-  const [nickname, setNickname] = useRecoilState(nicknameState)
+export default function ProfilePage({
+  params,
+}: {
+  params: { userName: string }
+}) {
   const [introduction, setIntroduction] = useState<string>('')
   const [followerCount, setFollowerCount] = useState<number>(0)
   const [followingCount, setFollowingCount] = useState<number>(0)
@@ -40,12 +41,8 @@ export default function MyPage() {
     GetProjectInfoResponse[]
   >([])
   const [isOpenModal, setOpenModal] = useState<boolean>(false)
-  const [isFollowing, setIsFollowing] = useState<number>(0)
-
-  const accessToken =
-    typeof window !== 'undefined' ? sessionStorage.getItem('accessToken') : null
-  const persistToken =
-    typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
+  const [modeNumber, setModeNumber] = useState<number>(0)
+  const [projectId, setProjectId] = useState<number | null>(null)
 
   const router = useRouter()
 
@@ -54,17 +51,20 @@ export default function MyPage() {
   }, [isOpenModal])
 
   const onClickFollower = () => {
-    setIsFollowing(0)
+    setModeNumber(0)
+    setProjectId(null)
     onClickToggleModal()
   }
 
   const onClickFollowing = () => {
-    setIsFollowing(1)
+    setModeNumber(1)
+    setProjectId(null)
     onClickToggleModal()
   }
 
-  const onClickLike = () => {
-    setIsFollowing(2)
+  const onClickLike = (project_id: number) => {
+    setModeNumber(2)
+    setProjectId(project_id)
     onClickToggleModal()
   }
 
@@ -74,12 +74,11 @@ export default function MyPage() {
 
   async function getMyData() {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/members/mypage`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/members/mypage/${params.userName}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken || persistToken}`,
         },
       },
     )
@@ -91,7 +90,6 @@ export default function MyPage() {
     }
 
     if (resData.data !== undefined) {
-      setNickname(resData.data.nickname)
       setIntroduction(resData.data.introduction)
       setFollowerCount(resData.data.followerCount)
       setFollowingCount(resData.data.followingCount)
@@ -127,7 +125,7 @@ export default function MyPage() {
             <div>
               <div className="flex items-center lg:flex-col">
                 <div className="mr-3 text-center font-lato text-[23px] font-semibold text-graphyblue lg:mx-auto lg:mt-3">
-                  {nickname}
+                  {params.userName}
                 </div>
 
                 <div className="flex flex-row text-center lg:mt-2">
@@ -170,7 +168,7 @@ export default function MyPage() {
               <WritedPost
                 key={project.id}
                 getProjectInfoResponse={project}
-                onClickLike={onClickLike}
+                onClickLike={() => onClickLike(project.id)}
               />
             ))}
           </div>
