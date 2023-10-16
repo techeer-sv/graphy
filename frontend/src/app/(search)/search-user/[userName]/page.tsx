@@ -7,7 +7,6 @@ import Image from 'next/image'
 
 import WriteIcon from '../../../../../public/images/svg/pencil-square.svg'
 import ProfileIcon from '../../../../../public/images/svg/profileIcon.svg'
-// TODO: import NavBar from '../../../components/general/NavBar'
 import Banner from '../../../../components/main/Banner'
 
 type DataObject = {
@@ -77,7 +76,6 @@ export default function SearchUserPage({ params }: ParamsType) {
 
   return (
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
-      {/* TODO: <NavBar /> */}
       <Banner />
 
       <div>

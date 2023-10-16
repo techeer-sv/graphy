@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import WriteIcon from '../../../../../public/images/svg/pencil-square.svg'
-// TODO: import NavBar from '../../../components/general/NavBar'
 import Banner from '../../../../components/main/Banner'
 import ProjectCard from '../../../../components/main/ProjectCard'
 
@@ -41,13 +40,14 @@ export default function SearchProjectPage({ params }: ParamsType) {
       },
     )
 
-    const resData = await res.json()
-
     if (!res.ok) {
       alert('검색 결과가 없습니다.')
       router.push('/')
       throw new Error('프로젝트 검색에 실패했습니다.')
     }
+
+    const resData = await res.json()
+
     setData(resData.data)
   }
 
@@ -57,7 +57,6 @@ export default function SearchProjectPage({ params }: ParamsType) {
 
   return (
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
-      {/* TODO: <NavBar /> */}
       <Banner />
 
       <div>

@@ -83,7 +83,6 @@ export default function Main() {
 
   return (
     <div className="relative h-auto min-h-screen w-screen bg-gray-50">
-      {/* TODO: NavBar */}
       <Banner />
       <div>
         {/* 프로젝트 공유 버튼 */}
