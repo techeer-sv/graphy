@@ -11,7 +11,7 @@ import * as yup from 'yup'
 
 import Image from 'next/image'
 import Email from '../../../../public/images/svg/email.svg'
-import { autoLoginState } from '../../../utils/atoms'
+import { autoLoginState, usernameState } from '../../../utils/atoms'
 
 type DataObject = {
   email: string
@@ -40,6 +40,7 @@ export default function Login() {
   const persistToken =
     typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
   const [autoLogin, setAutoLogin] = useRecoilState(autoLoginState)
+  const [, setUsername] = useRecoilState(usernameState)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,6 +93,25 @@ export default function Login() {
     } else {
       sessionStorage.setItem('accessToken', resData.data.accessToken)
     }
+
+    const myInfo = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/members/mypage`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${resData.data.accessToken}`,
+        },
+      },
+    )
+
+    const myInfoData = await myInfo.json()
+
+    if (!myInfo.ok) {
+      throw new Error(myInfoData.message)
+    }
+
+    setUsername(myInfoData.data.nickname)
+
     router.push('/')
   }
 

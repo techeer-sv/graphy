@@ -23,8 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
         JpaAuditingConfig.class,
         QueryDslConfig.class
 })
-@ActiveProfiles(TestProfile.TEST)
-public class MemberRepositoryTest {
+@ActiveProfiles(TestProfile.UNIT)
+class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
     @PersistenceContext
@@ -63,7 +63,7 @@ public class MemberRepositoryTest {
     
     @Test
     @DisplayName("팔로워를 1 증가시킨다")
-    public void increaseFollowerCountTest() throws Exception {
+    void increaseFollowerCountTest() throws Exception {
         // given
         int 기존_팔로워_수 = member.getFollowerCount();
 
@@ -78,7 +78,7 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("팔로워를 1 감소시킨다")
-    public void decreaseFollowerCountTest() throws Exception {
+    void decreaseFollowerCountTest() throws Exception {
         // given
         int 기존_팔로워_수 = member.getFollowerCount();
 
@@ -93,7 +93,7 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("팔로워가 0인 경우 감소시키지 않는다")
-    public void decreaseFollowerCountZeroFollowerTest() throws Exception {
+    void decreaseFollowerCountZeroFollowerTest() throws Exception {
         // given
         int 기존_팔로워_수 = 팔로우_팔로워가_0인_사용자.getFollowerCount();
 
@@ -109,7 +109,7 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("팔로잉을 1 증가시킨다")
-    public void increaseFollowingCountTest() throws Exception {
+    void increaseFollowingCountTest() throws Exception {
         // given
         int 기존_팔로잉_수 = member.getFollowingCount();
 
@@ -124,7 +124,7 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("팔로잉을 1 감소시킨다")
-    public void decreaseFollowingCountTest() throws Exception {
+    void decreaseFollowingCountTest() throws Exception {
         // given
         int 기존_팔로잉_수 = member.getFollowingCount();
 
@@ -139,9 +139,7 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("팔로잉이 0인 경우 감소시키지 않는다")
-    public void decreaseFollowingCountZeroFollowingTest() throws Exception {
-        // given
-        int 기존_팔로잉_수 = 팔로우_팔로워가_0인_사용자.getFollowingCount();
+    void decreaseFollowingCountZeroFollowingTest() throws Exception {
 
         // when
         memberRepository.decreaseFollowingCount(팔로우_팔로워가_0인_사용자.getId());

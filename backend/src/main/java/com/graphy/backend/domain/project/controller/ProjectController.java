@@ -74,6 +74,16 @@ public class ProjectController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
     }
 
+    @Operation(summary = "findFollowingProjectList", description = "팔로잉하고 있는 사용자의 프로젝트 조회")
+    @GetMapping("/following")
+    public ResponseEntity<ResultResponse> projectList(PageRequest pageRequest, @CurrentUser Member loginUser){
+        Pageable pageable = pageRequest.of();
+        List<GetProjectResponse> result = projectService.findFollowingProjectList(loginUser, pageable);
+
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_PAGING_GET_SUCCESS, result));
+    }
+
+
     @Operation(summary = "findProject", description = "프로젝트 상세 조회")
     @GetMapping("/{projectId}")
     public ResponseEntity<ResultResponse> projectDetails(@PathVariable Long projectId) {
@@ -88,9 +98,7 @@ public class ProjectController {
         projectService.checkGptRequestToken(prompt);
 
         CompletableFuture<String> futureResult =
-                projectService.getProjectPlanAsync(prompt).thenApply(result -> {
-                    return result;
-                });
+                projectService.getProjectPlanAsync(prompt).thenApply(result -> result);
         String response = futureResult.get();
 
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PLAN_CREATE_SUCCESS, response));

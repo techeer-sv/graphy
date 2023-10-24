@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/auth/signup",
                         "/api/v1/auth/signin",
                         "/api/v1/auth/logout",
-                        "/api/v1/projects/search",
+                        "/api/v1/projects", 
+                        "/api/v1/members/**",
                         "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/projects/{projectId}").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/comments/{commentId}").permitAll()

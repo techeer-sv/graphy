@@ -6,7 +6,6 @@ import com.graphy.backend.BackendApplication;
 import com.graphy.backend.domain.auth.infra.TokenProvider;
 import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.test.config.TestProfile;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -22,7 +21,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = BackendApplication.class)
 @ActiveProfiles(TestProfile.TEST)
-@Disabled
 public abstract class MockApiTest {
 
     protected MockMvc mvc;
