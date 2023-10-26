@@ -25,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -50,6 +54,8 @@ public class ProjectService {
     private final TagService tagService;
     private final GPTChatRestService gptChatRestService;
     private final TagRepository tagRepository;
+    private final RedisTemplate<String, Long> redisTemplate;
+    private final String KEY = "ranking";
 
 //    @PostConstruct
 //    public void initTag() throws IOException {
@@ -114,6 +120,7 @@ public class ProjectService {
             if (!oldCookie.getValue().contains("[" + projectId + "]")) {
                 oldCookie.setValue(oldCookie.getValue() + "[" + projectId + "]");
                 project.addViewCount();
+                redisTemplate.opsForZSet().incrementScore(KEY, projectId, 1);
             }
             oldCookie.setPath("/");
             return oldCookie;
@@ -121,6 +128,7 @@ public class ProjectService {
             Cookie newCookie = new Cookie("View_Count", "[" + projectId + "]");
             newCookie.setPath("/");
             project.addViewCount();
+            redisTemplate.opsForZSet().incrementScore(KEY, projectId, 1);
             return newCookie;
         }
     }
@@ -202,5 +210,24 @@ public class ProjectService {
         String features = String.join(", ", request.getFeatures());
         return techStacks + "를 이용해" + request.getTopic() +"를 개발 중이고, 현재"
                 + features + "까지 기능 구현한 상태에서 고도화된 기능과 " + plans + "을 사용한 고도화 방안을 알려줘";
+    }
+
+    public List<GetProjectRankingResponse> findProjectRank() {
+        Set<ZSetOperations.TypedTuple<Long>> projectRanking = getProjectRank();
+
+        return projectRanking.stream()
+                .map(this::getProjectFromTypedTuple)
+                .map(GetProjectRankingResponse::from)
+                .collect(Collectors.toList());
+    }
+
+    private Set<ZSetOperations.TypedTuple<Long>> getProjectRank() {
+        ZSetOperations<String, Long> ZSetOperations = redisTemplate.opsForZSet();
+        return ZSetOperations.reverseRangeWithScores(KEY, 0, 9);
+    }
+
+    private Project getProjectFromTypedTuple(ZSetOperations.TypedTuple<Long> tuple) {
+        return projectRepository.findById(Objects.requireNonNull(tuple.getValue()))
+                .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
     }
 }
