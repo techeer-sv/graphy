@@ -104,7 +104,7 @@ public class ProjectController {
     @Operation(summary = "findProjectRank", description = "프로젝트 랭킹 조회")
     @GetMapping("/rank")
     public ResponseEntity<ResultResponse> projectRankList() {
-        List<GetProjectRankingResponse> result = projectService.findProjectRank();
+        List<GetProjectRankingResponse> result = projectService.findTopRankingProjectList();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 

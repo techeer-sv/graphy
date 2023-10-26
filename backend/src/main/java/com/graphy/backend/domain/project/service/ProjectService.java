@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.project.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
@@ -22,21 +23,23 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -55,7 +58,13 @@ public class ProjectService {
     private final GPTChatRestService gptChatRestService;
     private final TagRepository tagRepository;
     private final RedisTemplate<String, Long> redisTemplate;
-    private final String KEY = "ranking";
+    private final RedisTemplate<String, GetProjectRankingResponse> redisRankingTemplate;
+    private final String RANKING_KEY = "ranking";
+    private final String TOP_RANKING_PROJECT_KEY = "topRankingProject";
+    private final int START_RANKING = 0;
+    private final int END_RANKING = 9;
+    ObjectMapper objectMapper = new ObjectMapper();
+
 
 //    @PostConstruct
 //    public void initTag() throws IOException {
@@ -120,7 +129,7 @@ public class ProjectService {
             if (!oldCookie.getValue().contains("[" + projectId + "]")) {
                 oldCookie.setValue(oldCookie.getValue() + "[" + projectId + "]");
                 project.addViewCount();
-                redisTemplate.opsForZSet().incrementScore(KEY, projectId, 1);
+                redisTemplate.opsForZSet().incrementScore(RANKING_KEY, projectId, 1);
             }
             oldCookie.setPath("/");
             return oldCookie;
@@ -128,7 +137,7 @@ public class ProjectService {
             Cookie newCookie = new Cookie("View_Count", "[" + projectId + "]");
             newCookie.setPath("/");
             project.addViewCount();
-            redisTemplate.opsForZSet().incrementScore(KEY, projectId, 1);
+            redisTemplate.opsForZSet().incrementScore(RANKING_KEY, projectId, 1);
             return newCookie;
         }
     }
@@ -212,22 +221,31 @@ public class ProjectService {
                 + features + "까지 기능 구현한 상태에서 고도화된 기능과 " + plans + "을 사용한 고도화 방안을 알려줘";
     }
 
-    public List<GetProjectRankingResponse> findProjectRank() {
-        Set<ZSetOperations.TypedTuple<Long>> projectRanking = getProjectRank();
+    @Cacheable(value = "topRankingProjects")
+    public List<GetProjectRankingResponse> findTopRankingProjectList() {
+        return redisRankingTemplate.opsForList().range(TOP_RANKING_PROJECT_KEY, START_RANKING, END_RANKING);
+    }
 
-        return projectRanking.stream()
-                .map(this::getProjectFromTypedTuple)
-                .map(GetProjectRankingResponse::from)
+    @Scheduled(cron = "0 0 6 ? * MON", zone = "Asia/Seoul")
+    protected void initializeProjectRanking() {
+        List<Long> projectIds = getProjectRank().stream()
+                .map(ZSetOperations.TypedTuple::getValue)
                 .collect(Collectors.toList());
+
+        getRankedProjectListById(projectIds).stream()
+                .map(GetProjectRankingResponse::from)
+                .forEach(e -> {
+                    redisRankingTemplate.opsForList().rightPush(TOP_RANKING_PROJECT_KEY, e);
+                });
+        redisRankingTemplate.expire(TOP_RANKING_PROJECT_KEY, 7, TimeUnit.DAYS);
     }
 
     private Set<ZSetOperations.TypedTuple<Long>> getProjectRank() {
         ZSetOperations<String, Long> ZSetOperations = redisTemplate.opsForZSet();
-        return ZSetOperations.reverseRangeWithScores(KEY, 0, 9);
+        return ZSetOperations.reverseRangeWithScores(RANKING_KEY, START_RANKING, END_RANKING);
     }
 
-    private Project getProjectFromTypedTuple(ZSetOperations.TypedTuple<Long> tuple) {
-        return projectRepository.findById(Objects.requireNonNull(tuple.getValue()))
-                .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
+    private List<Project> getRankedProjectListById(List<Long> projectIds) {
+        return projectRepository.findAllById(projectIds);
     }
 }

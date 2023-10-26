@@ -1,5 +1,6 @@
 package com.graphy.backend.global.config;
 
+import com.graphy.backend.domain.project.dto.response.GetProjectRankingResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,15 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Long.class));
+        return redisTemplate;
+    }
+
+    @Bean
+    public RedisTemplate<String, GetProjectRankingResponse> redisRankDtoTemplate(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<String, GetProjectRankingResponse> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(GetProjectRankingResponse.class));
         return redisTemplate;
     }
 
