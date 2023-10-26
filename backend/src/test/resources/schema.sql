@@ -45,6 +45,7 @@ create table project
     content      longtext      null,
     description  varchar(255)  null,
     like_count   int default 0 null,
+    view_count   int default 0 null,
     project_name varchar(255)  not null,
     thumb_nail   varchar(255)  null,
     member_id    bigint        not null,
