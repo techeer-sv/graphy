@@ -53,9 +53,13 @@ public class Project extends BaseEntity {
 
     private String thumbNail;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     @ColumnDefault("0")
     private int likeCount = 0;
+
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int viewCount = 0;
 
     public void updateProject(String projectName, String content,
                               String description, Tags tags,
@@ -70,6 +74,9 @@ public class Project extends BaseEntity {
 
     public void updateLikeCount(int amount) {
         this.likeCount += amount;
+    }
+    public void addViewCount() {
+        this.viewCount++;
     }
 
     public void addTag(Tags tags) {

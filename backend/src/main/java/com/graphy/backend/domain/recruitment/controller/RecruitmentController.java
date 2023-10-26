@@ -9,7 +9,7 @@ import com.graphy.backend.domain.recruitment.dto.response.GetApplicationResponse
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentDetailResponse;
 import com.graphy.backend.domain.recruitment.dto.response.GetRecruitmentResponse;
 import com.graphy.backend.domain.recruitment.service.RecruitmentService;
-import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;

@@ -22,7 +22,6 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +29,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -37,7 +38,8 @@ import java.util.stream.Collectors;
 
 import static com.graphy.backend.global.config.ChatGPTConfig.MAX_REQUEST_TOKEN;
 
-@Service @Slf4j
+@Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectService {
     private final ProjectRepository projectRepository;
@@ -96,12 +98,42 @@ public class ProjectService {
     }
 
     public GetProjectDetailResponse findProjectById(Long projectId) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
-
+        Project project = this.getProjectById(projectId);
         List<GetCommentWithMaskingResponse> comments = commentService.findCommentListWithMasking(projectId);
-
         return GetProjectDetailResponse.of(project, comments);
+    }
+
+    @Transactional
+    public Cookie addViewCount(HttpServletRequest request, Long projectId) {
+        Project project = this.getProjectById(projectId);
+
+        Cookie[] cookies = request.getCookies();
+        Cookie oldCookie = this.findCookie(cookies, "View_Count");
+
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + projectId + "]")) {
+                oldCookie.setValue(oldCookie.getValue() + "[" + projectId + "]");
+                project.addViewCount();
+            }
+            oldCookie.setPath("/");
+            return oldCookie;
+        } else {
+            Cookie newCookie = new Cookie("View_Count", "[" + projectId + "]");
+            newCookie.setPath("/");
+            project.addViewCount();
+            return newCookie;
+        }
+    }
+
+    private Cookie findCookie(Cookie[] cookies, String cookieName) {
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookieName.equals(cookie.getName())) {
+                    return cookie;
+                }
+            }
+        }
+        return null;
     }
 
     public List<GetProjectResponse> findProjectList(GetProjectsRequest dto, Pageable pageable) {
@@ -152,9 +184,7 @@ public class ProjectService {
     }
 
     private void GptApiCall(GptCompletionRequest request, Consumer<String> callback) {
-        log.info("비동기 작업 시작");
         GptCompletionResponse result = gptChatRestService.completion(request);
-        log.info("비동기 작업 완료");
         String response = result.getMessages().get(0).getText()
                 .replace("\n", " ").replace("\n\n", " ");
         callback.accept(response);

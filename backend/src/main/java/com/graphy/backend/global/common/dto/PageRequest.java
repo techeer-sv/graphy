@@ -1,4 +1,4 @@
-package com.graphy.backend.global.common;
+package com.graphy.backend.global.common.dto;
 
 import com.graphy.backend.global.error.exception.BusinessException;
 import org.springframework.data.domain.Sort;
