@@ -30,6 +30,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.HashOperations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +57,8 @@ class ProjectServiceTest extends MockTest {
 
     @Mock
     private CustomUserDetailsService customUserDetailsService;
+    @Mock
+    HashOperations hashOperations;
 
     @InjectMocks
     private ProjectService projectService;
@@ -86,14 +89,15 @@ class ProjectServiceTest extends MockTest {
         Tag tag1 = Tag.builder().tech("Vue").build();
         Tag tag2 = Tag.builder().tech("Java").build();
 
-
         //when
         when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
         when(tagService.findTagListByName(techTags)).thenReturn(new Tags(List.of(tag1, tag2)));
+        when(redisRankingTemplate.opsForHash()).thenReturn(hashOperations);
 
         UpdateProjectResponse result = projectService.modifyProject(project.getId(), request);
 
-        assertThat(result.getProjectName()).isEqualTo(project.getProjectName());
+        //then
+        assertThat(result.getProjectName()).isEqualTo("afterUpdate"); // 수정된 부분
         assertThat(result.getDescription()).isEqualTo(project.getDescription());
         assertThat(result.getThumbNail()).isEqualTo(project.getThumbNail());
         assertThat(result.getTechTags()).isEqualTo(new ArrayList<>(Arrays.asList("Vue", "Java")));
@@ -177,6 +181,7 @@ class ProjectServiceTest extends MockTest {
     @DisplayName("프로젝트 삭제")
     void deleteProject() throws Exception {
         //when
+        when(redisRankingTemplate.opsForHash()).thenReturn(hashOperations);
         projectService.removeProject(1L);
 
         //then
