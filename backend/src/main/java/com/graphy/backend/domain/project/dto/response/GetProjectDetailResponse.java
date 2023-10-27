@@ -1,21 +1,29 @@
 package com.graphy.backend.domain.project.dto.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.member.dto.response.GetMemberResponse;
 import com.graphy.backend.domain.project.domain.Project;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.graphy.backend.domain.member.dto.response.GetMemberResponse.*;
+import static com.graphy.backend.domain.member.dto.response.GetMemberResponse.from;
 
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetProjectDetailResponse {
+public class GetProjectDetailResponse implements Serializable {
 
     private Long id;
 
@@ -29,6 +37,8 @@ public class GetProjectDetailResponse {
 
     private List<GetCommentWithMaskingResponse> commentsList;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
 
     private List<String> techTags;

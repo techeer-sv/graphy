@@ -2,6 +2,7 @@ package com.graphy.backend.domain.project.domain;
 
 import com.graphy.backend.domain.comment.domain.Comment;
 import com.graphy.backend.domain.member.domain.Member;
+import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
 import com.graphy.backend.global.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -61,13 +62,11 @@ public class Project extends BaseEntity {
     @ColumnDefault("0")
     private int viewCount = 0;
 
-    public void updateProject(String projectName, String content,
-                              String description, Tags tags,
-                              String thumbNail) {
-        this.projectName = projectName;
-        this.content = content;
-        this.description = description;
-        this.thumbNail = thumbNail;
+    public void updateProject(UpdateProjectRequest dto, Tags tags) {
+        this.projectName = dto.getProjectName();
+        this.content = dto.getContent();
+        this.description = dto.getDescription();
+        this.thumbNail = dto.getThumbNail();
         projectTags.clear();
         addTag(tags);
     }

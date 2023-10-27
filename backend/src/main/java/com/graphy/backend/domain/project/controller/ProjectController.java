@@ -104,6 +104,13 @@ public class ProjectController {
                 .body(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 
+    @Operation(summary = "findProjectRank", description = "프로젝트 랭킹 조회")
+    @GetMapping("/rank")
+    public ResponseEntity<ResultResponse> projectRankList() {
+        List<GetProjectDetailResponse> result = projectService.findTopRankingProjectList();
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
+    }
+
     @Operation(summary = "getProjectPlan", description = "프로젝트 고도화 계획 제안")
     @PostMapping("/plans")
     public ResponseEntity<ResultResponse> projectPlanDetails(final @RequestBody GetProjectPlanRequest getPlanRequest, @CurrentUser Member loginUser) throws ExecutionException, InterruptedException {
