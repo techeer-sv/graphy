@@ -6,7 +6,10 @@ import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectPlanRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
-import com.graphy.backend.domain.project.dto.response.*;
+import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
+import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
 import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
@@ -104,7 +107,7 @@ public class ProjectController {
     @Operation(summary = "findProjectRank", description = "프로젝트 랭킹 조회")
     @GetMapping("/rank")
     public ResponseEntity<ResultResponse> projectRankList() {
-        List<GetProjectRankingResponse> result = projectService.findTopRankingProjectList();
+        List<GetProjectDetailResponse> result = projectService.findTopRankingProjectList();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 

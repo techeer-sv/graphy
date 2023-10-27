@@ -1,6 +1,6 @@
 package com.graphy.backend.global.config;
 
-import com.graphy.backend.domain.project.dto.response.GetProjectRankingResponse;
+import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Long> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+    public RedisTemplate<String, Long> redisProjectRankingTemplate(RedisConnectionFactory redisConnectionFactory){
         RedisTemplate<String, Long> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -40,11 +40,11 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, GetProjectRankingResponse> redisRankDtoTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<String, GetProjectRankingResponse> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, GetProjectDetailResponse> redisTopRankingProjectTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, GetProjectDetailResponse> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(GetProjectRankingResponse.class));
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(GetProjectDetailResponse.class));
         return redisTemplate;
     }
 
@@ -55,7 +55,6 @@ public class RedisConfig {
                         .SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext
                         .SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-
 
         return RedisCacheManager
                 .RedisCacheManagerBuilder

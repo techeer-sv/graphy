@@ -1,6 +1,5 @@
 package com.graphy.backend.domain.project.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.graphy.backend.domain.comment.dto.response.GetCommentWithMaskingResponse;
 import com.graphy.backend.domain.comment.service.CommentService;
 import com.graphy.backend.domain.member.domain.Member;
@@ -23,10 +22,10 @@ import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.error.exception.LongRequestException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Async;
@@ -36,8 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -58,12 +58,12 @@ public class ProjectService {
     private final GPTChatRestService gptChatRestService;
     private final TagRepository tagRepository;
     private final RedisTemplate<String, Long> redisTemplate;
-    private final RedisTemplate<String, GetProjectRankingResponse> redisRankingTemplate;
+    private final RedisTemplate<String, GetProjectDetailResponse> redisRankingTemplate;
     private final String RANKING_KEY = "ranking";
     private final String TOP_RANKING_PROJECT_KEY = "topRankingProject";
     private final int START_RANKING = 0;
     private final int END_RANKING = 9;
-    ObjectMapper objectMapper = new ObjectMapper();
+    private int NEXT_RANKING = END_RANKING;
 
 
 //    @PostConstruct
@@ -96,6 +96,7 @@ public class ProjectService {
     public void removeProject(Long projectId) {
         try {
             projectRepository.deleteById(projectId);
+            if (isProjectIdExistInRanking(projectId)) addNextRankingProject(projectId);
         } catch (EmptyResultDataAccessException e) {
             throw new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST);
         }
@@ -103,11 +104,12 @@ public class ProjectService {
 
     @Transactional
     public UpdateProjectResponse modifyProject(Long projectId, UpdateProjectRequest dto) {
-        Project project = projectRepository.findById(projectId).get();
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new EmptyResultException(ErrorCode.PROJECT_DELETED_OR_NOT_EXIST));
         projectTagService.removeProjectTag(project.getId());
         Tags updatedTags = tagService.findTagListByName(dto.getTechTags());
 
-        project.updateProject(dto.getProjectName(), dto.getContent(), dto.getDescription(), updatedTags, dto.getThumbNail());
+        project.updateProject(dto, updatedTags);
+        if (isProjectIdExistInRanking(projectId)) modifyProjectInRanking(project);
 
         return UpdateProjectResponse.from(project);
     }
@@ -221,31 +223,67 @@ public class ProjectService {
                 + features + "까지 기능 구현한 상태에서 고도화된 기능과 " + plans + "을 사용한 고도화 방안을 알려줘";
     }
 
-    @Cacheable(value = "topRankingProjects")
-    public List<GetProjectRankingResponse> findTopRankingProjectList() {
-        return redisRankingTemplate.opsForList().range(TOP_RANKING_PROJECT_KEY, START_RANKING, END_RANKING);
+    public List<GetProjectDetailResponse> findTopRankingProjectList() {
+        HashOperations<String, Long, GetProjectDetailResponse> hashOperation = redisRankingTemplate.opsForHash();
+        List<Long> topRankingProjectIdList = getTopRankingProjectIdList();
+
+        return topRankingProjectIdList.stream()
+                .map(projectId -> hashOperation.get(TOP_RANKING_PROJECT_KEY, projectId))
+                .collect(Collectors.toList());
     }
 
-    @Scheduled(cron = "0 0 6 ? * MON", zone = "Asia/Seoul")
-    protected void initializeProjectRanking() {
-        List<Long> projectIds = getProjectRank().stream()
-                .map(ZSetOperations.TypedTuple::getValue)
-                .collect(Collectors.toList());
 
-        getRankedProjectListById(projectIds).stream()
-                .map(GetProjectRankingResponse::from)
-                .forEach(e -> {
-                    redisRankingTemplate.opsForList().rightPush(TOP_RANKING_PROJECT_KEY, e);
-                });
+    @Scheduled(cron = "0 0 6 ? * MON", zone = "Asia/Seoul")
+    public void initializeProjectRanking() {
+        NEXT_RANKING = END_RANKING;
+        HashOperations<String, Long, GetProjectDetailResponse> hashOperation = redisRankingTemplate.opsForHash();
+        List<GetProjectDetailResponse> topRankingProjectList = getRankedProjectListById(getTopRankingProjectIdList());
+
+        topRankingProjectList.forEach(project -> hashOperation.put(TOP_RANKING_PROJECT_KEY, project.getId(), project));
         redisRankingTemplate.expire(TOP_RANKING_PROJECT_KEY, 7, TimeUnit.DAYS);
     }
 
-    private Set<ZSetOperations.TypedTuple<Long>> getProjectRank() {
-        ZSetOperations<String, Long> ZSetOperations = redisTemplate.opsForZSet();
-        return ZSetOperations.reverseRangeWithScores(RANKING_KEY, START_RANKING, END_RANKING);
+    private List<Long> getTopRankingProjectIdList() {
+        ZSetOperations<String, Long> zSetOperations = redisTemplate.opsForZSet();
+        return new ArrayList<>(Objects.requireNonNull(zSetOperations.reverseRange(RANKING_KEY, START_RANKING, END_RANKING)));
     }
 
-    private List<Project> getRankedProjectListById(List<Long> projectIds) {
-        return projectRepository.findAllById(projectIds);
+    private List<GetProjectDetailResponse> getRankedProjectListById(List<Long> projectIds) {
+        List<Project> projectList = projectRepository.findAllById(projectIds);
+
+        return projectList.stream()
+                .map(project -> {
+                    List<GetCommentWithMaskingResponse> comments = commentService.findCommentListWithMasking(project.getId());
+                    return GetProjectDetailResponse.of(project, comments);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private void addNextRankingProject(Long deletedProjectId) {
+        ZSetOperations<String, Long> zSetOperations = redisTemplate.opsForZSet();
+        HashOperations<String, Long, GetProjectDetailResponse> hashOperation = redisRankingTemplate.opsForHash();
+
+        hashOperation.delete(TOP_RANKING_PROJECT_KEY, deletedProjectId);
+        zSetOperations.remove(RANKING_KEY, deletedProjectId);
+
+        Long nextRankingProjectId = Objects.requireNonNull(zSetOperations.reverseRange(RANKING_KEY, NEXT_RANKING, NEXT_RANKING))
+                .iterator()
+                .next();
+        NEXT_RANKING++;
+
+        GetProjectDetailResponse nextRankingProject = this.findProjectById(nextRankingProjectId);
+        hashOperation.put(TOP_RANKING_PROJECT_KEY, nextRankingProjectId, nextRankingProject);
+    }
+
+    private void modifyProjectInRanking(Project project) {
+        HashOperations<String, Long, GetProjectDetailResponse> hashOperation = redisRankingTemplate.opsForHash();
+        List<GetCommentWithMaskingResponse> comments = commentService.findCommentListWithMasking(project.getId());
+        GetProjectDetailResponse updateProject = GetProjectDetailResponse.of(project, comments);
+        hashOperation.put(TOP_RANKING_PROJECT_KEY, project.getId(), updateProject);
+    }
+
+    private boolean isProjectIdExistInRanking(Long projectId) {
+        HashOperations<String, Long, GetProjectDetailResponse> hashOperation = redisRankingTemplate.opsForHash();
+        return hashOperation.hasKey(TOP_RANKING_PROJECT_KEY, projectId);
     }
 }
