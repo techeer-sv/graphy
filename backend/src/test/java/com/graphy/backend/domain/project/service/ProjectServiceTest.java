@@ -11,10 +11,7 @@ import com.graphy.backend.domain.project.domain.Tags;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
-import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
-import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
-import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
-import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
+import com.graphy.backend.domain.project.dto.response.*;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
 import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
@@ -31,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +55,10 @@ class ProjectServiceTest extends MockTest {
 
     @Mock
     private CustomUserDetailsService customUserDetailsService;
+
+    @Mock
+    private RedisTemplate<String, GetProjectDetailResponse> redisRankingTemplate; // RedisTemplate 모킹
+
     @Mock
     HashOperations hashOperations;
 
