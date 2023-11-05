@@ -11,12 +11,9 @@ import com.graphy.backend.domain.project.domain.Tags;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
-import com.graphy.backend.domain.project.dto.response.CreateProjectResponse;
-import com.graphy.backend.domain.project.dto.response.GetProjectInfoResponse;
-import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
-import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
+import com.graphy.backend.domain.project.dto.response.*;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.test.MockTest;
@@ -30,6 +27,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +55,12 @@ class ProjectServiceTest extends MockTest {
 
     @Mock
     private CustomUserDetailsService customUserDetailsService;
+
+    @Mock
+    private RedisTemplate<String, GetProjectDetailResponse> redisRankingTemplate; // RedisTemplate 모킹
+
+    @Mock
+    HashOperations hashOperations;
 
     @InjectMocks
     private ProjectService projectService;
@@ -86,14 +91,15 @@ class ProjectServiceTest extends MockTest {
         Tag tag1 = Tag.builder().tech("Vue").build();
         Tag tag2 = Tag.builder().tech("Java").build();
 
-
         //when
         when(projectRepository.findById(project.getId())).thenReturn(Optional.of(project));
         when(tagService.findTagListByName(techTags)).thenReturn(new Tags(List.of(tag1, tag2)));
+        when(redisRankingTemplate.opsForHash()).thenReturn(hashOperations);
 
         UpdateProjectResponse result = projectService.modifyProject(project.getId(), request);
 
-        assertThat(result.getProjectName()).isEqualTo(project.getProjectName());
+        //then
+        assertThat(result.getProjectName()).isEqualTo("afterUpdate"); // 수정된 부분
         assertThat(result.getDescription()).isEqualTo(project.getDescription());
         assertThat(result.getThumbNail()).isEqualTo(project.getThumbNail());
         assertThat(result.getTechTags()).isEqualTo(new ArrayList<>(Arrays.asList("Vue", "Java")));
@@ -177,6 +183,7 @@ class ProjectServiceTest extends MockTest {
     @DisplayName("프로젝트 삭제")
     void deleteProject() throws Exception {
         //when
+        when(redisRankingTemplate.opsForHash()).thenReturn(hashOperations);
         projectService.removeProject(1L);
 
         //then
@@ -202,7 +209,7 @@ class ProjectServiceTest extends MockTest {
                 .projectName("project1")
                 .description("description1")
                 .thumbNail("thumb")
-                .content("content")
+                .content("content1")
                 .build();
 
         Project project2 = Project.builder()
@@ -211,19 +218,19 @@ class ProjectServiceTest extends MockTest {
                 .projectName("project2")
                 .description("description2")
                 .thumbNail("thumb")
-                .content("content")
+                .content("content2")
                 .build();
 
         GetProjectInfoResponse response1 = GetProjectInfoResponse.builder()
                 .id(1L)
                 .projectName("project1")
-                .description("description1")
+                .content("content1")
                 .build();
 
         GetProjectInfoResponse response2 = GetProjectInfoResponse.builder()
                 .id(2L)
                 .projectName("project2")
-                .description("description2")
+                .content("content2")
                 .build();
 
         List<GetProjectInfoResponse> responseList = Arrays.asList(response1, response2);

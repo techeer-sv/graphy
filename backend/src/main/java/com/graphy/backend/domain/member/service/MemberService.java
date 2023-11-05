@@ -49,4 +49,11 @@ public class MemberService {
                 () -> new EmptyResultException(MEMBER_NOT_EXIST)
         );
     }
+
+    public Member findMemberByNickname(String nickname) {
+        return memberRepository.findFirstByNickname(nickname).orElseThrow(
+                () -> new EmptyResultException(MEMBER_NOT_EXIST)
+        );
+    }
+
 }

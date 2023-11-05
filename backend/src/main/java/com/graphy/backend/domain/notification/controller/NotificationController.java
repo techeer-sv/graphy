@@ -4,7 +4,7 @@ import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.notification.dto.response.GetNotificationResponse;
 import com.graphy.backend.domain.notification.service.NotificationService;
-import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.result.ResultCode;
 import com.graphy.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;

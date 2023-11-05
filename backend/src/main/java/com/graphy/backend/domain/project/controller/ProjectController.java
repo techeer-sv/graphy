@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.project.controller;
 
+import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.project.dto.request.CreateProjectRequest;
 import com.graphy.backend.domain.project.dto.request.GetProjectPlanRequest;
@@ -10,8 +11,7 @@ import com.graphy.backend.domain.project.dto.response.GetProjectDetailResponse;
 import com.graphy.backend.domain.project.dto.response.GetProjectResponse;
 import com.graphy.backend.domain.project.dto.response.UpdateProjectResponse;
 import com.graphy.backend.domain.project.service.ProjectService;
-import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
-import com.graphy.backend.global.common.PageRequest;
+import com.graphy.backend.global.common.dto.PageRequest;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.EmptyResultException;
 import com.graphy.backend.global.result.ResultCode;
@@ -22,13 +22,18 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @Tag(name = "ProjectController", description = "프로젝트 관련 API")
 @RestController
@@ -86,8 +91,23 @@ public class ProjectController {
 
     @Operation(summary = "findProject", description = "프로젝트 상세 조회")
     @GetMapping("/{projectId}")
-    public ResponseEntity<ResultResponse> projectDetails(@PathVariable Long projectId) {
+    public ResponseEntity<ResultResponse> projectDetails(@PathVariable Long projectId, HttpServletRequest request) {
         GetProjectDetailResponse result = projectService.findProjectById(projectId);
+        Cookie cookie = projectService.addViewCount(request, projectId);
+        ResponseCookie responseCookie = ResponseCookie.from(cookie.getName(), cookie.getValue())
+                .path(cookie.getPath())
+                .maxAge(cookie.getMaxAge())
+                .build();
+
+        return ResponseEntity.ok()
+                .header(SET_COOKIE, responseCookie.toString())
+                .body(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
+    }
+
+    @Operation(summary = "findProjectRank", description = "프로젝트 랭킹 조회")
+    @GetMapping("/rank")
+    public ResponseEntity<ResultResponse> projectRankList() {
+        List<GetProjectDetailResponse> result = projectService.findTopRankingProjectList();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.PROJECT_GET_SUCCESS, result));
     }
 

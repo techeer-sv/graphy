@@ -10,19 +10,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetProjectInfoResponse {
-
+public class GetProjectRankingResponse {
     private Long id;
-
     private String projectName;
+    private int viewCount;
+    private int likeCount;
 
-    private String content;
-
-    public static GetProjectInfoResponse from(Project project) {
-        return GetProjectInfoResponse.builder()
+    public static GetProjectRankingResponse from(Project project) {
+        return GetProjectRankingResponse.builder()
                 .id(project.getId())
                 .projectName(project.getProjectName())
-                .content(project.getContent())
+                .viewCount(project.getViewCount())
+                .likeCount(project.getLikeCount())
                 .build();
     }
 }

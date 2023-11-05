@@ -1,4 +1,4 @@
-package com.graphy.backend.domain.bookmark.domain;
+package com.graphy.backend.domain.comment.domain;
 
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
