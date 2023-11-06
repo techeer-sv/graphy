@@ -1,23 +1,22 @@
-import Lottie from 'lottie-react';
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/scss/pagination';
+import Lottie from 'lottie-react'
+import { Pagination, Autoplay } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/scss/pagination'
+import lotties from '../../utils/lotties'
 
-import lottie from '../../assets/lottie';
-
-function Banner() {
+export default function Banner() {
   return (
     <div className="pt-16 pb-9">
       <Swiper
-        modules={[Pagination]}
+        modules={[Autoplay, Pagination]}
         spaceBetween={50}
         slidesPerView={1}
-        onSlideChange={() => {}}
-        onSwiper={() => {}}
         pagination={{ clickable: true }}
-        className="h-40 bg-subbanner sm:h-56 "
+        className="bg-subbanner h-40 sm:h-56 "
         data-testid="banner"
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        loop
       >
         <SwiperSlide className="bg-gradient-to-r from-mainbannerleft to-mainbannerright">
           <div className="mx-auto ml-6 whitespace-nowrap sm:ml-20 ">
@@ -42,14 +41,12 @@ function Banner() {
             </div>
             <Lottie
               className="mx-auto hidden bg-subbanner pb-20 sm:block sm:h-80 sm:min-h-56 sm:w-80"
-              animationData={lottie}
+              animationData={lotties}
               data-testid="lottie-animation"
             />
           </div>
         </SwiperSlide>
       </Swiper>
     </div>
-  );
+  )
 }
-
-export default Banner;

@@ -11,7 +11,6 @@ module.exports = {
         355: '350px',
         504: '54px',
       },
-
       colors: {
         graphybg: '#F9F8F8',
         graphyblue: '#505F9A',
@@ -56,4 +55,4 @@ module.exports = {
     },
   },
   plugins: [],
-};
+}

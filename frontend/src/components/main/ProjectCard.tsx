@@ -1,61 +1,65 @@
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+'use client'
 
-import project from '../../assets/image/project.png';
-import { projectIdState } from '../../Recoil';
-import AllStacks from '../../Stack';
+import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import Image from 'next/image'
+import project from '../../../public/images/png/project.png'
+
+import { projectIdState } from '../../utils/atoms'
+import AllStacks from '../../utils/stacks'
 
 type ProjectCardProps = {
   items: {
-    id: number;
-    createdAt: string;
-    projectName: string;
-    description: string;
-    techTags: string[];
-    thumbNail: string;
-  };
-};
+    id: number
+    createdAt: string
+    projectName: string
+    description: string
+    techTags: string[]
+    thumbNail: string
+  }
+  index: number
+}
 
-function ProjectCard({ items }: ProjectCardProps) {
-  const [, setProjectId] = useRecoilState(projectIdState);
-  const navigate = useNavigate();
+export default function ProjectCard({ items, index }: ProjectCardProps) {
+  const [, setProjectId] = useRecoilState(projectIdState)
+  const router = useRouter()
 
   function findImage(tag: string) {
     return AllStacks.map((x) => x.image)[
       AllStacks.map((x) => x.name).findIndex((x) => x === tag)
-    ];
+    ]
   }
 
   function toRead() {
-    const urlToCheck = `http://localhost:8080/api/v1/projects/${items.id}`;
+    const urlToCheck = `${process.env.NEXT_PUBLIC_BASE_URL}/projects/${items.id}`
 
     if (
       !navigator.onLine &&
       'serviceWorker' in navigator &&
       navigator.serviceWorker.controller
     ) {
-      const messageChannel = new MessageChannel();
+      const messageChannel = new MessageChannel()
 
       messageChannel.port1.onmessage = (event) => {
         if (event.data.hasMatch) {
-          navigate(`/read/${items.id}`);
-          setProjectId(items.id);
+          router.push(`/post/${items.id}`)
+          setProjectId(items.id)
         } else {
-          alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.');
+          alert('오프라인 상태입니다. 네트워크 연결을 확인해주세요.')
         }
-      };
+      }
 
       Promise.resolve().then(() => {
         if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage(
             { action: 'cache-contains', url: urlToCheck },
             [messageChannel.port2],
-          );
+          )
         }
-      });
+      })
     } else {
-      navigate(`/read/${items.id}`);
-      setProjectId(items.id);
+      router.push(`/post/${items.id}`)
+      setProjectId(items.id)
     }
   }
 
@@ -70,16 +74,17 @@ function ProjectCard({ items }: ProjectCardProps) {
         {/* <div>우리 학교 동창회 서비스</div>
         <div>moyora</div> */}
         {items.thumbNail === '' ? (
-          <img
-            className="h-48 rounded-t-lg bg-sky-100 text-center"
+          <Image
+            className="h-48 object-cover rounded-t-lg bg-sky-100 text-center"
             src={project}
             alt="프로젝트 이미지"
           />
         ) : (
           <img
-            className="h-48 rounded-t-lg bg-sky-100 text-center"
+            className="h-48 object-cover rounded-t-lg bg-sky-100 text-center"
             src={items.thumbNail}
             alt="프로젝트 이미지"
+            loading={index !== 0 ? 'lazy' : undefined}
           />
         )}
       </div>
@@ -93,13 +98,16 @@ function ProjectCard({ items }: ProjectCardProps) {
         <div className="ml-3 mb-2 mt-2 flex flex-row font-ng">
           {items.techTags.map((x: string) => (
             <div key={x}>
-              <img className="mr-2 h-8 w-8" src={findImage(x)} alt="stack" />
+              <Image
+                className="mr-2 h-8 w-8"
+                src={findImage(x)}
+                alt="stack"
+                quality={20}
+              />
             </div>
           ))}
         </div>
       </div>
     </button>
-  );
+  )
 }
-
-export default ProjectCard;
