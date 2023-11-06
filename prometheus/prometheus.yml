@@ -4,8 +4,9 @@ global:
 
 alerting:
   alertmanagers:
+    - scheme: http
     - static_configs:
-        - targets:
+        - targets: ["alertmanager:9093"]
 
 rule_files:
 
