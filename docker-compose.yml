@@ -64,6 +64,8 @@ services:
       - ./prometheus/data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+    links:
+      - alertmanager:alertmanager
     depends_on:
       - springboot
 
