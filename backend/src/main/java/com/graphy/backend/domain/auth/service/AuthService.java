@@ -68,7 +68,7 @@ public class AuthService {
             throw new InvalidTokenException(ErrorCode.INPUT_INVALID_TOKEN);
 
         // Access Token에서 User email을 가져온다
-        String email = tokenProvider.getAuthentication(request.getAccessToken()).getName();
+        String email = tokenProvider.getEmailInAuthentication(request.getAccessToken());
 
         // Redis에서 해당 User email로 저장된 Refresh Token 조회
         RefreshToken refreshToken = refreshTokenRepository.findByEmail(email);
