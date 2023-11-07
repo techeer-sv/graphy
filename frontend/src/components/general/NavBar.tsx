@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 import WriteIcon from '../../../public/images/svg/pencil-square.svg'
 import ProfileIcon from '../../../public/images/svg/profileIcon.svg'
-import SearchIcon from '../../../public/images/png/searchIcon.png'
+import SearchIcon from '../../../public/images/svg/searchIcon.svg'
 import { searchTextState, usernameState } from '../../utils/atoms'
 
 export default function NavBar({ children }: { children: React.ReactNode }) {
@@ -88,6 +88,14 @@ export default function NavBar({ children }: { children: React.ReactNode }) {
 
         {/* 검색창 */}
         <div className="relative mx-4 flex h-auto w-full items-center rounded-xl border">
+          <button
+            className="mx-3 h-6"
+            onClick={handleSearch}
+            aria-label="SearchButton"
+            type="button"
+          >
+            <Image className="h-6 w-auto" src={SearchIcon} alt="SearchIcon" />
+          </button>
           <input
             value={searchText}
             onChange={getSearchData}
@@ -101,14 +109,6 @@ export default function NavBar({ children }: { children: React.ReactNode }) {
               }
             }}
           />
-          <button
-            className="mr-2"
-            onClick={handleSearch}
-            aria-label="SearchButton"
-            type="button"
-          >
-            <Image className="h-6 w-auto" src={SearchIcon} alt="SearchIcon" />
-          </button>
         </div>
         <button
           className=" mr-4 whitespace-nowrap rounded-full bg-graphyblue px-4 text-white"

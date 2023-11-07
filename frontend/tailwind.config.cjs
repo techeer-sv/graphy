@@ -39,6 +39,9 @@ module.exports = {
         56: '14rem',
         96: '24rem',
       },
+      boxShadow: {
+        '2xs': '0 3px 3px 1px rgba(0, 0, 0, 0.3)',
+      },
       fontFamily: {
         sans: ['NanumGothic', 'Arial', 'sans-serif'],
         ng: ['NanumGothic', 'sans-serif'],
