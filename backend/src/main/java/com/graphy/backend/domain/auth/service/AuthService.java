@@ -1,15 +1,15 @@
 package com.graphy.backend.domain.auth.service;
 
 import com.graphy.backend.domain.auth.controller.JwtFilter;
+import com.graphy.backend.domain.auth.domain.RefreshToken;
 import com.graphy.backend.domain.auth.dto.request.LogoutRequest;
 import com.graphy.backend.domain.auth.dto.response.GetTokenInfoResponse;
 import com.graphy.backend.domain.auth.infra.TokenProvider;
+import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.request.SignInMemberRequest;
 import com.graphy.backend.domain.member.dto.request.SignUpMemberRequest;
 import com.graphy.backend.domain.member.service.MemberService;
-import com.graphy.backend.domain.auth.domain.RefreshToken;
-import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import com.graphy.backend.global.error.ErrorCode;
 import com.graphy.backend.global.error.exception.InvalidTokenException;
 import lombok.AccessLevel;
@@ -25,6 +25,7 @@ import javax.transaction.Transactional;
 
 
 @Service
+@Transactional
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthService {
     private final JwtFilter filter;
@@ -41,7 +42,6 @@ public class AuthService {
         memberService.addMember(member);
     }
 
-    @Transactional
     public GetTokenInfoResponse signIn(SignInMemberRequest request) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -62,14 +62,13 @@ public class AuthService {
         return token;
     }
 
-    @Transactional
     public void logout(LogoutRequest request){
         // 로그아웃 하고 싶은 토큰이 유효한 지 먼저 검증하기
         if (!tokenProvider.validateToken(request.getAccessToken()))
             throw new InvalidTokenException(ErrorCode.INPUT_INVALID_TOKEN);
 
         // Access Token에서 User email을 가져온다
-        String email = tokenProvider.getAuthentication(request.getAccessToken()).getName();
+        String email = tokenProvider.getEmailInAuthentication(request.getAccessToken());
 
         // Redis에서 해당 User email로 저장된 Refresh Token 조회
         RefreshToken refreshToken = refreshTokenRepository.findByEmail(email);
@@ -89,28 +88,28 @@ public class AuthService {
     }
 
 
-    public GetTokenInfoResponse reissue(HttpServletRequest request, Member member) {
+    public GetTokenInfoResponse reissue(HttpServletRequest request) {
         String requestToken = filter.resolveToken(request);
         tokenProvider.validateToken(requestToken);
 
-        RefreshToken savedRefreshToken = refreshTokenRepository.findByEmail(member.getEmail());
+        String email = tokenProvider.getEmailInAuthentication(requestToken);
+
+        RefreshToken savedRefreshToken = refreshTokenRepository.findByEmail(email);
         if (savedRefreshToken == null) throw new InvalidTokenException(ErrorCode.TOKEN_NOT_EXIST);
 
         GetTokenInfoResponse newToken = tokenProvider.generateToken(savedRefreshToken.getToken(), savedRefreshToken.getAuthorities());
-        updateRefreshToken(member, savedRefreshToken, newToken);
+        updateRefreshToken(email, savedRefreshToken, newToken);
 
         return newToken;
     }
 
-
-    @Transactional
-    public void updateRefreshToken(Member member,
+    private void updateRefreshToken(String email,
                                     RefreshToken savedRefreshToken,
                                     GetTokenInfoResponse newToken) {
 
         RefreshToken newRefreshToken = RefreshToken.builder()
                 .token(newToken.getRefreshToken())
-                .email(member.getEmail())
+                .email(email)
                 .authorities(savedRefreshToken.getAuthorities())
                 .build();
 

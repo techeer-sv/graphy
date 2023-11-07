@@ -6,7 +6,6 @@ import com.graphy.backend.domain.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -35,17 +34,22 @@ public class SecurityConfig {
                 .cors().and()
 
                 .authorizeRequests()
-                .antMatchers("/api/v1/auth/signup",
-                        "/api/v1/auth/signin",
-                        "/api/v1/auth/logout",
-                        "/api/v1/projects", 
+                .antMatchers(
+                        "/api/v1/auth/**",
+
+                        "/api/v1/projects",
                         "/api/v1/projects/rank",
+                        "/api/v1/projects/{projectId}",
+
+                        "/api/v1/comments/{commentId}",
+
                         "/api/v1/recruitments",
                         "/api/v1/recruitments/{recruitmentId}",
+
                         "/api/v1/members/**",
-                        "/swagger-ui/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/projects/{projectId}").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/comments/{commentId}").permitAll()
+
+                        "/swagger-ui/**"
+                ).permitAll()
                 .antMatchers("/api/v1/**").hasRole("USER")
 
                 .and()

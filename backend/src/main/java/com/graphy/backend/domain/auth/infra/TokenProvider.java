@@ -117,4 +117,9 @@ public class TokenProvider {
         Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
         return (expiration.getTime() - System.currentTimeMillis());
     }
+
+    public String getEmailInAuthentication(String AccessToken) {
+        Authentication authentication = this.getAuthentication(AccessToken);
+        return authentication.getName();
+    }
 }

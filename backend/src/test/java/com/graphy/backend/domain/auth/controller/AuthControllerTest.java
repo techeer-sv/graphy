@@ -29,7 +29,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -506,7 +505,7 @@ public class AuthControllerTest extends MockApiTest {
                 .build();
 
         // when
-        when(authService.reissue(any(HttpServletRequest.class), any())).thenReturn(response);
+        when(authService.reissue(any(HttpServletRequest.class))).thenReturn(response);
 
         // then
         mvc.perform(post(BASE_URL + "/reissue")

@@ -19,17 +19,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -99,10 +96,9 @@ public class AuthServiceTest extends MockTest {
 
         // when
         when(tokenProvider.validateToken(request.getAccessToken())).thenReturn(true);
-        when(tokenProvider.getAuthentication(request.getAccessToken())).thenReturn(authentication);
-        when(authentication.getName()).thenReturn(member.getEmail());
         when(refreshTokenRepository.findByEmail(member.getEmail())).thenReturn(refreshToken);
         when(tokenProvider.getExpiration(request.getAccessToken())).thenReturn(100000L);
+        when(tokenProvider.getEmailInAuthentication(request.getAccessToken())).thenReturn(member.getEmail());
 
         // then
         assertDoesNotThrow(() -> authService.logout(request));
@@ -149,8 +145,9 @@ public class AuthServiceTest extends MockTest {
         when(tokenProvider.validateToken(requestToken)).thenReturn(true);
         when(refreshTokenRepository.findByEmail(member.getEmail())).thenReturn(savedRefreshToken);
         when(tokenProvider.generateToken(savedRefreshToken.getToken(), savedRefreshToken.getAuthorities())).thenReturn(newToken);
+        when(tokenProvider.getEmailInAuthentication(requestToken)).thenReturn(member.getEmail());
 
-        GetTokenInfoResponse actual = authService.reissue(request, member);
+        GetTokenInfoResponse actual = authService.reissue(request);
 
         // then
         assertThat(actual).usingRecursiveComparison().isEqualTo(newToken);
@@ -166,12 +163,10 @@ public class AuthServiceTest extends MockTest {
         // when
         when(filter.resolveToken(any(HttpServletRequest.class))).thenReturn(requestToken);
         when(tokenProvider.validateToken(requestToken)).thenReturn(true);
-        when(refreshTokenRepository.findByEmail(member.getEmail())).thenReturn(null);
-
 
         // then
         assertThatThrownBy(
-                () -> authService.reissue(request, member))
+                () -> authService.reissue(request))
                 .isInstanceOf(InvalidTokenException.class)
                 .hasMessageContaining("존재하지 않는 토큰");
     }

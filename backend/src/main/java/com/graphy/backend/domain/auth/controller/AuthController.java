@@ -3,8 +3,6 @@ package com.graphy.backend.domain.auth.controller;
 import com.graphy.backend.domain.auth.dto.request.LogoutRequest;
 import com.graphy.backend.domain.auth.dto.response.GetTokenInfoResponse;
 import com.graphy.backend.domain.auth.service.AuthService;
-import com.graphy.backend.domain.auth.util.annotation.CurrentUser;
-import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.dto.request.SignInMemberRequest;
 import com.graphy.backend.domain.member.dto.request.SignUpMemberRequest;
 import com.graphy.backend.global.result.ResultCode;
@@ -55,9 +53,8 @@ public class AuthController {
     
     @Operation(summary = "reIssue", description = "토큰 재발급")
     @PostMapping(value = "/reissue")
-    public ResponseEntity<ResultResponse> reissue(HttpServletRequest request,
-                                        @CurrentUser Member member) {
-        GetTokenInfoResponse response = authService.reissue(request, member);
+    public ResponseEntity<ResultResponse> reissue(HttpServletRequest request) {
+        GetTokenInfoResponse response = authService.reissue(request);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.AUTH_REISSUE_SUCCESS, response));
     }
 }
