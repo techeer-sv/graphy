@@ -96,10 +96,9 @@ public class AuthServiceTest extends MockTest {
 
         // when
         when(tokenProvider.validateToken(request.getAccessToken())).thenReturn(true);
-        when(tokenProvider.getAuthentication(request.getAccessToken())).thenReturn(authentication);
-        when(authentication.getName()).thenReturn(member.getEmail());
         when(refreshTokenRepository.findByEmail(member.getEmail())).thenReturn(refreshToken);
         when(tokenProvider.getExpiration(request.getAccessToken())).thenReturn(100000L);
+        when(tokenProvider.getEmailInAuthentication(request.getAccessToken())).thenReturn(member.getEmail());
 
         // then
         assertDoesNotThrow(() -> authService.logout(request));
