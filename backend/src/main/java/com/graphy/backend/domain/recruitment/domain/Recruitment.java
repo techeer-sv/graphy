@@ -14,6 +14,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 조회수 속성 추가
+ */
 @Entity
 @Getter
 @Builder

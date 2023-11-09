@@ -47,6 +47,10 @@ public class RecruitmentController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.RECRUITMENT_GET_SUCCESS, result));
     }
 
+    /**
+     * 모집 여부 필터링
+     * 모집 중 필터링
+     */
     @Operation(summary = "findRecruitmentList", description = "구인 게시글 조회")
     @GetMapping
     public ResponseEntity<ResultResponse> recruitmentList(@RequestParam(required = false) List<Position> positions,

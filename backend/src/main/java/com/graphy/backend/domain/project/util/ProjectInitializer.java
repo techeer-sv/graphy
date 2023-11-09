@@ -1,5 +1,6 @@
 package com.graphy.backend.domain.project.util;
 
+import com.graphy.backend.domain.comment.repository.CommentRepository;
 import com.graphy.backend.domain.member.domain.Member;
 import com.graphy.backend.domain.member.repository.MemberRepository;
 import com.graphy.backend.domain.project.domain.Project;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class ProjectInitializer implements ApplicationRunner {
 
     private final ProjectRepository projectRepository;
     private final ProjectService projectService;
+
+    private final CommentRepository commentRepository;
 
     private final TagRepository tagRepository;
     private final TagService tagService;
@@ -46,8 +49,10 @@ public class ProjectInitializer implements ApplicationRunner {
         BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
 
         String s;
+        List<String> tagList = new ArrayList<>();
         while ((s = br.readLine()) != null) {
             Tag tag = Tag.builder().tech(s).build();
+            tagList.add(tag.getTech());
             tagRepository.save(tag);
         }
         br.close();
@@ -67,22 +72,15 @@ public class ProjectInitializer implements ApplicationRunner {
                     .build());
         }
 
-        List<String> tag = Arrays.asList("JavaScript", "TypeScript", "React", "Vue",
-                "Svelte", "Nextjs", "Nodejs", "Java", "Spring", "Spring Boot", "Go",
-                "Nestjs", "Kotlin", "Express", "MySQL", "MongoDB", "Python", "Django",
-                "php", "GraphQL", "Firebase", "Flutter", "Swift", "ReactNative", "AWS",
-                "Unity", "Kubernetes", "Docker", "Android Studio", "FastAPI", "Flask",
-                "Github actions", "Jenkins", "C", "C++", "C#", "Rust", "Julia", "PyTorch",
-                "TensorFlow", "Apache Spark", "Apache Kafka", "Apache Cassandra", "Redis", "Redux");
-
         int randomNumber = (int) (Math.random() * 4) + 3;
         List<Member> members = memberRepository.findAll();
         for (int i = 1; i <= 100; i++) {
             Tags tags = null;
             for (int j = 0; j < randomNumber; j++) {
-                Collections.shuffle(tag);
-                tags = tagService.findTagListByName(tag.subList(0, 3 + (int) (Math.random() * 4)));
+                Collections.shuffle(tagList);
+                tags = tagService.findTagListByName(tagList.subList(0, 3 + (int) (Math.random() * 4)));
             }
+            
             Project project = Project.builder()
                     .member(members.get((int) (Math.random() * 5) + 1))
                     .projectName("Project" + i)
@@ -94,6 +92,18 @@ public class ProjectInitializer implements ApplicationRunner {
                     .build();
             project.addTag(tags);
             projectRepository.save(project);
+//            for (int j = 0; j < 10; j++) {
+//                for (int k = 0; k < (Math.random() * 5) + 1; k++) {
+//
+//                }
+//                commentRepository.save(Comment.builder()
+//                        .parent(null)
+//                        .project(project)
+//                        .member(members.get((int) (Math.random() * 5) + 1))
+//                                .childList()
+//                        .content("comment" + j)
+//                        .build());
+//            }
         }
 
         // Redis Sorted Set에 데이터 저장

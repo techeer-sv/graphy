@@ -9,6 +9,10 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
+/**
+ * TODO
+ * imageUrl 추가
+ */
 @Entity
 @Getter
 @Builder
