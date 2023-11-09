@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class GetMyPageResponse {
+    private Long id;
     private String nickname;
     private String introduction;
     private int followerCount;
@@ -20,6 +21,7 @@ public class GetMyPageResponse {
     public static GetMyPageResponse of(Member member,
                                        List<GetProjectInfoResponse> getProjectInfoResponseList) {
         return GetMyPageResponse.builder()
+                .id(member.getId())
                 .nickname(member.getNickname())
                 .introduction(member.getIntroduction())
                 .followerCount(member.getFollowerCount())
