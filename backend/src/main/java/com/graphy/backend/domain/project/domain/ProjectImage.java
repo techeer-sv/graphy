@@ -1,10 +1,16 @@
 package com.graphy.backend.domain.project.domain;
 
 import com.graphy.backend.global.common.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * 삭제
+ */
 @Entity
 @Getter
 @Builder
