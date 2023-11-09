@@ -64,6 +64,8 @@ services:
       - ./prometheus/data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+    links:
+      - alertmanager:alertmanager
     depends_on:
       - springboot
 
@@ -78,3 +80,15 @@ services:
     depends_on:
       - prometheus
       - springboot
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alert-manager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
+    command:
+      - "--config.file=/etc/alertmanager/config.yml"
+      - "--storage.path=/alertmanager"
