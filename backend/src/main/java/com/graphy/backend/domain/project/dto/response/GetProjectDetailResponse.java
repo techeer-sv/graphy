@@ -36,6 +36,10 @@ public class GetProjectDetailResponse implements Serializable {
     private String thumbNail;
 
     private List<GetCommentWithMaskingResponse> commentsList;
+    /**
+     * TODO
+     * viewCount 추가
+     */
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

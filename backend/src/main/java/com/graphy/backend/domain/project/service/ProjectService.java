@@ -13,7 +13,6 @@ import com.graphy.backend.domain.project.dto.request.GetProjectsRequest;
 import com.graphy.backend.domain.project.dto.request.UpdateProjectRequest;
 import com.graphy.backend.domain.project.dto.response.*;
 import com.graphy.backend.domain.project.repository.ProjectRepository;
-import com.graphy.backend.domain.project.repository.TagRepository;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionRequest;
 import com.graphy.backend.global.chatgpt.dto.GptCompletionDto.GptCompletionResponse;
 import com.graphy.backend.global.chatgpt.service.GPTChatRestService;
@@ -56,7 +55,6 @@ public class ProjectService {
     private final CommentService commentService;
     private final TagService tagService;
     private final GPTChatRestService gptChatRestService;
-    private final TagRepository tagRepository;
     private final RedisTemplate<String, Long> redisTemplate;
     private final RedisTemplate<String, GetProjectDetailResponse> redisRankingTemplate;
     private final String RANKING_KEY = "ranking";
@@ -64,22 +62,6 @@ public class ProjectService {
     private final int START_RANKING = 0;
     private final int END_RANKING = 9;
     private int NEXT_RANKING = END_RANKING;
-
-
-//    @PostConstruct
-//    public void initTag() throws IOException {
-//        if (tagRepository.existsById(1L))
-//            return;
-//        ClassPathResource resource = new ClassPathResource("tag.txt");
-//        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-//        String s;
-//
-//        while ((s = br.readLine()) != null) {
-//            Tag tag = Tag.builder().tech(s).build();
-//            tagRepository.save(tag);
-//        }
-//        br.close();
-//    }
 
     @Transactional
     public CreateProjectResponse addProject(CreateProjectRequest dto, Member loginUser) {
