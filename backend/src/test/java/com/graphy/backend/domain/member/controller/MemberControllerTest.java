@@ -129,6 +129,7 @@ class MemberControllerTest extends MockApiTest {
     @DisplayName("현재 로그인한 사용자의 정보로 마이페이지를 조회한다")
     void getMyPageTest() throws Exception {
         GetMyPageResponse result = GetMyPageResponse.builder()
+                .id(member1.getId())
                 .nickname(member1.getNickname())
                 .introduction(member1.getIntroduction())
                 .followerCount(member1.getFollowerCount())
@@ -149,6 +150,7 @@ class MemberControllerTest extends MockApiTest {
                 .andDo(print())
                 .andExpect(status().isOk())
 
+                .andExpect(jsonPath("$.data.id").value((member1.getId())))
                 .andExpect(jsonPath("$.data.nickname").value(member1.getNickname()))
                 .andExpect(jsonPath("$.data.introduction").value(member1.getIntroduction()))
                 .andExpect(jsonPath("$.data.followerCount").value(member1.getFollowerCount()))
@@ -169,6 +171,7 @@ class MemberControllerTest extends MockApiTest {
                                 fieldWithPath("message").description("응답 메시지"),
                                 fieldWithPath("data").description("응답 데이터"),
 
+                                fieldWithPath("data.id").description("유저 PK"),
                                 fieldWithPath("data.nickname").description("닉네임"),
                                 fieldWithPath("data.introduction").description("본인 소개"),
                                 fieldWithPath("data.followerCount").description("팔로워 수"),
