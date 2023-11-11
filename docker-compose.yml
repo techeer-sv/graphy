@@ -1,0 +1,94 @@
+version: "3"
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+#      MYSQL_USER: ${DB_USERNAME}
+#      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+      TZ: Asia/Seoul
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+
+  springboot:
+    container_name: springboot
+    build:
+      context: ./backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      WAIT_HOSTS: mysql:3306
+    volumes:
+      - ./spring-boot/log:/logs #log 연결
+
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - springboot
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: frontend
+
+    ports:
+      - "3000:3000"
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    links:
+      - alertmanager:alertmanager
+    depends_on:
+      - springboot
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - 3001:3000
+    volumes:
+      - ./grafana:/var/lib/grafana
+      - ./datasource.yml:/etc/grafana/provisioning/datasource.yml
+    depends_on:
+      - prometheus
+      - springboot
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alert-manager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
+    command:
+      - "--config.file=/etc/alertmanager/config.yml"
+      - "--storage.path=/alertmanager"
