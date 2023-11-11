@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ql-editor {
+  min-height: 600px;
+}
+
+@font-face {
+  font-family: 'LeferiBaseRegular';
+  src: url('../../public/fonts/LeferiBaseRegular.ttf');
+}
+@font-face {
+  font-family: 'LeferiBaseBold';
+  src: url('../../public/fonts/LeferiBaseBold.ttf');
+}
+@font-face {
+  font-family: 'LatoBold';
+  src: url('../../public/fonts/LatoBold.ttf');
+}
+@font-face {
+  font-family: 'LatoLight';
+  src: url('../../public/fonts/LatoLight.ttf');
+}
+@font-face {
+  font-family: 'LatoRegular';
+  src: url('../../public/fonts/LatoRegular.ttf');
+}
+@font-face {
+  font-family: 'LatoSemibold';
+  src: url('../../public/fonts/LatoSemibold.ttf');
+}

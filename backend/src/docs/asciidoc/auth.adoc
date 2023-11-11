@@ -1,0 +1,36 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+= Auth API
+
+== 회원가입
+=== 성공
+operation::auth/signUp/success[snippets='request-fields,http-request,http-response']
+
+=== 실패 : 이메일 형식 오류
+operation::auth/signUp/fail/invalidEmail[snippets='http-request,http-response']
+
+=== 실패 : 이메일 공백 오류
+operation::auth/signUp/fail/emptyEmail[snippets='http-request,http-response']
+
+=== 실패 : 비밀번호 공백 오류
+operation::auth/signUp/fail/emptyPassword[snippets='http-request,http-response']
+
+== 로그인
+=== 성공
+operation::auth/signIn/success[snippets='request-fields,http-request,http-response']
+
+=== 실패 : 이메일 형식 오류
+operation::auth/signIn/fail/invalidEmail[snippets='http-request,http-response']
+
+=== 실패 : 이메일 공백 오류
+operation::auth/signIn/fail/emptyEmail[snippets='http-request,http-response']
+
+=== 실패 : 비밀번호 공백 오류
+operation::auth/signIn/fail/emptyPassword[snippets='http-request,http-response']

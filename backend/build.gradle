@@ -1,0 +1,233 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+
+    // QueryDSL
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+
+    // rest-docs
+    id 'org.asciidoctor.jvm.convert' version "3.3.2"
+
+    // sonarqube
+    id 'org.sonarqube' version "3.3"
+}
+
+group = 'com.graphy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+
+    // QueryDSL
+    querydsl.extendsFrom compileClasspath
+
+    // rest-docs
+    asciidoctorExtensions
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring-boot
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    implementation 'org.json:json:20210307'
+
+    // jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // lombok
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+
+    // DB
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:5.0.0"
+    implementation "com.querydsl:querydsl-apt:5.0.0"
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.testcontainers:testcontainers:1.19.0'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.0'
+    testImplementation "org.testcontainers:mysql:1.19.0"
+
+
+    //rest-docs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
+    //swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
+    implementation 'org.springdoc:springdoc-openapi-security:1.6.3'
+
+    // OpenAPI 서드파티 라이브러리
+    implementation 'com.theokanning.openai-gpt3-java:service:0.12.0'
+
+    // Logstash
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.3'
+    implementation("com.google.guava:guava:31.1-jre")
+
+    // AOP
+    compile('org.springframework.boot:spring-boot-starter-aop')
+
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
+
+    // Prometheus
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // LocalDataTime 역직렬화 문제 해결 패키지
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+}
+
+
+// =================== rest docs =================== //
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+}
+
+asciidoctor {
+    configurations 'asciidoctorExtensions'
+    inputs.dir snippetsDir
+
+    dependsOn test
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static')
+}
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static")
+}
+
+bootJar {
+    dependsOn createDocument
+    from("${asciidoctor.outputDir}") {
+        into "static"
+    }
+}
+
+jar {
+    enabled = false
+}
+
+// =================== sonar qube =================== //
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.enabled true
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "**/Q*",
+                    '**/dto/**',
+                    "**/*Application*",
+                    "**/mapper/**",
+                    "**/global/**",
+                    "**/job/**",
+            ])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+//            element = 'CLASS'
+
+//            limit {
+//                counter = 'BRANCH'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.70
+//            }
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.70
+//            }
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.exclusions", "src/test/java/**"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/jacoco/xml/jacoco.xml"
+        property 'sonar.sources', 'src'
+        property 'sonar.language', 'java'
+        property 'sonar.login', '${project.login}'
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    }
+}
+tasks.sonarqube.dependsOn test
+
+
+// =================== query dsl =================== //
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+
+
+

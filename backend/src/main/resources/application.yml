@@ -1,0 +1,41 @@
+spring:
+
+  profiles:
+    active: local
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    async:
+      request-timeout: 60000
+
+  output:
+    ansi:
+      enabled: always
+
+
+logging:
+  config: classpath:logback-spring.xml
+
+# Prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    prometheus:
+      enabled: true
+  info:
+    git:
+      mode: full
+
+# swaggerDOC
+springdoc:
+  swagger-ui:
+    version: v1.0
+  packages-to-scan: com.graphy.backend
