@@ -27,6 +27,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                                               Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(recruitment)
+                .distinct()
                 .where(
                         tagIn(tags),
                         positionIn(positions),
