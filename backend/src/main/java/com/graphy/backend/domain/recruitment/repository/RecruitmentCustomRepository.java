@@ -11,6 +11,7 @@ public interface RecruitmentCustomRepository {
     List<Recruitment> findRecruitments(List<Position> positions,
                                        List<String> tags,
                                        String keyword,
+                                       Boolean isRecruiting,
                                        Pageable pageable);
 
     Optional<Recruitment> findRecruitmentWithMember(Long recruitmentId);

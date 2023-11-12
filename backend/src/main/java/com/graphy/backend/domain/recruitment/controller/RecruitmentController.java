@@ -56,9 +56,10 @@ public class RecruitmentController {
     public ResponseEntity<ResultResponse> recruitmentList(@RequestParam(required = false) List<Position> positions,
                                                           @RequestParam(required = false) List<String> tags,
                                                           @RequestParam(required = false) String keyword,
+                                                          @RequestParam(required = false) Boolean isRecruiting,
                                                           PageRequest pageRequest) {
         Pageable pageable = pageRequest.of();
-        List<GetRecruitmentResponse> result = recruitmentService.findRecruitmentList(positions, tags, keyword, pageable);
+        List<GetRecruitmentResponse> result = recruitmentService.findRecruitmentList(positions, tags, keyword, isRecruiting, pageable);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.RECRUITMENT_PAGING_GET_SUCCESS, result));
     }
 

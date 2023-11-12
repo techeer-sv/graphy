@@ -54,8 +54,9 @@ public class RecruitmentService {
     public List<GetRecruitmentResponse> findRecruitmentList(List<Position> positions,
                                                             List<String> tags,
                                                             String keyword,
+                                                            Boolean isRecruiting,
                                                             Pageable pageable) {
-        List<Recruitment> result = recruitmentRepository.findRecruitments(positions, tags, keyword, pageable);
+        List<Recruitment> result = recruitmentRepository.findRecruitments(positions, tags, keyword, isRecruiting, pageable);
         if (result.isEmpty()) throw new EmptyResultException(ErrorCode.RECRUITMENT_NOT_EXIST);
 
         return GetRecruitmentResponse.listOf(result);
