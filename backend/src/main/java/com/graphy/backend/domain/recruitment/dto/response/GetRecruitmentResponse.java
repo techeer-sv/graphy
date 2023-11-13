@@ -35,7 +35,7 @@ public class GetRecruitmentResponse {
                 .nickname(recruitment.getMember().getNickname())
                 .title(recruitment.getTitle())
                 .position(recruitment.getPosition())
-                .isRecruiting(recruitment.isRecruiting())
+                .isRecruiting(recruitment.getIsRecruiting())
                 .techTags(recruitment.getTagNames())
                 .build();
     }
