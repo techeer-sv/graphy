@@ -32,6 +32,8 @@ public class GetRecruitmentDetailResponse {
 
     private Integer recruitmentCount;
 
+    private boolean isRecruiting;
+
     private List<String> techTags;
 
     public static GetRecruitmentDetailResponse from(Recruitment recruitment) {
@@ -44,6 +46,7 @@ public class GetRecruitmentDetailResponse {
                 .period(recruitment.getPeriod())
                 .position(recruitment.getPosition())
                 .recruitmentCount(recruitment.getRecruitmentCount())
+                .isRecruiting(recruitment.isRecruiting())
                 .techTags(recruitment.getTagNames())
                 .build();
     }

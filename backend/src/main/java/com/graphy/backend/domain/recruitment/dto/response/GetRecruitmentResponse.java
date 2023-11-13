@@ -30,13 +30,12 @@ public class GetRecruitmentResponse {
     private List<String> techTags;
 
     public static GetRecruitmentResponse from(Recruitment recruitment) {
-        boolean isRecruiting = LocalDateTime.now().isBefore(recruitment.getEndDate());
         return GetRecruitmentResponse.builder()
                 .id(recruitment.getId())
                 .nickname(recruitment.getMember().getNickname())
                 .title(recruitment.getTitle())
                 .position(recruitment.getPosition())
-                .isRecruiting(isRecruiting)
+                .isRecruiting(recruitment.isRecruiting())
                 .techTags(recruitment.getTagNames())
                 .build();
     }
