@@ -85,4 +85,8 @@ public class Recruitment extends BaseEntity {
         recruitmentTags.clear();
         addTag(tags);
     }
+
+    public boolean isRecruiting() {
+        return LocalDateTime.now().isBefore(this.endDate);  
+    }
 }
