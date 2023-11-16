@@ -46,7 +46,7 @@ public class GetRecruitmentDetailResponse {
                 .period(recruitment.getPeriod())
                 .position(recruitment.getPosition())
                 .recruitmentCount(recruitment.getRecruitmentCount())
-                .isRecruiting(recruitment.getIsRecruiting())
+                .isRecruiting(recruitment.isRecruiting())
                 .techTags(recruitment.getTagNames())
                 .build();
     }

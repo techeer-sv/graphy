@@ -49,8 +49,8 @@ public class Recruitment extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime period;
 
-    @Column(nullable = true)
-    private boolean isRecruiting;
+    @Column(nullable = false)
+    private boolean isRecruiting = true;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -86,7 +86,7 @@ public class Recruitment extends BaseEntity {
         addTag(tags);
     }
 
-    public boolean getIsRecruiting() {
-        return LocalDateTime.now().isBefore(this.endDate);  
-    }
+//    public boolean IsRecruiting() {
+//        return LocalDateTime.now().isBefore(this.endDate);
+//    }
 }
