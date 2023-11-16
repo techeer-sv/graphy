@@ -49,7 +49,7 @@ public class Recruitment extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime period;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private boolean isRecruiting;
 
     @Enumerated(EnumType.STRING)
