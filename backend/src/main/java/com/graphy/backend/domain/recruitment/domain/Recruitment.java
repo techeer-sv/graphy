@@ -49,6 +49,7 @@ public class Recruitment extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime period;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean isRecruiting = true;
 
