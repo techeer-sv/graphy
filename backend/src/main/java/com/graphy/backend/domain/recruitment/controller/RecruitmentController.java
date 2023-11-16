@@ -18,11 +18,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @Tag(name = "RecruitmentController", description = "프로젝트 구인 게시글 관련 API")
 @RestController
@@ -42,9 +46,14 @@ public class RecruitmentController {
 
     @Operation(summary = "findRecruitment", description = "구인 게시글 상세 조회")
     @GetMapping("/{recruitmentId}")
-    public ResponseEntity<ResultResponse> recruitmentDetails(@PathVariable Long recruitmentId) {
+    public ResponseEntity<ResultResponse> recruitmentDetails(@PathVariable Long recruitmentId,
+                                                             HttpServletRequest request) {
         GetRecruitmentDetailResponse result = recruitmentService.findRecruitmentById(recruitmentId);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.RECRUITMENT_GET_SUCCESS, result));
+        ResponseCookie cookie = recruitmentService.addViewCount(request, recruitmentId);
+
+        return ResponseEntity.ok()
+                .header(SET_COOKIE, cookie.toString())
+                .body(ResultResponse.of(ResultCode.RECRUITMENT_GET_SUCCESS, result));
     }
 
     /**
