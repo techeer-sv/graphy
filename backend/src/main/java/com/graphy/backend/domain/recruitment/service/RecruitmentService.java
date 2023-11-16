@@ -123,7 +123,7 @@ public class RecruitmentService {
         return findViewCountCookie(request.getCookies());
     }
 
-    private static Cookie createViewCountCookie(Recruitment recruitment) {
+    private Cookie createViewCountCookie(Recruitment recruitment) {
         recruitment.addViewCount();
         Cookie newCookie = new Cookie(VIEW_COUNT_COOKIE_NAME, "[" + recruitment.getId() + "]");
         newCookie.setPath("/");
