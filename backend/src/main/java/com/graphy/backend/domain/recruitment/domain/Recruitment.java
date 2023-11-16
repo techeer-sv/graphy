@@ -82,12 +82,9 @@ public class Recruitment extends BaseEntity {
         this.recruitmentCount = request.getRecruitmentCount();
         this.type = request.getType();
         this.endDate = request.getEndDate();
+        this.isRecruiting = request.isRecruiting();
         this.position = request.getPosition();
         recruitmentTags.clear();
         addTag(tags);
     }
-
-//    public boolean IsRecruiting() {
-//        return LocalDateTime.now().isBefore(this.endDate);
-//    }
 }
