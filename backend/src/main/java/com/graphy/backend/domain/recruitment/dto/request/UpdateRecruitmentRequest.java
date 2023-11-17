@@ -34,7 +34,7 @@ public class UpdateRecruitmentRequest {
     private LocalDateTime period;
 
     @NotNull(message = "isRecruiting cannot be null")
-    private boolean isRecruiting;
+    private Boolean isRecruiting;
 
     @NotNull(message = "position cannot be null")
     private Position position;

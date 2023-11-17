@@ -68,9 +68,8 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
     }
 
     private BooleanExpression isRecruiting(Boolean isRecruiting) {
-        if (isRecruiting == null) return null;
-        LocalDateTime now = LocalDateTime.now();
-        return isRecruiting ? recruitment.endDate.after(now) : recruitment.endDate.before(now);
+        if(isRecruiting == null) return null;
+        return recruitment.isRecruiting.eq(isRecruiting);
     }
 }
 
