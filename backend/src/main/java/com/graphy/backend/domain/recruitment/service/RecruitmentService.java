@@ -120,7 +120,13 @@ public class RecruitmentService {
     }
 
     private Cookie getViewCountCookie(HttpServletRequest request) {
-        return findViewCountCookie(request.getCookies());
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
+
+        return Arrays.stream(cookies)
+                .filter(cookie -> VIEW_COUNT_COOKIE_NAME.equals(cookie.getName()))
+                .findFirst()
+                .orElse(null);
     }
 
     private Cookie createViewCountCookie(Recruitment recruitment) {
@@ -137,14 +143,5 @@ public class RecruitmentService {
     private void updateViewCount(Recruitment recruitment, Cookie viewCountCookie, Long recruitmentId) {
         viewCountCookie.setValue(viewCountCookie.getValue() + "[" + recruitmentId + "]");
         recruitment.addViewCount();
-    }
-
-    private Cookie findViewCountCookie(Cookie[] cookies) {
-        if (cookies == null) return null;
-
-        return Arrays.stream(cookies)
-                .filter(cookie -> VIEW_COUNT_COOKIE_NAME.equals(cookie.getName()))
-                .findFirst()
-                .orElse(null);
     }
 }
