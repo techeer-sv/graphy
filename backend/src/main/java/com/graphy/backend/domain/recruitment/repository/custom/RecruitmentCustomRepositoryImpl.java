@@ -30,6 +30,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
 
         return jpaQueryFactory
                 .selectFrom(recruitment)
+                .distinct()
                 .where(
                         tagIn(tags),
                         positionIn(positions),

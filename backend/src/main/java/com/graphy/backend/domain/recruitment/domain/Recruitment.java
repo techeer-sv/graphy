@@ -68,6 +68,11 @@ public class Recruitment extends BaseEntity {
     @Embedded
     private RecruitmentTags recruitmentTags;
 
+    @Column(nullable = false)
+    private int viewCount = 0;
+    public void addViewCount() {
+        this.viewCount++;
+    }
     public void addTag(Tags tags) {
         recruitmentTags.add(this, tags);
     }
