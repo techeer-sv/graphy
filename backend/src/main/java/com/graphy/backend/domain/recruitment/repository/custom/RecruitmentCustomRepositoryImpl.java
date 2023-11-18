@@ -5,6 +5,7 @@ import com.graphy.backend.domain.recruitment.domain.Recruitment;
 import com.graphy.backend.domain.recruitment.repository.RecruitmentCustomRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
@@ -24,14 +25,17 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
     public List<Recruitment> findRecruitments(List<Position> positions,
                                               List<String> tags,
                                               String title,
+                                              Boolean isRecruiting,
                                               Pageable pageable) {
+
         return jpaQueryFactory
                 .selectFrom(recruitment)
                 .distinct()
                 .where(
                         tagIn(tags),
                         positionIn(positions),
-                        recruitmentTitleLike(title)
+                        recruitmentTitleLike(title),
+                        isRecruiting(isRecruiting)
                 )
                 .join(recruitment.member, member).fetchJoin()
                 .leftJoin(recruitmentTag).on(recruitmentTag.recruitment.eq(recruitment))
@@ -62,6 +66,11 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
 
     private BooleanExpression recruitmentTitleLike(String title) {
         return title != null ? recruitment.title.like(title) : null;
+    }
+
+    private BooleanExpression isRecruiting(Boolean isRecruiting) {
+        if(isRecruiting == null) return null;
+        return recruitment.isRecruiting.eq(isRecruiting);
     }
 }
 
