@@ -61,7 +61,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
     }
 
     private BooleanExpression recruitmentTitleLike(String title) {
-        return title != null ? recruitment.title.like(title) : null;
+        return title != null ? recruitment.title.contains(title) : null;
     }
 }
 
