@@ -1,5 +1,7 @@
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
+import { PositionType } from '../components/recruitment/RecruitmentCard'
+import { SkillType } from '../components/recruitment/RecruitmentFilter'
 
 const { persistAtom } = recoilPersist()
 
@@ -99,6 +101,16 @@ const usernameState = atom<string>({
   default: '',
 })
 
+const selectedPositionsState = atom<PositionType[]>({
+  key: 'selectedPositionsState',
+  default: [],
+})
+
+const selectedSkillsState = atom<SkillType[]>({
+  key: 'selectedSkillsState',
+  default: [],
+})
+
 export {
   titleState,
   tldrState,
@@ -118,4 +130,6 @@ export {
   projectIdState,
   searchTextState,
   usernameState,
+  selectedPositionsState,
+  selectedSkillsState,
 }

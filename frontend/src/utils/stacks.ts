@@ -80,7 +80,7 @@ const AllStacks = [
   new AllStack('Kotlin', Kotlin),
   new AllStack('Kubernetes', Kubernetes),
   new AllStack('MongoDB', Mongodb),
-  new AllStack('MYSQL', Mysql),
+  new AllStack('MySQL', Mysql),
   new AllStack('Nextjs', Nextjs),
   new AllStack('Nodejs', Nodejs),
   new AllStack('Nestjs', Nestjs),
