@@ -1,15 +1,14 @@
 'use client'
 
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
-import RecruitmentCard, {
+import RecruitmentCard from '../../components/recruitment/RecruitmentCard'
+import MultipleFilter, {
   PositionType,
-} from '../../components/recruitment/RecruitmentCard'
-import RecruitmentFilter, {
-  FilterType,
-} from '../../components/recruitment/RecruitmentFilter'
-import { selectedPositionsState, selectedSkillsState } from '../../utils/atoms'
+} from '../../components/recruitment/MultipleFilter'
+import { filterState } from '../../utils/atoms'
+import Filter from '@/components/recruitment/Filter'
 
 export type RecruitmentDataType = {
   id: number
@@ -20,32 +19,34 @@ export type RecruitmentDataType = {
 }
 
 export default function Recruitment() {
-  // const [data, setData] = useState<RecruitmentDataType[]>([]) // 여기를 수정했습니다.
-  const [filter, setFilter] = useState<FilterType>({
-    position: '',
-    skill: '',
-    searchQuery: '',
-  })
-
-  const selectedPositions = useRecoilValue(selectedPositionsState)
-  const selectedSkills = useRecoilValue(selectedSkillsState)
+  const filter = useRecoilValue(filterState)
 
   const getData = async ({ pageParam = 1 }) => {
     const params = new URLSearchParams()
     params.set('page', String(pageParam))
     params.set('size', '12')
 
-    selectedPositions.forEach((position) => {
+    const positions = filter
+      .filter((v) => v.category === 'position')
+      .map((v) => v.name)
+    const skills = filter
+      .filter((v) => v.category === 'skill')
+      .map((v) => v.name)
+    const keywords = filter
+      .filter((v) => v.category === 'keyword')
+      .map((v) => v.name)
+
+    positions.forEach((position) => {
       params.append('positions', position)
     })
 
-    selectedSkills.forEach((skill) => {
+    skills.forEach((skill) => {
       params.append('tags', skill)
     })
 
-    if (filter.searchQuery !== '') {
-      params.set('keyword', filter.searchQuery)
-    }
+    keywords.forEach((keyword) => {
+      params.append('keyword', keyword)
+    })
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/recruitments?${params.toString()}`,
@@ -66,14 +67,10 @@ export default function Recruitment() {
   }
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery(
-      ['recruitments', selectedPositions, selectedSkills],
-      getData,
-      {
-        getNextPageParam: (lastPage, pages) =>
-          lastPage.length < 12 ? undefined : pages.length + 1,
-      },
-    )
+    useInfiniteQuery(['recruitments', filter], getData, {
+      getNextPageParam: (lastPage, pages) =>
+        lastPage.length < 12 ? undefined : pages.length + 1,
+    })
 
   useEffect(() => {
     if (!isFetchingNextPage) {
@@ -88,7 +85,7 @@ export default function Recruitment() {
       }
       window.addEventListener('scroll', handleScroll)
     }
-  }, [fetchNextPage, isFetchingNextPage, selectedPositions, selectedSkills])
+  }, [fetchNextPage, isFetchingNextPage, filter])
 
   if (status === 'loading') {
     return <span>Loading...</span>
@@ -100,7 +97,8 @@ export default function Recruitment() {
 
   return (
     <div className="relative h-auto min-h-screen w-screen pt-32 flex flex-col items-center bg-recruitmentbg">
-      <RecruitmentFilter />
+      <MultipleFilter />
+      <Filter />
       <div className="recruitment-cards-container">
         {data.pages.map((group, i) => (
           <div
@@ -108,7 +106,7 @@ export default function Recruitment() {
             key={group[i]?.id}
           >
             {group.map((item: RecruitmentDataType) => (
-              <div className="mx-8 mb-10" key={item.id}>
+              <div className="mx-8" key={item.id}>
                 <RecruitmentCard item={item} index={i} />
               </div>
             ))}

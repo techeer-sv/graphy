@@ -110,7 +110,7 @@ export default function ProjectMain() {
         <div>
           {data.pages.map((group, i) => (
             <div
-              className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8"
+              className="mx-8 flex justify-center pt-6 sm:pt-8"
               key={group[i]?.id}
             >
               {group.map((item: DataObject) => (
