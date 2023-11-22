@@ -2,6 +2,7 @@ package com.graphy.backend.domain.recruitment.dto.response;
 
 import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,8 @@ public class GetRecruitmentResponse {
 
     private Position position;
 
+    private boolean isRecruiting;
+
     private List<String> techTags;
 
     public static GetRecruitmentResponse from(Recruitment recruitment) {
@@ -32,6 +35,7 @@ public class GetRecruitmentResponse {
                 .nickname(recruitment.getMember().getNickname())
                 .title(recruitment.getTitle())
                 .position(recruitment.getPosition())
+                .isRecruiting(recruitment.getIsRecruiting())
                 .techTags(recruitment.getTagNames())
                 .build();
     }

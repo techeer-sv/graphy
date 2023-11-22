@@ -55,19 +55,16 @@ public class RecruitmentController {
                 .header(SET_COOKIE, cookie.toString())
                 .body(ResultResponse.of(ResultCode.RECRUITMENT_GET_SUCCESS, result));
     }
-
-    /**
-     * 모집 여부 필터링
-     * 모집 중 필터링
-     */
+    
     @Operation(summary = "findRecruitmentList", description = "구인 게시글 조회")
     @GetMapping
     public ResponseEntity<ResultResponse> recruitmentList(@RequestParam(required = false) List<Position> positions,
                                                           @RequestParam(required = false) List<String> tags,
                                                           @RequestParam(required = false) String keyword,
+                                                          @RequestParam(required = false) Boolean isRecruiting,
                                                           PageRequest pageRequest) {
         Pageable pageable = pageRequest.of();
-        List<GetRecruitmentResponse> result = recruitmentService.findRecruitmentList(positions, tags, keyword, pageable);
+        List<GetRecruitmentResponse> result = recruitmentService.findRecruitmentList(positions, tags, keyword, isRecruiting, pageable);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.RECRUITMENT_PAGING_GET_SUCCESS, result));
     }
 
