@@ -54,36 +54,13 @@ export default function ReadingPage({ params }: ParamsType) {
   }, [isOpenModal])
 
   function toWrite() {
-<<<<<<< Updated upstream:frontend/src/app/project/(read)/post/[postId]/page.tsx
     router.push('/project/write')
   }
 
   function toModify() {
     router.push('/project/modification')
-=======
-<<<<<<< Updated upstream:frontend/src/app/(read)/post/[postId]/page.tsx
-    router.push('/write')
   }
 
-  function toModify() {
-    router.push('/modify')
-=======
-<<<<<<< Updated upstream:frontend/src/app/project/(read)/post/[postId]/page.tsx
-    router.push('/project/write')
-  }
-
-  function toModify() {
-    router.push('/project/modification')
-=======
-    router.push('/new-post')
-  }
-
-  function toModify() {
-    router.push('/modification')
->>>>>>> Stashed changes:frontend/src/app/(read)/post/[postId]/page.tsx
->>>>>>> Stashed changes:frontend/src/app/project/(read)/post/[postId]/page.tsx
->>>>>>> Stashed changes:frontend/src/app/(read)/post/[postId]/page.tsx
-  }
   // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
   async function getData() {
     const res = await fetch(

@@ -1,14 +1,14 @@
 'use client'
 
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
-import RecruitmentCard from '../../components/recruitment/RecruitmentCard'
 import MultipleFilter, {
   PositionType,
 } from '../../components/recruitment/MultipleFilter'
 import { filterState } from '../../utils/atoms'
-import Filter from '@/components/recruitment/Filter'
+import Filter from '../../components/recruitment/Filter'
+import RecruitmentCard from '../../components/recruitment/RecruitmentCard'
 
 export type RecruitmentDataType = {
   id: number
@@ -16,10 +16,12 @@ export type RecruitmentDataType = {
   title: string
   position: PositionType
   techTags: string[]
+  recruiting: boolean
 }
 
 export default function Recruitment() {
   const filter = useRecoilValue(filterState)
+  const [postCount, setPostCount] = useState(0)
 
   const getData = async ({ pageParam = 1 }) => {
     const params = new URLSearchParams()
@@ -36,6 +38,8 @@ export default function Recruitment() {
       .filter((v) => v.category === 'keyword')
       .map((v) => v.name)
 
+    const isRecruiting = filter.find((v) => v.category === 'isRecruiting')
+
     positions.forEach((position) => {
       params.append('positions', position)
     })
@@ -47,6 +51,10 @@ export default function Recruitment() {
     keywords.forEach((keyword) => {
       params.append('keyword', keyword)
     })
+
+    if (isRecruiting) {
+      params.append('isRecruiting', String(isRecruiting.name))
+    }
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/recruitments?${params.toString()}`,
@@ -62,7 +70,8 @@ export default function Recruitment() {
     }
 
     const data = await res.json()
-
+    setPostCount(data.data.length)
+    console.log(data.data)
     return data.data
   }
 
@@ -96,24 +105,22 @@ export default function Recruitment() {
   }
 
   return (
-    <div className="relative h-auto min-h-screen w-screen pt-32 flex flex-col items-center bg-recruitmentbg">
+    <div className="relative h-auto min-h-screen w-screen pt-28 flex flex-col items-center ">
       <MultipleFilter />
-      <Filter />
-      <div className="recruitment-cards-container">
-        {data.pages.map((group, i) => (
-          <div
-            className="relative mx-8 flex flex-wrap justify-center pt-6 sm:pt-8"
-            key={group[i]?.id}
-          >
-            {group.map((item: RecruitmentDataType) => (
-              <div className="mx-8" key={item.id}>
-                <RecruitmentCard item={item} index={i} />
-              </div>
-            ))}
-          </div>
-        ))}
-        {hasNextPage && isFetchingNextPage && <span>Loading more...</span>}
-      </div>
+      <Filter postCount={postCount} />
+      {data.pages.map((group, i) => (
+        <div
+          className="relative mx-8 flex flex-wrap justify-center"
+          key={group[i]?.id}
+        >
+          {group.map((item: RecruitmentDataType) => (
+            <div className="mx-8" key={item.id}>
+              <RecruitmentCard item={item} index={i} />
+            </div>
+          ))}
+        </div>
+      ))}
+      {hasNextPage && isFetchingNextPage && <span>Loading more...</span>}
     </div>
   )
 }

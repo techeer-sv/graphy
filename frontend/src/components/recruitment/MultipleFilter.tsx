@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
-import { FiSearch } from 'react-icons/fi'
 import { filterState } from '../../utils/atoms'
 import x from '../../../public/images/svg/tag_x.svg'
 
@@ -24,7 +23,7 @@ export type PositionType = (typeof Position)[number]
 export type SkillType = (typeof Skill)[number]
 
 export type FilterType = {
-  category: 'position' | 'skill' | 'keyword'
+  category: 'position' | 'skill' | 'keyword' | 'isRecruiting'
   name: PositionType | SkillType | string
 }
 
@@ -46,9 +45,11 @@ type OptionType = {
 const styles: StylesConfig<OptionType, false> = {
   control: (provided) => ({
     ...provided,
-    height: '60px',
+    height: '40px',
     border: 'none',
     boxShadow: 'none',
+    flex: 1,
+    alignItems: 'center',
   }),
   option: (provided, state) => ({
     ...provided,
@@ -83,7 +84,7 @@ export default function MultipleFilter() {
   }
 
   return (
-    <div className="w-[900px] h-[120px] mb-16 flex flex-col border-solid  border-gray-400 text-lightgray">
+    <div className="w-[900px] h-[80px] mb-8 flex flex-col border-solid  border-gray-400 text-lightgray">
       <div className="w-full flex h-1/2 text-sm">
         <div className="flex-1">
           <Select
@@ -145,7 +146,7 @@ export default function MultipleFilter() {
                 value={keyword}
                 type="text"
                 placeholder="검색어 입력"
-                className="w-full h-[60px] px-6 flex justify-between items-center rounded-sm"
+                className="w-full h-[40px] ml-[0.5px] px-6 flex justify-between items-center rounded-sm"
               />
             </div>
           </form>
@@ -155,15 +156,15 @@ export default function MultipleFilter() {
         {filter.map((item) => (
           <div
             key={item.name}
-            className="flex items-center justify-center h-8 px-4 ml-2.5 rounded-md bg-white text-[15px] font-semibold"
+            className="flex items-center justify-center h-[25px] px-2 ml-2.5 rounded-md bg-white text-[10px]"
           >
             {item.name}
             <button
               type="button"
               onClick={() => removeFilterItem(item)}
-              className="ml-2 text-black hover:text-gray-500"
+              className="ml-2 text-black"
             >
-              <Image src={x} alt="x" className="w-3 h-3" />
+              <Image src={x} alt="x" className="w-1.5 h-1.5" />
             </button>
           </div>
         ))}

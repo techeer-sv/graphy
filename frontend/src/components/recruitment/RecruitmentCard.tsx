@@ -9,6 +9,7 @@ type RecruitmentCardProps = {
     title: string
     position: PositionType
     techTags: string[]
+    recruiting: boolean
   }
   index: number
 }
@@ -24,13 +25,13 @@ export enum PositionColorClass {
 
 export default function RecruitmentCard({ item, index }: RecruitmentCardProps) {
   return (
-    <div className="flex h-[150px] w-[900px] flex-col justify-between pt-6 pb-4 px-12 bg-white drop-shadow-sm border-solid border-b-[1px]">
+    <div className="flex h-[150px] w-[900px] flex-col justify-between pt-6 pb-4 px-12 bg-white border-solid border-b-[1px]">
       <div className="flex">
         <p className="text-[16px] font-semibold max-w-[600px] truncate">
           {item.title}
         </p>
         <div className="flex items-center ml-4 px-2 rounded-3xl border-2 border-solid border-recruitmentpink text-[11px] font-semibold text-recruitmentpink">
-          모집 중
+          {item.recruiting ? '모집중' : '마감'}
         </div>
         <div
           className={`flex items-center max-w-fit ml-4 px-2.5 rounded-3xl ${

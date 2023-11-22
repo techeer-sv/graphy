@@ -11,6 +11,14 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "import/no-extraneous-dependencies": "off",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ]
   }
 }
