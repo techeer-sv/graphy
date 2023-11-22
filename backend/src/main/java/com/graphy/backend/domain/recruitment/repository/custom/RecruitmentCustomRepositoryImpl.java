@@ -1,21 +1,24 @@
 package com.graphy.backend.domain.recruitment.repository.custom;
 
+import static com.graphy.backend.domain.member.domain.QMember.member;
+import static com.graphy.backend.domain.project.domain.QTag.tag;
+import static com.graphy.backend.domain.recruitment.domain.QRecruitment.recruitment;
+import static com.graphy.backend.domain.recruitment.domain.QRecruitmentTag.recruitmentTag;
+import static org.springframework.util.StringUtils.hasText;
+
 import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
 import com.graphy.backend.domain.recruitment.repository.RecruitmentCustomRepository;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Optional;
-
-import static com.graphy.backend.domain.member.domain.QMember.member;
-import static com.graphy.backend.domain.project.domain.QTag.tag;
-import static com.graphy.backend.domain.recruitment.domain.QRecruitment.recruitment;
-import static com.graphy.backend.domain.recruitment.domain.QRecruitmentTag.recruitmentTag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomRepository {
@@ -34,6 +37,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .where(
                         tagIn(tags),
                         positionIn(positions),
+                        recruitmentKeywordContains(keyword)
                         recruitmentTitleLike(title),
                         isRecruiting(isRecruiting)
                 )
@@ -64,8 +68,13 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
         return recruitment.position.in(positions);
     }
 
-    private BooleanExpression recruitmentTitleLike(String title) {
-        return title != null ? recruitment.title.like(title) : null;
+    private BooleanBuilder recruitmentKeywordContains(String keyword) {
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        if (hasText(keyword)) {
+            booleanBuilder.or(recruitment.title.contains(keyword));
+            booleanBuilder.or(recruitment.content.contains(keyword));
+        }
+        return booleanBuilder;
     }
 
     private BooleanExpression isRecruiting(Boolean isRecruiting) {
