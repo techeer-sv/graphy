@@ -1,24 +1,22 @@
 package com.graphy.backend.domain.recruitment.repository.custom;
 
-import static com.graphy.backend.domain.member.domain.QMember.member;
-import static com.graphy.backend.domain.project.domain.QTag.tag;
-import static com.graphy.backend.domain.recruitment.domain.QRecruitment.recruitment;
-import static com.graphy.backend.domain.recruitment.domain.QRecruitmentTag.recruitmentTag;
-import static org.springframework.util.StringUtils.hasText;
-
 import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
 import com.graphy.backend.domain.recruitment.repository.RecruitmentCustomRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
+
+import static com.graphy.backend.domain.member.domain.QMember.member;
+import static com.graphy.backend.domain.project.domain.QTag.tag;
+import static com.graphy.backend.domain.recruitment.domain.QRecruitment.recruitment;
+import static com.graphy.backend.domain.recruitment.domain.QRecruitmentTag.recruitmentTag;
+import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
 public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomRepository {
@@ -27,7 +25,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
     @Override
     public List<Recruitment> findRecruitments(List<Position> positions,
                                               List<String> tags,
-                                              String title,
+                                              String keyword,
                                               Boolean isRecruiting,
                                               Pageable pageable) {
 
@@ -37,8 +35,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .where(
                         tagIn(tags),
                         positionIn(positions),
-                        recruitmentKeywordContains(keyword)
-                        recruitmentTitleLike(title),
+                        recruitmentKeywordContains(keyword),
                         isRecruiting(isRecruiting)
                 )
                 .join(recruitment.member, member).fetchJoin()
