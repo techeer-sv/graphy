@@ -5,32 +5,26 @@ import '../../../public/css/toggle-button.css'
 
 export default function ToggleButton() {
   const [filter, setFilter] = useRecoilState(filterState)
-
-  const [isChecked, setIsChecked] = useState(
-    filter.find((f) => f.category === 'isRecruiting')?.name === 'true',
-  )
+  const [recruiting, setRecruiting] = useState(false)
 
   const handleToggle = () => {
-    const newIsRecruitingValue = String(!isChecked)
-
+    const recuitingFilter = filter.find((f) => f.category === 'isRecruiting')
     const updatedFilter = filter.map((f) =>
-      f.category === 'isRecruiting' ? { ...f, name: newIsRecruitingValue } : f,
+      f === recuitingFilter ? { ...f, name: String(!recruiting) } : f,
     )
-
     setFilter(updatedFilter)
-    setIsChecked(!isChecked)
+    setRecruiting(!recruiting)
   }
 
   useEffect(() => {
-    const recruitingFilter = filter.find((f) => f.category === 'isRecruiting')
-    if (recruitingFilter) {
-      setIsChecked(recruitingFilter.name === 'true')
+    if (filter.find((f) => f.category === 'isRecruiting')?.name === 'true') {
+      handleToggle()
     }
-  }, [filter])
+  }, [])
 
   return (
     <label className="switch">
-      <input type="checkbox" checked={isChecked} onChange={handleToggle} />
+      <input type="checkbox" checked={recruiting} onChange={handleToggle} />
       <span className="slider round"> </span>
     </label>
   )

@@ -104,6 +104,10 @@ const filterState = atom<FilterType[]>({
   key: 'FilterState',
   default: [
     {
+      category: 'keyword',
+      name: '',
+    },
+    {
       category: 'isRecruiting',
       name: 'false',
     },

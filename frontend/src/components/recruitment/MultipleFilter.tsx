@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
@@ -13,6 +13,7 @@ import {
   SkillType,
   FilterType,
 } from '../../utils/types'
+import { set } from 'react-hook-form'
 
 const positionOptions = Object.values(Position).map((position) => ({
   value: position,
@@ -57,11 +58,13 @@ export default function MultipleFilter() {
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setFilter((prevFilter) => [
-      ...prevFilter,
-      { category: 'keyword', name: keyword },
-    ])
-    setKeyword('')
+    setFilter((prevFilter) =>
+      prevFilter.map((item) =>
+        item.category === 'keyword' ? { ...item, name: keyword } : item,
+      ),
+    )
+    sessionStorage.setItem('keyword', keyword)
+    console.log({ filter })
   }
 
   const removeFilterItem = (itemToRemove: FilterType) => {
@@ -69,6 +72,11 @@ export default function MultipleFilter() {
       prevFilter.filter((item) => item !== itemToRemove),
     )
   }
+
+  useEffect(() => {
+    const searchText = sessionStorage.getItem('keyword')
+    setKeyword(searchText)
+  }, [])
 
   return (
     <div className="w-[900px] h-[80px] mb-8 flex flex-col border-solid  border-gray-400 text-lightgray">
@@ -141,7 +149,10 @@ export default function MultipleFilter() {
       </div>
       <div className="w-full h-1/2 flex items-center bg-slate-100">
         {filter
-          .filter((item) => item.category !== 'isRecruiting') // isRecruiting이 아닌 아이템들만 필터링
+          .filter(
+            (item) =>
+              item.category !== 'isRecruiting' && item.category !== 'keyword',
+          )
           .map((item) => (
             <div
               key={item.name}
