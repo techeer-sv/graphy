@@ -1,6 +1,6 @@
 'use client'
 
-import { SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
@@ -27,11 +27,6 @@ const skillOptions = Object.values(Skill).map((skill) => ({
 type OptionType = {
   value: string
   label: string
-}
-
-type SearchTextType = {
-  keyword: string
-  value: string
 }
 
 const styles: StylesConfig<OptionType, false> = {
