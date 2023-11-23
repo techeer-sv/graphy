@@ -66,12 +66,12 @@ export default function Recruitment() {
     )
 
     if (!res.ok) {
-      throw new Error('채용공고 검색에 실패했습니다.')
+      const data = await res.json()
+      throw new Error(data.message)
     }
 
     const data = await res.json()
     setPostCount(data.data.length)
-    console.log(data.data)
     return data.data
   }
 
@@ -105,7 +105,7 @@ export default function Recruitment() {
   }
 
   return (
-    <div className="relative h-auto min-h-screen w-screen pt-28 flex flex-col items-center ">
+    <div className="relative h-auto min-h-screen w-screen pt-28 pb-12 flex flex-col items-center ">
       <MultipleFilter />
       <Filter postCount={postCount} />
       {data.pages.map((group, i) => (

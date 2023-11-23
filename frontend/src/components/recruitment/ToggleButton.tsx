@@ -1,33 +1,37 @@
 import { filterState } from '@/utils/atoms'
-import '../../../public/css/toggle-button.css' // 스타일시트 임포트
+import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { useState } from 'react'
+import '../../../public/css/toggle-button.css'
 
 export default function ToggleButton() {
-  const [isToggled, setIsToggled] = useState(false)
   const [filter, setFilter] = useRecoilState(filterState)
 
-  const handleClick = () => {
-    setIsToggled(!isToggled)
-    setFilter({
-      ...filter,
-      isRecruiting: String(!isToggled),
-    })
+  const [isChecked, setIsChecked] = useState(
+    filter.find((f) => f.category === 'isRecruiting')?.name === 'true',
+  )
+
+  const handleToggle = () => {
+    const newIsRecruitingValue = String(!isChecked)
+
+    const updatedFilter = filter.map((f) =>
+      f.category === 'isRecruiting' ? { ...f, name: newIsRecruitingValue } : f,
+    )
+
+    setFilter(updatedFilter)
+    setIsChecked(!isChecked)
   }
 
+  useEffect(() => {
+    const recruitingFilter = filter.find((f) => f.category === 'isRecruiting')
+    if (recruitingFilter) {
+      setIsChecked(recruitingFilter.name === 'true')
+    }
+  }, [filter])
+
   return (
-    <div className="toggle-switch">
-      <input
-        type="checkbox"
-        className="toggle-switch-checkbox"
-        id="toggleSwitch"
-        checked={isToggled}
-        onChange={handleClick}
-      />
-      <label className="toggle-switch-label" htmlFor="toggleSwitch">
-        <span className="toggle-switch-inner" />
-        <span className="toggle-switch-switch" />
-      </label>
-    </div>
+    <label className="switch">
+      <input type="checkbox" checked={isChecked} onChange={handleToggle} />
+      <span className="slider round"> </span>
+    </label>
   )
 }

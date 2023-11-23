@@ -153,21 +153,23 @@ export default function MultipleFilter() {
         </div>
       </div>
       <div className="w-full h-1/2 flex items-center bg-slate-100">
-        {filter.map((item) => (
-          <div
-            key={item.name}
-            className="flex items-center justify-center h-[25px] px-2 ml-2.5 rounded-md bg-white text-[10px]"
-          >
-            {item.name}
-            <button
-              type="button"
-              onClick={() => removeFilterItem(item)}
-              className="ml-2 text-black"
+        {filter
+          .filter((item) => item.category !== 'isRecruiting') // isRecruiting이 아닌 아이템들만 필터링
+          .map((item) => (
+            <div
+              key={item.name}
+              className="flex items-center justify-center h-[25px] px-2 ml-2.5 rounded-md bg-white text-[10px]"
             >
-              <Image src={x} alt="x" className="w-1.5 h-1.5" />
-            </button>
-          </div>
-        ))}
+              {item.name}
+              <button
+                type="button"
+                onClick={() => removeFilterItem(item)}
+                className="ml-2 text-black"
+              >
+                <Image src={x} alt="x" className="w-1.5 h-1.5" />
+              </button>
+            </div>
+          ))}
       </div>
     </div>
   )

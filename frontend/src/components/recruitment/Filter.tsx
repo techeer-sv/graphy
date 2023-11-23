@@ -11,7 +11,10 @@ export default function Filter({ postCount }: FilterPropsType) {
         <span className="pr-3 border-r-2">게시글 {postCount}개</span>
         <div className="ml-3">최신 순</div>
       </div>
-      <ToggleButton />
+      <div className="flex items-center">
+        <span className="mr-2">모집 중인 프로젝트만 보기</span>
+        <ToggleButton />
+      </div>
     </div>
   )
 }

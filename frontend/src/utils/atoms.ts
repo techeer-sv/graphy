@@ -102,7 +102,12 @@ const usernameState = atom<string>({
 
 const filterState = atom<FilterType[]>({
   key: 'FilterState',
-  default: [],
+  default: [
+    {
+      category: 'isRecruiting',
+      name: 'false',
+    },
+  ],
 })
 
 export {

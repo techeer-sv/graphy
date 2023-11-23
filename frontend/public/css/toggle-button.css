@@ -1,38 +1,59 @@
-.toggle-switch {
+.switch {
   position: relative;
-  width: 53px; /* 스위치의 전체 너비 */
-  height: 25px; /* 스위치의 전체 높이 */
   display: inline-block;
-  background-color: #646464; /* 스위치의 배경색 */
-  border-radius: 15px; /* 둥근 모서리 */
+  width: 52px;
+  height: 18px;
 }
 
-.toggle-switch-checkbox {
-  display: none;
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.toggle-switch-label {
-  display: block;
-  overflow: hidden;
-  cursor: pointer;
-  height: 100%; /* 라벨의 높이를 스위치 높이와 동일하게 설정 */
-  position: relative; /* 스위치 내부 요소를 정확히 배치하기 위함 */
-}
-
-.toggle-switch-switch {
-  display: block;
-  width: 20px; /* 스위치 버튼의 너비 */
-  height: 20px; /* 스위치 버튼의 높이 */
-  background: #ffffff; /* 스위치 버튼의 배경색 */
+.slider {
   position: absolute;
-  top: 2.5px; /* 위에서부터의 거리 */
-  bottom: 4px; /* 아래에서부터의 거리 */
-  right: 29px; /* 오른쪽에서부터의 거리 */
-  border: 2px solid #999999; /* 테두리 */
-  border-radius: 20px; /* 둥근 스위치 버튼 */
-  transition: all 0.3s ease-in-out; /* 부드러운 애니메이션 효과 */
+  cursor: pointer;
+  top: 0;
+  left: 6px;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
-.toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-switch {
-  right: 4px; /* 체크될 때 스위치 버튼의 위치 */
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 13px;
+  width: 13px;
+  left: 3px;
+  bottom: 2.5px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #535f96;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #6666a5;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
