@@ -3,9 +3,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
-import MultipleFilter, {
-  PositionType,
-} from '../../components/recruitment/MultipleFilter'
+import MultipleFilter from '../../components/recruitment/MultipleFilter'
+import { PositionType } from '../../utils/types'
 import { filterState } from '../../utils/atoms'
 import Filter from '../../components/recruitment/Filter'
 import RecruitmentCard from '../../components/recruitment/RecruitmentCard'
@@ -34,9 +33,8 @@ export default function Recruitment() {
     const skills = filter
       .filter((v) => v.category === 'skill')
       .map((v) => v.name)
-    const keywords = filter
-      .filter((v) => v.category === 'keyword')
-      .map((v) => v.name)
+
+    const keyword = filter.find((v) => v.category === 'keyword')
 
     const isRecruiting = filter.find((v) => v.category === 'isRecruiting')
 
@@ -48,9 +46,9 @@ export default function Recruitment() {
       params.append('tags', skill)
     })
 
-    keywords.forEach((keyword) => {
-      params.append('keyword', keyword)
-    })
+    if (keyword) {
+      params.append('keyword', keyword.name)
+    }
 
     if (isRecruiting) {
       params.append('isRecruiting', String(isRecruiting.name))
@@ -115,7 +113,7 @@ export default function Recruitment() {
         >
           {group.map((item: RecruitmentDataType) => (
             <div className="mx-8" key={item.id}>
-              <RecruitmentCard item={item} index={i} />
+              <RecruitmentCard item={item} />
             </div>
           ))}
         </div>

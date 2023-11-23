@@ -1,6 +1,6 @@
 import { HiOutlineUserCircle } from 'react-icons/hi2'
 import { TfiComment } from 'react-icons/tfi'
-import { PositionType } from './MultipleFilter'
+import { PositionType } from '../../utils/types'
 
 type RecruitmentCardProps = {
   item: {
@@ -11,7 +11,6 @@ type RecruitmentCardProps = {
     techTags: string[]
     recruiting: boolean
   }
-  index: number
 }
 
 export enum PositionColorClass {
@@ -23,7 +22,7 @@ export enum PositionColorClass {
   AI = 'bg-aitag',
 }
 
-export default function RecruitmentCard({ item, index }: RecruitmentCardProps) {
+export default function RecruitmentCard({ item }: RecruitmentCardProps) {
   return (
     <div className="flex h-[150px] w-[900px] flex-col justify-between pt-6 pb-4 px-12 bg-white border-solid border-b-[1px]">
       <div className="flex">

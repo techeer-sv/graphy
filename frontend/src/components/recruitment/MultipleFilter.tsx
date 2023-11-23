@@ -1,31 +1,18 @@
 'use client'
 
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
 import { filterState } from '../../utils/atoms'
 import x from '../../../public/images/svg/tag_x.svg'
-
-const Position = [
-  'FRONTEND',
-  'BACKEND',
-  'DESIGNER',
-  'PM',
-  'DEVOPS',
-  'AI',
-] as const
-
-export const Skill = ['React', 'Spring', 'MongoDB', 'Redis', 'MySQL'] as const
-
-export type PositionType = (typeof Position)[number]
-export type SkillType = (typeof Skill)[number]
-
-export type FilterType = {
-  category: 'position' | 'skill' | 'keyword' | 'isRecruiting'
-  name: PositionType | SkillType | string
-}
+import {
+  Position,
+  Skill,
+  PositionType,
+  SkillType,
+  FilterType,
+} from '../../utils/types'
 
 const positionOptions = Object.values(Position).map((position) => ({
   value: position,
