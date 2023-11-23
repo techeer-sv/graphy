@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
@@ -13,7 +13,6 @@ import {
   SkillType,
   FilterType,
 } from '../../utils/types'
-import { set } from 'react-hook-form'
 
 const positionOptions = Object.values(Position).map((position) => ({
   value: position,
@@ -28,6 +27,11 @@ const skillOptions = Object.values(Skill).map((skill) => ({
 type OptionType = {
   value: string
   label: string
+}
+
+type SearchTextType = {
+  keyword: string
+  value: string
 }
 
 const styles: StylesConfig<OptionType, false> = {
@@ -50,7 +54,7 @@ const styles: StylesConfig<OptionType, false> = {
 // eslint-disable-next-line react/prop-types
 export default function MultipleFilter() {
   const [filter, setFilter] = useRecoilState(filterState)
-  const [keyword, setKeyword] = useState('')
+  const [keyword, setKeyword] = useState<string | ''>('')
 
   const handleKeywordChange = (e: any) => {
     setKeyword(e.target.value)
@@ -75,7 +79,9 @@ export default function MultipleFilter() {
 
   useEffect(() => {
     const searchText = sessionStorage.getItem('keyword')
-    setKeyword(searchText)
+    if (searchText) {
+      setKeyword(searchText)
+    }
   }, [])
 
   return (
@@ -134,15 +140,25 @@ export default function MultipleFilter() {
         </div>
         {/* Search Input Field */}
         <div className="flex-1">
-          <form onSubmit={handleKeywordSubmit}>
-            <div className="w-full h-full flex justify-center items-start bg-white rounded-lg">
+          <form onSubmit={handleKeywordSubmit} className="w-full">
+            <div className="relative w-full h-full flex justify-center items-center bg-white rounded-lg">
               <input
                 onChange={handleKeywordChange}
                 value={keyword}
                 type="text"
                 placeholder="검색어 입력"
-                className="w-full h-[40px] ml-[0.5px] px-6 flex justify-between items-center rounded-sm"
+                className="w-full h-[40px] ml-[0.5px] px-4 flex justify-between items-center rounded-sm"
               />
+              <button
+                type="button"
+                onClick={() => {
+                  sessionStorage.removeItem('keyword')
+                  setKeyword('')
+                }}
+                className="absolute right-2 mr-2 text-black"
+              >
+                <Image src={x} alt="x" className="w-2 h-2" />
+              </button>
             </div>
           </form>
         </div>
