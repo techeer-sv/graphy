@@ -50,10 +50,12 @@ export default function NoticeModal({
     getData({ pageParam: 1 })
   }, [])
 
+  const sortedData = [...data].sort((a, b) => Number(a.read) - Number(b.read))
+
   return (
     <div className="h-full w-full relative">
-      <div className="overflow-auto fixed z-50 w-[300px] h-[350px] rounded-[15px] bg-white shadow-md top-[70px] right-0">
-        {data.map((item: NotificationDataType) => (
+      <div className="overflow-y-auto fixed z-50 w-[300px] h-[350px] rounded-[15px] bg-white shadow-md top-[70px] right-0">
+        {sortedData.map((item: NotificationDataType) => (
           <Noticification item={item} />
         ))}
       </div>
