@@ -1,7 +1,7 @@
 import { filterState } from '@/utils/atoms'
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import '../../../public/css/toggle-button.css'
+import '../../../../public/css/toggle-button.css'
 
 export default function ToggleButton() {
   const [filter, setFilter] = useRecoilState(filterState)

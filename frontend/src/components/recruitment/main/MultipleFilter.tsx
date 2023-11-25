@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
-import { filterState } from '../../utils/atoms'
-import x from '../../../public/images/svg/tag_x.svg'
+import { filterState } from '../../../utils/atoms'
+import x from '../../../../public/images/svg/tag_x.svg'
 import {
   Position,
   Skill,
   PositionType,
   SkillType,
   FilterType,
-} from '../../utils/types'
+} from '../../../utils/types'
 
 const positionOptions = Object.values(Position).map((position) => ({
   value: position,

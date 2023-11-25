@@ -1,6 +1,6 @@
 import { HiOutlineUserCircle } from 'react-icons/hi2'
 import { TfiComment } from 'react-icons/tfi'
-import { PositionType } from '../../utils/types'
+import { PositionType } from '../../../utils/types'
 
 type RecruitmentCardProps = {
   item: {
