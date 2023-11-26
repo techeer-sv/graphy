@@ -46,7 +46,6 @@ const styles: StylesConfig<OptionType, false> = {
   }),
 }
 
-// eslint-disable-next-line react/prop-types
 export default function MultipleFilter() {
   const [multipleFilter, setMultipleFilter] =
     useRecoilState(multiplefilterState)
@@ -79,6 +78,7 @@ export default function MultipleFilter() {
   return (
     <div className="w-[900px] h-[80px] mb-8 flex flex-col border-solid  border-gray-400 text-lightgray">
       <div className="flex w-full text-sm h-1/2">
+        {/* 포지션 선택 드롭다운 메뉴 */}
         <div className="flex-1">
           <Select
             options={positionOptions}
@@ -106,6 +106,7 @@ export default function MultipleFilter() {
             }}
           />
         </div>
+        {/* 스킬 선택 드롭다운 메뉴 */}
         <div className="flex-1">
           <Select
             options={skillOptions}
@@ -130,7 +131,7 @@ export default function MultipleFilter() {
             }}
           />
         </div>
-        {/* Search Input Field */}
+        {/* 검색창 */}
         <div className="flex-1">
           <form onSubmit={handleKeywordSubmit} className="w-full">
             <div className="relative flex items-center justify-center w-full h-full bg-white rounded-lg">
@@ -156,6 +157,7 @@ export default function MultipleFilter() {
           </form>
         </div>
       </div>
+      {/* 필터 태그 항목들 */}
       <div className="flex items-center w-full h-1/2 bg-slate-100">
         {multipleFilter.map((item) => (
           <div

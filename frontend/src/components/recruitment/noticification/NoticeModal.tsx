@@ -26,7 +26,7 @@ export default function NoticeModal({
     const params = new URLSearchParams()
     params.set('page', String(pageParam))
     params.set('size', '12')
-    params.set('direction', 'ASC')
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/notifications?${params.toString()}`,
       {
@@ -53,15 +53,15 @@ export default function NoticeModal({
   const sortedData = [...data].sort((a, b) => Number(a.read) - Number(b.read))
 
   return (
-    <div className="h-full w-full relative">
+    <div className="relative w-full h-full">
       <div className="overflow-y-auto fixed z-50 w-[300px] h-[350px] rounded-[15px] bg-white shadow-md top-[70px] right-0">
         {sortedData.map((item: NotificationDataType) => (
-          <Noticification item={item} />
+          <Noticification key={item.id} item={item} />
         ))}
       </div>
       <button
         aria-label="Toggle modal"
-        className="fixed top-0 left-0 right-0 bottom-0 z-40 h-full w-screen"
+        className="fixed top-0 bottom-0 left-0 right-0 z-40 w-screen h-full"
         onClick={(e: React.MouseEvent) => {
           e.preventDefault()
           onClickToggleModal?.()
