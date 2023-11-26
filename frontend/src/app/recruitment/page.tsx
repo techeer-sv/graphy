@@ -7,7 +7,11 @@ import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import MultipleFilter from '../../components/recruitment/main/MultipleFilter'
 import { PositionType } from '../../utils/types'
-import { filterState } from '../../utils/atoms'
+import {
+  multiplefilterState,
+  keywordfilterState,
+  recruitfilterState,
+} from '../../utils/atoms'
 import Filter from '../../components/recruitment/main/Filter'
 import RecruitmentCard from '../../components/recruitment/main/RecruitmentCard'
 import WriteIcon from '../../../public/images/svg/pencil-square.svg'
@@ -22,7 +26,10 @@ export type RecruitmentDataType = {
 }
 
 export default function Recruitment() {
-  const filter = useRecoilValue(filterState)
+  const multipleFilter = useRecoilValue(multiplefilterState)
+  const keywordFilter = useRecoilValue(keywordfilterState)
+  const recruitFilter = useRecoilValue(recruitfilterState)
+
   const [postCount, setPostCount] = useState(0)
   const router = useRouter()
 
@@ -35,16 +42,12 @@ export default function Recruitment() {
     params.set('page', String(pageParam))
     params.set('size', '12')
 
-    const positions = filter
+    const positions = multipleFilter
       .filter((v) => v.category === 'position')
       .map((v) => v.name)
-    const skills = filter
+    const skills = multipleFilter
       .filter((v) => v.category === 'skill')
       .map((v) => v.name)
-
-    const keyword = filter.find((v) => v.category === 'keyword')
-
-    const isRecruiting = filter.find((v) => v.category === 'isRecruiting')
 
     positions.forEach((position) => {
       params.append('positions', position)
@@ -54,12 +57,12 @@ export default function Recruitment() {
       params.append('tags', skill)
     })
 
-    if (keyword) {
-      params.append('keyword', keyword.name)
+    if (keywordFilter) {
+      params.append('keyword', keywordFilter)
     }
 
-    if (isRecruiting) {
-      params.append('isRecruiting', String(isRecruiting.name))
+    if (recruitFilter) {
+      params.append('isRecruiting', String(recruitFilter))
     }
 
     const res = await fetch(
@@ -82,10 +85,14 @@ export default function Recruitment() {
   }
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery(['recruitments', filter], getData, {
-      getNextPageParam: (lastPage, pages) =>
-        lastPage.length < 12 ? undefined : pages.length + 1,
-    })
+    useInfiniteQuery(
+      ['recruitments', multipleFilter, keywordFilter, recruitFilter],
+      getData,
+      {
+        getNextPageParam: (lastPage, pages) =>
+          lastPage.length < 12 ? undefined : pages.length + 1,
+      },
+    )
 
   useEffect(() => {
     if (!isFetchingNextPage) {
@@ -100,7 +107,7 @@ export default function Recruitment() {
       }
       window.addEventListener('scroll', handleScroll)
     }
-  }, [fetchNextPage, isFetchingNextPage, filter])
+  }, [fetchNextPage, isFetchingNextPage, multipleFilter])
 
   if (status === 'loading') {
     return <span>Loading...</span>
@@ -111,29 +118,27 @@ export default function Recruitment() {
   }
 
   return (
-    <div className="relative h-auto min-h-screen w-screen pt-28 pb-12 flex flex-col items-center ">
+    <div className="relative flex flex-col items-center w-screen h-auto min-h-screen pb-12 pt-28 ">
       <MultipleFilter />
       {/* 프로젝트 공유 버튼 */}
       <button
-        className="fixed bottom-10 right-10 z-10 my-auto mb-2 flex shrink-0 flex-row items-center rounded-full
-          bg-graphyblue px-4 py-1 pt-3 pb-3 font-semibold text-slate-50 drop-shadow-md
-          sm:invisible"
+        className="fixed z-10 flex flex-row items-center px-4 py-1 pt-3 pb-3 my-auto mb-2 font-semibold rounded-full bottom-10 right-10 shrink-0 bg-graphyblue text-slate-50 drop-shadow-md sm:invisible"
         onClick={() => toWrite()}
         aria-label="toWritePage"
         type="button"
       >
         <Image
-          className="mr-2 h-5 w-5"
+          className="w-5 h-5 mr-2"
           src={WriteIcon}
           alt="WriteIcon"
           quality={50}
         />
-        <span className="shrink-0 font-semibold">프로젝트 공유</span>
+        <span className="font-semibold shrink-0">프로젝트 공유</span>
       </button>
       <Filter postCount={postCount} />
       {data.pages.map((group, i) => (
         <div
-          className="relative mx-8 flex flex-wrap justify-center"
+          className="relative flex flex-wrap justify-center mx-8"
           key={group[i]?.id}
         >
           {group.map((item: RecruitmentDataType) => (

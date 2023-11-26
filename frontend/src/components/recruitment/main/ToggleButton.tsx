@@ -1,25 +1,21 @@
-import { filterState } from '@/utils/atoms'
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
+import { recruitfilterState } from '../../../utils/atoms'
 import '../../../../public/css/toggle-button.css'
 
 export default function ToggleButton() {
-  const [filter, setFilter] = useRecoilState(filterState)
-  const [recruiting, setRecruiting] = useState(false)
+  const [recruitFilter, setRecruitFilter] = useRecoilState(recruitfilterState)
+  const [recruiting, setRecruiting] = useState<boolean>(false)
 
   const handleToggle = () => {
-    const recuitingFilter = filter.find((f) => f.category === 'isRecruiting')
-    const updatedFilter = filter.map((f) =>
-      f === recuitingFilter ? { ...f, name: String(!recruiting) } : f,
-    )
-    setFilter(updatedFilter)
     setRecruiting(!recruiting)
+    setRecruitFilter(!recruitFilter)
   }
 
   useEffect(() => {
-    if (filter.find((f) => f.category === 'isRecruiting')?.name === 'true') {
-      handleToggle()
-    }
+    // if (recruitFilter === true) {
+    //   handleToggle()
+    // }
   }, [])
 
   return (

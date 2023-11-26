@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
-import { FilterType } from './types'
+import { MultipleFilterType } from './types'
 
 const { persistAtom } = recoilPersist()
 
@@ -100,18 +100,19 @@ const usernameState = atom<string>({
   default: '',
 })
 
-const filterState = atom<FilterType[]>({
+const multiplefilterState = atom<MultipleFilterType[]>({
   key: 'FilterState',
-  default: [
-    {
-      category: 'keyword',
-      name: '',
-    },
-    {
-      category: 'isRecruiting',
-      name: 'false',
-    },
-  ],
+  default: [],
+})
+
+const keywordfilterState = atom<string>({
+  key: 'keywordfilterState',
+  default: '',
+})
+
+const recruitfilterState = atom<boolean>({
+  key: 'recruitfilterState',
+  default: false,
 })
 
 export {
@@ -133,5 +134,7 @@ export {
   projectIdState,
   searchTextState,
   usernameState,
-  filterState,
+  multiplefilterState,
+  keywordfilterState,
+  recruitfilterState,
 }

@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
-import { filterState } from '../../../utils/atoms'
+import { multiplefilterState, keywordfilterState } from '../../../utils/atoms'
 import x from '../../../../public/images/svg/tag_x.svg'
 import {
   Position,
   Skill,
   PositionType,
   SkillType,
-  FilterType,
+  MultipleFilterType,
 } from '../../../utils/types'
 
 const positionOptions = Object.values(Position).map((position) => ({
@@ -48,8 +48,10 @@ const styles: StylesConfig<OptionType, false> = {
 
 // eslint-disable-next-line react/prop-types
 export default function MultipleFilter() {
-  const [filter, setFilter] = useRecoilState(filterState)
-  const [keyword, setKeyword] = useState<string | ''>('')
+  const [multipleFilter, setMultipleFilter] =
+    useRecoilState(multiplefilterState)
+  const [, setKeywordFilter] = useRecoilState(keywordfilterState)
+  const [keyword, setKeyword] = useState('')
 
   const handleKeywordChange = (e: any) => {
     setKeyword(e.target.value)
@@ -57,23 +59,18 @@ export default function MultipleFilter() {
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setFilter((prevFilter) =>
-      prevFilter.map((item) =>
-        item.category === 'keyword' ? { ...item, name: keyword } : item,
-      ),
-    )
-    sessionStorage.setItem('keyword', keyword)
-    console.log({ filter })
+    setKeywordFilter(keyword)
+    sessionStorage.setItem('keywordFilter', keyword)
   }
 
-  const removeFilterItem = (itemToRemove: FilterType) => {
-    setFilter((prevFilter) =>
+  const removeFilterItem = (itemToRemove: MultipleFilterType) => {
+    setMultipleFilter((prevFilter) =>
       prevFilter.filter((item) => item !== itemToRemove),
     )
   }
 
   useEffect(() => {
-    const searchText = sessionStorage.getItem('keyword')
+    const searchText = sessionStorage.getItem('keywordFilter')
     if (searchText) {
       setKeyword(searchText)
     }
@@ -81,20 +78,20 @@ export default function MultipleFilter() {
 
   return (
     <div className="w-[900px] h-[80px] mb-8 flex flex-col border-solid  border-gray-400 text-lightgray">
-      <div className="w-full flex h-1/2 text-sm">
+      <div className="flex w-full text-sm h-1/2">
         <div className="flex-1">
           <Select
             options={positionOptions}
             value={positionOptions.find(
               (option) =>
                 option.value ===
-                filter
+                multipleFilter
                   .slice()
                   .reverse()
                   .find((f) => f.category === 'position')?.name,
             )}
             onChange={(selectedOption) => {
-              setFilter((prevFilter) => [
+              setMultipleFilter((prevFilter) => [
                 ...prevFilter,
                 {
                   category: 'position',
@@ -115,13 +112,13 @@ export default function MultipleFilter() {
             value={skillOptions.find(
               (option) =>
                 option.value ===
-                filter
+                multipleFilter
                   .slice()
                   .reverse()
                   .find((f) => f.category === 'skill')?.name,
             )}
             onChange={(selectedOption) => {
-              setFilter((prevFilter) => [
+              setMultipleFilter((prevFilter) => [
                 ...prevFilter,
                 { category: 'skill', name: selectedOption?.value as SkillType },
               ])
@@ -136,7 +133,7 @@ export default function MultipleFilter() {
         {/* Search Input Field */}
         <div className="flex-1">
           <form onSubmit={handleKeywordSubmit} className="w-full">
-            <div className="relative w-full h-full flex justify-center items-center bg-white rounded-lg">
+            <div className="relative flex items-center justify-center w-full h-full bg-white rounded-lg">
               <input
                 onChange={handleKeywordChange}
                 value={keyword}
@@ -147,10 +144,11 @@ export default function MultipleFilter() {
               <button
                 type="button"
                 onClick={() => {
-                  sessionStorage.removeItem('keyword')
+                  sessionStorage.removeItem('keywordFilter')
                   setKeyword('')
+                  setKeywordFilter('')
                 }}
-                className="absolute right-2 mr-2 text-black"
+                className="absolute mr-2 text-black right-2"
               >
                 <Image src={x} alt="x" className="w-2 h-2" />
               </button>
@@ -158,27 +156,22 @@ export default function MultipleFilter() {
           </form>
         </div>
       </div>
-      <div className="w-full h-1/2 flex items-center bg-slate-100">
-        {filter
-          .filter(
-            (item) =>
-              item.category !== 'isRecruiting' && item.category !== 'keyword',
-          )
-          .map((item) => (
-            <div
-              key={item.name}
-              className="flex items-center justify-center h-[25px] px-2 ml-2.5 rounded-md bg-white text-[10px]"
+      <div className="flex items-center w-full h-1/2 bg-slate-100">
+        {multipleFilter.map((item) => (
+          <div
+            key={item.name}
+            className="flex items-center justify-center h-[25px] px-2 ml-2.5 rounded-md bg-white text-[10px]"
+          >
+            {item.name}
+            <button
+              type="button"
+              onClick={() => removeFilterItem(item)}
+              className="ml-2 text-black"
             >
-              {item.name}
-              <button
-                type="button"
-                onClick={() => removeFilterItem(item)}
-                className="ml-2 text-black"
-              >
-                <Image src={x} alt="x" className="w-1.5 h-1.5" />
-              </button>
-            </div>
-          ))}
+              <Image src={x} alt="x" className="w-1.5 h-1.5" />
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   )
