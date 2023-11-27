@@ -3,7 +3,9 @@ package com.graphy.backend.domain.recruitment.repository.custom;
 import com.graphy.backend.domain.recruitment.domain.Position;
 import com.graphy.backend.domain.recruitment.domain.Recruitment;
 import com.graphy.backend.domain.recruitment.repository.RecruitmentCustomRepository;
+import com.graphy.backend.global.util.QueryDslUtil;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                                               Boolean isRecruiting,
                                               Pageable pageable) {
 
+        List<OrderSpecifier> orders = QueryDslUtil.getAllOrderSpecifiers(pageable, recruitment.getMetadata().getName());
+
         return jpaQueryFactory
                 .selectFrom(recruitment)
                 .distinct()
@@ -42,7 +46,9 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .leftJoin(recruitmentTag).on(recruitmentTag.recruitment.eq(recruitment))
                 .leftJoin(recruitmentTag.tag, tag)
                 .offset(pageable.getOffset())
+                .orderBy(orders.stream().toArray(OrderSpecifier[]::new))
                 .limit(pageable.getPageSize())
+
                 .fetch();
     }
 

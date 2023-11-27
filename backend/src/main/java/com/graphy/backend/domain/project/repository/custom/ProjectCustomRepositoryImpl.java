@@ -2,6 +2,8 @@ package com.graphy.backend.domain.project.repository.custom;
 
 import com.graphy.backend.domain.project.domain.Project;
 import com.graphy.backend.domain.project.repository.ProjectCustomRepository;
+import com.graphy.backend.global.util.QueryDslUtil;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -25,10 +27,12 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository {
 
     @Override
     public Page<Project> searchProjectsWith(Pageable pageable, String projectName, String content) {
+        List<OrderSpecifier> orders = QueryDslUtil.getAllOrderSpecifiers(pageable, project.getMetadata().getName());
         List<Project> fetch = jpaQueryFactory
                 .selectFrom(project).where(projectNameLike(projectName), contentLike(content))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(orders.stream().toArray(OrderSpecifier[]::new))
                 .fetch();
 
         JPQLQuery<Project> count = jpaQueryFactory
@@ -41,12 +45,14 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository {
 
     @Override
     public Page<Project> findFollowingProjects(Pageable pageable, Long fromId) {
+        List<OrderSpecifier> orders = QueryDslUtil.getAllOrderSpecifiers(pageable, project.getMetadata().getName());
         List<Project> fetch = jpaQueryFactory.selectFrom(project)
                 .where(project.member.id.in(
                         select(follow.toId).from(follow).where(follow.fromId.eq(fromId)
                 )))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(orders.stream().toArray(OrderSpecifier[]::new))
                 .fetch();
         JPAQuery<Long> count = jpaQueryFactory
                 .select(project.count())
