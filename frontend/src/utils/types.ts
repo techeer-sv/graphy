@@ -16,3 +16,5 @@ export type MultipleFilterType = {
   category: 'position' | 'skill'
   name: PositionType | SkillType
 }
+
+export type DirectionType = 'ASC' | 'DESC'

@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
-import { MultipleFilterType } from './types'
+import { DirectionType, MultipleFilterType } from './types'
 
 const { persistAtom } = recoilPersist()
 
@@ -115,6 +115,11 @@ const recruitfilterState = atom<boolean>({
   default: false,
 })
 
+const directionState = atom<DirectionType>({
+  key: 'directionState',
+  default: 'ASC',
+})
+
 export {
   titleState,
   tldrState,
@@ -137,4 +142,5 @@ export {
   multiplefilterState,
   keywordfilterState,
   recruitfilterState,
+  directionState,
 }

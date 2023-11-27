@@ -11,6 +11,7 @@ import {
   multiplefilterState,
   keywordfilterState,
   recruitfilterState,
+  directionState,
 } from '../../utils/atoms'
 import Filter from '../../components/recruitment/main/Filter'
 import RecruitmentCard from '../../components/recruitment/main/RecruitmentCard'
@@ -29,6 +30,7 @@ export default function Recruitment() {
   const multipleFilter = useRecoilValue(multiplefilterState)
   const keywordFilter = useRecoilValue(keywordfilterState)
   const recruitFilter = useRecoilValue(recruitfilterState)
+  const direction = useRecoilValue(directionState)
 
   const [postCount, setPostCount] = useState(0)
   const router = useRouter()
@@ -41,6 +43,7 @@ export default function Recruitment() {
     const params = new URLSearchParams()
     params.set('page', String(pageParam))
     params.set('size', '12')
+    params.set('direction', direction)
 
     const positions = multipleFilter
       .filter((v) => v.category === 'position')
@@ -86,7 +89,7 @@ export default function Recruitment() {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery(
-      ['recruitments', multipleFilter, keywordFilter, recruitFilter],
+      ['recruitments', multipleFilter, keywordFilter, recruitFilter, direction],
       getData,
       {
         getNextPageParam: (lastPage, pages) =>
