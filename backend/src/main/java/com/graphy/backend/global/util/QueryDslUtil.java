@@ -25,7 +25,7 @@ public class QueryDslUtil {
 
     public static List<OrderSpecifier> getAllOrderSpecifiers(Pageable pageable, String entityType) {
 
-        List<OrderSpecifier> ORDERS = new ArrayList<>();
+        List<OrderSpecifier> orders = new ArrayList<>();
 
         if (!isEmpty(pageable.getSort())) {
             for (Sort.Order order : pageable.getSort()) {
@@ -43,11 +43,11 @@ public class QueryDslUtil {
                             throw new IllegalArgumentException("Entity의 타입이 아닙니다.");
                     }
                     OrderSpecifier<?> orderSpecifier = QueryDslUtil.getSortedColumn(direction, path, "createdAt");
-                    ORDERS.add(orderSpecifier);
+                    orders.add(orderSpecifier);
                 }
             }
         }
 
-        return ORDERS;
+        return orders;
     }
 }
