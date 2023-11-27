@@ -31,7 +31,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                                               Boolean isRecruiting,
                                               Pageable pageable) {
 
-        List<OrderSpecifier> ORDERS = QueryDslUtil.getAllOrderSpecifiers(pageable, recruitment.getMetadata().getName());
+        List<OrderSpecifier> orders = QueryDslUtil.getAllOrderSpecifiers(pageable, recruitment.getMetadata().getName());
 
         return jpaQueryFactory
                 .selectFrom(recruitment)
@@ -46,7 +46,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .leftJoin(recruitmentTag).on(recruitmentTag.recruitment.eq(recruitment))
                 .leftJoin(recruitmentTag.tag, tag)
                 .offset(pageable.getOffset())
-                .orderBy(ORDERS.stream().toArray(OrderSpecifier[]::new))
+                .orderBy(orders.stream().toArray(OrderSpecifier[]::new))
                 .limit(pageable.getPageSize())
 
                 .fetch();
