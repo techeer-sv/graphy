@@ -45,12 +45,14 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository {
 
     @Override
     public Page<Project> findFollowingProjects(Pageable pageable, Long fromId) {
+        List<OrderSpecifier> orders = QueryDslUtil.getAllOrderSpecifiers(pageable, project.getMetadata().getName());
         List<Project> fetch = jpaQueryFactory.selectFrom(project)
                 .where(project.member.id.in(
                         select(follow.toId).from(follow).where(follow.fromId.eq(fromId)
                 )))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(orders.stream().toArray(OrderSpecifier[]::new))
                 .fetch();
         JPAQuery<Long> count = jpaQueryFactory
                 .select(project.count())
