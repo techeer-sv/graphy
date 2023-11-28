@@ -10,7 +10,11 @@ import ProfileIcon from '../../../public/images/svg/profileIcon.svg'
 import SearchIcon from '../../../public/images/png/searchIcon.png'
 import { searchTextState, usernameState } from '../../utils/atoms'
 
-export default function NavBar({ children }: { children: React.ReactNode }) {
+export default function ProjectNavBar({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const accessToken =
     typeof window !== 'undefined' ? sessionStorage.getItem('accessToken') : null
   const persistToken =

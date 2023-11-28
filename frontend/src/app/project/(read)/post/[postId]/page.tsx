@@ -60,6 +60,7 @@ export default function ReadingPage({ params }: ParamsType) {
   function toModify() {
     router.push('/project/modification')
   }
+
   // GET요청 보내서 데이터 가져오고 받은 데이터 변수에 넣어주는 함수
   async function getData() {
     const res = await fetch(
@@ -107,8 +108,6 @@ export default function ReadingPage({ params }: ParamsType) {
           },
         },
       )
-
-      router.push('/')
 
       if (!res.ok) {
         const error = await res.json()
