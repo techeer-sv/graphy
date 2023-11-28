@@ -117,7 +117,7 @@ const recruitfilterState = atom<boolean>({
 
 const directionState = atom<DirectionType>({
   key: 'directionState',
-  default: 'ASC',
+  default: 'DESC',
 })
 
 export {

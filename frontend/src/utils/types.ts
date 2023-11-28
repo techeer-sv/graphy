@@ -18,3 +18,11 @@ export type MultipleFilterType = {
 }
 
 export type DirectionType = 'ASC' | 'DESC'
+
+export type AnnouncementDataType = {
+  id: number
+  companyName: string
+  title: string
+  url: string
+  expirationDate: string
+}
