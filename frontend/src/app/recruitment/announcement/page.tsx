@@ -3,14 +3,13 @@
 import AnnouncementCard from '@/components/recruitment/announcement/AnnouncementCard'
 import { AnnouncementDataType } from '@/utils/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 export default function Announcement() {
   const accessToken =
     typeof window !== 'undefined' ? sessionStorage.getItem('accessToken') : null
   const persistToken =
     typeof window !== 'undefined' ? localStorage.getItem('persistToken') : null
-  const [postCount, setPostCount] = useState(0)
 
   const getData = async ({ pageParam = 1 }) => {
     const params = new URLSearchParams()
@@ -34,8 +33,6 @@ export default function Announcement() {
     }
 
     const data = await res.json()
-    setPostCount(data.data.length)
-    console.log(data.data)
     return data.data
   }
 
@@ -69,8 +66,8 @@ export default function Announcement() {
 
   return (
     <div className="relative flex flex-col items-center w-screen h-auto min-h-screen pb-12 pt-24">
-      <div className="w-[860px] border-b-2 p-2">
-        <span className="text-[13px]">신입 채용 공고</span>
+      <div className="w-[900px] mb-6 ml-2 border-b-[1px] pb-2">
+        <span className="text-[14px]">신입 채용 공고</span>
       </div>
       {data.pages.map((group, i) => (
         <div
