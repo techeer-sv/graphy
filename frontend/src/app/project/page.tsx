@@ -1,7 +1,7 @@
 'use client'
 
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useRecoilValue } from 'recoil'
 import Image from 'next/image'
@@ -22,6 +22,7 @@ type DataObject = {
 
 export default function ProjectMain() {
   const searchText = useRecoilValue(searchTextState)
+  const [rankData, setRankData] = useState<DataObject[]>([])
 
   const router = useRouter()
 
@@ -52,6 +53,24 @@ export default function ProjectMain() {
     return data.data
   }
 
+  async function getRankData() {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/projects/rank`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    if (!res.ok) {
+      throw new Error('프로젝트 검색에 실패했습니다.')
+    }
+
+    const data = await res.json()
+    setRankData(data.data)
+  }
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery(['projects'], getData, {
       getNextPageParam: (lastPage, pages) =>
@@ -71,6 +90,7 @@ export default function ProjectMain() {
       }
       window.addEventListener('scroll', handleScroll)
     }
+    getRankData()
   }, [fetchNextPage, isFetchingNextPage, searchText])
 
   if (status === 'loading') {
@@ -103,14 +123,20 @@ export default function ProjectMain() {
           <span className="shrink-0 font-semibold">프로젝트 공유</span>
         </button>
 
-        <div className="mx-10 border-b-2 border-b-neutral-300 pt-0 font-ng-b text-2xl sm:mx-28 sm:mb-5 sm:pt-5">
-          {/* All */}
+        <span className="mx-28 text-lg font-ng-b">🔥 금주의 인기 프로젝트</span>
+        <div className="mx-28 flex sm:pt-8 border-b-lime-800 overflow-x-auto scrollbar-hide">
+          {rankData.map((item: DataObject) => (
+            <div className="mx-8 mb-10" key={item.id}>
+              <ProjectCard items={item} index={0} />
+            </div>
+          ))}
         </div>
 
-        <div>
+        <div className="mt-8">
+          <div className="mx-28 pl-2 text-xl font-ng-b border-b-2">All</div>
           {data.pages.map((group, i) => (
             <div
-              className="mx-8 flex justify-center pt-6 sm:pt-8"
+              className="mx-8 flex flex-wrap justify-center pt-6 sm:pt-8"
               key={group[i]?.id}
             >
               {group.map((item: DataObject) => (
